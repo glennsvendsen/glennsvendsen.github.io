@@ -97,73 +97,7 @@ body {
     z-index: 0;
 }
 
-/* Floating Ice Particles */
-.particles {
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
-    z-index: 0;
-}
 
-.particle {
-    position: absolute;
-    width: 4px;
-    height: 4px;
-    background: var(--accent-ice);
-    border-radius: 50%;
-    opacity: 0;
-    animation: float-particle 20s infinite;
-}
-
-.particle:nth-child(1) {
-    left: 10%;
-    animation-delay: 0s;
-}
-
-.particle:nth-child(2) {
-    left: 25%;
-    animation-delay: -4s;
-}
-
-.particle:nth-child(3) {
-    left: 45%;
-    animation-delay: -8s;
-}
-
-.particle:nth-child(4) {
-    left: 60%;
-    animation-delay: -12s;
-}
-
-.particle:nth-child(5) {
-    left: 75%;
-    animation-delay: -16s;
-}
-
-.particle:nth-child(6) {
-    left: 90%;
-    animation-delay: -2s;
-}
-
-@keyframes float-particle {
-    0% {
-        transform: translateY(100vh) scale(0);
-        opacity: 0;
-    }
-
-    10% {
-        opacity: 0.6;
-    }
-
-    90% {
-        opacity: 0.6;
-    }
-
-    100% {
-        transform: translateY(-20vh) scale(1);
-        opacity: 0;
-    }
-}
 
 /* Container */
 .container {
@@ -364,22 +298,12 @@ body {
     color: var(--accent-ice);
 }
 
-.project-icon {
-    width: 52px;
-    height: 52px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: linear-gradient(135deg, rgba(56, 189, 248, 0.1), rgba(96, 165, 250, 0.05));
-    border: 1px solid rgba(56, 189, 248, 0.1);
-    border-radius: 0.875rem;
+.project-logo {
+    width: 56px;
+    height: 56px;
+    border-radius: 12px;
+    object-fit: cover;
     flex-shrink: 0;
-}
-
-.project-icon svg {
-    width: 24px;
-    height: 24px;
-    color: var(--accent-ice);
 }
 
 .project-content {
