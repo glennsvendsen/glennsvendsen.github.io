@@ -38,42 +38,42 @@ body {
 /* Aurora Background */
 .aurora {
     position: fixed;
-    inset: 0;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 100vh;
     overflow: hidden;
     pointer-events: none;
-    z-index: 0;
+    z-index: 1;
 }
 
 .aurora-band {
     position: absolute;
     width: 200%;
-    height: 400px;
-    filter: blur(100px);
-    animation: aurora-wave 12s ease-in-out infinite;
+    height: 500px;
+    filter: blur(80px);
+    animation: aurora-wave 10s ease-in-out infinite alternate;
 }
 
 .aurora-1 {
-    top: -50px;
-    left: -50%;
-    background: linear-gradient(90deg, transparent 0%, #60a5fa 20%, #34d399 50%, #60a5fa 80%, transparent 100%);
-    opacity: 0.6;
+    top: 0;
+    left: -20%;
+    background: linear-gradient(90deg, transparent 0%, rgba(96, 165, 250, 0.8) 25%, rgba(52, 211, 153, 0.9) 50%, rgba(96, 165, 250, 0.8) 75%, transparent 100%);
     animation-delay: 0s;
 }
 
 .aurora-2 {
-    top: 50px;
-    left: -30%;
-    background: linear-gradient(90deg, transparent 0%, #a78bfa 25%, #60a5fa 50%, #34d399 75%, transparent 100%);
-    opacity: 0.4;
-    animation-delay: -4s;
+    top: 80px;
+    left: -40%;
+    background: linear-gradient(90deg, transparent 0%, rgba(167, 139, 250, 0.6) 30%, rgba(96, 165, 250, 0.7) 60%, transparent 100%);
+    animation-delay: -3s;
 }
 
 .aurora-3 {
-    top: 100px;
-    left: -70%;
-    background: linear-gradient(90deg, transparent 0%, #34d399 30%, #a78bfa 60%, transparent 100%);
-    opacity: 0.35;
-    animation-delay: -8s;
+    top: 160px;
+    left: -60%;
+    background: linear-gradient(90deg, transparent 0%, rgba(52, 211, 153, 0.5) 40%, rgba(167, 139, 250, 0.6) 70%, transparent 100%);
+    animation-delay: -6s;
 }
 
 @keyframes aurora-wave {
