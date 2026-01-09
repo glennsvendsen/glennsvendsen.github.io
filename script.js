@@ -37,8 +37,10 @@ document.addEventListener('DOMContentLoaded', () => {
         // Ensure z-index is high enough
         btn.style.zIndex = '100';
 
-        // Spawn laughing emoji
-        spawnEmoji(btnRect.left + btnWidth / 2, btnRect.top);
+        // Spawn a burst of emojis
+        for (let i = 0; i < 5; i++) {
+            spawnEmoji(btnRect.left + btnWidth / 2, btnRect.top + btnHeight / 2);
+        }
     };
 
     const spawnEmoji = (x, y) => {
@@ -47,23 +49,29 @@ document.addEventListener('DOMContentLoaded', () => {
         emoji.style.position = 'fixed';
         emoji.style.left = `${x}px`;
         emoji.style.top = `${y}px`;
-        emoji.style.fontSize = '2rem';
+        emoji.style.fontSize = `${Math.random() * 1.5 + 1.5}rem`; // Random size 1.5-3rem
         emoji.style.pointerEvents = 'none';
-        emoji.style.zIndex = '101';
-        emoji.style.transition = 'all 1s ease-out';
+        emoji.style.zIndex = '9999';
+        emoji.style.transition = 'all 0.8s cubic-bezier(0.25, 1, 0.5, 1)'; // Pop effect
+        emoji.style.transform = 'translate(-50%, -50%) scale(0)'; // Start hidden
 
         document.body.appendChild(emoji);
 
+        // Randomize physics
+        const randomX = (Math.random() - 0.5) * 100; // -50 to 50px
+        const randomY = -50 - Math.random() * 100;   // -50 to -150px (upwards)
+        const randomRotate = (Math.random() - 0.5) * 90;
+
         // Animate
         requestAnimationFrame(() => {
-            emoji.style.transform = `translate(-50%, -100px) scale(1.5)`;
+            emoji.style.transform = `translate(${randomX}px, ${randomY}px) rotate(${randomRotate}deg) scale(1)`;
             emoji.style.opacity = '0';
         });
 
         // Cleanup
         setTimeout(() => {
             emoji.remove();
-        }, 1000);
+        }, 800);
     };
 
     // Add event listeners
