@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arctic Labs - Building Beautiful Software</title>
+    <meta name="description"
+        content="Arctic Labs creates elegant, minimal software experiences. Clean design, premium quality.">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="noise"></div>
+    <div class="glow glow-1"></div>
+    <div class="glow glow-2"></div>
+
+    <main class="container">
+        <header class="header">
+            <div class="logo">
+                <svg class="logo-icon" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Arctic mountain peaks -->
+                    <path d="M24 6L38 38H10L24 6Z" stroke="currentColor" stroke-width="1.5" fill="none" />
+                    <path d="M24 14L32 32H16L24 14Z" stroke="currentColor" stroke-width="1" fill="none" opacity="0.5" />
+                    <!-- Aurora line -->
+                    <path d="M8 20Q16 16 24 20T40 20" stroke="url(#aurora)" stroke-width="1.5" fill="none"
+                        stroke-linecap="round" />
+                    <defs>
+                        <linearGradient id="aurora" x1="8" y1="20" x2="40" y2="20">
+                            <stop offset="0%" stop-color="#60A5FA" />
+                            <stop offset="50%" stop-color="#34D399" />
+                            <stop offset="100%" stop-color="#A78BFA" />
+                        </linearGradient>
+                    </defs>
+                </svg>
+                <span class="logo-text">Arctic Labs</span>
+            </div>
+        </header>
+
+        <section class="hero">
+            <h1 class="hero-title">
+                Building beautiful
+                <br>
+                <span class="gradient-text">software</span>
+            </h1>
+            <p class="hero-subtitle">
+                We craft elegant, minimal applications with obsessive attention to detail.
+            </p>
+        </section>
+
+        <section class="projects">
+            <p class="section-label">Our Work</p>
+            <div class="project-grid">
+                <a href="https://glennsvendsen.github.io/equity-web/" class="project-card" target="_blank"
+                    rel="noopener">
+                    <div class="project-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <path d="M3 3v18h18" stroke-linecap="round" stroke-linejoin="round" />
+                            <path d="M7 14l4-4 4 4 6-6" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                    </div>
+                    <div class="project-content">
+                        <h3 class="project-name">Equity</h3>
+                        <p class="project-description">Time balance tracker for iOS</p>
+                    </div>
+                    <div class="project-arrow">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <path d="M7 17L17 7M17 7H7M17 7V17" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                    </div>
+                </a>
+            </div>
+        </section>
+
+        <footer class="footer">
+            <p>&copy; 2026 Arctic Labs</p>
+        </footer>
+    </main>
+</body>
+
+</html>

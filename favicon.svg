@@ -1,0 +1,14 @@
+<svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <!-- Arctic mountain peaks -->
+    <path d="M24 6L38 38H10L24 6Z" stroke="#f8fafc" stroke-width="1.5" fill="none"/>
+    <path d="M24 14L32 32H16L24 14Z" stroke="#f8fafc" stroke-width="1" fill="none" opacity="0.5"/>
+    <!-- Aurora line -->
+    <path d="M8 20Q16 16 24 20T40 20" stroke="url(#aurora)" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+    <defs>
+        <linearGradient id="aurora" x1="8" y1="20" x2="40" y2="20">
+            <stop offset="0%" stop-color="#60A5FA"/>
+            <stop offset="50%" stop-color="#34D399"/>
+            <stop offset="100%" stop-color="#A78BFA"/>
+        </linearGradient>
+    </defs>
+</svg>
