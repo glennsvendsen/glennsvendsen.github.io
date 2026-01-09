@@ -1,6 +1,6 @@
 # Arctic Labs
 
-Premium software studio. Building beautiful, minimal applications.
+Noob software studio. Building beautiful, minimal applications.
 
 ## 🌐 Live Site
 

@@ -1,13 +1,31 @@
 <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <!-- Arctic mountain peaks -->
-    <path d="M24 6L38 38H10L24 6Z" stroke="#f8fafc" stroke-width="1.5" fill="none"/>
-    <path d="M24 14L32 32H16L24 14Z" stroke="#f8fafc" stroke-width="1" fill="none" opacity="0.5"/>
-    <!-- Aurora line -->
-    <path d="M8 20Q16 16 24 20T40 20" stroke="url(#aurora)" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+    <!-- Outer hexagon (lab) -->
+    <path d="M24 4L42 14V34L24 44L6 34V14L24 4Z" stroke="url(#hex-gradient)" stroke-width="1" fill="none"/>
+    <!-- Inner crystal mountain -->
+    <path d="M24 12L34 32H14L24 12Z" fill="url(#crystal-fill)" opacity="0.15"/>
+    <path d="M24 12L34 32H14L24 12Z" stroke="url(#crystal-gradient)" stroke-width="1.5" fill="none"/>
+    <!-- Crystal facet lines -->
+    <path d="M24 12L24 32" stroke="url(#crystal-gradient)" stroke-width="0.75" opacity="0.5"/>
+    <path d="M24 12L19 27" stroke="url(#crystal-gradient)" stroke-width="0.5" opacity="0.3"/>
+    <path d="M24 12L29 27" stroke="url(#crystal-gradient)" stroke-width="0.5" opacity="0.3"/>
+    <!-- Orbital ring (lab element) -->
+    <ellipse cx="24" cy="24" rx="16" ry="6" stroke="url(#orbit-gradient)" stroke-width="0.5" fill="none" opacity="0.4" transform="rotate(-30 24 24)"/>
     <defs>
-        <linearGradient id="aurora" x1="8" y1="20" x2="40" y2="20">
+        <linearGradient id="hex-gradient" x1="6" y1="4" x2="42" y2="44">
+            <stop offset="0%" stop-color="#60A5FA" stop-opacity="0.6"/>
+            <stop offset="100%" stop-color="#A78BFA" stop-opacity="0.3"/>
+        </linearGradient>
+        <linearGradient id="crystal-gradient" x1="14" y1="32" x2="34" y2="12">
             <stop offset="0%" stop-color="#60A5FA"/>
-            <stop offset="50%" stop-color="#34D399"/>
+            <stop offset="50%" stop-color="#38BDF8"/>
+            <stop offset="100%" stop-color="#E0F2FE"/>
+        </linearGradient>
+        <linearGradient id="crystal-fill" x1="24" y1="12" x2="24" y2="32">
+            <stop offset="0%" stop-color="#60A5FA"/>
+            <stop offset="100%" stop-color="#1E3A5F"/>
+        </linearGradient>
+        <linearGradient id="orbit-gradient" x1="8" y1="24" x2="40" y2="24">
+            <stop offset="0%" stop-color="#60A5FA"/>
             <stop offset="100%" stop-color="#A78BFA"/>
         </linearGradient>
     </defs>
