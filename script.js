@@ -78,4 +78,13 @@ document.addEventListener('DOMContentLoaded', () => {
     btn.addEventListener('mouseover', moveButton);
     btn.addEventListener('click', moveButton); // Just in case on touch devices
     btn.addEventListener('touchstart', moveButton);
+
+    // Auto-taunt: Spawn a laughing emoji every 2 seconds randomly near the button
+    setInterval(() => {
+        const rect = btn.getBoundingClientRect();
+        // Random position around the button
+        const offsetX = (Math.random() - 0.5) * 100;
+        const offsetY = (Math.random() - 0.5) * 100;
+        spawnEmoji(rect.left + rect.width / 2 + offsetX, rect.top + rect.height / 2 + offsetY);
+    }, 2000);
 });
