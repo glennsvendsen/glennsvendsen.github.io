@@ -251,10 +251,14 @@ body {
 }
 
 .logo-sub {
+    display: block;
     font-size: 0.7rem;
     font-weight: 400;
     letter-spacing: 0.12em;
     text-transform: uppercase;
+    /* Bulletproof Gradient Text */
+    color: var(--text-primary);
+    /* Fallback */
     background: linear-gradient(135deg, var(--text-primary) 0%, var(--accent-ice) 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
