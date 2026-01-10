@@ -124,16 +124,7 @@ body {
     height: 36px;
 }
 
-.logo-text {
-    font-size: 0.9rem;
-    font-weight: 500;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    background: linear-gradient(135deg, var(--text-primary) 0%, var(--accent-ice) 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-}
+
 
 /* Hero */
 .hero {
@@ -230,38 +221,46 @@ body {
     line-height: 1.7;
 }
 
-.hero-personal {
-    margin-top: 2rem;
+
+.logo-text-col {
     display: flex;
-    justify-content: flex-start;
-    animation: fadeUp 1s 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-    /* Delay to appear after title */
-    opacity: 0;
+    flex-direction: column;
+    justify-content: center;
+    gap: 2px;
 }
 
-.personal-name {
-    font-size: 0.85rem;
-    text-transform: uppercase;
-    letter-spacing: 0.35em;
+.logo-text {
+    font-size: 0.9rem;
     font-weight: 500;
-    /* Subtle silver/ice gradient */
-    background: linear-gradient(135deg, #e2e8f0 0%, #94a3b8 100%);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    background: linear-gradient(135deg, var(--text-primary) 0%, var(--accent-ice) 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-    transition: all 0.5s ease;
-    padding-left: 0.35em;
-    /* Optical centering due to letter-spacing */
-    cursor: default;
+    line-height: 1.1;
 }
 
-.personal-name:hover {
-    letter-spacing: 0.5em;
-    padding-left: 0.5em;
-    background: linear-gradient(135deg, var(--accent-ice) 0%, #e2e8f0 100%);
+.logo-sub {
+    font-size: 0.55rem;
+    text-transform: uppercase;
+    letter-spacing: 0.25em;
+    color: #94a3b8;
+    background: linear-gradient(90deg, #94a3b8, #cbd5e1);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-weight: 500;
+    opacity: 0.8;
+    transition: all 0.3s ease;
+}
+
+.logo:hover .logo-sub {
+    opacity: 1;
+    letter-spacing: 0.3em;
+    background: linear-gradient(90deg, var(--accent-ice), #cbd5e1);
     -webkit-background-clip: text;
     background-clip: text;
-    opacity: 0.9;
 }
 
 
