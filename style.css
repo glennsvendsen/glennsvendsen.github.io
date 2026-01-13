@@ -167,32 +167,6 @@ body {
     will-change: transform;
 }
 
-.hero-badge:hover .hero-badge-inner {
-    animation: shiver 0.3s ease-in-out infinite;
-}
-
-@keyframes shiver {
-    0% {
-        transform: translate(0, 0) rotate(0deg);
-    }
-
-    25% {
-        transform: translate(1px, 1px) rotate(1deg);
-    }
-
-    50% {
-        transform: translate(-1px, -1px) rotate(-1deg);
-    }
-
-    75% {
-        transform: translate(1px, -1px) rotate(1deg);
-    }
-
-    100% {
-        transform: translate(0, 0) rotate(0deg);
-    }
-}
-
 .hero-title {
     font-size: clamp(2.75rem, 9vw, 5rem);
     font-weight: 300;
