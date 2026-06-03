@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" width="800" height="450">
+  <!-- Deep fairway green background -->
+  <rect width="800" height="450" fill="#0D1F13"/>
+
+  <!-- Topographic contour lines — course map feel -->
+  <path d="M-20 72 C120 50, 280 90, 430 68 S640 48, 820 76"
+        fill="none" stroke="#1B3D21" stroke-width="1.3" opacity="0.9"/>
+  <path d="M-20 100 C140 76, 295 116, 445 94 S650 74, 820 104"
+        fill="none" stroke="#1B3D21" stroke-width="1" opacity="0.7"/>
+  <path d="M-20 128 C160 104, 308 142, 458 120 S658 100, 820 130"
+        fill="none" stroke="#1B3D21" stroke-width="0.8" opacity="0.5"/>
+  <path d="M-20 155 C180 132, 320 168, 470 148 S665 126, 820 156"
+        fill="none" stroke="#1B3D21" stroke-width="0.6" opacity="0.35"/>
+
+  <!-- Rolling fairway silhouette — lower third -->
+  <path d="M0 370 Q180 335, 380 355 T800 340 L800 450 L0 450 Z"
+        fill="#0A1A0E" opacity="0.75"/>
+  <path d="M0 395 Q220 368, 430 385 T800 372 L800 450 L0 450 Z"
+        fill="#091509" opacity="0.6"/>
+
+  <!-- Golf green — upper right, topographic rings -->
+  <ellipse cx="645" cy="185" rx="75" ry="52" fill="none" stroke="#2A5C40" stroke-width="1.2" opacity="0.55"/>
+  <ellipse cx="645" cy="185" rx="50" ry="35" fill="none" stroke="#357A52" stroke-width="1" opacity="0.55"/>
+  <ellipse cx="645" cy="185" rx="26" ry="18" fill="#163525" stroke="#3D8A5E" stroke-width="1.2" opacity="0.85"/>
+  <!-- Hole -->
+  <circle cx="645" cy="185" r="4.5" fill="#0D1F13" opacity="0.9"/>
+
+  <!-- Flagstick & flag -->
+  <line x1="645" y1="168" x2="645" y2="95" stroke="#C9A96E" stroke-width="1.8" opacity="0.95"/>
+  <path d="M645 95 L683 110 L645 125 Z" fill="#C9A96E" opacity="0.95"/>
+
+  <!-- GGK wordmark -->
+  <text
+    x="400" y="268"
+    font-family="'Arial Black', 'Impact', 'Haettenschweiler', sans-serif"
+    font-size="136"
+    font-weight="900"
+    fill="#FFFFFF"
+    text-anchor="middle"
+    letter-spacing="-2"
+    opacity="0.97"
+  >GGK</text>
+
+  <!-- Gold rule -->
+  <rect x="322" y="283" width="156" height="1.5" fill="#C9A96E" opacity="0.75"/>
+
+  <!-- Club name -->
+  <text
+    x="400" y="312"
+    font-family="'Arial', 'Helvetica Neue', sans-serif"
+    font-size="11"
+    font-weight="400"
+    fill="#7DB995"
+    text-anchor="middle"
+    letter-spacing="5.5"
+    opacity="0.85"
+  >GRORUDDALEN GOLFKLUBB</text>
+</svg>

@@ -1,169 +1,1880 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Arctic Labs - Building Beautiful Software</title>
-    <meta name="description"
-        content="Arctic Labs creates elegant, minimal software experiences. Clean design, premium quality.">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Glenn Svendsen — Senior PM</title>
+  <meta name="description" content="Norwegian PM with 5+ years building things that actually work. Currently at Arrive (former EasyPark Group) — parking policies across Europe, ANZ, and the US.">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Glenn Svendsen">
+  <meta property="og:description" content="Senior PM at Arrive (former EasyPark Group). Complex systems, real user needs."
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Syne:wght@400;600;700;800&family=IBM+Plex+Mono:ital,wght@0,300;0,400;0,500;1,300;1,400&display=swap" rel="stylesheet">
 
-    <!-- Open Graph / Social -->
-    <meta property="og:type" content="website">
-    <meta property="og:title" content="Arctic Labs - Building Beautiful Software">
-    <meta property="og:description"
-        content="Arctic Labs creates elegant, minimal software experiences. Clean design, premium quality.">
-    <meta property="og:image" content="https://arcticlabs.io/favicon.svg">
+  <style>
+    /* ── TOKENS ─────────────────────────────────── */
+    :root {
+      --black:  #0a0a0a;
+      --white:  #f5f2ec;
+      --accent: #FFB0C8;
+      --grey:   #888;
+      --ff-display: 'Bebas Neue', sans-serif;
+      --ff-sans:    'Syne', sans-serif;
+      --ff-mono:    'IBM Plex Mono', monospace;
+    }
 
-    <!-- Twitter -->
-    <meta name="twitter:card" content="summary">
-    <meta name="twitter:title" content="Arctic Labs - Building Beautiful Software">
-    <meta name="twitter:description"
-        content="Arctic Labs creates elegant, minimal software experiences. Clean design, premium quality.">
-    <meta name="twitter:image" content="https://arcticlabs.io/favicon.svg">
-    <link rel="icon" type="image/svg+xml" href="favicon.svg">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+    /* ── RESET ──────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    img  { display: block; max-width: 100%; }
+    a    { color: inherit; }
+
+    /* ── BASE ───────────────────────────────────── */
+    body {
+      font-family: var(--ff-mono);
+      background: var(--white);
+      color: var(--black);
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ────────────────────────────────────── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      padding: 1.5rem 2.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      pointer-events: none;
+      mix-blend-mode: difference;
+    }
+    nav * { pointer-events: all; }
+    .nav-mono {
+      font-family: var(--ff-display);
+      font-size: 1.4rem;
+      letter-spacing: 0.08em;
+      color: var(--white);
+      text-decoration: none;
+    }
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+    }
+    .nav-links a {
+      font-family: var(--ff-sans);
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--white);
+      text-decoration: none;
+      transition: opacity 0.15s;
+    }
+    .nav-links a:hover { opacity: 0.5; }
+
+    /* ── SECTION COMMONS ────────────────────────── */
+    section, footer {
+      padding: 7rem 4rem;
+    }
+    .section-label {
+      font-family: var(--ff-sans);
+      font-size: 0.6rem;
+      font-weight: 700;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 4.5rem;
+    }
+    .section-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: currentColor;
+      opacity: 0.2;
+    }
+    .section-num { color: var(--accent); }
+
+    /* ── HERO ───────────────────────────────────── */
+    #hero {
+      background: var(--black);
+      color: var(--white);
+      min-height: 100svh;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 8rem 4rem 4.5rem;
+      position: relative;
+    }
+    .hero-name {
+      font-family: var(--ff-display);
+      font-size: clamp(5.5rem, 19vw, 22rem);
+      line-height: 0.875;
+      letter-spacing: -0.01em;
+      text-transform: uppercase;
+      animation: heroUp 1s cubic-bezier(0.16, 1, 0.3, 1) both;
+    }
+    .hero-tagline {
+      margin-top: 2.75rem;
+      font-size: clamp(0.7rem, 1.3vw, 0.9rem);
+      font-weight: 300;
+      letter-spacing: 0.1em;
+      color: rgba(245,242,236,0.6);
+      display: flex;
+      align-items: center;
+      gap: 1.25rem;
+      opacity: 0;
+      animation: heroUp 0.9s 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+    .hero-tagline::before {
+      content: '';
+      display: block;
+      width: 2.5rem;
+      height: 1px;
+      background: var(--accent);
+      flex-shrink: 0;
+    }
+    .hero-scroll {
+      position: absolute;
+      bottom: 4.5rem;
+      right: 4rem;
+      font-family: var(--ff-sans);
+      font-size: 0.55rem;
+      font-weight: 700;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: rgba(245,242,236,0.25);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.75rem;
+      opacity: 0;
+      animation: heroUp 0.9s 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+    .hero-scroll svg {
+      width: 14px;
+      height: 24px;
+      animation: bounce 2s 1.5s ease-in-out infinite;
+    }
+
+    @keyframes heroUp {
+      from { opacity: 0; transform: translateY(32px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50%       { transform: translateY(6px); }
+    }
+
+    /* ── ABOUT ──────────────────────────────────── */
+    #about {
+      background: var(--white);
+      color: var(--black);
+    }
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.6fr;
+      gap: 5rem;
+      align-items: start;
+    }
+    .about-photo-wrap {
+      position: relative;
+      overflow: hidden;
+      background: #d8d4ce;
+    }
+    .about-photo-wrap::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border: 2px solid var(--accent);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s;
+    }
+    .about-photo-wrap:hover::after { opacity: 1; }
+    .about-photo {
+      width: 100%;
+      aspect-ratio: 3 / 4;
+      object-fit: cover;
+      object-position: center 15%;
+      display: block;
+      filter: grayscale(100%) contrast(1.04);
+    }
+    .about-text-col { display: flex; flex-direction: column; gap: 2.5rem; }
+    .about-heading {
+      font-family: var(--ff-display);
+      font-size: clamp(3.5rem, 7vw, 7rem);
+      line-height: 0.88;
+      text-transform: uppercase;
+      letter-spacing: -0.01em;
+    }
+    .about-body {
+      font-size: clamp(0.875rem, 1.4vw, 1rem);
+      font-weight: 300;
+      line-height: 1.85;
+      color: #1a1a1a;
+    }
+    .about-body p + p { margin-top: 1.4rem; }
+    .about-body strong {
+      font-weight: 500;
+      font-style: italic;
+    }
+
+    /* ── SCRIBBLE UNDERLINE ──────────────────────── */
+    .scribble {
+      position: relative;
+      display: inline;
+    }
+    .scribble-svg {
+      position: absolute;
+      bottom: -12px;
+      left: -2px;
+      width: calc(100% + 4px);
+      height: 20px;
+      pointer-events: none;
+      overflow: visible;
+    }
+    /* scribble paths: visibility + animation handled entirely by JS */
+
+    /* ── WORK ───────────────────────────────────── */
+    #work {
+      background: var(--white);
+      color: var(--black);
+    }
+    /* ── PROJECT LIST (editorial reveal) ──────── */
+    .project-list {
+      border-top: 1px solid rgba(0,0,0,0.12);
+    }
+    .pi {
+      display: block;
+      text-decoration: none;
+      color: var(--black);
+      border-bottom: 1px solid rgba(0,0,0,0.1);
+      overflow: hidden;
+    }
+    .pi-head {
+      display: grid;
+      grid-template-columns: 3.5rem 1fr auto;
+      align-items: center;
+      gap: 2rem;
+      padding: 1.5rem 0;
+    }
+    .pi-num {
+      font-family: var(--ff-display);
+      font-size: 0.85rem;
+      letter-spacing: 0.12em;
+      color: rgba(0,0,0,0.18);
+      transition: color 0.25s;
+      padding-top: 0.2rem;
+    }
+    .pi-name {
+      font-family: var(--ff-display);
+      font-size: clamp(2.5rem, 6vw, 5.5rem);
+      line-height: 1;
+      text-transform: uppercase;
+      letter-spacing: -0.01em;
+      transition: color 0.25s;
+    }
+    .pi-arrow {
+      font-size: clamp(1.1rem, 2vw, 1.6rem);
+      color: rgba(0,0,0,0.18);
+      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), color 0.25s;
+      line-height: 1;
+    }
+    .pi-body {
+      display: grid;
+      grid-template-rows: 0fr;
+      transition: grid-template-rows 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .pi-body-inner {
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      gap: 3rem;
+      padding-left: 5.5rem;
+    }
+    .pi-img {
+      height: 88px;
+      width: auto;
+      object-fit: contain;
+      flex-shrink: 0;
+      margin: 1.5rem 0;
+    }
+    .pi-img--wide {
+      height: 72px;
+      border-radius: 0;
+    }
+    .pi-detail {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+    .pi-desc {
+      font-family: var(--ff-mono);
+      font-size: 0.8rem;
+      font-weight: 300;
+      color: rgba(0,0,0,0.45);
+      letter-spacing: 0.04em;
+    }
+    .pi-tag {
+      font-family: var(--ff-sans);
+      font-size: 0.55rem;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+    /* hover states */
+    .pi:hover .pi-body  { grid-template-rows: 1fr; }
+    .pi:hover .pi-name  { color: var(--accent); }
+    .pi:hover .pi-num   { color: var(--accent); }
+    .pi:hover .pi-arrow { transform: translate(5px, -5px); color: var(--accent); }
+
+    /* ── PM CASE STUDIES ─────────────────────────── */
+    #pm { padding: 0; }
+
+    .pm-header {
+      padding: 7rem 4rem 5rem;
+      background: var(--white);
+      color: var(--black);
+    }
+    .pm-header .section-label { margin-bottom: 0; }
+
+    .cs-card {
+      padding: 5rem 4rem 6rem;
+      --border-alpha: rgba(255,255,255,0.1);
+    }
+    .cs-card--dark {
+      background: var(--black);
+      color: var(--white);
+      --border-alpha: rgba(255,255,255,0.1);
+    }
+    .cs-card--light {
+      background: var(--white);
+      color: var(--black);
+      --border-alpha: rgba(0,0,0,0.1);
+    }
+
+    .cs-top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 1.5rem;
+      margin-bottom: 3rem;
+      border-bottom: 1px solid var(--border-alpha);
+      font-family: var(--ff-sans);
+      font-size: 0.6rem;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+    }
+    .cs-company { color: var(--accent); }
+    .cs-period { opacity: 0.3; }
+
+    .cs-headline {
+      font-family: var(--ff-display);
+      font-size: clamp(4rem, 10vw, 10rem);
+      line-height: 0.88;
+      text-transform: uppercase;
+      letter-spacing: -0.01em;
+      margin-bottom: 3.5rem;
+    }
+
+    .cs-metrics {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: var(--border-alpha);
+      border: 1px solid var(--border-alpha);
+      margin-bottom: 4rem;
+    }
+    .cs-card--dark  .cs-metric { background: var(--black); }
+    .cs-card--light .cs-metric { background: var(--white); }
+    .cs-metric { padding: 1.75rem 2rem; }
+    .cs-metric-value {
+      font-family: var(--ff-display);
+      font-size: clamp(2.25rem, 4.5vw, 4rem);
+      line-height: 1;
+      color: var(--accent);
+      letter-spacing: -0.02em;
+    }
+    .cs-metric-label {
+      font-family: var(--ff-mono);
+      font-size: 0.6rem;
+      font-weight: 300;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      opacity: 0.45;
+      margin-top: 0.55rem;
+    }
+
+    .cs-narrative {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 3rem;
+      padding-top: 3.5rem;
+      border-top: 1px solid var(--border-alpha);
+    }
+    .cs-col-label {
+      font-family: var(--ff-sans);
+      font-size: 0.58rem;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.75rem;
+    }
+    .cs-col-text {
+      font-family: var(--ff-mono);
+      font-size: 0.82rem;
+      font-weight: 300;
+      line-height: 1.88;
+      opacity: 0.75;
+    }
+
+    /* ── CASE STUDY CHART ───────────────────────── */
+    .cs-chart {
+      margin-bottom: 4rem;
+      padding: 2rem 2.5rem 2.5rem;
+      border: 1px solid var(--border-alpha);
+    }
+    .cs-chart-title {
+      font-family: var(--ff-sans);
+      font-size: 0.56rem;
+      font-weight: 700;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      opacity: 0.35;
+      margin-bottom: 2rem;
+    }
+    .cs-chart-bars {
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+    .cs-chart-row {
+      display: grid;
+      grid-template-columns: 4rem 1fr;
+      align-items: center;
+      gap: 1.25rem;
+    }
+    .cs-chart-label {
+      font-family: var(--ff-sans);
+      font-size: 0.56rem;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      text-align: right;
+      opacity: 0.3;
+    }
+    .cs-chart-track {
+      height: 3.25rem;
+      background: rgba(0,0,0,0.05);
+      position: relative;
+      overflow: hidden;
+    }
+    .cs-card--dark .cs-chart-track { background: rgba(255,255,255,0.07); }
+    .cs-bar {
+      height: 100%;
+      width: 0;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      padding: 0 1rem;
+      transition: width 1.5s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .cs-bar--before { background: rgba(0,0,0,0.18); }
+    .cs-card--dark .cs-bar--before { background: rgba(255,255,255,0.22); }
+    .cs-bar--after  { background: var(--accent); transition-delay: 0.2s; }
+    .cs-bar-val {
+      font-family: var(--ff-display);
+      font-size: 1.15rem;
+      letter-spacing: 0.04em;
+      white-space: nowrap;
+    }
+    .cs-bar--before .cs-bar-val { color: var(--white); }
+    .cs-card--dark .cs-bar--before .cs-bar-val { color: var(--white); }
+    .cs-bar--after  .cs-bar-val { color: var(--black); }
+    .cs-chart-footer {
+      display: flex;
+      align-items: baseline;
+      justify-content: flex-end;
+      gap: 0.75rem;
+      margin-top: 1.25rem;
+    }
+    .cs-chart-delta {
+      font-family: var(--ff-display);
+      font-size: clamp(2rem, 4vw, 3rem);
+      letter-spacing: -0.01em;
+      color: var(--accent);
+      line-height: 1;
+    }
+    .cs-chart-delta-label {
+      font-family: var(--ff-mono);
+      font-size: 0.65rem;
+      font-weight: 300;
+      opacity: 0.4;
+      letter-spacing: 0.06em;
+    }
+
+    /* ── VALIDATION DEMO ────────────────────────── */
+    @keyframes scanSweep {
+      0%   { left: -80px; opacity: 0; }
+      10%  { opacity: 1; }
+      90%  { opacity: 1; }
+      100% { left: 100%; opacity: 0; }
+    }
+    @keyframes issueIn {
+      from { opacity: 0; transform: translateX(14px); }
+      to   { opacity: 1; transform: translateX(0); }
+    }
+    @keyframes ackFadeIn {
+      from { opacity: 0; }
+      to   { opacity: 0.42; }
+    }
+    @keyframes badgePop {
+      0%   { transform: scale(0); }
+      55%  { transform: scale(1.45); }
+      72%  { transform: scale(0.88); }
+      88%  { transform: scale(1.1); }
+      100% { transform: scale(1); }
+    }
+    @keyframes dotPulse {
+      0%, 100% { opacity: 1; }
+      50%       { opacity: 0.2; }
+    }
+
+    .val-demo {
+      display: flex;
+      margin-bottom: 4rem;
+      border: 1px solid rgba(255,255,255,0.1);
+      overflow: hidden;
+      font-family: var(--ff-mono);
+    }
+
+    /* Sidebar */
+    .val-sb {
+      width: 52px;
+      flex-shrink: 0;
+      background: rgba(0,0,0,0.3);
+      border-right: 1px solid rgba(255,255,255,0.07);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 1.25rem 0;
+      gap: 0.6rem;
+    }
+    .val-sb-icon {
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 2px;
+      position: relative;
+      opacity: 0.25;
+      cursor: default;
+    }
+    .val-sb-icon--active { opacity: 0.7; background: rgba(255,255,255,0.08); }
+    .val-sb-icon svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 1.5; color: var(--white); stroke-linecap: round; stroke-linejoin: round; }
+    .val-badge {
+      position: absolute;
+      top: -7px; right: -7px;
+      min-width: 20px; height: 20px;
+      border-radius: 10px;
+      background: var(--white);
+      color: var(--black);
+      font-family: var(--ff-sans);
+      font-size: 0.6rem;
+      font-weight: 900;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 4px;
+      transform: scale(0);
+      letter-spacing: -0.02em;
+      box-shadow: 0 0 0 2px #111, 0 0 10px 2px rgba(255,176,200,0.5);
+    }
+    .val-demo--playing .val-badge {
+      animation: badgePop 0.55s 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+    }
+    .val-sb-counts {
+      display: flex;
+      gap: 3px;
+      margin-top: 3px;
+      opacity: 0;
+      transform: scale(0.6);
+    }
+    .val-demo--playing .val-sb-counts {
+      animation: badgePop 0.4s 1s cubic-bezier(0.16, 1, 0.3, 1) both;
+    }
+    .val-sb-dot {
+      width: 7px; height: 7px;
+      border-radius: 1px;
+      font-family: var(--ff-sans);
+      font-size: 0.38rem;
+      font-weight: 800;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--black);
+    }
+    .val-sb-dot--err  { background: rgba(255,255,255,0.9); }
+    .val-sb-dot--warn { background: var(--accent); }
+
+    /* Main panel */
+    .val-panel { flex: 1; display: flex; flex-direction: column; min-width: 0; }
+
+    /* Scan header */
+    .val-scan {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.75rem 1.25rem;
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+    }
+    .val-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+      flex-shrink: 0;
+      animation: dotPulse 2s ease-in-out infinite;
+    }
+    .val-scan-label {
+      font-size: 0.6rem;
+      font-weight: 300;
+      letter-spacing: 0.1em;
+      color: rgba(255,255,255,0.35);
+      text-transform: uppercase;
+    }
+    .val-scan-track {
+      flex: 1;
+      height: 1px;
+      background: rgba(255,255,255,0.08);
+      position: relative;
+      overflow: hidden;
+    }
+    .val-scan-beam {
+      position: absolute;
+      top: 0; left: -80px;
+      width: 80px; height: 100%;
+      background: linear-gradient(90deg, transparent, var(--accent), transparent);
+    }
+    .val-demo--playing .val-scan-beam {
+      animation: scanSweep 1.4s 0.1s ease-in-out both;
+    }
+    .val-scan-count {
+      font-size: 0.55rem;
+      font-weight: 300;
+      letter-spacing: 0.08em;
+      color: rgba(255,255,255,0.25);
+    }
+
+    /* Issue rows */
+    .val-issues { flex: 1; padding: 0.5rem 0; }
+    .val-issue {
+      display: grid;
+      grid-template-columns: 2rem 1fr auto;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.65rem 1.25rem;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      opacity: 0;
+    }
+    .val-issue:last-child { border-bottom: none; }
+    .val-demo--playing .val-issue--1 { animation: issueIn 0.45s 0.85s cubic-bezier(0.16,1,0.3,1) both; }
+    .val-demo--playing .val-issue--2 { animation: issueIn 0.45s 1.25s cubic-bezier(0.16,1,0.3,1) both; }
+    .val-demo--playing .val-issue--3 { animation: issueIn 0.45s 1.65s cubic-bezier(0.16,1,0.3,1) both; }
+    .val-demo--playing .val-issue--4 { animation: ackFadeIn 0.5s 2.15s ease both; }
+
+    .val-sev {
+      width: 20px; height: 20px;
+      border-radius: 2px;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+      font-size: 0.6rem;
+      font-weight: 700;
+    }
+    .val-sev--err  { background: rgba(255,255,255,0.9); color: var(--black); }
+    .val-sev--warn { background: var(--accent); color: var(--black); }
+    .val-sev--ack  { background: rgba(255,255,255,0.12); color: rgba(255,255,255,0.5); }
+
+    .val-body { min-width: 0; }
+    .val-code {
+      font-size: 0.65rem;
+      font-weight: 400;
+      letter-spacing: 0.04em;
+      color: rgba(255,255,255,0.8);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .val-ctx {
+      font-size: 0.55rem;
+      font-weight: 300;
+      color: rgba(255,255,255,0.3);
+      letter-spacing: 0.03em;
+      margin-top: 0.15rem;
+    }
+    .val-ctx-sep { opacity: 0.4; margin: 0 0.2rem; }
+
+    .val-action {
+      font-family: var(--ff-sans);
+      font-size: 0.48rem;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.2);
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .val-issue--1 .val-action,
+    .val-issue--2 .val-action,
+    .val-issue--3 .val-action { color: rgba(255,255,255,0.35); }
+    .val-issue--4 .val-action { color: rgba(255,255,255,0.2); }
+
+    /* ── MIGRATION RING VISUALIZATION ───────────── */
+    @keyframes ringDraw { to { stroke-dashoffset: 0; } }
+    @keyframes migCenterIn {
+      from { opacity: 0; transform: scale(0.7); }
+      to   { opacity: 1; transform: scale(1); }
+    }
+    @keyframes migTickIn {
+      from { opacity: 0; transform: scaleY(0); }
+      to   { opacity: 1; transform: scaleY(1); }
+    }
+    @keyframes migItemIn {
+      from { opacity: 0; transform: translateX(-8px); }
+      to   { opacity: 1; transform: translateX(0); }
+    }
+    .mig-viz {
+      margin-bottom: 4rem;
+      border: 1px solid rgba(255,255,255,0.08);
+      overflow: hidden;
+    }
+    .mig-main {
+      display: flex;
+      align-items: center;
+      gap: 2.5rem;
+      padding: 2rem 2.5rem;
+    }
+    .mig-svg-wrap { flex-shrink: 0; width: 230px; }
+    .mig-svg { width: 100%; height: auto; overflow: visible; }
+
+    .mig-track {
+      fill: none;
+      stroke: rgba(255,255,255,0.06);
+      stroke-width: 3;
+    }
+    .mig-ring {
+      fill: none;
+      stroke-width: 3;
+      stroke-linecap: round;
+      transform-origin: 140px 140px;
+      transform: rotate(-90deg);
+    }
+    .mig-ring--1 { stroke: rgba(255,255,255,0.9);  stroke-dasharray: 741; stroke-dashoffset: 741; }
+    .mig-ring--2 { stroke: rgba(255,255,255,0.72); stroke-dasharray: 603; stroke-dashoffset: 603; }
+    .mig-ring--3 { stroke: rgba(255,255,255,0.55); stroke-dasharray: 465; stroke-dashoffset: 465; }
+    .mig-ring--4 { stroke: var(--accent);          stroke-dasharray: 327; stroke-dashoffset: 327; }
+    .mig-ring--5 { stroke: var(--accent);          stroke-dasharray: 188; stroke-dashoffset: 188; opacity: 0.7; }
+
+    .mig-demo--playing .mig-ring--1 { animation: ringDraw 2s   0.3s cubic-bezier(0.4,0,0.2,1) forwards; }
+    .mig-demo--playing .mig-ring--2 { animation: ringDraw 1.8s 0.55s cubic-bezier(0.4,0,0.2,1) forwards; }
+    .mig-demo--playing .mig-ring--3 { animation: ringDraw 1.5s 0.8s cubic-bezier(0.4,0,0.2,1) forwards; }
+    .mig-demo--playing .mig-ring--4 { animation: ringDraw 1.2s 1.05s cubic-bezier(0.4,0,0.2,1) forwards; }
+    .mig-demo--playing .mig-ring--5 { animation: ringDraw 1s   1.3s cubic-bezier(0.4,0,0.2,1) forwards; }
+
+    .mig-center { opacity: 0; }
+    .mig-demo--playing .mig-center {
+      animation: migCenterIn 0.6s 2s cubic-bezier(0.16,1,0.3,1) both;
+    }
+    .mig-num {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2.8rem;
+      fill: var(--white);
+      letter-spacing: -0.01em;
+    }
+    .mig-sub {
+      font-family: 'Syne', sans-serif;
+      font-size: 0.38rem;
+      fill: rgba(255,255,255,0.35);
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
+
+    .mig-legend {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+    .mig-item {
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+      opacity: 0;
+    }
+    .mig-demo--playing .mig-item:nth-child(1) { animation: migItemIn 0.4s 0.4s ease both; }
+    .mig-demo--playing .mig-item:nth-child(2) { animation: migItemIn 0.4s 0.65s ease both; }
+    .mig-demo--playing .mig-item:nth-child(3) { animation: migItemIn 0.4s 0.9s ease both; }
+    .mig-demo--playing .mig-item:nth-child(4) { animation: migItemIn 0.4s 1.15s ease both; }
+    .mig-demo--playing .mig-item:nth-child(5) { animation: migItemIn 0.4s 1.4s ease both; }
+    .mig-swatch {
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      border: 2px solid;
+      flex-shrink: 0;
+    }
+    .mig-swatch--1 { border-color: rgba(255,255,255,0.9); }
+    .mig-swatch--2 { border-color: rgba(255,255,255,0.72); }
+    .mig-swatch--3 { border-color: rgba(255,255,255,0.55); }
+    .mig-swatch--4 { border-color: var(--accent); }
+    .mig-swatch--5 { border-color: var(--accent); opacity: 0.7; }
+    .mig-item-label { display: flex; flex-direction: column; gap: 0.1rem; }
+    .mig-item-name {
+      font-family: var(--ff-mono);
+      font-size: 0.68rem;
+      font-weight: 300;
+      color: rgba(255,255,255,0.7);
+      letter-spacing: 0.03em;
+    }
+    .mig-item-count {
+      font-family: var(--ff-sans);
+      font-size: 0.52rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.25);
+    }
+    .mig-item-count--new { color: var(--accent); opacity: 0.8; }
+
+    .mig-timeline {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 0.9rem 2.5rem;
+      border-top: 1px solid rgba(255,255,255,0.07);
+    }
+    .mig-tl-label {
+      font-family: var(--ff-sans);
+      font-size: 0.52rem;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.25);
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .mig-tl-label--end { color: rgba(255,255,255,0.4); }
+    .mig-tl-track {
+      flex: 1;
+      position: relative;
+      height: 28px;
+      display: flex;
+      align-items: center;
+    }
+    .mig-tl-line {
+      position: absolute;
+      top: 50%; left: 0; right: 0;
+      height: 1px;
+      background: rgba(255,255,255,0.1);
+    }
+    .mig-tl-marks {
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .mig-tick {
+      width: 1.5px;
+      height: 10px;
+      background: rgba(255,255,255,0.5);
+      transform-origin: bottom;
+      opacity: 0;
+      flex-shrink: 0;
+    }
+    .mig-tick--accent { background: var(--accent); height: 14px; }
+    .mig-demo--playing .mig-tick {
+      animation: migTickIn 0.25s var(--td, 0s) cubic-bezier(0.16,1,0.3,1) both;
+    }
+
+    /* ── PRICE TEST VISUALIZATION ───────────────── */
+    @keyframes ptProgress {
+      from { width: 0; }
+      to   { width: 100%; }
+    }
+    @keyframes ptChipIn {
+      from { opacity: 0; transform: translateY(-5px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes ptCellIn {
+      from { opacity: 0; transform: scale(0.4); }
+      to   { opacity: 1; transform: scale(1); }
+    }
+    @keyframes ptErrPulse {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(255,176,200,0); }
+      50%       { box-shadow: 0 0 8px 3px rgba(255,176,200,0.55); }
+    }
+    .pt-viz {
+      background: #111;
+      margin-bottom: 4rem;
+      overflow: hidden;
+    }
+    .pt-viz-header {
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+      padding: 0.7rem 1.25rem;
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+    }
+    .pt-run-label {
+      font-family: var(--ff-sans);
+      font-size: 0.52rem;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.35);
+      flex-shrink: 0;
+    }
+    .pt-progress-track {
+      flex: 1;
+      height: 1.5px;
+      background: rgba(255,255,255,0.08);
+      overflow: hidden;
+    }
+    .pt-progress-bar {
+      height: 100%;
+      width: 0;
+      background: rgba(255,255,255,0.7);
+    }
+    .pt-demo--playing .pt-progress-bar {
+      animation: ptProgress 2s 0.3s cubic-bezier(0.4, 0, 0.2, 1) both;
+    }
+    .pt-chips { display: flex; gap: 0.35rem; }
+    .pt-chip {
+      font-family: var(--ff-sans);
+      font-size: 0.48rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 0.22rem 0.5rem;
+      background: rgba(255,176,200,0.18);
+      color: var(--accent);
+      opacity: 0;
+    }
+    .pt-demo--playing .pt-chip:nth-child(1) { animation: ptChipIn 0.3s 0.1s ease both; }
+    .pt-demo--playing .pt-chip:nth-child(2) { animation: ptChipIn 0.3s 0.22s ease both; }
+    .pt-demo--playing .pt-chip:nth-child(3) { animation: ptChipIn 0.3s 0.34s ease both; }
+    .pt-grid {
+      display: grid;
+      grid-template-columns: repeat(22, 1fr);
+      gap: 3px;
+      padding: 1rem 1.25rem;
+    }
+    .pt-cell {
+      aspect-ratio: 1;
+      opacity: 0;
+    }
+    .pt-cell--ok  { background: rgba(255,255,255,0.11); }
+    .pt-cell--err { background: var(--accent); }
+    .pt-demo--playing .pt-cell {
+      animation: ptCellIn 0.22s var(--cd, 0s) cubic-bezier(0.16, 1, 0.3, 1) both;
+    }
+    .pt-demo--playing .pt-cell--err {
+      animation: ptCellIn 0.22s var(--cd, 0s) cubic-bezier(0.16, 1, 0.3, 1) both,
+                 ptErrPulse 1.8s calc(var(--cd, 0s) + 0.25s) ease-in-out infinite;
+    }
+    .pt-viz-footer {
+      display: flex;
+      align-items: center;
+      gap: 1.75rem;
+      padding: 0.7rem 1.25rem;
+      border-top: 1px solid rgba(255,255,255,0.07);
+    }
+    .pt-footer-stat {
+      font-family: var(--ff-mono);
+      font-size: 0.6rem;
+      font-weight: 300;
+      color: rgba(255,255,255,0.35);
+      letter-spacing: 0.04em;
+    }
+    .pt-footer-stat strong { font-weight: 500; color: rgba(255,255,255,0.75); }
+    .pt-footer-flag {
+      margin-left: auto;
+      font-family: var(--ff-sans);
+      font-size: 0.48rem;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+
+    /* ── CONTACT / FOOTER ────────────────────────── */
+    #contact {
+      background: var(--black);
+      color: var(--white);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 65vh;
+    }
+    #contact .section-label { color: var(--white); }
+    .contact-heading {
+      font-family: var(--ff-display);
+      font-size: clamp(5rem, 14vw, 16rem);
+      line-height: 0.85;
+      text-transform: uppercase;
+      letter-spacing: -0.01em;
+      margin-bottom: 4rem;
+    }
+    .contact-links {
+      margin-top: auto;
+      border-top: 1px solid rgba(255,255,255,0.08);
+    }
+    .contact-link {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.4rem 0;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      text-decoration: none;
+      color: var(--white);
+      font-size: clamp(0.85rem, 2vw, 1.15rem);
+      font-weight: 300;
+      letter-spacing: 0.04em;
+      transition: color 0.15s;
+    }
+    .contact-link:hover { color: var(--accent); }
+    .contact-link-meta {
+      font-family: var(--ff-sans);
+      font-size: 0.58rem;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.45);
+      transition: color 0.15s;
+    }
+    .contact-link:hover .contact-link-meta { color: var(--accent); }
+    .footer-bottom {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 4rem;
+      font-family: var(--ff-mono);
+      font-size: 0.6rem;
+      font-weight: 300;
+      letter-spacing: 0.1em;
+      color: rgba(255,255,255,0.3);
+      text-transform: uppercase;
+    }
+
+    /* ── RESPONSIVE ─────────────────────────────── */
+    @media (max-width: 768px) {
+      section, footer { padding: 5rem 2rem; }
+      #hero { padding: 6rem 2rem 3.5rem; }
+      .pm-header { padding: 5rem 2rem 4rem; }
+      .cs-card { padding: 4rem 2rem 5rem; }
+      nav { padding: 1.25rem 2rem; }
+      .nav-links { gap: 1.5rem; }
+      .about-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+      .about-photo-wrap { max-width: 60%; }
+      .pi-head { grid-template-columns: 2.5rem 1fr auto; gap: 1rem; }
+      .pi-body-inner { padding-left: 3.5rem; gap: 1.5rem; }
+      .cs-metrics { grid-template-columns: 1fr; }
+      .cs-narrative { grid-template-columns: 1fr; gap: 2rem; }
+      .hero-scroll { display: none; }
+    }
+    @media (max-width: 480px) {
+      .pi-body-inner { padding-left: 0; }
+    }
+    @media (max-width: 480px) {
+      section, footer { padding: 4rem 1.5rem; }
+      #hero { padding: 5rem 1.5rem 3rem; }
+      nav { padding: 1rem 1.5rem; }
+      .nav-links a { font-size: 0.58rem; letter-spacing: 0.12em; }
+    }
+
+    /* ── SCROLL REVEAL ───────────────────────────── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+                  transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: none;
+    }
+  </style>
 </head>
 
 <body>
-    <!-- Animated aurora background -->
-    <div class="aurora">
-        <div class="aurora-band aurora-1"></div>
-        <div class="aurora-band aurora-2"></div>
-        <div class="aurora-band aurora-3"></div>
+
+  <!-- ── NAV ─────────────────────────────── -->
+  <nav>
+    <a class="nav-mono" href="#hero">GS</a>
+    <div class="nav-links">
+      <a href="#about">About</a>
+      <a href="#pm">PM</a>
+      <a href="#projects">Projects</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </nav>
+
+  <!-- ── HERO ────────────────────────────── -->
+  <section id="hero">
+    <h1 class="hero-name">
+      Glenn<br>Svendsen
+    </h1>
+    <p class="hero-tagline">
+      Senior PM — Arrive (former EasyPark Group). Parking policies across Europe, ANZ & the US.
+    </p>
+    <div class="hero-scroll" aria-hidden="true">
+      <span>Scroll</span>
+      <svg viewBox="0 0 14 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <path d="M7 1v22M1 16l6 6 6-6" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+  </section>
+
+  <!-- ── ABOUT ────────────────────────────── -->
+  <section id="about">
+    <div class="section-label reveal">
+      <span class="section-num">01</span>
+      <span>About</span>
+    </div>
+    <div class="about-grid">
+      <div class="about-photo-wrap reveal" style="transition-delay: 0.08s">
+        <!-- Save your headshot as profile.jpg in the project root -->
+        <img src="profile.jpg" alt="Glenn Svendsen" class="about-photo">
+      </div>
+      <div class="about-text-col">
+        <h2 class="about-heading reveal" style="transition-delay: 0.14s">
+          <span class="scribble">Brief.<svg class="scribble-svg" viewBox="0 0 300 20" preserveAspectRatio="none" aria-hidden="true">
+            <path d="M1 9 C55 5, 115 4, 185 6 S255 10, 296 12" stroke="#FFB0C8" stroke-width="1.4" fill="none" stroke-linecap="round" opacity="0.8"/>
+            <path d="M25 13 C72 9, 132 8, 198 10 S258 14, 282 16" stroke="#FFB0C8" stroke-width="2.6" fill="none" stroke-linecap="round"/>
+            <path d="M250 11 L266 3 L258 18 L274 9" stroke="#FFB0C8" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg></span>
+        </h2>
+        <div class="about-body reveal" style="transition-delay: 0.2s">
+          <p>
+            Norwegian. <span class="scribble">Senior Product Manager<svg class="scribble-svg" viewBox="0 0 300 20" preserveAspectRatio="none" aria-hidden="true">
+              <path d="M1 9 C55 5, 115 4, 185 6 S255 10, 296 12" stroke="#FFB0C8" stroke-width="1.4" fill="none" stroke-linecap="round" opacity="0.8"/>
+              <path d="M25 13 C72 9, 132 8, 198 10 S258 14, 282 16" stroke="#FFB0C8" stroke-width="2.6" fill="none" stroke-linecap="round"/>
+              <path d="M250 11 L266 3 L258 18 L274 9" stroke="#FFB0C8" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg></span> with 5+ years building things that actually work.
+          </p>
+          <p>
+            Currently at Arrive (former EasyPark Group), where I own the domain of
+            <span class="scribble">parking policies globally<svg class="scribble-svg" viewBox="0 0 300 20" preserveAspectRatio="none" aria-hidden="true">
+              <path d="M1 9 C55 5, 115 4, 185 6 S255 10, 296 12" stroke="#FFB0C8" stroke-width="1.4" fill="none" stroke-linecap="round" opacity="0.8"/>
+              <path d="M25 13 C72 9, 132 8, 198 10 S258 14, 282 16" stroke="#FFB0C8" stroke-width="2.6" fill="none" stroke-linecap="round"/>
+              <path d="M250 11 L266 3 L258 18 L274 9" stroke="#FFB0C8" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg></span> — across Europe, ANZ, and the US.
+          </p>
+          <p>
+            I work at the intersection of complex systems and real user
+            needs — turning messy domain problems into clear product decisions.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── PM CASE STUDIES ─────────────────── -->
+  <section id="pm">
+    <div class="pm-header">
+      <div class="section-label reveal">
+        <span class="section-num">02</span>
+        <span>PM Case Studies</span>
+      </div>
     </div>
 
+    <!-- Case Study 1 -->
+    <div class="cs-card cs-card--dark reveal">
+      <div class="cs-top-bar">
+        <span class="cs-company">Arrive (former EasyPark Group)</span>
+        <span class="cs-period">2023 — Ongoing</span>
+      </div>
+      <h3 class="cs-headline">Global<br>Pricing<br><span class="scribble">Engine<svg class="scribble-svg" viewBox="0 0 300 20" preserveAspectRatio="none" aria-hidden="true">
+        <path d="M1 9 C55 5, 115 4, 185 6 S255 10, 296 12" stroke="#FFB0C8" stroke-width="1.4" fill="none" stroke-linecap="round" opacity="0.8"/>
+        <path d="M25 13 C72 9, 132 8, 198 10 S258 14, 282 16" stroke="#FFB0C8" stroke-width="2.6" fill="none" stroke-linecap="round"/>
+        <path d="M250 11 L266 3 L258 18 L274 9" stroke="#FFB0C8" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg></span></h3>
+      <div class="cs-metrics">
+        <div class="cs-metric">
+          <div class="cs-metric-value" data-count="2" data-suffix=".8B+">2.8B+</div>
+          <div class="cs-metric-label">Requests served in 2025</div>
+        </div>
+        <div class="cs-metric">
+          <div class="cs-metric-value" data-count="6000" data-suffix="+">6000+</div>
+          <div class="cs-metric-label">Parking operators globally</div>
+        </div>
+        <div class="cs-metric">
+          <div class="cs-metric-value" data-count="100" data-suffix="%">100%</div>
+          <div class="cs-metric-label">Uptime — last 24 months</div>
+        </div>
+      </div>
+      <div class="cs-narrative">
+        <div>
+          <div class="cs-col-label">Problem</div>
+          <div class="cs-col-text">Parking pricing across 20+ countries — different regulations, currencies, and operator models — running on a shared engine with real complexity beneath the surface. Edge cases multiplied with every new market. Operators struggled to configure correctly. Misconfigurations were common and support costs were high.</div>
+        </div>
+        <div>
+          <div class="cs-col-label">Approach</div>
+          <div class="cs-col-text">Took ownership of the domain and ran structured discovery to understand where the system was breaking down in practice. Prioritised the edge cases causing the most operator pain, worked closely with engineering to address root causes, and built a rhythm of regular user interviews to keep improvements grounded in real need.</div>
+        </div>
+        <div>
+          <div class="cs-col-label">Outcome</div>
+          <div class="cs-col-text">CSAT lifted from 66% to 87% through structured discovery and regular user interviews. Misconfigurations reduced by 36% year-on-year. The system now runs live across all active markets globally, with engineering capacity redirected from maintenance to growth.</div>
+        </div>
+      </div>
+    </div>
 
+    <!-- Case Study 2 -->
+    <div class="cs-card cs-card--light reveal">
+      <div class="cs-top-bar">
+        <span class="cs-company">Arrive (former EasyPark Group)</span>
+        <span class="cs-period">2024</span>
+      </div>
+      <h3 class="cs-headline">Config<br><span class="scribble">Copy<svg class="scribble-svg" viewBox="0 0 300 20" preserveAspectRatio="none" aria-hidden="true">
+        <path d="M1 9 C55 5, 115 4, 185 6 S255 10, 296 12" stroke="#FFB0C8" stroke-width="1.4" fill="none" stroke-linecap="round" opacity="0.8"/>
+        <path d="M25 13 C72 9, 132 8, 198 10 S258 14, 282 16" stroke="#FFB0C8" stroke-width="2.6" fill="none" stroke-linecap="round"/>
+        <path d="M250 11 L266 3 L258 18 L274 9" stroke="#FFB0C8" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg></span></h3>
 
+      <div class="cs-metrics">
+        <div class="cs-metric">
+          <div class="cs-metric-value" data-count="105" data-suffix="s">105s</div>
+          <div class="cs-metric-label">Config time — before</div>
+        </div>
+        <div class="cs-metric">
+          <div class="cs-metric-value" data-count="27" data-suffix="s">27s</div>
+          <div class="cs-metric-label">Config time — after</div>
+        </div>
+        <div class="cs-metric">
+          <div class="cs-metric-value" data-count="74" data-suffix="% faster">74% faster</div>
+          <div class="cs-metric-label">JTBD + opportunity solution tree</div>
+        </div>
+      </div>
 
-
-    <main class="container">
-        <header class="header">
-            <div class="logo">
-                <!-- Arctic Labs Logo: Hexagonal crystal + mountain -->
-                <svg class="logo-icon" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <!-- Outer hexagon (lab) -->
-                    <path d="M24 4L42 14V34L24 44L6 34V14L24 4Z" stroke="url(#hex-gradient)" stroke-width="1"
-                        fill="none" />
-                    <!-- Inner crystal mountain -->
-                    <path d="M24 12L34 32H14L24 12Z" fill="url(#crystal-fill)" opacity="0.15" />
-                    <path d="M24 12L34 32H14L24 12Z" stroke="url(#crystal-gradient)" stroke-width="1.5" fill="none" />
-                    <!-- Crystal facet lines -->
-                    <path d="M24 12L24 32" stroke="url(#crystal-gradient)" stroke-width="0.75" opacity="0.5" />
-                    <path d="M24 12L19 27" stroke="url(#crystal-gradient)" stroke-width="0.5" opacity="0.3" />
-                    <path d="M24 12L29 27" stroke="url(#crystal-gradient)" stroke-width="0.5" opacity="0.3" />
-                    <!-- Orbital ring (lab element) -->
-                    <ellipse cx="24" cy="24" rx="16" ry="6" stroke="url(#orbit-gradient)" stroke-width="0.5" fill="none"
-                        opacity="0.4" transform="rotate(-30 24 24)" />
-                    <defs>
-                        <linearGradient id="hex-gradient" x1="6" y1="4" x2="42" y2="44">
-                            <stop offset="0%" stop-color="#60A5FA" stop-opacity="0.6" />
-                            <stop offset="100%" stop-color="#A78BFA" stop-opacity="0.3" />
-                        </linearGradient>
-                        <linearGradient id="crystal-gradient" x1="14" y1="32" x2="34" y2="12">
-                            <stop offset="0%" stop-color="#60A5FA" />
-                            <stop offset="50%" stop-color="#38BDF8" />
-                            <stop offset="100%" stop-color="#E0F2FE" />
-                        </linearGradient>
-                        <linearGradient id="crystal-fill" x1="24" y1="12" x2="24" y2="32">
-                            <stop offset="0%" stop-color="#60A5FA" />
-                            <stop offset="100%" stop-color="#1E3A5F" />
-                        </linearGradient>
-                        <linearGradient id="orbit-gradient" x1="8" y1="24" x2="40" y2="24">
-                            <stop offset="0%" stop-color="#60A5FA" />
-                            <stop offset="100%" stop-color="#A78BFA" />
-                        </linearGradient>
-                    </defs>
-                </svg>
-                <div class="logo-text-col">
-                    <span class="logo-text">Arctic Labs</span>
-                    <span class="logo-sub">Glenn Svendsen</span>
-                </div>
+      <div class="cs-chart">
+        <div class="cs-chart-title">Configuration time — before vs. after copy functionality</div>
+        <div class="cs-chart-bars">
+          <div class="cs-chart-row">
+            <span class="cs-chart-label">Before</span>
+            <div class="cs-chart-track">
+              <div class="cs-bar cs-bar--before" data-pct="100">
+                <span class="cs-bar-val">105s</span>
+              </div>
             </div>
-        </header>
-
-        <section class="hero">
-            <h1 class="hero-title">
-                Building <span class="gradient-text">software</span>
-                <br>
-                no one uses since 2025.
-            </h1>
-        </section>
-
-        <section class="projects">
-            <p class="section-label">
-                <span class="label-line"></span>
-                Projects
-                <span class="label-line"></span>
-            </p>
-            <div class="project-grid">
-                <a href="/equity/" class="project-card" target="_blank" rel="noopener">
-                    <div class="project-glow"></div>
-                    <img src="equity-logo.jpg" alt="Equity" class="project-logo" />
-                    <div class="project-content">
-                        <h3 class="project-name">Equity</h3>
-                        <p class="project-description">Time balance tracker for iOS</p>
-                    </div>
-                    <div class="project-arrow">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                            <path d="M7 17L17 7M17 7H7M17 7V17" stroke-linecap="round" stroke-linejoin="round" />
-                        </svg>
-                    </div>
-                </a>
-
-                <a href="/Mybooks/" class="project-card" target="_blank" rel="noopener">
-                    <div class="project-glow"></div>
-                    <img src="mybooks-logo.jpg" alt="MyBooks" class="project-logo" />
-                    <div class="project-content">
-                        <h3 class="project-name">MyBooks</h3>
-                        <p class="project-description">Personal reading companion</p>
-                    </div>
-                    <div class="project-arrow">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                            <path d="M7 17L17 7M17 7H7M17 7V17" stroke-linecap="round" stroke-linejoin="round" />
-                        </svg>
-                    </div>
-                </a>
-
-                <a href="https://glennsvendsen.github.io/utendorsliv/" class="project-card" target="_blank"
-                    rel="noopener">
-                    <div class="project-glow"></div>
-                    <img src="utendorsliv-logo.png" alt="Utendørsliv" class="project-logo" />
-                    <div class="project-content">
-                        <h3 class="project-name">Utendørsliv</h3>
-                        <p class="project-description">Outdoor exploration companion</p>
-                    </div>
-                    <div class="project-arrow">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                            <path d="M7 17L17 7M17 7H7M17 7V17" stroke-linecap="round" stroke-linejoin="round" />
-                        </svg>
-                    </div>
-                </a>
-
-                <a href="https://www.thegreenlandrun.com" class="project-card" target="_blank" rel="noopener">
-                    <div class="project-glow"></div>
-                    <img src="greenlandrun-logo.jpg" alt="The Greenland Run" class="project-logo" />
-                    <div class="project-content">
-                        <h3 class="project-name">The Greenland Run</h3>
-                        <p class="project-description">Retro Arctic adventure game</p>
-                    </div>
-                    <div class="project-arrow">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                            <path d="M7 17L17 7M17 7H7M17 7V17" stroke-linecap="round" stroke-linejoin="round" />
-                        </svg>
-                    </div>
-                </a>
+          </div>
+          <div class="cs-chart-row">
+            <span class="cs-chart-label">After</span>
+            <div class="cs-chart-track">
+              <div class="cs-bar cs-bar--after" data-pct="25.7">
+                <span class="cs-bar-val">27s</span>
+              </div>
             </div>
-        </section>
+          </div>
+        </div>
+        <div class="cs-chart-footer">
+          <span class="cs-chart-delta-label">time saved per configuration</span>
+          <span class="cs-chart-delta">−78s</span>
+        </div>
+      </div>
 
-        <footer class="footer">
-            <div class="footer-line"></div>
-            <p>&copy; 2026 Arctic Labs</p>
-        </footer>
-    </main>
+      <div class="cs-narrative">
+        <div>
+          <div class="cs-col-label">Problem</div>
+          <div class="cs-col-text">Operators were rebuilding similar configurations from scratch — repetitive, error-prone, and slow. Every duplicate setup carried the same risk of misconfiguration.</div>
+        </div>
+        <div>
+          <div class="cs-col-label">Approach</div>
+          <div class="cs-col-text">Used Jobs to Be Done and opportunity solution tree mapping to understand operator workflows in depth. Identified that a copy/duplicate function addressed the core job — not a nice-to-have, but the missing piece.</div>
+        </div>
+        <div>
+          <div class="cs-col-label">Outcome</div>
+          <div class="cs-col-text">Configuration time dropped from 105 to 27 seconds — a 74% reduction. Error rates fell. Operators moved faster with more confidence, and support load dropped alongside it.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Case Study 3 -->
+    <div class="cs-card cs-card--dark reveal">
+      <div class="cs-top-bar">
+        <span class="cs-company">Arrive (former EasyPark Group)</span>
+        <span class="cs-period">2024</span>
+      </div>
+      <h3 class="cs-headline">Background<br><span class="scribble">Validation<svg class="scribble-svg" viewBox="0 0 300 20" preserveAspectRatio="none" aria-hidden="true">
+        <path d="M1 9 C55 5, 115 4, 185 6 S255 10, 296 12" stroke="#FFB0C8" stroke-width="1.4" fill="none" stroke-linecap="round" opacity="0.8"/>
+        <path d="M25 13 C72 9, 132 8, 198 10 S258 14, 282 16" stroke="#FFB0C8" stroke-width="2.6" fill="none" stroke-linecap="round"/>
+        <path d="M250 11 L266 3 L258 18 L274 9" stroke="#FFB0C8" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg></span></h3>
+
+      <div class="cs-metrics">
+        <div class="cs-metric">
+          <div class="cs-metric-value" data-count="33">33</div>
+          <div class="cs-metric-label">Parameters validated per config</div>
+        </div>
+        <div class="cs-metric">
+          <div class="cs-metric-value" data-count="36" data-suffix="%">36%</div>
+          <div class="cs-metric-label">Fewer misconfigurations YoY</div>
+        </div>
+        <div class="cs-metric">
+          <div class="cs-metric-value">Silent</div>
+          <div class="cs-metric-label">Zero workflow interruptions</div>
+        </div>
+      </div>
+
+      <div class="val-demo" id="val-demo">
+
+        <!-- Sidebar nav mock -->
+        <div class="val-sb">
+          <div class="val-sb-icon">
+            <svg viewBox="0 0 24 24"><path d="M3 12L12 4l9 8M5 10v9a1 1 0 001 1h4v-5h4v5h4a1 1 0 001-1v-9"/></svg>
+          </div>
+          <div class="val-sb-icon">
+            <svg viewBox="0 0 24 24"><path d="M7 7h10M7 12h6M7 17h4M5 3h14a2 2 0 012 2v14a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2z"/></svg>
+          </div>
+          <div class="val-sb-icon val-sb-icon--active" style="flex-direction:column;height:auto;padding:5px 0;gap:4px;">
+            <div style="position:relative;width:32px;height:32px;display:flex;align-items:center;justify-content:center;">
+              <svg viewBox="0 0 24 24" style="width:16px;height:16px;"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+              <div class="val-badge">3</div>
+            </div>
+            <div class="val-sb-counts">
+              <div class="val-sb-dot val-sb-dot--err">2</div>
+              <div class="val-sb-dot val-sb-dot--warn">1</div>
+            </div>
+          </div>
+          <div class="val-sb-icon">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93A10 10 0 1 0 4.93 19.07M12 2v2M12 20v2M2 12h2M20 12h2"/></svg>
+          </div>
+        </div>
+
+        <!-- Main panel -->
+        <div class="val-panel">
+
+          <!-- Scan header -->
+          <div class="val-scan">
+            <span class="val-dot"></span>
+            <span class="val-scan-label">Background validation</span>
+            <div class="val-scan-track"><div class="val-scan-beam"></div></div>
+            <span class="val-scan-count">33 / 33</span>
+          </div>
+
+          <!-- Issue list -->
+          <div class="val-issues">
+            <div class="val-issue val-issue--1">
+              <div class="val-sev val-sev--err">✕</div>
+              <div class="val-body">
+                <div class="val-code">PRICE_SPIKE_MEDIAN</div>
+                <div class="val-ctx">Table 'Weekend'<span class="val-ctx-sep">›</span>Period 3</div>
+              </div>
+              <span class="val-action">Review</span>
+            </div>
+            <div class="val-issue val-issue--2">
+              <div class="val-sev val-sev--err">✕</div>
+              <div class="val-body">
+                <div class="val-code">OVERLAPPING_TABLE_DATES</div>
+                <div class="val-ctx">Tables 'Standard'<span class="val-ctx-sep">›</span>'Holiday'</div>
+              </div>
+              <span class="val-action">Review</span>
+            </div>
+            <div class="val-issue val-issue--3">
+              <div class="val-sev val-sev--warn">!</div>
+              <div class="val-body">
+                <div class="val-code">ZERO_PRICE</div>
+                <div class="val-ctx">Table 'Standard'<span class="val-ctx-sep">›</span>Period 7</div>
+              </div>
+              <span class="val-action">Review</span>
+            </div>
+            <div class="val-issue val-issue--4">
+              <div class="val-sev val-sev--ack">✓</div>
+              <div class="val-body">
+                <div class="val-code">MAX_PARKING_FEE_ZERO</div>
+                <div class="val-ctx">Acknowledged<span class="val-ctx-sep">·</span>2 min ago</div>
+              </div>
+              <span class="val-action">Restore</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="cs-narrative">
+        <div>
+          <div class="cs-col-label">Problem</div>
+          <div class="cs-col-text">Misconfigurations were frequent and hard to detect. Operators often didn't know something was wrong until it had real-world consequences — incorrect pricing live in market, support escalations, and eroded trust in the system.</div>
+        </div>
+        <div>
+          <div class="cs-col-label">Approach</div>
+          <div class="cs-col-text">Ran a deep-dive root cause analysis across misconfiguration reports to find patterns. Most errors fell into predictable categories: price spikes above the median or adjacent-unit threshold, zero prices on active periods, cap fields set to zero, date ranges where validFrom exceeded validTo, and pricing tables that had expired or left gaps in coverage. Designed a background validation tool that checks 33 parameters silently on every save — surfacing issues as non-intrusive notifications, never blocking the workflow.</div>
+        </div>
+        <div>
+          <div class="cs-col-label">Outcome</div>
+          <div class="cs-col-text">Misconfigurations reduced by 36% year-on-year. Operators get immediate visibility into potential issues without friction. Errors are caught at the source before reaching live pricing — and acknowledged issues leave a clear audit trail.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Case Study 4 -->
+    <div class="cs-card cs-card--light reveal">
+      <div class="cs-top-bar">
+        <span class="cs-company">Arrive (former EasyPark Group)</span>
+        <span class="cs-period">2024</span>
+      </div>
+      <h3 class="cs-headline">Mass Price<br><span class="scribble">Validator<svg class="scribble-svg" viewBox="0 0 300 20" preserveAspectRatio="none" aria-hidden="true">
+        <path d="M1 9 C55 5, 115 4, 185 6 S255 10, 296 12" stroke="#FFB0C8" stroke-width="1.4" fill="none" stroke-linecap="round" opacity="0.8"/>
+        <path d="M25 13 C72 9, 132 8, 198 10 S258 14, 282 16" stroke="#FFB0C8" stroke-width="2.6" fill="none" stroke-linecap="round"/>
+        <path d="M250 11 L266 3 L258 18 L274 9" stroke="#FFB0C8" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg></span></h3>
+
+      <div class="cs-metrics">
+        <div class="cs-metric">
+          <div class="cs-metric-value" data-count="0">0</div>
+          <div class="cs-metric-label">Holiday incidents since release</div>
+        </div>
+        <div class="cs-metric">
+          <div class="cs-metric-value">&lt; 1hr</div>
+          <div class="cs-metric-label">AI prototype built live on stakeholder call · validated · handed to eng</div>
+        </div>
+        <div class="cs-metric">
+          <div class="cs-metric-value">US</div>
+          <div class="cs-metric-label">Nationwide · thousands of zones</div>
+        </div>
+      </div>
+
+      <!-- Price test visualization -->
+      <div class="pt-viz" id="pt-demo">
+        <div class="pt-viz-header">
+          <span class="pt-run-label">▶ Running</span>
+          <div class="pt-progress-track"><div class="pt-progress-bar"></div></div>
+          <div class="pt-chips">
+            <span class="pt-chip">Jul 4</span>
+            <span class="pt-chip">Nov 28</span>
+            <span class="pt-chip">Dec 25</span>
+          </div>
+        </div>
+        <div class="pt-grid" id="pt-grid"></div>
+        <div class="pt-viz-footer">
+          <span class="pt-footer-stat"><strong>132</strong> zones checked</span>
+          <span class="pt-footer-stat"><strong>5</strong> anomalies</span>
+          <span class="pt-footer-flag">⚑ Paid when should be free</span>
+        </div>
+      </div>
+
+      <div class="cs-narrative">
+        <div>
+          <div class="cs-col-label">Problem</div>
+          <div class="cs-col-text">Configuration experts managing parking across major US cities faced a scale problem: a single nationwide holiday across thousands of zones meant one missed configuration could result in drivers being charged when parking should have been free.</div>
+        </div>
+        <div>
+          <div class="cs-col-label">Approach</div>
+          <div class="cs-col-text">Built a working prototype with AI during the stakeholder call itself — validated live, iterated on the spot, and confirmed as the right solution within the hour. Handed off to engineering the same day to build it securely and properly. The tool lets users select multiple holiday dates, configure time windows and durations, then fire price calls across the full zone estate. A "Check Free Holiday" mode highlights any zone returning a price above zero.</div>
+        </div>
+        <div>
+          <div class="cs-col-label">Outcome</div>
+          <div class="cs-col-text">Zero holiday-related pricing incidents reported since release. The tool's flexibility made it useful beyond holidays — it's now a general-purpose pricing QA tool used by configuration experts across markets.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Case Study 5 -->
+    <div class="cs-card cs-card--dark reveal">
+      <div class="cs-top-bar">
+        <span class="cs-company">Arrive (former EasyPark Group)</span>
+        <span class="cs-period">2022 — 2024</span>
+      </div>
+      <h3 class="cs-headline">Platform<br><span class="scribble">Migration<svg class="scribble-svg" viewBox="0 0 300 20" preserveAspectRatio="none" aria-hidden="true">
+        <path d="M1 9 C55 5, 115 4, 185 6 S255 10, 296 12" stroke="#FFB0C8" stroke-width="1.4" fill="none" stroke-linecap="round" opacity="0.8"/>
+        <path d="M25 13 C72 9, 132 8, 198 10 S258 14, 282 16" stroke="#FFB0C8" stroke-width="2.6" fill="none" stroke-linecap="round"/>
+        <path d="M250 11 L266 3 L258 18 L274 9" stroke="#FFB0C8" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg></span></h3>
+
+      <div class="cs-metrics">
+        <div class="cs-metric">
+          <div class="cs-metric-value" data-count="35" data-suffix="+">35+</div>
+          <div class="cs-metric-label">Distinct gaps identified &amp; closed</div>
+        </div>
+        <div class="cs-metric">
+          <div class="cs-metric-value" data-count="18" data-suffix=" mo">18 mo</div>
+          <div class="cs-metric-label">End-to-end project span</div>
+        </div>
+        <div class="cs-metric">
+          <div class="cs-metric-value">Auto</div>
+          <div class="cs-metric-label">Programmatic migration jobs — no manual rework</div>
+        </div>
+      </div>
+
+      <div class="mig-viz" id="mig-demo">
+        <div class="mig-main">
+          <div class="mig-svg-wrap">
+            <svg class="mig-svg" viewBox="0 0 280 280" xmlns="http://www.w3.org/2000/svg">
+              <circle class="mig-track" cx="140" cy="140" r="118"/>
+              <circle class="mig-track" cx="140" cy="140" r="96"/>
+              <circle class="mig-track" cx="140" cy="140" r="74"/>
+              <circle class="mig-track" cx="140" cy="140" r="52"/>
+              <circle class="mig-track" cx="140" cy="140" r="30"/>
+              <circle class="mig-ring mig-ring--1" cx="140" cy="140" r="118"/>
+              <circle class="mig-ring mig-ring--2" cx="140" cy="140" r="96"/>
+              <circle class="mig-ring mig-ring--3" cx="140" cy="140" r="74"/>
+              <circle class="mig-ring mig-ring--4" cx="140" cy="140" r="52"/>
+              <circle class="mig-ring mig-ring--5" cx="140" cy="140" r="30"/>
+              <g class="mig-center">
+                <text class="mig-num" x="140" y="148" text-anchor="middle" dominant-baseline="middle">35+</text>
+                <text class="mig-sub" x="140" y="170" text-anchor="middle">GAPS CLOSED</text>
+              </g>
+            </svg>
+          </div>
+
+          <div class="mig-legend">
+            <div class="mig-item">
+              <div class="mig-swatch mig-swatch--1"></div>
+              <div class="mig-item-label">
+                <span class="mig-item-name">Calculation engine</span>
+                <span class="mig-item-count">12 gaps</span>
+              </div>
+            </div>
+            <div class="mig-item">
+              <div class="mig-swatch mig-swatch--2"></div>
+              <div class="mig-item-label">
+                <span class="mig-item-name">Configuration UI</span>
+                <span class="mig-item-count">10 gaps</span>
+              </div>
+            </div>
+            <div class="mig-item">
+              <div class="mig-swatch mig-swatch--3"></div>
+              <div class="mig-item-label">
+                <span class="mig-item-name">Migration jobs</span>
+                <span class="mig-item-count">7 gaps</span>
+              </div>
+            </div>
+            <div class="mig-item">
+              <div class="mig-swatch mig-swatch--4"></div>
+              <div class="mig-item-label">
+                <span class="mig-item-name">Tariff types</span>
+                <span class="mig-item-count mig-item-count--new">4 new</span>
+              </div>
+            </div>
+            <div class="mig-item">
+              <div class="mig-swatch mig-swatch--5"></div>
+              <div class="mig-item-label">
+                <span class="mig-item-name">Simulation tools</span>
+                <span class="mig-item-count mig-item-count--new">4 new</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="mig-timeline">
+          <span class="mig-tl-label">Start</span>
+          <div class="mig-tl-track">
+            <div class="mig-tl-line"></div>
+            <div class="mig-tl-marks" id="mig-marks"></div>
+          </div>
+          <span class="mig-tl-label mig-tl-label--end">18 months · complete</span>
+        </div>
+      </div>
+
+      <div class="cs-narrative">
+        <div>
+          <div class="cs-col-label">Problem</div>
+          <div class="cs-col-text">A legacy parking platform was being sunset. Before migration could begin, every configuration model, tariff type, and pricing behaviour had to be mapped against the new platform — with gaps documented, prioritised, and closed without disrupting live markets.</div>
+        </div>
+        <div>
+          <div class="cs-col-label">Approach</div>
+          <div class="cs-col-text">Led systematic gap discovery across the full platform scope — calculation engine, configuration UI, tariff types, and operator workflows. Identified 35+ distinct gaps. Built simulation tools to verify pricing parity between legacy and new outputs. A new tariff type was created to cover previously unsupported configurations. Automated migration jobs handled the bulk transfer at scale.</div>
+        </div>
+        <div>
+          <div class="cs-col-label">Outcome</div>
+          <div class="cs-col-text">All 35+ gaps identified, scoped, and closed over 18 months. Pricing parity validated across all migrated markets. Programmatic migration jobs eliminated manual rework. The platform migration completed with no pricing incidents in production.</div>
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ── PERSONAL PROJECTS ─────────────────── -->
+  <section id="projects">
+    <div class="section-label reveal">
+      <span class="section-num">03</span>
+      <span>Personal Projects</span>
+    </div>
+    <div class="project-list">
+
+      <a class="pi reveal" href="https://glennsvendsen.github.io/equity/" target="_blank" rel="noopener">
+        <div class="pi-head">
+          <span class="pi-num">01</span>
+          <span class="pi-name">Equity</span>
+          <span class="pi-arrow">↗</span>
+        </div>
+        <div class="pi-body">
+          <div class="pi-body-inner">
+            <img src="equity-logo.jpg" alt="" class="pi-img">
+            <div class="pi-detail">
+              <span class="pi-desc">Time balance tracker for iOS</span>
+              <span class="pi-tag">iOS · Swift</span>
+            </div>
+          </div>
+        </div>
+      </a>
+
+      <a class="pi reveal" href="https://glennsvendsen.github.io/Mybooks/" target="_blank" rel="noopener" style="transition-delay: 0.06s">
+        <div class="pi-head">
+          <span class="pi-num">02</span>
+          <span class="pi-name">MyBooks</span>
+          <span class="pi-arrow">↗</span>
+        </div>
+        <div class="pi-body">
+          <div class="pi-body-inner">
+            <img src="mybooks-logo.jpg" alt="" class="pi-img">
+            <div class="pi-detail">
+              <span class="pi-desc">Personal reading companion</span>
+              <span class="pi-tag">iOS · Swift</span>
+            </div>
+          </div>
+        </div>
+      </a>
+
+      <a class="pi reveal" href="https://glennsvendsen.github.io/utendorsliv/" target="_blank" rel="noopener" style="transition-delay: 0.12s">
+        <div class="pi-head">
+          <span class="pi-num">03</span>
+          <span class="pi-name">Utendørsliv</span>
+          <span class="pi-arrow">↗</span>
+        </div>
+        <div class="pi-body">
+          <div class="pi-body-inner">
+            <img src="utendorsliv-logo.png" alt="" class="pi-img">
+            <div class="pi-detail">
+              <span class="pi-desc">Outdoor exploration companion</span>
+              <span class="pi-tag">Web · JavaScript</span>
+            </div>
+          </div>
+        </div>
+      </a>
+
+      <a class="pi reveal" href="https://glennsvendsen.github.io/greenlandrun/" target="_blank" rel="noopener" style="transition-delay: 0.18s">
+        <div class="pi-head">
+          <span class="pi-num">04</span>
+          <span class="pi-name">The Greenland Run</span>
+          <span class="pi-arrow">↗</span>
+        </div>
+        <div class="pi-body">
+          <div class="pi-body-inner">
+            <img src="greenlandrun-logo.jpg" alt="" class="pi-img">
+            <div class="pi-detail">
+              <span class="pi-desc">Arctic ultra-marathon event site</span>
+              <span class="pi-tag">Web · JavaScript</span>
+            </div>
+          </div>
+        </div>
+      </a>
+
+      <a class="pi reveal" href="https://groruddalengk.pages.dev" target="_blank" rel="noopener" style="transition-delay: 0.24s">
+        <div class="pi-head">
+          <span class="pi-num">05</span>
+          <span class="pi-name">GGK Frivillig</span>
+          <span class="pi-arrow">↗</span>
+        </div>
+        <div class="pi-body">
+          <div class="pi-body-inner">
+            <img src="ggk-cover.svg" alt="" class="pi-img pi-img--wide">
+            <div class="pi-detail">
+              <span class="pi-desc">Volunteer management for Groruddalen Golfklubb</span>
+              <span class="pi-tag">Web · Cloudflare Pages</span>
+            </div>
+          </div>
+        </div>
+      </a>
+
+    </div>
+  </section>
+
+  <!-- ── CONTACT / FOOTER ────────────────── -->
+  <footer id="contact">
+    <div class="section-label reveal">
+      <span>Contact</span>
+    </div>
+    <h2 class="contact-heading reveal" style="transition-delay: 0.1s">
+      Let's<br><span class="scribble">Talk.<svg class="scribble-svg" viewBox="0 0 300 20" preserveAspectRatio="none" aria-hidden="true">
+        <path d="M1 9 C55 5, 115 4, 185 6 S255 10, 296 12" stroke="#FFB0C8" stroke-width="1.4" fill="none" stroke-linecap="round" opacity="0.8"/>
+        <path d="M25 13 C72 9, 132 8, 198 10 S258 14, 282 16" stroke="#FFB0C8" stroke-width="2.6" fill="none" stroke-linecap="round"/>
+        <path d="M250 11 L266 3 L258 18 L274 9" stroke="#FFB0C8" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg></span>
+    </h2>
+    <div class="contact-links reveal" style="transition-delay: 0.2s">
+      <a class="contact-link" href="mailto:gsvendsen@me.com">
+        <span>gsvendsen@me.com</span>
+        <span class="contact-link-meta">Email</span>
+      </a>
+      <a class="contact-link" href="https://github.com/glennsvendsen" target="_blank" rel="noopener">
+        <span>github.com/glennsvendsen</span>
+        <span class="contact-link-meta">GitHub</span>
+      </a>
+      <a class="contact-link" href="https://www.linkedin.com/in/glenn-svendsen-9792b615/" target="_blank" rel="noopener">
+        <span>linkedin.com/in/glenn-svendsen</span>
+        <span class="contact-link-meta">LinkedIn</span>
+      </a>
+    </div>
+    <div class="footer-bottom reveal" style="transition-delay: 0.28s">
+      <span>&copy; 2026 Glenn Svendsen</span>
+      <span>Oslo, Norway</span>
+    </div>
+  </footer>
+
+  <script>
+    /* ── METRIC COUNTERS ────────────────────── */
+    const metricObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        const el = entry.target;
+        const target = parseInt(el.dataset.count, 10);
+        const suffix = el.dataset.suffix || '';
+        if (isNaN(target)) return;
+        const start = performance.now();
+        const duration = 1400;
+        const tick = (now) => {
+          const p = Math.min((now - start) / duration, 1);
+          const eased = 1 - Math.pow(1 - p, 3);
+          el.textContent = Math.round(eased * target) + suffix;
+          if (p < 1) requestAnimationFrame(tick);
+        };
+        requestAnimationFrame(tick);
+        metricObserver.unobserve(el);
+      });
+    }, { threshold: 0.6 });
+
+    document.querySelectorAll('[data-count]').forEach(el => metricObserver.observe(el));
+
+    /* ── BAR CHART ANIMATION ─────────────────── */
+    const barObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        entry.target.querySelectorAll('[data-pct]').forEach(bar => {
+          bar.style.width = bar.dataset.pct + '%';
+        });
+        barObserver.unobserve(entry.target);
+      });
+    }, { threshold: 0.4 });
+
+    document.querySelectorAll('.cs-chart').forEach(el => barObserver.observe(el));
+
+    /* ── MIGRATION VISUALIZATION ────────────── */
+    const migDemo = document.getElementById('mig-demo');
+    const migMarks = document.getElementById('mig-marks');
+    if (migDemo && migMarks) {
+      // Generate 18 month tick marks, accent on months 6 and 12
+      for (let i = 0; i < 18; i++) {
+        const tick = document.createElement('div');
+        tick.className = `mig-tick${(i === 5 || i === 11 || i === 17) ? ' mig-tick--accent' : ''}`;
+        tick.style.setProperty('--td', `${(1.6 + i * 0.12).toFixed(2)}s`);
+        migMarks.appendChild(tick);
+      }
+      const migObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (!entry.isIntersecting) return;
+          entry.target.classList.add('mig-demo--playing');
+          migObserver.unobserve(entry.target);
+        });
+      }, { threshold: 0.3 });
+      migObserver.observe(migDemo);
+    }
+
+    /* ── PRICE TEST GRID ─────────────────────── */
+    const ptGrid = document.getElementById('pt-grid');
+    const ptDemo = document.getElementById('pt-demo');
+    if (ptGrid && ptDemo) {
+      const cols = 22, rows = 6;
+      // 5 anomalies spread across rows: (row*22)+col
+      const anomalies = new Set([4, 38, 53, 85, 94]);
+      for (let i = 0; i < cols * rows; i++) {
+        const col = i % cols;
+        const cell = document.createElement('div');
+        cell.className = `pt-cell ${anomalies.has(i) ? 'pt-cell--err' : 'pt-cell--ok'}`;
+        cell.style.setProperty('--cd', `${(0.45 + col * 0.07).toFixed(2)}s`);
+        ptGrid.appendChild(cell);
+      }
+      const ptObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (!entry.isIntersecting) return;
+          entry.target.classList.add('pt-demo--playing');
+          ptObserver.unobserve(entry.target);
+        });
+      }, { threshold: 0.3 });
+      ptObserver.observe(ptDemo);
+    }
+
+    /* ── VALIDATION DEMO ANIMATION ──────────── */
+    const valDemo = document.getElementById('val-demo');
+    if (valDemo) {
+      const demoObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (!entry.isIntersecting) return;
+          entry.target.classList.add('val-demo--playing');
+          demoObserver.unobserve(entry.target);
+        });
+      }, { threshold: 0.35 });
+      demoObserver.observe(valDemo);
+    }
+
+    /* ── SCRIBBLE DRAW-ON-SCROLL ────────────── */
+    // Hide all paths immediately (before render) so there's no flash
+    document.querySelectorAll('.scribble-svg path').forEach(p => {
+      const len = p.getTotalLength ? p.getTotalLength() : 300;
+      p.style.strokeDasharray  = len;
+      p.style.strokeDashoffset = len;
+    });
+
+    const scribbleObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        const paths = entry.target.querySelectorAll('.scribble-svg path');
+        paths.forEach((p, i) => {
+          setTimeout(() => {
+            p.style.transition = 'stroke-dashoffset 0.9s cubic-bezier(0.16, 1, 0.3, 1)';
+            p.style.strokeDashoffset = '0';
+          }, i * 180);
+        });
+        scribbleObserver.unobserve(entry.target);
+      });
+    }, { threshold: 0.3 });
+
+    document.querySelectorAll('.scribble').forEach(el => scribbleObserver.observe(el));
+
+    /* ── SCROLL REVEAL ──────────────────────── */
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+
+    document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+    /* ── NAV ACTIVE SECTION ─────────────────── */
+    const sections  = document.querySelectorAll('section[id], footer[id]');
+    const navLinks  = document.querySelectorAll('.nav-links a');
+
+    const sectionObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          navLinks.forEach(a => {
+            a.style.opacity = a.getAttribute('href') === `#${entry.target.id}` ? '1' : '';
+          });
+        }
+      });
+    }, { rootMargin: '-40% 0px -40% 0px' });
+
+    sections.forEach(s => sectionObserver.observe(s));
+  </script>
+
 </body>
-
 </html>
