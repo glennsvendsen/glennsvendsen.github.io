@@ -141,7 +141,7 @@
     .hero-scroll {
       position: absolute;
       bottom: 4.5rem;
-      right: 4rem;
+      left: 4rem;
       font-family: var(--ff-sans);
       font-size: 0.55rem;
       font-weight: 700;
@@ -338,7 +338,7 @@
     #pm { padding: 0; }
 
     .pm-header {
-      padding: 7rem 4rem 5rem;
+      padding: 4rem 4rem 3rem;
       background: var(--white);
       color: var(--black);
     }
@@ -1014,6 +1014,49 @@
       color: var(--accent);
     }
 
+    /* ── HERO AMBIENT ───────────────────────────── */
+    .hero-ambient {
+      position: absolute;
+      right: 2.5rem;
+      top: 50%;
+      transform: translateY(-50%);
+      writing-mode: vertical-rl;
+      font-family: var(--ff-sans);
+      font-size: 0.5rem;
+      font-weight: 700;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.1);
+      pointer-events: none;
+      user-select: none;
+    }
+
+    /* ── PROJECT DESC LINE (always visible) ──── */
+    .pi-name-col { display: flex; flex-direction: column; gap: 0.2rem; }
+    .pi-desc-line {
+      font-family: var(--ff-mono);
+      font-size: 0.68rem;
+      font-weight: 300;
+      color: rgba(0,0,0,0.38);
+      letter-spacing: 0.03em;
+      transition: color 0.25s;
+    }
+    .pi:hover .pi-desc-line { color: rgba(255,255,255,0.55); }
+
+    /* ── CONTACT HOVER UNDERLINE ────────────── */
+    .contact-link span:first-child { position: relative; }
+    .contact-link span:first-child::after {
+      content: '';
+      position: absolute;
+      bottom: -1px; left: 0; right: 0;
+      height: 1px;
+      background: var(--accent);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .contact-link:hover span:first-child::after { transform: scaleX(1); }
+
     /* ── CONTACT / FOOTER ────────────────────────── */
     #contact {
       background: var(--black);
@@ -1120,7 +1163,7 @@
     <a class="nav-mono" href="#hero">GS</a>
     <div class="nav-links">
       <a href="#about">About</a>
-      <a href="#pm">PM</a>
+      <a href="#pm">Cases</a>
       <a href="#projects">Projects</a>
       <a href="#contact">Contact</a>
     </div>
@@ -1134,6 +1177,7 @@
     <p class="hero-tagline">
       Senior PM — Arrive (former EasyPark Group). Parking policies across Europe, ANZ & the US.
     </p>
+    <div class="hero-ambient" aria-hidden="true">Oslo · Norway · Senior PM · Arrive</div>
     <div class="hero-scroll" aria-hidden="true">
       <span>Scroll</span>
       <svg viewBox="0 0 14 24" fill="none" stroke="currentColor" stroke-width="1.5">
@@ -1611,7 +1655,10 @@
       <a class="pi reveal" href="https://glennsvendsen.github.io/equity/" target="_blank" rel="noopener">
         <div class="pi-head">
           <span class="pi-num">01</span>
-          <span class="pi-name">Equity</span>
+          <div class="pi-name-col">
+            <span class="pi-name">Equity</span>
+            <span class="pi-desc-line">Time balance tracker for iOS</span>
+          </div>
           <span class="pi-arrow">↗</span>
         </div>
         <div class="pi-body">
@@ -1628,7 +1675,10 @@
       <a class="pi reveal" href="https://glennsvendsen.github.io/Mybooks/" target="_blank" rel="noopener" style="transition-delay: 0.06s">
         <div class="pi-head">
           <span class="pi-num">02</span>
-          <span class="pi-name">MyBooks</span>
+          <div class="pi-name-col">
+            <span class="pi-name">MyBooks</span>
+            <span class="pi-desc-line">Personal reading companion</span>
+          </div>
           <span class="pi-arrow">↗</span>
         </div>
         <div class="pi-body">
@@ -1645,7 +1695,10 @@
       <a class="pi reveal" href="https://glennsvendsen.github.io/utendorsliv/" target="_blank" rel="noopener" style="transition-delay: 0.12s">
         <div class="pi-head">
           <span class="pi-num">03</span>
-          <span class="pi-name">Utendørsliv</span>
+          <div class="pi-name-col">
+            <span class="pi-name">Utendørsliv</span>
+            <span class="pi-desc-line">Outdoor exploration companion</span>
+          </div>
           <span class="pi-arrow">↗</span>
         </div>
         <div class="pi-body">
@@ -1662,7 +1715,10 @@
       <a class="pi reveal" href="https://www.thegreenlandrun.com" target="_blank" rel="noopener" style="transition-delay: 0.18s">
         <div class="pi-head">
           <span class="pi-num">04</span>
-          <span class="pi-name">The Greenland Run</span>
+          <div class="pi-name-col">
+            <span class="pi-name">The Greenland Run</span>
+            <span class="pi-desc-line">Arctic ultra-marathon event site</span>
+          </div>
           <span class="pi-arrow">↗</span>
         </div>
         <div class="pi-body">
@@ -1679,7 +1735,10 @@
       <a class="pi reveal" href="https://groruddalengk.pages.dev" target="_blank" rel="noopener" style="transition-delay: 0.24s">
         <div class="pi-head">
           <span class="pi-num">05</span>
-          <span class="pi-name">GGK Frivillig</span>
+          <div class="pi-name-col">
+            <span class="pi-name">GGK Frivillig</span>
+            <span class="pi-desc-line">Volunteer management for Groruddalen Golfklubb</span>
+          </div>
           <span class="pi-arrow">↗</span>
         </div>
         <div class="pi-body">
@@ -1742,7 +1801,8 @@
         const tick = (now) => {
           const p = Math.min((now - start) / duration, 1);
           const eased = 1 - Math.pow(1 - p, 3);
-          el.textContent = Math.round(eased * target) + suffix;
+          const val = Math.round(eased * target);
+          el.textContent = p >= 1 ? val + suffix : val;
           if (p < 1) requestAnimationFrame(tick);
         };
         requestAnimationFrame(tick);
