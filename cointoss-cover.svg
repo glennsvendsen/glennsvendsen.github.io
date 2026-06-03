@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" width="800" height="450">
+  <!-- Background -->
+  <rect width="800" height="450" fill="#0a0a0a"/>
+
+  <!-- Parking meter — right side -->
+  <!-- Pole -->
+  <rect x="560" y="180" width="14" height="240" rx="2" fill="#f5f2ec" opacity="0.85"/>
+  <!-- Meter head -->
+  <rect x="530" y="120" width="74" height="90" rx="6" fill="#1a1a1a" stroke="#f5f2ec" stroke-width="2.5" opacity="0.9"/>
+  <!-- Meter display window -->
+  <rect x="542" y="132" width="50" height="36" rx="3" fill="#FFB0C8" opacity="0.25"/>
+  <rect x="542" y="132" width="50" height="36" rx="3" fill="none" stroke="#FFB0C8" stroke-width="1.5"/>
+  <!-- P label -->
+  <text x="567" y="158" font-family="'Arial Black', sans-serif" font-size="22" font-weight="900"
+        fill="#FFB0C8" text-anchor="middle" opacity="0.9">P</text>
+  <!-- Coin slot -->
+  <rect x="550" y="200" width="34" height="6" rx="3" fill="#f5f2ec" opacity="0.6"/>
+  <!-- Meter base cap -->
+  <rect x="526" y="172" width="82" height="12" rx="2" fill="#f5f2ec" opacity="0.6"/>
+
+  <!-- Trajectory arc (dashed) from left to coin slot -->
+  <path d="M 160 340 Q 360 60, 567 203"
+        fill="none" stroke="#FFB0C8" stroke-width="2"
+        stroke-dasharray="10 8" opacity="0.5"/>
+
+  <!-- Coin (mid-arc, ~40% along the trajectory) -->
+  <!-- Coin at roughly Q 290 160 on the bezier -->
+  <ellipse cx="320" cy="185" rx="32" ry="32" fill="#0a0a0a" stroke="#f5f2ec" stroke-width="3"/>
+  <ellipse cx="320" cy="185" rx="24" ry="24" fill="none" stroke="#f5f2ec" stroke-width="1.2" opacity="0.5"/>
+  <!-- Coin symbol — small "P" for parking -->
+  <text x="320" y="192" font-family="'Arial Black', sans-serif" font-size="20" font-weight="900"
+        fill="#f5f2ec" text-anchor="middle" opacity="0.85">P</text>
+
+  <!-- Motion lines behind coin -->
+  <line x1="275" y1="195" x2="258" y2="202" stroke="#f5f2ec" stroke-width="1.5" opacity="0.25" stroke-linecap="round"/>
+  <line x1="278" y1="205" x2="260" y2="208" stroke="#f5f2ec" stroke-width="1" opacity="0.18" stroke-linecap="round"/>
+  <line x1="272" y1="182" x2="255" y2="185" stroke="#f5f2ec" stroke-width="1" opacity="0.18" stroke-linecap="round"/>
+
+  <!-- Ground line -->
+  <line x1="80" y1="420" x2="720" y2="420" stroke="#f5f2ec" stroke-width="1" opacity="0.15"/>
+
+  <!-- Label -->
+  <text x="90" y="390" font-family="'Arial Black', 'Impact', sans-serif"
+        font-size="18" font-weight="900" fill="#f5f2ec" letter-spacing="4" opacity="0.5">COIN TOSS</text>
+</svg>
