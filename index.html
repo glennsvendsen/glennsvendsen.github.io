@@ -181,6 +181,28 @@
       object-position: center 20%;
       display: block;
       filter: grayscale(100%) contrast(1.04);
+      transition: filter 0.35s ease;
+    }
+    .about-photo-wrap:hover .about-photo {
+      filter: grayscale(85%) contrast(1.1) brightness(1.06);
+    }
+    @keyframes glassesDrop {
+      0%   { opacity: 0; transform: translateY(-14px) rotate(-6deg); }
+      60%  { opacity: 1; transform: translateY(3px) rotate(1.5deg); }
+      78%  { transform: translateY(-2px) rotate(-0.5deg); }
+      100% { opacity: 1; transform: translateY(0) rotate(0deg); }
+    }
+    .glasses-svg {
+      position: absolute;
+      top: 28%;
+      left: 0;
+      width: 100%;
+      height: auto;
+      pointer-events: none;
+      opacity: 0;
+    }
+    .about-photo-wrap:hover .glasses-svg {
+      animation: glassesDrop 0.55s cubic-bezier(0.16, 1, 0.3, 1) forwards;
     }
     .about-text-col { display: flex; flex-direction: column; gap: 2.5rem; }
     .about-heading {
@@ -1238,8 +1260,27 @@
     </div>
     <div class="about-grid">
       <div class="about-photo-wrap reveal" style="transition-delay: 0.08s">
-        <!-- Save your headshot as profile.jpg in the project root -->
         <img src="profile.jpg" alt="Glenn Svendsen" class="about-photo">
+        <svg class="glasses-svg" viewBox="-6 -2 112 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <!-- Left lens -->
+          <path d="M 13 11 C 14 3, 29 1, 43 7 C 47 11, 46 18, 39 20 C 27 23, 11 18, 13 11"
+                fill="rgba(255,176,200,0.15)" stroke="#FFB0C8" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"/>
+          <!-- Right lens -->
+          <path d="M 57 8 C 59 1, 73 -1, 87 5 C 92 9, 91 17, 84 19 C 72 22, 56 17, 57 8"
+                fill="rgba(255,176,200,0.15)" stroke="#FFB0C8" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"/>
+          <!-- Bridge -->
+          <path d="M 43 11 C 47 9, 52 8, 57 10"
+                fill="none" stroke="#FFB0C8" stroke-width="1.8" stroke-linecap="round"/>
+          <!-- Left arm -->
+          <path d="M 13 13 C 7 12, 2 14, -4 12"
+                fill="none" stroke="#FFB0C8" stroke-width="1.8" stroke-linecap="round"/>
+          <!-- Right arm -->
+          <path d="M 87 8 C 93 7, 98 9, 105 7"
+                fill="none" stroke="#FFB0C8" stroke-width="1.8" stroke-linecap="round"/>
+          <!-- Lens glints (hand-drawn highlight marks) -->
+          <path d="M 18 7 C 20 6, 23 6, 24 7" fill="none" stroke="#FFB0C8" stroke-width="1" opacity="0.5" stroke-linecap="round"/>
+          <path d="M 62 5 C 64 4, 67 4, 68 5" fill="none" stroke="#FFB0C8" stroke-width="1" opacity="0.5" stroke-linecap="round"/>
+        </svg>
       </div>
       <div class="about-text-col">
         <h2 class="about-heading reveal" style="transition-delay: 0.14s">
@@ -1251,7 +1292,7 @@
         </h2>
         <div class="about-body reveal" style="transition-delay: 0.2s">
           <p>
-            Norwegian. <span class="scribble">Senior Product Manager<svg class="scribble-svg" viewBox="0 0 300 20" preserveAspectRatio="none" aria-hidden="true">
+            <span class="scribble">Senior Product Manager<svg class="scribble-svg" viewBox="0 0 300 20" preserveAspectRatio="none" aria-hidden="true">
               <path d="M1 9 C55 5, 115 4, 185 6 S255 10, 296 12" stroke="#FFB0C8" stroke-width="1.4" fill="none" stroke-linecap="round" opacity="0.8"/>
               <path d="M25 13 C72 9, 132 8, 198 10 S258 14, 282 16" stroke="#FFB0C8" stroke-width="2.6" fill="none" stroke-linecap="round"/>
               <path d="M250 11 L266 3 L258 18 L274 9" stroke="#FFB0C8" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
@@ -1268,6 +1309,7 @@
           <p>
             I work at the intersection of complex systems and real user
             needs — turning messy domain problems into clear product decisions.
+            Based in Oslo, Norway.
           </p>
         </div>
       </div>
