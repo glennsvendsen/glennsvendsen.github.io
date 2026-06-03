@@ -49,7 +49,6 @@
       align-items: center;
       justify-content: space-between;
       pointer-events: none;
-      mix-blend-mode: difference;
     }
     nav * { pointer-events: all; }
     .nav-mono {
@@ -58,6 +57,7 @@
       letter-spacing: 0.08em;
       color: var(--white);
       text-decoration: none;
+      transition: color 0.3s;
     }
     .nav-links {
       display: flex;
@@ -71,9 +71,13 @@
       text-transform: uppercase;
       color: var(--white);
       text-decoration: none;
-      transition: opacity 0.15s;
+      transition: color 0.2s;
     }
-    .nav-links a:hover { opacity: 0.5; }
+    .nav-links a:hover { color: var(--accent); }
+    /* light-background sections → flip nav to dark */
+    nav.nav--light .nav-mono  { color: var(--black); }
+    nav.nav--light .nav-links a { color: var(--black); }
+    nav.nav--light .nav-links a:hover { color: var(--accent); }
 
     /* ── SECTION COMMONS ────────────────────────── */
     section, footer {
@@ -1920,12 +1924,15 @@
     document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
 
     /* ── NAV ACTIVE SECTION ─────────────────── */
+    const nav       = document.querySelector('nav');
     const sections  = document.querySelectorAll('section[id], footer[id]');
     const navLinks  = document.querySelectorAll('.nav-links a');
+    const darkSections = new Set(['hero', 'contact']);
 
     const sectionObserver = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
+          nav.classList.toggle('nav--light', !darkSections.has(entry.target.id));
           navLinks.forEach(a => {
             a.style.opacity = a.getAttribute('href') === `#${entry.target.id}` ? '1' : '';
           });
