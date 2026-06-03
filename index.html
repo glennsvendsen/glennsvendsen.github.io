@@ -186,24 +186,39 @@
     .about-photo-wrap:hover .about-photo {
       filter: grayscale(85%) contrast(1.1) brightness(1.06);
     }
-    @keyframes glassesDrop {
-      0%   { opacity: 0; transform: translateY(-14px) rotate(-6deg); }
-      60%  { opacity: 1; transform: translateY(3px) rotate(1.5deg); }
-      78%  { transform: translateY(-2px) rotate(-0.5deg); }
-      100% { opacity: 1; transform: translateY(0) rotate(0deg); }
+    @keyframes pipeDraw { to { stroke-dashoffset: 0; } }
+    @keyframes smokeRise {
+      0%   { stroke-dashoffset: 70; opacity: 0; }
+      12%  { opacity: 0.7; }
+      55%  { stroke-dashoffset: 0; opacity: 0.5; }
+      88%  { stroke-dashoffset: 0; opacity: 0; }
+      100% { stroke-dashoffset: 70; opacity: 0; }
     }
-    .glasses-svg {
-      position: absolute;
-      top: 28%;
-      left: 0;
-      width: 100%;
-      height: auto;
-      pointer-events: none;
-      opacity: 0;
+    .pipe-svg {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%;
+      pointer-events: none; overflow: visible;
     }
-    .about-photo-wrap:hover .glasses-svg {
-      animation: glassesDrop 0.55s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    /* Initial hidden state — 500 guarantees full coverage for any path length */
+    .pp-body, .pp-rim, .pp-handle, .pp-fill,
+    .pp-d1, .pp-d2, .pp-d3, .pp-d4, .pp-d5 {
+      stroke-dasharray: 500; stroke-dashoffset: 500;
     }
+    .pp-s1,.pp-s2,.pp-s3 { stroke-dasharray: 70; stroke-dashoffset: 70; opacity: 0; }
+    /* Draw in on hover — cup draws first, then doodles */
+    .about-photo-wrap:hover .pp-body   { animation: pipeDraw 0.55s 0.00s ease forwards; }
+    .about-photo-wrap:hover .pp-rim    { animation: pipeDraw 0.30s 0.45s ease forwards; }
+    .about-photo-wrap:hover .pp-handle { animation: pipeDraw 0.30s 0.55s ease forwards; }
+    .about-photo-wrap:hover .pp-fill   { animation: pipeDraw 0.22s 0.70s ease forwards; }
+    .about-photo-wrap:hover .pp-d1     { animation: pipeDraw 0.30s 0.10s ease forwards; }
+    .about-photo-wrap:hover .pp-d2     { animation: pipeDraw 0.30s 0.25s ease forwards; }
+    .about-photo-wrap:hover .pp-d3     { animation: pipeDraw 0.40s 0.20s ease forwards; }
+    .about-photo-wrap:hover .pp-d4     { animation: pipeDraw 0.70s 0.50s ease forwards; }
+    .about-photo-wrap:hover .pp-d5     { animation: pipeDraw 0.80s 0.65s ease forwards; }
+    /* Steam loops continuously */
+    .about-photo-wrap:hover .pp-s1 { animation: smokeRise 2.6s 1.0s ease-in-out infinite; }
+    .about-photo-wrap:hover .pp-s2 { animation: smokeRise 2.6s 1.8s ease-in-out infinite; }
+    .about-photo-wrap:hover .pp-s3 { animation: smokeRise 2.6s 2.6s ease-in-out infinite; }
     .about-text-col { display: flex; flex-direction: column; gap: 2.5rem; }
     .about-heading {
       font-family: var(--ff-display);
@@ -1261,25 +1276,52 @@
     <div class="about-grid">
       <div class="about-photo-wrap reveal" style="transition-delay: 0.08s">
         <img src="profile.jpg" alt="Glenn Svendsen" class="about-photo">
-        <svg class="glasses-svg" viewBox="-6 -2 112 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-          <!-- Left lens -->
-          <path d="M 13 11 C 14 3, 29 1, 43 7 C 47 11, 46 18, 39 20 C 27 23, 11 18, 13 11"
-                fill="rgba(255,176,200,0.15)" stroke="#FFB0C8" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"/>
-          <!-- Right lens -->
-          <path d="M 57 8 C 59 1, 73 -1, 87 5 C 92 9, 91 17, 84 19 C 72 22, 56 17, 57 8"
-                fill="rgba(255,176,200,0.15)" stroke="#FFB0C8" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"/>
-          <!-- Bridge -->
-          <path d="M 43 11 C 47 9, 52 8, 57 10"
-                fill="none" stroke="#FFB0C8" stroke-width="1.8" stroke-linecap="round"/>
-          <!-- Left arm -->
-          <path d="M 13 13 C 7 12, 2 14, -4 12"
-                fill="none" stroke="#FFB0C8" stroke-width="1.8" stroke-linecap="round"/>
-          <!-- Right arm -->
-          <path d="M 87 8 C 93 7, 98 9, 105 7"
-                fill="none" stroke="#FFB0C8" stroke-width="1.8" stroke-linecap="round"/>
-          <!-- Lens glints (hand-drawn highlight marks) -->
-          <path d="M 18 7 C 20 6, 23 6, 24 7" fill="none" stroke="#FFB0C8" stroke-width="1" opacity="0.5" stroke-linecap="round"/>
-          <path d="M 62 5 C 64 4, 67 4, 68 5" fill="none" stroke="#FFB0C8" stroke-width="1" opacity="0.5" stroke-linecap="round"/>
+        <svg class="pipe-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <!-- ── COFFEE CUP (bottom-right) ── -->
+          <!-- Cup body: open-top trapezoid, slightly wider at top -->
+          <path class="pp-body"
+                d="M 62 68 C 61 77, 61 84, 62 89 C 68 92, 80 92, 86 89 C 87 84, 87 77, 86 68"
+                fill="rgba(255,176,200,0.1)" stroke="#FFB0C8" stroke-width="2.4"
+                stroke-linecap="round" stroke-linejoin="round"/>
+          <!-- Rim — ellipse at the top of the cup -->
+          <path class="pp-rim"
+                d="M 62 68 C 67 65, 81 65, 86 68 C 81 71, 67 71, 62 68"
+                fill="rgba(10,10,10,0.15)" stroke="#FFB0C8" stroke-width="2.1"
+                stroke-linecap="round"/>
+          <!-- Handle — D-shape on the right -->
+          <path class="pp-handle"
+                d="M 86 73 C 93 73, 93 84, 86 84"
+                fill="none" stroke="#FFB0C8" stroke-width="2.1" stroke-linecap="round"/>
+          <!-- Coffee surface — dark ellipse inside the rim -->
+          <path class="pp-fill"
+                d="M 64 68 C 68 66, 80 66, 84 68 C 80 70, 68 70, 64 68"
+                fill="rgba(10,10,10,0.25)" stroke="#FFB0C8" stroke-width="1.3"
+                stroke-linecap="round" opacity="0.8"/>
+
+          <!-- ── STEAM (loops from cup opening) ── -->
+          <path class="pp-s1" d="M 68 64 C 65 57, 71 50, 67 43 C 63 36, 69 29, 65 22"
+                fill="none" stroke="#FFB0C8" stroke-width="1.6" stroke-linecap="round"/>
+          <path class="pp-s2" d="M 74 63 C 77 56, 71 49, 75 42 C 79 35, 73 28, 77 21"
+                fill="none" stroke="#FFB0C8" stroke-width="1.3" stroke-linecap="round"/>
+          <path class="pp-s3" d="M 80 64 C 83 57, 77 50, 81 43 C 85 36, 79 29, 83 22"
+                fill="none" stroke="#FFB0C8" stroke-width="1.1" stroke-linecap="round"/>
+
+          <!-- ── SKETCHBOOK DOODLES ── -->
+          <!-- Corner bracket top-left -->
+          <path class="pp-d1" d="M 11 5 L 4 5 L 4 14"
+                fill="none" stroke="#FFB0C8" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+          <!-- Corner bracket bottom-left -->
+          <path class="pp-d2" d="M 11 95 L 4 95 L 4 86"
+                fill="none" stroke="#FFB0C8" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+          <!-- Asterisk top-right -->
+          <path class="pp-d3" d="M 87 9 L 93 9 M 90 6 L 90 12 M 87.8 6.8 L 92.2 11.2 M 92.2 6.8 L 87.8 11.2"
+                fill="none" stroke="#FFB0C8" stroke-width="1.1" stroke-linecap="round"/>
+          <!-- Bottom signature scribble (thin) — same style as heading underlines -->
+          <path class="pp-d4" d="M 7 93 C 22 90, 45 95, 62 92 S 82 89, 93 92"
+                fill="none" stroke="#FFB0C8" stroke-width="0.9" stroke-linecap="round" opacity="0.8"/>
+          <!-- Bottom signature scribble (bold) -->
+          <path class="pp-d5" d="M 10 95 C 25 92, 47 97, 64 94 S 83 91, 93 94"
+                fill="none" stroke="#FFB0C8" stroke-width="1.6" stroke-linecap="round"/>
         </svg>
       </div>
       <div class="about-text-col">
