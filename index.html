@@ -142,38 +142,10 @@
       background: var(--accent);
       flex-shrink: 0;
     }
-    .hero-scroll {
-      position: absolute;
-      bottom: 4.5rem;
-      left: 50%;
-      transform: translateX(-50%);
-      bottom: 2rem;
-      font-family: var(--ff-sans);
-      font-size: 0.55rem;
-      font-weight: 700;
-      letter-spacing: 0.25em;
-      text-transform: uppercase;
-      color: rgba(245,242,236,0.25);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 0.75rem;
-      opacity: 0;
-      animation: heroUp 0.9s 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-    }
-    .hero-scroll svg {
-      width: 14px;
-      height: 24px;
-      animation: bounce 2s 1.5s ease-in-out infinite;
-    }
 
     @keyframes heroUp {
       from { opacity: 0; transform: translateY(32px); }
       to   { opacity: 1; transform: translateY(0); }
-    }
-    @keyframes bounce {
-      0%, 100% { transform: translateY(0); }
-      50%       { transform: translateY(6px); }
     }
 
     /* ── ABOUT ──────────────────────────────────── */
@@ -1136,7 +1108,6 @@
       .pi-body-inner { padding-left: 3.5rem; gap: 1.5rem; }
       .cs-metrics { grid-template-columns: 1fr; }
       .cs-narrative { grid-template-columns: 1fr; gap: 2rem; }
-      .hero-scroll { display: none; }
     }
     @media (max-width: 480px) {
       .pi-body-inner { padding-left: 0; }
@@ -1184,12 +1155,6 @@
       Senior PM — Arrive (former EasyPark Group). Parking policies across Europe, ANZ & the US.
     </p>
     <div class="hero-ambient" aria-hidden="true">Oslo · Norway · Senior PM · Arrive</div>
-    <div class="hero-scroll" aria-hidden="true">
-      <span>Scroll</span>
-      <svg viewBox="0 0 14 24" fill="none" stroke="currentColor" stroke-width="1.5">
-        <path d="M7 1v22M1 16l6 6 6-6" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
-    </div>
   </section>
 
   <!-- ── ABOUT ────────────────────────────── -->
