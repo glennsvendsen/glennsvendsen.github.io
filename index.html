@@ -6,7 +6,7 @@
   <script>document.documentElement.classList.replace('no-js', 'js');</script>
 
   <title>Glenn Svendsen — Senior Product Manager</title>
-  <meta name="description" content="Senior Product Manager in Oslo. I turn complex problems into simple products people trust — discovery-led, data-backed, and quick to prototype with AI.">
+  <meta name="description" content="Senior Product Manager in Oslo. I turn complex problems into simple products people trust — discovery-led, data-backed, and technical enough to prototype the first version myself.">
   <meta name="author" content="Glenn Svendsen">
   <meta name="theme-color" content="#0a0a0a">
   <link rel="canonical" href="https://glennsvendsen.github.io/">
@@ -72,7 +72,7 @@
       <div class="hero-row">
         <p class="hero-lede">
           I turn <strong>complex problems into simple products</strong> people trust.
-          Discovery-led, data-backed, and quick to prototype with AI.
+          Discovery-led, data-backed, and technical enough to prototype the first version myself.
         </p>
         <div class="hero-cta">
           <a class="btn btn--primary" href="#work">See my work <span class="btn-arrow" aria-hidden="true">↓</span></a>
@@ -123,9 +123,10 @@
               I like taking that kind of complexity and making it <strong>safe, simple and fast</strong>.
             </p>
             <p>
-              I lean on continuous discovery, hard data and hands-on prototyping. When it helps a
-              decision, I'll build the first version myself, often with AI, sometimes during the meeting.
-              Outside work I build small apps and games, mostly to learn.
+              I lean on continuous discovery, hard data and hands-on prototyping. I'm comfortable in the
+              technical details, whether that's writing the SQL, reading an API response or tracing why a
+              price came out wrong. It makes me quicker to work with engineers, not a replacement for them.
+              When it helps a decision, I'll build the first version myself, often with AI, sometimes during the meeting.
             </p>
           </div>
           <div class="about-facts eyebrow">
@@ -166,8 +167,8 @@
         </article>
         <article class="pillar reveal">
           <span class="eyebrow pillar-num">04</span>
-          <h3>AI-native prototyping</h3>
-          <p>I build working prototypes in hours, not sprints, to check an idea with stakeholders before engineering commits to building it properly.</p>
+          <h3>Close to engineering</h3>
+          <p>I understand the systems well enough to investigate problems with engineers and to build working prototypes in hours, so we can test an idea with stakeholders before committing to build it properly.</p>
           <a class="pillar-proof" href="#case-price-validator"><b>&lt;1 hr</b><span>idea to validated prototype</span></a>
         </article>
       </div>
@@ -203,7 +204,7 @@
       <div class="wrap">
         <div class="section-label eyebrow reveal"><span class="section-num">03</span><span>Selected work</span></div>
         <h2 id="work-title" class="display section-title reveal">Case studies.</h2>
-        <p class="section-intro reveal">Three in depth, three more below. Each one covers the problem, what I did, and what changed.</p>
+        <p class="section-intro reveal">Three in depth, three more below. Each one covers the problem, my role, and what changed.</p>
       </div>
     </div>
 
@@ -219,6 +220,7 @@
           <h3 class="display case-title">Background<br><span class="scribble">Validation</span></h3>
           <p class="case-lede">A silent safety net that catches pricing mistakes before drivers ever see them.</p>
         </div>
+        <dl class="case-role"><dt class="eyebrow">My role</dt><dd>Product Manager. I framed the problem, led the root-cause analysis, and worked with configuration experts and engineering to turn the patterns into validation rules and a non-blocking experience.</dd></dl>
         <dl class="metrics reveal">
           <div class="metric"><dt data-count>36%</dt><dd>Fewer misconfigurations year-on-year</dd></div>
           <div class="metric"><dt data-count>33</dt><dd>Rules checked on every save</dd></div>
@@ -298,18 +300,18 @@
           </div>
           <div>
             <h4 class="eyebrow">What I did</h4>
-            <p>I ran a root-cause analysis across past configuration issues. Most fell into a few predictable patterns:</p>
+            <p>I led a root-cause analysis across past configuration issues. Most fell into a few predictable patterns:</p>
             <ul>
               <li>Price spikes against the median</li>
               <li>Zero prices on active periods</li>
               <li>Caps set to zero, inverted date ranges</li>
               <li>Expired or overlapping tables</li>
             </ul>
-            <p style="margin-top:0.75rem">I then designed a background validator that checks 33 rules on every save and flags issues without ever blocking the save.</p>
+            <p style="margin-top:0.75rem">Together with configuration experts and engineering, I turned those patterns into 33 validation rules and shaped how they show up: checks run on every save and flag issues quietly, without ever blocking the save.</p>
           </div>
           <div class="story-outcome">
             <h4 class="eyebrow">Outcome</h4>
-            <p>Misconfigurations fell 36% year-on-year. Errors are caught where they start, operators stay in their flow, and acknowledged warnings leave a clear audit trail.</p>
+            <p>After launch, misconfigurations fell 36% year-on-year. Issues are caught where they start, operators stay in their flow, and acknowledged warnings leave a clear audit trail.</p>
           </div>
         </div>
       </div>
@@ -327,6 +329,7 @@
           <h3 class="display case-title">Mass Price<br><span class="scribble">Validator</span></h3>
           <p class="case-lede">From stakeholder call to validated prototype in under an hour, built live with AI.</p>
         </div>
+        <dl class="case-role"><dt class="eyebrow">My role</dt><dd>Product Manager. I framed the problem with the configuration experts, built the first working prototype myself with AI during the call, and handed a validated concept to engineering the same day.</dd></dl>
         <dl class="metrics reveal">
           <div class="metric"><dt>&lt;1 hr</dt><dd>From problem to validated prototype, handed to engineering the same day</dd></div>
           <div class="metric"><dt>0</dt><dd>Holiday pricing incidents since release</dd></div>
@@ -450,7 +453,7 @@
           </div>
           <div>
             <h4 class="eyebrow">What I did</h4>
-            <p>Instead of writing a spec, I built a working prototype with AI during the stakeholder call itself. We tested it live, iterated on the spot, and agreed it was the right solution within the hour. Engineering then built it properly and securely.</p>
+            <p>Instead of writing a spec, I built a working prototype with AI during the stakeholder call itself. Knowing how pricing is configured and calculated let me shape it around how the experts actually work. We tested it live and adjusted it on the fly until it did what they needed. Engineering then built the production version properly and securely.</p>
             <ul>
               <li>Pick multiple holiday dates</li>
               <li>Set time windows and durations</li>
@@ -460,7 +463,7 @@
           </div>
           <div class="story-outcome">
             <h4 class="eyebrow">Outcome</h4>
-            <p>Zero holiday-related pricing incidents since release. Because the tool is flexible, it's now used as a general pricing QA tool by configuration experts across markets, not just for holidays.</p>
+            <p>Since release there have been zero reported holiday pricing incidents. The tool turned out to be flexible enough that configuration experts now use it for general pricing QA across markets, not just holidays.</p>
           </div>
         </div>
       </div>
@@ -478,6 +481,7 @@
           <h3 class="display case-title">Self-Service<br><span class="scribble">Discovery</span></h3>
           <p class="case-lede">Is self-service pricing viable? I answered with data before a line of code was written.</p>
         </div>
+        <dl class="case-role"><dt class="eyebrow">My role</dt><dd>Product Manager. I owned the discovery end to end: the data work in Snowflake, the complexity model, and the MVP recommendation.</dd></dl>
         <dl class="metrics reveal">
           <div class="metric"><dt data-count>5,640+</dt><dd>EU operators scored and segmented</dd></div>
           <div class="metric"><dt data-count>52%</dt><dd>Ready for self-service today</dd></div>
@@ -551,7 +555,7 @@
           </div>
           <div class="story-outcome">
             <h4 class="eyebrow">Outcome</h4>
-            <p>A data-backed MVP scope with measured coverage at every milestone: 52% of operators viable right away, 71% covered by tier 8. Price changes, the most requested operator action, came out as the clear place to start.</p>
+            <p>The analysis gave the team a data-backed MVP scope with measured coverage at every milestone: 52% of operators viable right away, 71% covered by tier 8. Price changes, the most requested operator action, came out as the clear place to start.</p>
           </div>
         </div>
       </div>
@@ -585,6 +589,7 @@
                       <h3 class="display case-title">Global Pricing Engine</h3>
                       <p class="case-lede">Owning the domain behind 2.8B+ price requests a year, and making it easier to configure correctly.</p>
                     </div>
+                    <dl class="case-role"><dt class="eyebrow">My role</dt><dd>Product Manager for the pricing domain since 2023: discovery, prioritisation, a regular rhythm of user interviews, and close work with engineering on root causes.</dd></dl>
                     <dl class="metrics">
                       <div class="metric"><dt>2.8B+</dt><dd>Price requests served in 2025</dd></div>
                       <div class="metric"><dt>6,000+</dt><dd>Parking operators globally</dd></div>
@@ -610,11 +615,11 @@
                   </div>
                   <div>
                     <h4 class="eyebrow">What I did</h4>
-                    <p>I took ownership of the domain and ran structured discovery to learn where operators needed it to work better. I prioritised the edge cases that mattered most to them, worked with engineering on root causes, and set up regular user interviews.</p>
+                    <p>I took ownership of the domain and ran structured discovery to learn where operators needed it to work better. I prioritised the edge cases that mattered most to them, dug into root causes together with engineering, and set up regular user interviews to keep improvements grounded in real needs.</p>
                   </div>
                   <div class="story-outcome">
                     <h4 class="eyebrow">Outcome</h4>
-                    <p>CSAT rose from 66% to 87%. The engine runs live in every active market with 100% uptime over the last 24 months, and engineering time has shifted from maintenance to growth.</p>
+                    <p>Over that period, operator CSAT rose from 66% to 87%. The engine runs live in every active market with 100% uptime over the last 24 months, and engineering time has shifted from maintenance to growth.</p>
                   </div>
                 </div>
               </article>
@@ -632,6 +637,7 @@
                       <h3 class="display case-title">Config Copy</h3>
                       <p class="case-lede">A small feature that removed the most repetitive job operators had.</p>
                     </div>
+                    <dl class="case-role"><dt class="eyebrow">My role</dt><dd>Product Manager. I ran the discovery with Jobs to be Done and an opportunity solution tree, identified copy as the core job, and prioritised it with engineering.</dd></dl>
                     <dl class="metrics">
                       <div class="metric"><dt>74%</dt><dd>Faster to create a configuration</dd></div>
                       <div class="metric"><dt>−78 sec</dt><dd>Saved on every configuration</dd></div>
@@ -667,11 +673,11 @@
                   </div>
                   <div>
                     <h4 class="eyebrow">What I did</h4>
-                    <p>I mapped operator workflows with Jobs to be Done and an opportunity solution tree. It showed that copying an existing configuration wasn't a nice extra. It was what operators were actually trying to do.</p>
+                    <p>I mapped operator workflows with Jobs to be Done and an opportunity solution tree. It showed that copying an existing configuration wasn't a nice extra. It was what operators were actually trying to do, so I prioritised it and worked with engineering to ship it.</p>
                   </div>
                   <div class="story-outcome">
                     <h4 class="eyebrow">Outcome</h4>
-                    <p>Configuration time dropped from 105 to 27 seconds, 74% faster. Error rates and support load fell with it, and operators work with more confidence.</p>
+                    <p>With copy in place, configuration time dropped from 105 to 27 seconds, 74% faster. Error rates and support load fell with it, and operators work with more confidence.</p>
                   </div>
                 </div>
               </article>
@@ -689,6 +695,7 @@
                       <h3 class="display case-title">Platform Migration</h3>
                       <p class="case-lede">Retiring a legacy pricing platform without breaking a single live market.</p>
                     </div>
+                    <dl class="case-role"><dt class="eyebrow">My role</dt><dd>Product Manager. I led the gap analysis, prioritised the gaps, and worked with engineering on the simulation tooling and automated migration.</dd></dl>
                     <dl class="metrics">
                       <div class="metric"><dt>35+</dt><dd>Gaps found and closed</dd></div>
                       <div class="metric"><dt>18</dt><dd>Months end-to-end, discovery to completion</dd></div>
@@ -736,11 +743,11 @@
                   </div>
                   <div>
                     <h4 class="eyebrow">What I did</h4>
-                    <p>I led a systematic gap analysis across the calculation engine, configuration UI, tariff types and operator workflows. We built simulation tools to prove pricing parity between the old and new platforms, created a new tariff type for configurations that weren't supported before, and automated the bulk migration.</p>
+                    <p>I led a systematic gap analysis across the calculation engine, configuration UI, tariff types and operator workflows, and prioritised the 35+ gaps it surfaced. With engineering, we built simulation tools to prove pricing parity between the old and new platforms, created a new tariff type for configurations that weren't supported before, and automated the bulk migration.</p>
                   </div>
                   <div class="story-outcome">
                     <h4 class="eyebrow">Outcome</h4>
-                    <p>All 35+ gaps closed over 18 months. Pricing parity was confirmed in every migrated market, automated jobs removed manual rework, and the migration finished with zero pricing incidents in production.</p>
+                    <p>All 35+ gaps were closed over 18 months. Pricing parity was confirmed in every migrated market, automated jobs removed manual rework, and the migration finished with zero pricing incidents in production.</p>
                   </div>
                 </div>
               </article>
@@ -798,18 +805,9 @@
           </div>
           <div class="pi-body"><div class="pi-body-inner"><img src="greenlandrun-logo.jpg" alt="" class="pi-img" loading="lazy"></div></div>
         </a>
-        <a class="pi reveal" href="https://groruddalengk.pages.dev" target="_blank" rel="noopener">
-          <div class="pi-head">
-            <span class="pi-num">05</span>
-            <span class="pi-name-col"><span class="pi-name">GGK Frivillig</span><span class="pi-desc">Volunteer management for Groruddalen Golfklubb</span></span>
-            <span class="pi-tag">Web · Cloudflare Pages</span>
-            <span class="pi-arrow" aria-hidden="true">↗</span>
-          </div>
-          <div class="pi-body"><div class="pi-body-inner"><img src="ggk-cover.svg" alt="" class="pi-img pi-img--wide" loading="lazy"></div></div>
-        </a>
         <a class="pi reveal" href="https://cointoss-7ja.pages.dev/" target="_blank" rel="noopener">
           <div class="pi-head">
-            <span class="pi-num">06</span>
+            <span class="pi-num">05</span>
             <span class="pi-name-col"><span class="pi-name">Coin Toss</span><span class="pi-desc">Throw the coin into the parking meter</span></span>
             <span class="pi-tag">Web · JavaScript</span>
             <span class="pi-arrow" aria-hidden="true">↗</span>
@@ -820,12 +818,163 @@
     </div>
   </section>
 
+  <!-- ── OUTSIDE WORK ─────────────────────── -->
+  <section id="outside" class="section surface-light surface-paper" data-surface="light">
+    <svg class="sketch-defs" width="0" height="0" aria-hidden="true" focusable="false">
+      <defs>
+        <filter id="sketch-rough" x="-5%" y="-5%" width="110%" height="110%">
+          <feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="2" seed="7"/>
+          <feDisplacementMap in="SourceGraphic" scale="2.2"/>
+        </filter>
+      </defs>
+    </svg>
+    <div class="wrap">
+      <div class="section-label eyebrow reveal"><span class="section-num">05</span><span>Outside work</span></div>
+      <div class="projects-head reveal">
+        <h2 class="display section-title">Off the clock.</h2>
+        <p class="section-intro">When I'm not thinking about products, I'm usually outside somewhere. The rest of the time I'm building something small that probably didn't need a computer attached to it.</p>
+      </div>
+
+      <div class="outside-grid">
+        <article class="sketch-card reveal">
+          <div class="sketch" aria-hidden="true">
+            <svg viewBox="0 0 200 140" xmlns="http://www.w3.org/2000/svg">
+              <g class="ink">
+                <path d="M36 88 C34 74, 36 60, 44 54 C50 50, 60 52, 70 58 C76 52, 82 46, 92 44 C110 52, 140 70, 172 90"/>
+                <path d="M34 88 C60 92, 120 98, 160 99 C170 99, 176 95, 181 88 C184 96, 176 108, 160 110 L44 110 C34 110, 30 100, 34 88 Z"/>
+                <path class="thin" d="M38 104 C80 106, 130 107, 164 106"/>
+                <path class="thin" d="M50 110 L48 113 M62 110 L60 113 M74 110 L72 113 M86 110 L84 113 M98 110 L96 113 M110 110 L108 113 M122 110 L120 113 M134 110 L132 113 M146 110 L144 113 M158 110 L156 113"/>
+                <path class="thin" d="M44 54 C40 46, 48 42, 50 50"/>
+                <path d="M84 50 C84 40, 94 38, 96 46"/>
+                <path class="thin" d="M92 52 L102 48 M100 57 L110 53 M108 62 L118 58 M116 67 L126 63"/>
+                <path class="thin" d="M54 82 C78 70, 102 68, 126 76 M58 88 C82 78, 106 76, 130 84"/>
+                <path class="thin" d="M150 92 C152 84, 160 82, 166 88"/>
+                <path class="accent" d="M98 48 C92 34, 108 32, 104 46 C112 36, 124 42, 106 48 C112 58, 110 68, 116 76"/>
+              </g>
+              <g class="notes">
+                <path d="M4 70 L24 70 M10 80 L28 80 M2 90 L24 90"/>
+                <path d="M42 110 L34 124"/>
+                <text x="12" y="132">wear pattern: mostly heel</text>
+              </g>
+            </svg>
+          </div>
+          <p class="eyebrow sketch-fig">Fig. 01</p>
+          <h3>Running</h3>
+          <p>Slow enough to think, fast enough to call it training. My better ideas tend to turn up around kilometre five, with nothing to write them down on.</p>
+        </article>
+
+        <article class="sketch-card reveal">
+          <div class="sketch" aria-hidden="true">
+            <svg viewBox="0 0 200 140" xmlns="http://www.w3.org/2000/svg">
+              <g class="ink">
+                <path d="M8 122 L62 56 L82 76 L116 28 L150 70 L164 60 L194 122"/>
+                <path class="thin" d="M104 44 L116 28 L128 44 L122 41 L116 47 L110 41 Z"/>
+                <path class="thin" d="M122 50 L112 64 M130 58 L118 76 M138 66 L124 88 M146 74 L132 98 M170 74 L162 86 M178 88 L170 100 M70 64 L62 76 M76 70 L68 84"/>
+                <path class="thin" d="M4 122 L196 122"/>
+                <circle class="thin" cx="168" cy="24" r="7"/>
+                <path d="M116 28 L116 12"/>
+                <path class="accent" d="M116 12 L128 16 L116 20"/>
+              </g>
+              <path class="trail" d="M30 122 C50 112, 70 116, 80 104 C90 94, 76 90, 92 80 C104 72, 96 62, 108 52 C112 46, 114 40, 116 32"/>
+              <g class="notes">
+                <path d="M60 118 L52 128"/>
+                <text x="24" y="136">route: optimistic</text>
+              </g>
+            </svg>
+          </div>
+          <p class="eyebrow sketch-fig">Fig. 02</p>
+          <h3>Mountains</h3>
+          <p>Hiking anywhere with a summit and a view that makes the climb look like it was a good idea all along. Being outdoors in general, really.</p>
+        </article>
+
+        <article class="sketch-card reveal">
+          <div class="sketch" aria-hidden="true">
+            <svg viewBox="0 0 220 140" xmlns="http://www.w3.org/2000/svg">
+              <g class="ink">
+                <circle cx="50" cy="100" r="29"/>
+                <circle class="thin" cx="50" cy="100" r="24"/>
+                <circle class="thin" cx="50" cy="100" r="4"/>
+                <path class="thin" d="M50 76 L50 124 M26 100 L74 100 M33 83 L67 117 M67 83 L33 117"/>
+                <circle cx="172" cy="100" r="29"/>
+                <circle class="thin" cx="172" cy="100" r="24"/>
+                <circle class="thin" cx="172" cy="100" r="4"/>
+                <path class="thin" d="M172 76 L172 124 M148 100 L196 100 M155 83 L189 117 M189 83 L155 117"/>
+                <path d="M172 100 L156 44 M167 100 L151 46"/>
+                <circle cx="163" cy="46" r="8"/>
+                <path class="thin" d="M167 40 C170 43, 170 49, 167 52"/>
+                <path d="M154 40 C150 32, 146 28, 134 27"/>
+                <path class="thin" d="M146 30 L144 20"/>
+                <circle class="thin" cx="144" cy="17" r="3.5"/>
+                <path d="M108 58 C110 46, 132 40, 150 44 C154 48, 152 56, 144 60 C134 62, 118 62, 108 58 Z"/>
+                <path class="thin" d="M118 52 C122 50, 130 50, 134 52 C132 56, 122 56, 118 52 Z"/>
+                <path d="M60 60 C62 54, 74 53, 108 56 L108 61 C90 62, 72 63, 60 63 Z"/>
+                <path d="M22 96 C22 78, 34 66, 60 64"/>
+                <path class="accent" d="M20 79 L27 79 L27 83 L20 83 Z"/>
+                <path d="M150 48 L136 88"/>
+                <path d="M62 64 L52 96"/>
+                <path class="thin" d="M58 70 L63 72 M57 74 L62 76 M56 78 L61 80 M55 82 L60 84"/>
+                <path d="M98 96 L50 100"/>
+                <path d="M104 64 L130 64 L128 84 L106 84 Z"/>
+                <path class="thin" d="M105 68 L129 68 M105 72 L129 72 M105 76 L129 76 M106 80 L128 80"/>
+                <path d="M96 84 L136 84 C138 92, 132 100, 124 100 L104 100 C98 100, 94 92, 96 84 Z"/>
+                <circle class="thin" cx="110" cy="92" r="6"/>
+                <path d="M128 70 C144 72, 142 104, 124 106 L92 106"/>
+                <path d="M92 104 L34 100 L33 104 L92 110 Z"/>
+                <path class="thin" d="M6 131 L214 131"/>
+              </g>
+              <g class="notes">
+                <path d="M110 64 L70 30"/>
+                <text x="8" y="24">parallel twin, polished often</text>
+              </g>
+            </svg>
+          </div>
+          <p class="eyebrow sketch-fig">Fig. 03</p>
+          <h3>Two wheels</h3>
+          <p>A Triumph Bonneville: classic lines, a parallel twin, and an owner who spends almost as much time looking at it as riding it.</p>
+        </article>
+
+        <article class="sketch-card reveal">
+          <div class="sketch" aria-hidden="true">
+            <svg viewBox="0 0 200 140" xmlns="http://www.w3.org/2000/svg">
+              <g class="ink">
+                <path d="M29 40 L149 40 C152 40, 154 42, 154 45 L154 113 C154 116, 152 118, 149 118 L29 118 C26 118, 24 116, 24 113 L24 45 C24 42, 26 40, 29 40 Z"/>
+                <circle class="thin" cx="32" cy="48" r="2.5"/>
+                <circle class="thin" cx="146" cy="48" r="2.5"/>
+                <circle class="thin" cx="32" cy="110" r="2.5"/>
+                <circle class="thin" cx="146" cy="110" r="2.5"/>
+                <path class="thin" d="M44 45 L124 45 L124 55 L44 55 Z"/>
+                <path class="thin" d="M48 47 L48 53 M54 47 L54 53 M60 47 L60 53 M66 47 L66 53 M72 47 L72 53 M78 47 L78 53 M84 47 L84 53 M90 47 L90 53 M96 47 L96 53 M102 47 L102 53 M108 47 L108 53 M114 47 L114 53 M120 47 L120 53"/>
+                <path d="M62 68 L88 68 L88 94 L62 94 Z"/>
+                <path class="thin" d="M67 73 L83 73 L83 89 L67 89 Z"/>
+                <path class="thin" d="M88 80 L110 80 L116 74 L138 74 M88 86 L106 86 L112 92 L138 92"/>
+                <path d="M140 62 L162 62 L162 76 L140 76 Z M140 82 L162 82 L162 96 L140 96 Z M138 100 L162 100 L162 115 L138 115 Z"/>
+                <path d="M120 47 C124 20, 160 16, 172 30"/>
+                <path class="accent" d="M170 30 L178 30 L178 38 C178 44, 170 44, 170 38 Z"/>
+                <path class="thin" d="M172 44 L172 52 M176 44 L176 50"/>
+                <path class="accent" d="M184 30 L190 26 M186 37 L193 37 M183 44 L188 48"/>
+              </g>
+              <g class="notes">
+                <path d="M75 94 L68 124"/>
+                <text x="26" y="134">blink.py: works on the 2nd try</text>
+              </g>
+            </svg>
+          </div>
+          <p class="eyebrow sketch-fig">Fig. 04</p>
+          <h3>Tinkering</h3>
+          <p>Tiny apps, side projects and the odd gadget. I learn best by building things, and every now and then one of them even gets finished.</p>
+        </article>
+      </div>
+
+      <p class="outside-close reveal">In short: if it's outdoors or has a power button, I'm probably interested.</p>
+    </div>
+  </section>
+
   </main>
 
   <!-- ── CONTACT ─────────────────────────── -->
   <footer id="contact" class="section contact surface-dark" data-surface="dark">
     <div class="wrap">
-      <div class="section-label eyebrow reveal"><span class="section-num">05</span><span>Contact</span></div>
+      <div class="section-label eyebrow reveal"><span class="section-num">06</span><span>Contact</span></div>
       <div class="contact-head reveal">
         <h2 class="display contact-heading">Let's<br><span class="scribble">talk.</span></h2>
         <p class="contact-lede">Always up for a conversation about product, discovery or building with AI.</p>

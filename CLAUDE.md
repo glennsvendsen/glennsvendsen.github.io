@@ -38,6 +38,9 @@ Local preview: `python3 -m http.server 8000`
 - Case studies: 3 featured `.case` articles, then 3 `.case--compact` inside the `#more-panel`
   toggle. Links to `#case-*` inside the panel auto-open it.
 - `prefers-reduced-motion` is respected globally in `style.css`.
+- `.sketch` (Outside work) — inline SVG notebook line art. Strokes in `.ink` get the `#sketch-rough`
+  wobble filter, a faint offset "ghost" copy and a draw-in on view (main.js). Use `.thin`, `.accent`
+  (one pink detail per sketch), `.notes` for leader lines + mono annotations; keep text unfiltered.
 
 ## Adding a side project
 

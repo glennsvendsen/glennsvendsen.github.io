@@ -500,6 +500,21 @@ body {
   padding-bottom: 0.4em;
 }
 
+.case-role {
+  display: grid;
+  grid-template-columns: 8rem minmax(0, 1fr);
+  gap: 0.35rem 2rem;
+  align-items: baseline;
+  max-width: 62rem;
+  margin: calc(clamp(2.5rem, 5vw, 3.5rem) * -0.45) 0 clamp(2rem, 4vw, 3rem);
+  padding: 0.2rem 0 0.2rem 1.25rem;
+  border-left: 2px solid var(--accent);
+}
+.case-role dt { color: var(--accent); }
+.case-role dd { font-size: clamp(1rem, 1.3vw, 1.075rem); line-height: 1.55; color: var(--fg); }
+.case--compact .case-role { grid-template-columns: 1fr; margin: -0.75rem 0 1.5rem; }
+.case--compact .case-role dd { font-size: 0.95rem; }
+
 .metrics {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -1412,6 +1427,52 @@ body {
 .pi:hover .pi-arrow, .pi:focus-visible .pi-arrow { transform: translate(5px, -5px); }
 .pi:focus-visible { outline-offset: -2px; }
 
+/* ── OUTSIDE WORK ───────────────────────────── */
+.sketch-defs { position: absolute; width: 0; height: 0; overflow: hidden; }
+.outside-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1.25rem;
+}
+.sketch-card {
+  display: flex;
+  flex-direction: column;
+  padding: 1.25rem 1.25rem 1.5rem;
+  border: 1px solid var(--line);
+  background: var(--white);
+}
+.sketch {
+  margin: -0.25rem -0.25rem 1rem;
+  padding: 0.75rem 0.5rem 0.25rem;
+  background-image: radial-gradient(circle, color-mix(in srgb, var(--fg) 16%, transparent) 0.9px, transparent 1.2px);
+  background-size: 12px 12px;
+}
+.sketch svg { width: 100%; height: auto; aspect-ratio: 200 / 140; overflow: visible; }
+.sketch .ink, .sketch .notes path, .sketch .trail { filter: url(#sketch-rough); }
+.sketch .ink > *, .sketch .notes path, .sketch .trail {
+  fill: none;
+  stroke: var(--fg);
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.sketch .ink > .thin { stroke-width: 1; stroke-opacity: 0.8; }
+.sketch .ink > .ghost { stroke-opacity: 0.3; stroke-width: 1; }
+.sketch .ink > .accent { stroke: var(--accent); stroke-width: 1.5; }
+.sketch .notes path { stroke-width: 0.8; stroke-opacity: 0.5; }
+.sketch .trail { stroke-width: 1.1; stroke-dasharray: 3 4; stroke-opacity: 0.7; }
+.sketch text { font-family: var(--ff-mono); font-size: 7.5px; fill: var(--faint); }
+.js .sketch text, .js .sketch .trail { opacity: 0; transition: opacity 0.6s ease 1.2s; }
+.js .sketch.is-drawn text, .js .sketch.is-drawn .trail { opacity: 1; }
+.sketch-fig { color: var(--faint); font-size: 0.68rem; margin-bottom: 0.35rem; }
+.sketch-card h3 { font-size: 1.15rem; font-weight: 600; margin-bottom: 0.5rem; }
+.sketch-card > p:last-child { font-size: 0.95rem; line-height: 1.6; color: var(--muted); }
+.outside-close {
+  margin-top: 2.5rem;
+  font-size: clamp(1.05rem, 1.5vw, 1.25rem);
+  color: var(--muted);
+}
+
 /* ── CONTACT ────────────────────────────────── */
 .contact {
   min-height: 80svh;
@@ -1478,12 +1539,14 @@ body {
   .pillar:nth-child(3) { padding-left: 0; }
   .pillar:nth-child(n+3) { border-top: 1px solid var(--line); }
   .compact-grid { grid-template-columns: 1fr; }
+  .outside-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 @media (max-width: 860px) {
   .hero-row, .case-head, .projects-head, .contact-head { grid-template-columns: 1fr; }
   .about-grid { grid-template-columns: 1fr; }
   .about-photo-wrap { max-width: 22rem; }
   .story { grid-template-columns: 1fr; gap: 2rem; }
+  .case-role { grid-template-columns: 1fr; margin-top: -0.5rem; }
   .pi-tag { display: none; }
   .pi-head { grid-template-columns: 2.25rem minmax(0, 1fr) auto; gap: 1rem; }
   .pi-body-inner { padding-left: 3.25rem; }
@@ -1504,6 +1567,8 @@ body {
   .hero-proof dd { margin-top: 0.2rem; }
   .btn { padding: 0.85rem 1.2rem; font-size: 0.75rem; }
   .pillars { grid-template-columns: 1fr; }
+  .outside-grid { grid-template-columns: 1fr; }
+  .sketch { max-width: 22rem; }
   .toolkit-groups { grid-template-columns: 1fr; gap: 1.5rem; }
   .pillar, .pillar + .pillar { padding: 1.75rem 0; border-right: 0; }
   .pillar + .pillar { border-top: 1px solid var(--line); }

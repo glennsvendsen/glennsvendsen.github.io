@@ -317,6 +317,33 @@
     onceVisible([race], play, 0.5);
   }
 
+  /* ── NOTEBOOK SKETCHES ───────────────────── */
+  // Double up the main strokes with a faint offset copy, then draw everything in on view.
+  const sketches = document.querySelectorAll('.sketch');
+  sketches.forEach((sk) => {
+    sk.querySelectorAll('.ink > :not(.thin):not(.accent)').forEach((el, i) => {
+      const ghost = el.cloneNode();
+      ghost.classList.add('ghost');
+      ghost.setAttribute('transform', `translate(${i % 2 ? 0.9 : -0.7} ${i % 3 ? 0.6 : -0.5})`);
+      el.after(ghost);
+    });
+    if (reduceMotion) { sk.classList.add('is-drawn'); return; }
+    sk.querySelectorAll('.ink > *, .notes path').forEach((el) => {
+      const len = el.getTotalLength();
+      el.style.strokeDasharray = len;
+      el.style.strokeDashoffset = len;
+    });
+  });
+  if (!reduceMotion) {
+    onceVisible(sketches, (sk) => {
+      sk.querySelectorAll('.ink > *, .notes path').forEach((el, i) => {
+        el.style.transition = `stroke-dashoffset 1.1s cubic-bezier(0.4, 0, 0.2, 1) ${i * 45}ms`;
+        el.style.strokeDashoffset = '0';
+      });
+      sk.classList.add('is-drawn');
+    }, 0.4);
+  }
+
   /* ── PLAY ANIMATIONS ON VIEW ─────────────── */
   const photo = document.querySelector('.about-photo-wrap');
   if (photo && noHover) photo.setAttribute('data-play', '');
@@ -391,7 +418,12 @@
   const nav = document.querySelector('.nav');
   const surfaces = [...document.querySelectorAll('[data-surface]')];
   const links = [...document.querySelectorAll('.nav-links a')];
-  const sections = links.map((a) => document.querySelector(a.getAttribute('href')));
+  // Each link owns its own section; Projects also covers the "Outside work" section after it.
+  const EXTRA = { '#projects': ['#outside'] };
+  const sections = links.map((a) => {
+    const href = a.getAttribute('href');
+    return [href, ...(EXTRA[href] || [])].map((sel) => document.querySelector(sel)).filter(Boolean);
+  });
 
   const updateNav = () => {
     const probe = nav.offsetHeight / 2;
@@ -404,8 +436,11 @@
 
     const line = window.innerHeight * 0.4;
     links.forEach((a, i) => {
-      const r = sections[i] && sections[i].getBoundingClientRect();
-      a.classList.toggle('is-active', !!r && r.top <= line && r.bottom > line);
+      const inView = sections[i].some((el) => {
+        const r = el.getBoundingClientRect();
+        return r.top <= line && r.bottom > line;
+      });
+      a.classList.toggle('is-active', inView);
     });
   };
 
