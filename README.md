@@ -1,12 +1,7 @@
-# Arctic Labs
+# glennsvendsen.github.io
 
-Building apps **no one** use since 2025. 
+Personal site of Glenn Svendsen, Senior Product Manager in Oslo.
 
-## 🌐 Live Site
+Live: [https://glennsvendsen.github.io](https://glennsvendsen.github.io)
 
-Visit: [https://glennsvendsen.github.io](https://glennsvendsen.github.io)
-
-
-## 📦 Deployment
-
-This site is automatically deployed to GitHub Pages via GitHub Actions.
+Static HTML/CSS/JS, no build step. Deployed to GitHub Pages on every push to `main`.

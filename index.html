@@ -1,2230 +1,846 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="no-js">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Glenn Svendsen — Senior PM</title>
-  <meta name="description" content="Norwegian PM with 5+ years building things that actually work. Currently at Arrive (former EasyPark Group) — parking policies across Europe, ANZ, and the US.">
-  <meta property="og:type" content="website">
-  <meta property="og:title" content="Glenn Svendsen">
-  <meta property="og:description" content="Senior PM at Arrive (former EasyPark Group). Complex systems, real user needs."
+  <script>document.documentElement.classList.replace('no-js', 'js');</script>
+
+  <title>Glenn Svendsen — Senior Product Manager</title>
+  <meta name="description" content="Senior Product Manager in Oslo. I turn complex problems into simple products people trust — discovery-led, data-backed, and quick to prototype with AI.">
+  <meta name="author" content="Glenn Svendsen">
+  <meta name="theme-color" content="#0a0a0a">
+  <link rel="canonical" href="https://glennsvendsen.github.io/">
+
+  <meta property="og:type" content="profile">
+  <meta property="og:url" content="https://glennsvendsen.github.io/">
+  <meta property="og:site_name" content="Glenn Svendsen">
+  <meta property="og:title" content="Glenn Svendsen — Senior Product Manager">
+  <meta property="og:description" content="I turn complex problems into simple products people trust. Discovery-led, data-backed, and quick to prototype with AI.">
+  <meta property="og:image" content="https://glennsvendsen.github.io/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Glenn Svendsen — Senior Product Manager">
+  <meta property="profile:first_name" content="Glenn">
+  <meta property="profile:last_name" content="Svendsen">
+  <meta name="twitter:card" content="summary_large_image">
+
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Syne:wght@400;600;700;800&family=IBM+Plex+Mono:ital,wght@0,300;0,400;0,500;1,300;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@400;500&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
 
-  <style>
-    /* ── TOKENS ─────────────────────────────────── */
-    :root {
-      --black:  #0a0a0a;
-      --white:  #f5f2ec;
-      --accent: #FFB0C8;
-      --grey:   #888;
-      --ff-display: 'Bebas Neue', sans-serif;
-      --ff-sans:    'Syne', sans-serif;
-      --ff-mono:    'IBM Plex Mono', monospace;
-    }
-
-    /* ── RESET ──────────────────────────────────── */
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
-    img  { display: block; max-width: 100%; }
-    a    { color: inherit; }
-
-    /* ── BASE ───────────────────────────────────── */
-    body {
-      font-family: var(--ff-mono);
-      background: var(--white);
-      color: var(--black);
-      overflow-x: hidden;
-    }
-
-    /* ── NAV ────────────────────────────────────── */
-    nav {
-      position: fixed;
-      top: 0; left: 0; right: 0;
-      z-index: 100;
-      padding: 1.5rem 2.5rem;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      pointer-events: none;
-    }
-    nav * { pointer-events: all; }
-    .nav-mono {
-      font-family: var(--ff-display);
-      font-size: 1.4rem;
-      letter-spacing: 0.08em;
-      color: var(--white);
-      text-decoration: none;
-      transition: color 0.3s;
-    }
-    .nav-links {
-      display: flex;
-      gap: 2rem;
-    }
-    .nav-links a {
-      font-family: var(--ff-sans);
-      font-size: 0.65rem;
-      font-weight: 700;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--white);
-      text-decoration: none;
-      transition: color 0.2s;
-    }
-    .nav-links a:hover { color: var(--accent); }
-    /* light-background sections → flip nav to dark */
-    nav.nav--light .nav-mono  { color: var(--black); }
-    nav.nav--light .nav-links a { color: var(--black); }
-    nav.nav--light .nav-links a:hover { color: var(--accent); }
-
-    /* ── SECTION COMMONS ────────────────────────── */
-    section, footer {
-      padding: 7rem 4rem;
-    }
-    .section-label {
-      font-family: var(--ff-sans);
-      font-size: 0.6rem;
-      font-weight: 700;
-      letter-spacing: 0.3em;
-      text-transform: uppercase;
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-      margin-bottom: 4.5rem;
-    }
-    .section-label::after {
-      content: '';
-      flex: 1;
-      height: 1px;
-      background: currentColor;
-      opacity: 0.2;
-    }
-    .section-num { color: var(--accent); }
-
-    /* ── HERO ───────────────────────────────────── */
-    #hero {
-      background: var(--black);
-      color: var(--white);
-      min-height: 100svh;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
-      padding: 8rem 4rem 4.5rem;
-      position: relative;
-    }
-    .hero-name {
-      font-family: var(--ff-display);
-      font-size: clamp(5.5rem, 19vw, 22rem);
-      line-height: 0.875;
-      letter-spacing: -0.01em;
-      text-transform: uppercase;
-      animation: heroUp 1s cubic-bezier(0.16, 1, 0.3, 1) both;
-    }
-    .hero-tagline {
-      margin-top: 2.75rem;
-      font-size: clamp(0.7rem, 1.3vw, 0.9rem);
-      font-weight: 300;
-      letter-spacing: 0.1em;
-      color: rgba(245,242,236,0.6);
-      display: flex;
-      align-items: center;
-      gap: 1.25rem;
-      opacity: 0;
-      animation: heroUp 0.9s 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-    }
-    .hero-tagline::before {
-      content: '';
-      display: block;
-      width: 2.5rem;
-      height: 1px;
-      background: var(--accent);
-      flex-shrink: 0;
-    }
-
-    @keyframes heroUp {
-      from { opacity: 0; transform: translateY(32px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-
-    /* ── ABOUT ──────────────────────────────────── */
-    #about {
-      background: var(--white);
-      color: var(--black);
-    }
-    .about-grid {
-      display: grid;
-      grid-template-columns: 1fr 1.6fr;
-      gap: 5rem;
-      align-items: start;
-    }
-    .about-photo-wrap {
-      position: relative;
-      overflow: hidden;
-      background: #d8d4ce;
-    }
-    .about-photo-wrap::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      border: 2px solid var(--accent);
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.2s;
-    }
-    .about-photo-wrap:hover::after { opacity: 1; }
-    .about-photo {
-      width: 100%;
-      aspect-ratio: 1 / 1;
-      object-fit: cover;
-      object-position: center 20%;
-      display: block;
-      filter: grayscale(100%) contrast(1.04);
-      transition: filter 0.35s ease;
-    }
-    .about-photo-wrap:hover .about-photo {
-      filter: grayscale(85%) contrast(1.1) brightness(1.06);
-    }
-    @keyframes pipeDraw { to { stroke-dashoffset: 0; } }
-    @keyframes smokeRise {
-      0%   { stroke-dashoffset: 70; opacity: 0; }
-      12%  { opacity: 0.7; }
-      55%  { stroke-dashoffset: 0; opacity: 0.5; }
-      88%  { stroke-dashoffset: 0; opacity: 0; }
-      100% { stroke-dashoffset: 70; opacity: 0; }
-    }
-    .pipe-svg {
-      position: absolute; inset: 0;
-      width: 100%; height: 100%;
-      pointer-events: none; overflow: visible;
-    }
-    /* Initial hidden state — 500 guarantees full coverage for any path length */
-    .pp-body, .pp-rim, .pp-handle, .pp-fill,
-    .pp-d1, .pp-d2, .pp-d3, .pp-d4, .pp-d5 {
-      stroke-dasharray: 500; stroke-dashoffset: 500;
-    }
-    .pp-s1,.pp-s2,.pp-s3 { stroke-dasharray: 70; stroke-dashoffset: 70; opacity: 0; }
-    /* Draw in on hover — cup draws first, then doodles */
-    .about-photo-wrap:hover .pp-body   { animation: pipeDraw 0.55s 0.00s ease forwards; }
-    .about-photo-wrap:hover .pp-rim    { animation: pipeDraw 0.30s 0.45s ease forwards; }
-    .about-photo-wrap:hover .pp-handle { animation: pipeDraw 0.30s 0.55s ease forwards; }
-    .about-photo-wrap:hover .pp-fill   { animation: pipeDraw 0.22s 0.70s ease forwards; }
-    .about-photo-wrap:hover .pp-d1     { animation: pipeDraw 0.30s 0.10s ease forwards; }
-    .about-photo-wrap:hover .pp-d2     { animation: pipeDraw 0.30s 0.25s ease forwards; }
-    .about-photo-wrap:hover .pp-d3     { animation: pipeDraw 0.40s 0.20s ease forwards; }
-    .about-photo-wrap:hover .pp-d4     { animation: pipeDraw 0.70s 0.50s ease forwards; }
-    .about-photo-wrap:hover .pp-d5     { animation: pipeDraw 0.80s 0.65s ease forwards; }
-    /* Steam loops continuously */
-    .about-photo-wrap:hover .pp-s1 { animation: smokeRise 2.6s 1.0s ease-in-out infinite; }
-    .about-photo-wrap:hover .pp-s2 { animation: smokeRise 2.6s 1.8s ease-in-out infinite; }
-    .about-photo-wrap:hover .pp-s3 { animation: smokeRise 2.6s 2.6s ease-in-out infinite; }
-    .about-text-col { display: flex; flex-direction: column; gap: 2.5rem; }
-    .about-heading {
-      font-family: var(--ff-display);
-      font-size: clamp(3.5rem, 7vw, 7rem);
-      line-height: 0.88;
-      text-transform: uppercase;
-      letter-spacing: -0.01em;
-    }
-    .about-body {
-      font-size: clamp(0.875rem, 1.4vw, 1rem);
-      font-weight: 300;
-      line-height: 1.85;
-      color: #1a1a1a;
-    }
-    .about-body p + p { margin-top: 1.4rem; }
-    .about-body strong {
-      font-weight: 500;
-      font-style: italic;
-    }
-
-    /* ── SCRIBBLE UNDERLINE ──────────────────────── */
-    .scribble {
-      position: relative;
-      display: inline;
-    }
-    .scribble-svg {
-      position: absolute;
-      bottom: -12px;
-      left: -2px;
-      width: calc(100% + 4px);
-      height: 20px;
-      pointer-events: none;
-      overflow: visible;
-    }
-    /* scribble paths: visibility + animation handled entirely by JS */
-
-    /* ── WORK ───────────────────────────────────── */
-    #work {
-      background: var(--white);
-      color: var(--black);
-    }
-    /* ── PROJECT LIST (editorial reveal) ──────── */
-    .project-list {
-      border-top: 1px solid rgba(0,0,0,0.12);
-    }
-    .pi {
-      display: block;
-      text-decoration: none;
-      color: var(--black);
-      border-bottom: 1px solid rgba(0,0,0,0.1);
-      overflow: hidden;
-    }
-    .pi-head {
-      display: grid;
-      grid-template-columns: 3.5rem 1fr auto;
-      align-items: center;
-      gap: 2rem;
-      padding: 1.5rem 0;
-    }
-    .pi-num {
-      font-family: var(--ff-display);
-      font-size: 0.85rem;
-      letter-spacing: 0.12em;
-      color: rgba(0,0,0,0.18);
-      transition: color 0.25s;
-      padding-top: 0.2rem;
-    }
-    .pi-name {
-      font-family: var(--ff-display);
-      font-size: clamp(2.5rem, 6vw, 5.5rem);
-      line-height: 1;
-      text-transform: uppercase;
-      letter-spacing: -0.01em;
-      transition: color 0.25s;
-    }
-    .pi-arrow {
-      font-size: clamp(1.1rem, 2vw, 1.6rem);
-      color: rgba(0,0,0,0.18);
-      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), color 0.25s;
-      line-height: 1;
-    }
-    .pi-body {
-      display: grid;
-      grid-template-rows: 0fr;
-      transition: grid-template-rows 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-    .pi-body-inner {
-      overflow: hidden;
-      display: flex;
-      align-items: center;
-      gap: 3rem;
-      padding-left: 5.5rem;
-    }
-    .pi-img {
-      height: 88px;
-      width: auto;
-      object-fit: contain;
-      flex-shrink: 0;
-      margin: 1.5rem 0;
-    }
-    .pi-img--wide {
-      height: 72px;
-      border-radius: 0;
-    }
-    .pi-detail {
-      display: flex;
-      flex-direction: column;
-      gap: 0.4rem;
-    }
-    .pi-desc {
-      font-family: var(--ff-mono);
-      font-size: 0.8rem;
-      font-weight: 300;
-      color: rgba(0,0,0,0.45);
-      letter-spacing: 0.04em;
-    }
-    .pi-tag {
-      font-family: var(--ff-sans);
-      font-size: 0.55rem;
-      font-weight: 700;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: var(--accent);
-    }
-    /* hover states */
-    .pi:hover .pi-body  { grid-template-rows: 1fr; }
-    .pi:hover .pi-name  { color: var(--accent); }
-    .pi:hover .pi-num   { color: var(--accent); }
-    .pi:hover .pi-arrow { transform: translate(5px, -5px); color: var(--accent); }
-
-    /* ── PM CASE STUDIES ─────────────────────────── */
-    #pm { padding: 0; }
-
-    .pm-header {
-      padding: 4rem 4rem 3rem;
-      background: var(--white);
-      color: var(--black);
-    }
-    .pm-header .section-label { margin-bottom: 0; }
-
-    .cs-card {
-      padding: 5rem 4rem 6rem;
-      --border-alpha: rgba(255,255,255,0.1);
-    }
-    .cs-card--dark {
-      background: var(--black);
-      color: var(--white);
-      --border-alpha: rgba(255,255,255,0.1);
-    }
-    .cs-card--light {
-      background: var(--white);
-      color: var(--black);
-      --border-alpha: rgba(0,0,0,0.1);
-    }
-
-    .cs-top-bar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding-bottom: 1.5rem;
-      margin-bottom: 3rem;
-      border-bottom: 1px solid var(--border-alpha);
-      font-family: var(--ff-sans);
-      font-size: 0.6rem;
-      font-weight: 700;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-    }
-    .cs-company { color: var(--accent); }
-    .cs-period { opacity: 0.3; }
-
-    .cs-headline {
-      font-family: var(--ff-display);
-      font-size: clamp(4rem, 10vw, 10rem);
-      line-height: 0.88;
-      text-transform: uppercase;
-      letter-spacing: -0.01em;
-      margin-bottom: 3.5rem;
-    }
-
-    .cs-metrics {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1px;
-      background: var(--border-alpha);
-      border: 1px solid var(--border-alpha);
-      margin-bottom: 4rem;
-    }
-    .cs-card--dark  .cs-metric { background: var(--black); }
-    .cs-card--light .cs-metric { background: var(--white); }
-    .cs-metric { padding: 1.75rem 2rem; }
-    .cs-metric-value {
-      font-family: var(--ff-display);
-      font-size: clamp(2.25rem, 4.5vw, 4rem);
-      line-height: 1;
-      color: var(--accent);
-      letter-spacing: -0.02em;
-    }
-    .cs-metric-label {
-      font-family: var(--ff-mono);
-      font-size: 0.6rem;
-      font-weight: 300;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      opacity: 0.45;
-      margin-top: 0.55rem;
-    }
-
-    .cs-narrative {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 3rem;
-      padding-top: 3.5rem;
-      border-top: 1px solid var(--border-alpha);
-    }
-    .cs-col-label {
-      font-family: var(--ff-sans);
-      font-size: 0.58rem;
-      font-weight: 700;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--accent);
-      margin-bottom: 0.75rem;
-    }
-    .cs-col-text {
-      font-family: var(--ff-mono);
-      font-size: 0.82rem;
-      font-weight: 300;
-      line-height: 1.88;
-      opacity: 0.75;
-    }
-
-    /* ── CASE STUDY CHART ───────────────────────── */
-    .cs-chart {
-      margin-bottom: 4rem;
-      padding: 2rem 2.5rem 2.5rem;
-      border: 1px solid var(--border-alpha);
-    }
-    .cs-chart-title {
-      font-family: var(--ff-sans);
-      font-size: 0.56rem;
-      font-weight: 700;
-      letter-spacing: 0.25em;
-      text-transform: uppercase;
-      opacity: 0.35;
-      margin-bottom: 2rem;
-    }
-    .cs-chart-bars {
-      display: flex;
-      flex-direction: column;
-      gap: 0.6rem;
-    }
-    .cs-chart-row {
-      display: grid;
-      grid-template-columns: 4rem 1fr;
-      align-items: center;
-      gap: 1.25rem;
-    }
-    .cs-chart-label {
-      font-family: var(--ff-sans);
-      font-size: 0.56rem;
-      font-weight: 700;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      text-align: right;
-      opacity: 0.3;
-    }
-    .cs-chart-track {
-      height: 3.25rem;
-      background: rgba(0,0,0,0.05);
-      position: relative;
-      overflow: hidden;
-    }
-    .cs-card--dark .cs-chart-track { background: rgba(255,255,255,0.07); }
-    .cs-bar {
-      height: 100%;
-      width: 0;
-      display: flex;
-      align-items: center;
-      justify-content: flex-end;
-      padding: 0 1rem;
-      transition: width 1.5s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-    .cs-bar--before { background: rgba(0,0,0,0.18); }
-    .cs-card--dark .cs-bar--before { background: rgba(255,255,255,0.22); }
-    .cs-bar--after  { background: var(--accent); transition-delay: 0.2s; }
-    .cs-bar-val {
-      font-family: var(--ff-display);
-      font-size: 1.15rem;
-      letter-spacing: 0.04em;
-      white-space: nowrap;
-    }
-    .cs-bar--before .cs-bar-val { color: var(--white); }
-    .cs-card--dark .cs-bar--before .cs-bar-val { color: var(--white); }
-    .cs-bar--after  .cs-bar-val { color: var(--black); }
-    .cs-chart-footer {
-      display: flex;
-      align-items: baseline;
-      justify-content: flex-end;
-      gap: 0.75rem;
-      margin-top: 1.25rem;
-    }
-    .cs-chart-delta {
-      font-family: var(--ff-display);
-      font-size: clamp(2rem, 4vw, 3rem);
-      letter-spacing: -0.01em;
-      color: var(--accent);
-      line-height: 1;
-    }
-    .cs-chart-delta-label {
-      font-family: var(--ff-mono);
-      font-size: 0.65rem;
-      font-weight: 300;
-      opacity: 0.4;
-      letter-spacing: 0.06em;
-    }
-
-    /* ── VALIDATION DEMO ────────────────────────── */
-    @keyframes scanSweep {
-      0%   { left: -80px; opacity: 0; }
-      10%  { opacity: 1; }
-      90%  { opacity: 1; }
-      100% { left: 100%; opacity: 0; }
-    }
-    @keyframes issueIn {
-      from { opacity: 0; transform: translateX(14px); }
-      to   { opacity: 1; transform: translateX(0); }
-    }
-    @keyframes ackFadeIn {
-      from { opacity: 0; }
-      to   { opacity: 0.42; }
-    }
-    @keyframes badgePop {
-      0%   { transform: scale(0); }
-      55%  { transform: scale(1.45); }
-      72%  { transform: scale(0.88); }
-      88%  { transform: scale(1.1); }
-      100% { transform: scale(1); }
-    }
-    @keyframes dotPulse {
-      0%, 100% { opacity: 1; }
-      50%       { opacity: 0.2; }
-    }
-
-    .val-demo {
-      display: flex;
-      margin-bottom: 4rem;
-      border: 1px solid rgba(255,255,255,0.1);
-      overflow: hidden;
-      font-family: var(--ff-mono);
-    }
-
-    /* Sidebar */
-    .val-sb {
-      width: 52px;
-      flex-shrink: 0;
-      background: rgba(0,0,0,0.3);
-      border-right: 1px solid rgba(255,255,255,0.07);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 1.25rem 0;
-      gap: 0.6rem;
-    }
-    .val-sb-icon {
-      width: 32px;
-      height: 32px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 2px;
-      position: relative;
-      opacity: 0.25;
-      cursor: default;
-    }
-    .val-sb-icon--active { opacity: 0.7; background: rgba(255,255,255,0.08); }
-    .val-sb-icon svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 1.5; color: var(--white); stroke-linecap: round; stroke-linejoin: round; }
-    .val-badge {
-      position: absolute;
-      top: -7px; right: -7px;
-      min-width: 20px; height: 20px;
-      border-radius: 10px;
-      background: var(--white);
-      color: var(--black);
-      font-family: var(--ff-sans);
-      font-size: 0.6rem;
-      font-weight: 900;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 0 4px;
-      transform: scale(0);
-      letter-spacing: -0.02em;
-      box-shadow: 0 0 0 2px #111, 0 0 10px 2px rgba(255,176,200,0.5);
-    }
-    .val-demo--playing .val-badge {
-      animation: badgePop 0.55s 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
-    }
-    .val-sb-counts {
-      display: flex;
-      gap: 3px;
-      margin-top: 3px;
-      opacity: 0;
-      transform: scale(0.6);
-    }
-    .val-demo--playing .val-sb-counts {
-      animation: badgePop 0.4s 1s cubic-bezier(0.16, 1, 0.3, 1) both;
-    }
-    .val-sb-dot {
-      width: 7px; height: 7px;
-      border-radius: 1px;
-      font-family: var(--ff-sans);
-      font-size: 0.38rem;
-      font-weight: 800;
-      display: flex; align-items: center; justify-content: center;
-      color: var(--black);
-    }
-    .val-sb-dot--err  { background: rgba(255,255,255,0.9); }
-    .val-sb-dot--warn { background: var(--accent); }
-
-    /* Main panel */
-    .val-panel { flex: 1; display: flex; flex-direction: column; min-width: 0; }
-
-    /* Scan header */
-    .val-scan {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      padding: 0.75rem 1.25rem;
-      border-bottom: 1px solid rgba(255,255,255,0.07);
-    }
-    .val-dot {
-      width: 6px; height: 6px;
-      border-radius: 50%;
-      background: var(--accent);
-      flex-shrink: 0;
-      animation: dotPulse 2s ease-in-out infinite;
-    }
-    .val-scan-label {
-      font-size: 0.6rem;
-      font-weight: 300;
-      letter-spacing: 0.1em;
-      color: rgba(255,255,255,0.35);
-      text-transform: uppercase;
-    }
-    .val-scan-track {
-      flex: 1;
-      height: 1px;
-      background: rgba(255,255,255,0.08);
-      position: relative;
-      overflow: hidden;
-    }
-    .val-scan-beam {
-      position: absolute;
-      top: 0; left: -80px;
-      width: 80px; height: 100%;
-      background: linear-gradient(90deg, transparent, var(--accent), transparent);
-    }
-    .val-demo--playing .val-scan-beam {
-      animation: scanSweep 1.4s 0.1s ease-in-out both;
-    }
-    .val-scan-count {
-      font-size: 0.55rem;
-      font-weight: 300;
-      letter-spacing: 0.08em;
-      color: rgba(255,255,255,0.25);
-    }
-
-    /* Issue rows */
-    .val-issues { flex: 1; padding: 0.5rem 0; }
-    .val-issue {
-      display: grid;
-      grid-template-columns: 2rem 1fr auto;
-      align-items: center;
-      gap: 0.75rem;
-      padding: 0.65rem 1.25rem;
-      border-bottom: 1px solid rgba(255,255,255,0.05);
-      opacity: 0;
-    }
-    .val-issue:last-child { border-bottom: none; }
-    .val-demo--playing .val-issue--1 { animation: issueIn 0.45s 0.85s cubic-bezier(0.16,1,0.3,1) both; }
-    .val-demo--playing .val-issue--2 { animation: issueIn 0.45s 1.25s cubic-bezier(0.16,1,0.3,1) both; }
-    .val-demo--playing .val-issue--3 { animation: issueIn 0.45s 1.65s cubic-bezier(0.16,1,0.3,1) both; }
-    .val-demo--playing .val-issue--4 { animation: ackFadeIn 0.5s 2.15s ease both; }
-
-    .val-sev {
-      width: 20px; height: 20px;
-      border-radius: 2px;
-      display: flex; align-items: center; justify-content: center;
-      flex-shrink: 0;
-      font-size: 0.6rem;
-      font-weight: 700;
-    }
-    .val-sev--err  { background: rgba(255,255,255,0.9); color: var(--black); }
-    .val-sev--warn { background: var(--accent); color: var(--black); }
-    .val-sev--ack  { background: rgba(255,255,255,0.12); color: rgba(255,255,255,0.5); }
-
-    .val-body { min-width: 0; }
-    .val-code {
-      font-size: 0.65rem;
-      font-weight: 400;
-      letter-spacing: 0.04em;
-      color: rgba(255,255,255,0.8);
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-    .val-ctx {
-      font-size: 0.55rem;
-      font-weight: 300;
-      color: rgba(255,255,255,0.3);
-      letter-spacing: 0.03em;
-      margin-top: 0.15rem;
-    }
-    .val-ctx-sep { opacity: 0.4; margin: 0 0.2rem; }
-
-    .val-action {
-      font-family: var(--ff-sans);
-      font-size: 0.48rem;
-      font-weight: 700;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: rgba(255,255,255,0.2);
-      white-space: nowrap;
-      flex-shrink: 0;
-    }
-    .val-issue--1 .val-action,
-    .val-issue--2 .val-action,
-    .val-issue--3 .val-action { color: rgba(255,255,255,0.35); }
-    .val-issue--4 .val-action { color: rgba(255,255,255,0.2); }
-
-    /* ── MIGRATION RING VISUALIZATION ───────────── */
-    @keyframes ringDraw { to { stroke-dashoffset: 0; } }
-    @keyframes migCenterIn {
-      from { opacity: 0; transform: scale(0.7); }
-      to   { opacity: 1; transform: scale(1); }
-    }
-    @keyframes migTickIn {
-      from { opacity: 0; transform: scaleY(0); }
-      to   { opacity: 1; transform: scaleY(1); }
-    }
-    @keyframes migItemIn {
-      from { opacity: 0; transform: translateX(-8px); }
-      to   { opacity: 1; transform: translateX(0); }
-    }
-    .mig-viz {
-      margin-bottom: 4rem;
-      border: 1px solid rgba(255,255,255,0.08);
-      overflow: hidden;
-    }
-    .mig-main {
-      display: flex;
-      align-items: center;
-      gap: 2.5rem;
-      padding: 2rem 2.5rem;
-    }
-    .mig-svg-wrap { flex-shrink: 0; width: 230px; }
-    .mig-svg { width: 100%; height: auto; overflow: visible; }
-
-    .mig-track {
-      fill: none;
-      stroke: rgba(255,255,255,0.06);
-      stroke-width: 3;
-    }
-    .mig-ring {
-      fill: none;
-      stroke-width: 3;
-      stroke-linecap: round;
-      transform-origin: 140px 140px;
-      transform: rotate(-90deg);
-    }
-    .mig-ring--1 { stroke: rgba(255,255,255,0.9);  stroke-dasharray: 741; stroke-dashoffset: 741; }
-    .mig-ring--2 { stroke: rgba(255,255,255,0.72); stroke-dasharray: 603; stroke-dashoffset: 603; }
-    .mig-ring--3 { stroke: rgba(255,255,255,0.55); stroke-dasharray: 465; stroke-dashoffset: 465; }
-    .mig-ring--4 { stroke: var(--accent);          stroke-dasharray: 327; stroke-dashoffset: 327; }
-    .mig-ring--5 { stroke: var(--accent);          stroke-dasharray: 188; stroke-dashoffset: 188; opacity: 0.7; }
-
-    .mig-demo--playing .mig-ring--1 { animation: ringDraw 2s   0.3s cubic-bezier(0.4,0,0.2,1) forwards; }
-    .mig-demo--playing .mig-ring--2 { animation: ringDraw 1.8s 0.55s cubic-bezier(0.4,0,0.2,1) forwards; }
-    .mig-demo--playing .mig-ring--3 { animation: ringDraw 1.5s 0.8s cubic-bezier(0.4,0,0.2,1) forwards; }
-    .mig-demo--playing .mig-ring--4 { animation: ringDraw 1.2s 1.05s cubic-bezier(0.4,0,0.2,1) forwards; }
-    .mig-demo--playing .mig-ring--5 { animation: ringDraw 1s   1.3s cubic-bezier(0.4,0,0.2,1) forwards; }
-
-    .mig-center { opacity: 0; }
-    .mig-demo--playing .mig-center {
-      animation: migCenterIn 0.6s 2s cubic-bezier(0.16,1,0.3,1) both;
-    }
-    .mig-num {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 2.8rem;
-      fill: var(--white);
-      letter-spacing: -0.01em;
-    }
-    .mig-sub {
-      font-family: 'Syne', sans-serif;
-      font-size: 0.38rem;
-      fill: rgba(255,255,255,0.35);
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-    }
-
-    .mig-legend {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      gap: 0.6rem;
-    }
-    .mig-item {
-      display: flex;
-      align-items: center;
-      gap: 0.85rem;
-      opacity: 0;
-    }
-    .mig-demo--playing .mig-item:nth-child(1) { animation: migItemIn 0.4s 0.4s ease both; }
-    .mig-demo--playing .mig-item:nth-child(2) { animation: migItemIn 0.4s 0.65s ease both; }
-    .mig-demo--playing .mig-item:nth-child(3) { animation: migItemIn 0.4s 0.9s ease both; }
-    .mig-demo--playing .mig-item:nth-child(4) { animation: migItemIn 0.4s 1.15s ease both; }
-    .mig-demo--playing .mig-item:nth-child(5) { animation: migItemIn 0.4s 1.4s ease both; }
-    .mig-swatch {
-      width: 10px; height: 10px;
-      border-radius: 50%;
-      border: 2px solid;
-      flex-shrink: 0;
-    }
-    .mig-swatch--1 { border-color: rgba(255,255,255,0.9); }
-    .mig-swatch--2 { border-color: rgba(255,255,255,0.72); }
-    .mig-swatch--3 { border-color: rgba(255,255,255,0.55); }
-    .mig-swatch--4 { border-color: var(--accent); }
-    .mig-swatch--5 { border-color: var(--accent); opacity: 0.7; }
-    .mig-item-label { display: flex; flex-direction: column; gap: 0.1rem; }
-    .mig-item-name {
-      font-family: var(--ff-mono);
-      font-size: 0.68rem;
-      font-weight: 300;
-      color: rgba(255,255,255,0.7);
-      letter-spacing: 0.03em;
-    }
-    .mig-item-count {
-      font-family: var(--ff-sans);
-      font-size: 0.52rem;
-      font-weight: 700;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: rgba(255,255,255,0.25);
-    }
-    .mig-item-count--new { color: var(--accent); opacity: 0.8; }
-
-    .mig-timeline {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-      padding: 0.9rem 2.5rem;
-      border-top: 1px solid rgba(255,255,255,0.07);
-    }
-    .mig-tl-label {
-      font-family: var(--ff-sans);
-      font-size: 0.52rem;
-      font-weight: 700;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: rgba(255,255,255,0.25);
-      white-space: nowrap;
-      flex-shrink: 0;
-    }
-    .mig-tl-label--end { color: rgba(255,255,255,0.4); }
-    .mig-tl-track {
-      flex: 1;
-      position: relative;
-      height: 28px;
-      display: flex;
-      align-items: center;
-    }
-    .mig-tl-line {
-      position: absolute;
-      top: 50%; left: 0; right: 0;
-      height: 1px;
-      background: rgba(255,255,255,0.1);
-    }
-    .mig-tl-marks {
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-    .mig-tick {
-      width: 1.5px;
-      height: 10px;
-      background: rgba(255,255,255,0.5);
-      transform-origin: bottom;
-      opacity: 0;
-      flex-shrink: 0;
-    }
-    .mig-tick--accent { background: var(--accent); height: 14px; }
-    .mig-demo--playing .mig-tick {
-      animation: migTickIn 0.25s var(--td, 0s) cubic-bezier(0.16,1,0.3,1) both;
-    }
-
-    /* ── PRICE TEST VISUALIZATION ───────────────── */
-    @keyframes ptProgress {
-      from { width: 0; }
-      to   { width: 100%; }
-    }
-    @keyframes ptChipIn {
-      from { opacity: 0; transform: translateY(-5px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-    @keyframes ptCellIn {
-      from { opacity: 0; transform: scale(0.4); }
-      to   { opacity: 1; transform: scale(1); }
-    }
-    @keyframes ptErrPulse {
-      0%, 100% { box-shadow: 0 0 0 0 rgba(255,176,200,0); }
-      50%       { box-shadow: 0 0 8px 3px rgba(255,176,200,0.55); }
-    }
-    .pt-viz {
-      background: #111;
-      margin-bottom: 4rem;
-      overflow: hidden;
-    }
-    .pt-viz-header {
-      display: flex;
-      align-items: center;
-      gap: 0.85rem;
-      padding: 0.7rem 1.25rem;
-      border-bottom: 1px solid rgba(255,255,255,0.07);
-    }
-    .pt-run-label {
-      font-family: var(--ff-sans);
-      font-size: 0.52rem;
-      font-weight: 700;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: rgba(255,255,255,0.35);
-      flex-shrink: 0;
-    }
-    .pt-progress-track {
-      flex: 1;
-      height: 1.5px;
-      background: rgba(255,255,255,0.08);
-      overflow: hidden;
-    }
-    .pt-progress-bar {
-      height: 100%;
-      width: 0;
-      background: rgba(255,255,255,0.7);
-    }
-    .pt-demo--playing .pt-progress-bar {
-      animation: ptProgress 2s 0.3s cubic-bezier(0.4, 0, 0.2, 1) both;
-    }
-    .pt-chips { display: flex; gap: 0.35rem; }
-    .pt-chip {
-      font-family: var(--ff-sans);
-      font-size: 0.48rem;
-      font-weight: 700;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      padding: 0.22rem 0.5rem;
-      background: rgba(255,176,200,0.18);
-      color: var(--accent);
-      opacity: 0;
-    }
-    .pt-demo--playing .pt-chip:nth-child(1) { animation: ptChipIn 0.3s 0.1s ease both; }
-    .pt-demo--playing .pt-chip:nth-child(2) { animation: ptChipIn 0.3s 0.22s ease both; }
-    .pt-demo--playing .pt-chip:nth-child(3) { animation: ptChipIn 0.3s 0.34s ease both; }
-    .pt-grid {
-      display: grid;
-      grid-template-columns: repeat(22, 1fr);
-      gap: 3px;
-      padding: 1rem 1.25rem;
-    }
-    .pt-cell {
-      aspect-ratio: 1;
-      opacity: 0;
-    }
-    .pt-cell--ok  { background: rgba(255,255,255,0.11); }
-    .pt-cell--err { background: var(--accent); }
-    .pt-demo--playing .pt-cell {
-      animation: ptCellIn 0.22s var(--cd, 0s) cubic-bezier(0.16, 1, 0.3, 1) both;
-    }
-    .pt-demo--playing .pt-cell--err {
-      animation: ptCellIn 0.22s var(--cd, 0s) cubic-bezier(0.16, 1, 0.3, 1) both,
-                 ptErrPulse 1.8s calc(var(--cd, 0s) + 0.25s) ease-in-out infinite;
-    }
-    .pt-viz-footer {
-      display: flex;
-      align-items: center;
-      gap: 1.75rem;
-      padding: 0.7rem 1.25rem;
-      border-top: 1px solid rgba(255,255,255,0.07);
-    }
-    .pt-footer-stat {
-      font-family: var(--ff-mono);
-      font-size: 0.6rem;
-      font-weight: 300;
-      color: rgba(255,255,255,0.35);
-      letter-spacing: 0.04em;
-    }
-    .pt-footer-stat strong { font-weight: 500; color: rgba(255,255,255,0.75); }
-    .pt-footer-flag {
-      margin-left: auto;
-      font-family: var(--ff-sans);
-      font-size: 0.48rem;
-      font-weight: 700;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: var(--accent);
-    }
-
-    /* ── SSRM DISCOVERY CHART ───────────────────── */
-    @keyframes ssrmReveal {
-      from { clip-path: inset(0 100% 0 0); }
-      to   { clip-path: inset(0 0% 0 0); }
-    }
-    @keyframes ssrmFadeIn {
-      from { opacity: 0; }
-      to   { opacity: 1; }
-    }
-    .ssrm-chart-wrap {
-      margin-bottom: 4rem;
-      border: 1px solid rgba(0,0,0,0.1);
-      overflow: hidden;
-    }
-    .ssrm-chart-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0.9rem 1.5rem;
-      border-bottom: 1px solid rgba(0,0,0,0.08);
-      font-family: var(--ff-sans);
-      font-size: 0.55rem;
-      font-weight: 700;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: rgba(0,0,0,0.3);
-    }
-    .ssrm-chart-header span:last-child { color: var(--accent); }
-    .ssrm-svg-wrap {
-      padding: 1.25rem 1.5rem 0.75rem;
-    }
-    .ssrm-svg { width: 100%; height: auto; display: block; }
-    .ssrm-chart-area {
-      clip-path: inset(0 100% 0 0);
-    }
-    .ssrm-mvp-ann { opacity: 0; }
-    .ssrm-demo--playing .ssrm-chart-area {
-      animation: ssrmReveal 2.4s 0.3s cubic-bezier(0.4, 0, 0.2, 1) both;
-    }
-    .ssrm-demo--playing .ssrm-mvp-ann {
-      animation: ssrmFadeIn 0.5s 2s ease both;
-    }
-    .ssrm-segments {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      border-top: 1px solid rgba(0,0,0,0.08);
-    }
-    .ssrm-seg {
-      padding: 0.85rem 1.5rem;
-      border-right: 1px solid rgba(0,0,0,0.06);
-    }
-    .ssrm-seg:last-child { border-right: none; }
-    .ssrm-seg-pct {
-      font-family: var(--ff-display);
-      font-size: 1.5rem;
-      letter-spacing: -0.01em;
-      line-height: 1;
-    }
-    .ssrm-seg-pct--simple   { color: rgba(0,0,0,0.4); }
-    .ssrm-seg-pct--moderate { color: rgba(0,0,0,0.7); }
-    .ssrm-seg-pct--complex  { color: rgba(0,0,0,0.85); }
-    .ssrm-seg-pct--vcomplex { color: rgba(0,0,0,1); }
-    .ssrm-seg-label {
-      font-family: var(--ff-sans);
-      font-size: 0.52rem;
-      font-weight: 700;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: rgba(0,0,0,0.3);
-      margin-top: 0.3rem;
-    }
-    .ssrm-seg--highlighted .ssrm-seg-label { color: var(--accent); }
-
-    /* ── HERO AMBIENT ───────────────────────────── */
-    .hero-ambient {
-      position: absolute;
-      right: 2.5rem;
-      top: 50%;
-      transform: translateY(-50%);
-      writing-mode: vertical-rl;
-      font-family: var(--ff-sans);
-      font-size: 0.5rem;
-      font-weight: 700;
-      letter-spacing: 0.3em;
-      text-transform: uppercase;
-      color: rgba(255,255,255,0.1);
-      pointer-events: none;
-      user-select: none;
-    }
-
-    /* ── PROJECT DESC LINE (always visible) ──── */
-    .pi-name-col { display: flex; flex-direction: column; gap: 0.2rem; }
-    .pi-desc-line {
-      font-family: var(--ff-mono);
-      font-size: 0.68rem;
-      font-weight: 300;
-      color: rgba(0,0,0,0.38);
-      letter-spacing: 0.03em;
-      transition: color 0.25s;
-    }
-    .pi:hover .pi-desc-line { color: rgba(255,255,255,0.55); }
-
-    /* ── CONTACT HOVER UNDERLINE ────────────── */
-    .contact-link span:first-child { position: relative; }
-    .contact-link span:first-child::after {
-      content: '';
-      position: absolute;
-      bottom: -1px; left: 0; right: 0;
-      height: 1px;
-      background: var(--accent);
-      transform: scaleX(0);
-      transform-origin: left;
-      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-    .contact-link:hover span:first-child::after { transform: scaleX(1); }
-
-    /* ── CONTACT / FOOTER ────────────────────────── */
-    #contact {
-      background: var(--black);
-      color: var(--white);
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      min-height: 65vh;
-    }
-    #contact .section-label { color: var(--white); }
-    .contact-heading {
-      font-family: var(--ff-display);
-      font-size: clamp(5rem, 14vw, 16rem);
-      line-height: 0.85;
-      text-transform: uppercase;
-      letter-spacing: -0.01em;
-      margin-bottom: 4rem;
-    }
-    .contact-links {
-      margin-top: auto;
-      border-top: 1px solid rgba(255,255,255,0.08);
-    }
-    .contact-link {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 1.4rem 0;
-      border-bottom: 1px solid rgba(255,255,255,0.08);
-      text-decoration: none;
-      color: var(--white);
-      font-size: clamp(0.85rem, 2vw, 1.15rem);
-      font-weight: 300;
-      letter-spacing: 0.04em;
-      transition: color 0.15s;
-    }
-    .contact-link:hover { color: var(--accent); }
-    .contact-link-meta {
-      font-family: var(--ff-sans);
-      font-size: 0.58rem;
-      font-weight: 700;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: rgba(255,255,255,0.45);
-      transition: color 0.15s;
-    }
-    .contact-link:hover .contact-link-meta { color: var(--accent); }
-    .footer-bottom {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-top: 4rem;
-      font-family: var(--ff-mono);
-      font-size: 0.6rem;
-      font-weight: 300;
-      letter-spacing: 0.1em;
-      color: rgba(255,255,255,0.3);
-      text-transform: uppercase;
-    }
-
-    /* ── RESPONSIVE ─────────────────────────────── */
-    @media (max-width: 768px) {
-      section, footer { padding: 5rem 2rem; }
-      #hero { padding: 6rem 2rem 3.5rem; }
-      .pm-header { padding: 5rem 2rem 4rem; }
-      .cs-card { padding: 4rem 2rem 5rem; }
-      nav { padding: 1.25rem 2rem; }
-      .nav-links { gap: 1.5rem; }
-      .about-grid { grid-template-columns: 1fr; gap: 2.5rem; }
-      .about-photo-wrap { max-width: 60%; }
-      .pi-head { grid-template-columns: 2.5rem 1fr auto; gap: 1rem; }
-      .pi-body-inner { padding-left: 3.5rem; gap: 1.5rem; }
-      .cs-metrics { grid-template-columns: 1fr; }
-      .cs-narrative { grid-template-columns: 1fr; gap: 2rem; }
-    }
-    @media (max-width: 480px) {
-      .pi-body-inner { padding-left: 0; }
-    }
-    @media (max-width: 480px) {
-      section, footer { padding: 4rem 1.5rem; }
-      #hero { padding: 5rem 1.5rem 3rem; }
-      nav { padding: 1rem 1.5rem; }
-      .nav-links a { font-size: 0.58rem; letter-spacing: 0.12em; }
-    }
-
-    /* ── SCROLL REVEAL ───────────────────────────── */
-    .reveal {
-      opacity: 0;
-      transform: translateY(24px);
-      transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
-                  transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-    .reveal.visible {
-      opacity: 1;
-      transform: none;
-    }
-  </style>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Glenn Svendsen",
+    "jobTitle": "Senior Product Manager",
+    "worksFor": { "@type": "Organization", "name": "Arrive" },
+    "address": { "@type": "PostalAddress", "addressLocality": "Oslo", "addressCountry": "NO" },
+    "url": "https://glennsvendsen.github.io/",
+    "sameAs": [
+      "https://www.linkedin.com/in/glenn-svendsen-9792b615/",
+      "https://github.com/glennsvendsen"
+    ]
+  }
+  </script>
 </head>
 
 <body>
+  <a class="skip-link" href="#main">Skip to content</a>
 
   <!-- ── NAV ─────────────────────────────── -->
-  <nav>
-    <a class="nav-mono" href="#hero">GS</a>
+  <nav class="nav" data-theme="dark" aria-label="Main">
+    <a class="nav-mono" href="#hero" aria-label="Glenn Svendsen — back to top">GS</a>
     <div class="nav-links">
       <a href="#about">About</a>
-      <a href="#pm">Cases</a>
+      <a href="#work">Work</a>
       <a href="#projects">Projects</a>
       <a href="#contact">Contact</a>
     </div>
   </nav>
 
+  <main id="main">
+
   <!-- ── HERO ────────────────────────────── -->
-  <section id="hero">
-    <h1 class="hero-name">
-      Glenn<br>Svendsen
-    </h1>
-    <p class="hero-tagline">
-      Senior PM — Arrive (former EasyPark Group). Parking policies across Europe, ANZ & the US.
-    </p>
-    <div class="hero-ambient" aria-hidden="true">Oslo · Norway · Senior PM · Arrive</div>
-  </section>
+  <header id="hero" class="hero surface-dark" data-surface="dark">
+    <div class="wrap hero-inner">
+      <p class="eyebrow hero-eyebrow"><span class="status-dot" aria-hidden="true"></span>Senior Product Manager · Oslo, Norway</p>
+      <h1 class="display hero-name">Glenn<br>Svendsen</h1>
+      <div class="hero-row">
+        <p class="hero-lede">
+          I turn <strong>complex problems into simple products</strong> people trust.
+          Discovery-led, data-backed, and quick to prototype with AI.
+        </p>
+        <div class="hero-cta">
+          <a class="btn btn--primary" href="#work">See my work <span class="btn-arrow" aria-hidden="true">↓</span></a>
+          <a class="btn btn--ghost" href="mailto:gsvendsen@me.com">Get in touch</a>
+        </div>
+      </div>
+      <dl class="hero-proof">
+        <div><dt>2.8B+</dt><dd>price requests served by the engine I own (2025)</dd></div>
+        <div><dt>6,000+</dt><dd>parking operators using it globally</dd></div>
+        <div><dt>20+</dt><dd>countries across Europe, ANZ &amp; the US</dd></div>
+      </dl>
+    </div>
+    <div class="hero-ambient" aria-hidden="true">Oslo · Norway · Product · Arrive</div>
+  </header>
 
   <!-- ── ABOUT ────────────────────────────── -->
-  <section id="about">
-    <div class="section-label reveal">
-      <span class="section-num">01</span>
-      <span>About</span>
-    </div>
-    <div class="about-grid">
-      <div class="about-photo-wrap reveal" style="transition-delay: 0.08s">
-        <img src="profile.jpg" alt="Glenn Svendsen" class="about-photo">
-        <svg class="pipe-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-          <!-- ── COFFEE CUP (bottom-right) ── -->
-          <!-- Cup body: open-top trapezoid, slightly wider at top -->
-          <path class="pp-body"
-                d="M 62 68 C 61 77, 61 84, 62 89 C 68 92, 80 92, 86 89 C 87 84, 87 77, 86 68"
-                fill="rgba(255,176,200,0.1)" stroke="#FFB0C8" stroke-width="2.4"
-                stroke-linecap="round" stroke-linejoin="round"/>
-          <!-- Rim — ellipse at the top of the cup -->
-          <path class="pp-rim"
-                d="M 62 68 C 67 65, 81 65, 86 68 C 81 71, 67 71, 62 68"
-                fill="rgba(10,10,10,0.15)" stroke="#FFB0C8" stroke-width="2.1"
-                stroke-linecap="round"/>
-          <!-- Handle — D-shape on the right -->
-          <path class="pp-handle"
-                d="M 86 73 C 93 73, 93 84, 86 84"
-                fill="none" stroke="#FFB0C8" stroke-width="2.1" stroke-linecap="round"/>
-          <!-- Coffee surface — dark ellipse inside the rim -->
-          <path class="pp-fill"
-                d="M 64 68 C 68 66, 80 66, 84 68 C 80 70, 68 70, 64 68"
-                fill="rgba(10,10,10,0.25)" stroke="#FFB0C8" stroke-width="1.3"
-                stroke-linecap="round" opacity="0.8"/>
-
-          <!-- ── STEAM (loops from cup opening) ── -->
-          <path class="pp-s1" d="M 68 64 C 65 57, 71 50, 67 43 C 63 36, 69 29, 65 22"
-                fill="none" stroke="#FFB0C8" stroke-width="1.6" stroke-linecap="round"/>
-          <path class="pp-s2" d="M 74 63 C 77 56, 71 49, 75 42 C 79 35, 73 28, 77 21"
-                fill="none" stroke="#FFB0C8" stroke-width="1.3" stroke-linecap="round"/>
-          <path class="pp-s3" d="M 80 64 C 83 57, 77 50, 81 43 C 85 36, 79 29, 83 22"
-                fill="none" stroke="#FFB0C8" stroke-width="1.1" stroke-linecap="round"/>
-
-          <!-- ── SKETCHBOOK DOODLES ── -->
-          <!-- Corner bracket top-left -->
-          <path class="pp-d1" d="M 11 5 L 4 5 L 4 14"
-                fill="none" stroke="#FFB0C8" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
-          <!-- Corner bracket bottom-left -->
-          <path class="pp-d2" d="M 11 95 L 4 95 L 4 86"
-                fill="none" stroke="#FFB0C8" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
-          <!-- Asterisk top-right -->
-          <path class="pp-d3" d="M 87 9 L 93 9 M 90 6 L 90 12 M 87.8 6.8 L 92.2 11.2 M 92.2 6.8 L 87.8 11.2"
-                fill="none" stroke="#FFB0C8" stroke-width="1.1" stroke-linecap="round"/>
-          <!-- Bottom signature scribble (thin) — same style as heading underlines -->
-          <path class="pp-d4" d="M 7 93 C 22 90, 45 95, 62 92 S 82 89, 93 92"
-                fill="none" stroke="#FFB0C8" stroke-width="0.9" stroke-linecap="round" opacity="0.8"/>
-          <!-- Bottom signature scribble (bold) -->
-          <path class="pp-d5" d="M 10 95 C 25 92, 47 97, 64 94 S 83 91, 93 94"
-                fill="none" stroke="#FFB0C8" stroke-width="1.6" stroke-linecap="round"/>
-        </svg>
-      </div>
-      <div class="about-text-col">
-        <h2 class="about-heading reveal" style="transition-delay: 0.14s">Brief.</h2>
-        <div class="about-body reveal" style="transition-delay: 0.2s">
-          <p>
-            <span class="scribble">Senior Product Manager<svg class="scribble-svg" viewBox="0 0 300 20" preserveAspectRatio="none" aria-hidden="true">
-              <path d="M1 9 C55 5, 115 4, 185 6 S255 10, 296 12" stroke="#FFB0C8" stroke-width="1.4" fill="none" stroke-linecap="round" opacity="0.8"/>
-              <path d="M25 13 C72 9, 132 8, 198 10 S258 14, 282 16" stroke="#FFB0C8" stroke-width="2.6" fill="none" stroke-linecap="round"/>
-              <path d="M250 11 L266 3 L258 18 L274 9" stroke="#FFB0C8" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg></span> with 5+ years building things that actually work.
-          </p>
-          <p>
-            Currently at Arrive (former EasyPark Group), where I own the domain of
-            <span class="scribble">parking policies globally<svg class="scribble-svg" viewBox="0 0 300 20" preserveAspectRatio="none" aria-hidden="true">
-              <path d="M1 9 C55 5, 115 4, 185 6 S255 10, 296 12" stroke="#FFB0C8" stroke-width="1.4" fill="none" stroke-linecap="round" opacity="0.8"/>
-              <path d="M25 13 C72 9, 132 8, 198 10 S258 14, 282 16" stroke="#FFB0C8" stroke-width="2.6" fill="none" stroke-linecap="round"/>
-              <path d="M250 11 L266 3 L258 18 L274 9" stroke="#FFB0C8" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg></span> — across Europe, ANZ, and the US.
-          </p>
-          <p>
-            I work at the intersection of complex systems and real user
-            needs — turning messy domain problems into clear product decisions.
-            Based in Oslo, Norway.
-          </p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ── PM CASE STUDIES ─────────────────── -->
-  <section id="pm">
-    <div class="pm-header">
-      <div class="section-label reveal">
-        <span class="section-num">02</span>
-        <span>PM Case Studies</span>
-      </div>
-    </div>
-
-    <!-- Case Study 1 -->
-    <div class="cs-card cs-card--dark reveal">
-      <div class="cs-top-bar">
-        <span class="cs-company">Arrive (former EasyPark Group)</span>
-        <span class="cs-period">2023 — Ongoing</span>
-      </div>
-      <h3 class="cs-headline">Global<br>Pricing<br><span class="scribble">Engine<svg class="scribble-svg" viewBox="0 0 300 20" preserveAspectRatio="none" aria-hidden="true">
-        <path d="M1 9 C55 5, 115 4, 185 6 S255 10, 296 12" stroke="#FFB0C8" stroke-width="1.4" fill="none" stroke-linecap="round" opacity="0.8"/>
-        <path d="M25 13 C72 9, 132 8, 198 10 S258 14, 282 16" stroke="#FFB0C8" stroke-width="2.6" fill="none" stroke-linecap="round"/>
-        <path d="M250 11 L266 3 L258 18 L274 9" stroke="#FFB0C8" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg></span></h3>
-      <div class="cs-metrics">
-        <div class="cs-metric">
-          <div class="cs-metric-value" data-count="2" data-suffix=".8B+">2.8B+</div>
-          <div class="cs-metric-label">Requests served in 2025</div>
-        </div>
-        <div class="cs-metric">
-          <div class="cs-metric-value" data-count="6000" data-suffix="+">6000+</div>
-          <div class="cs-metric-label">Parking operators globally</div>
-        </div>
-        <div class="cs-metric">
-          <div class="cs-metric-value" data-count="100" data-suffix="%">100%</div>
-          <div class="cs-metric-label">Uptime — last 24 months</div>
-        </div>
-      </div>
-      <div class="cs-narrative">
-        <div>
-          <div class="cs-col-label">Problem</div>
-          <div class="cs-col-text">Parking pricing across 20+ countries — different regulations, currencies, and operator models — running on a shared engine with real complexity beneath the surface. Edge cases multiplied with every new market. Operators struggled to configure correctly. Misconfigurations were common and support costs were high.</div>
-        </div>
-        <div>
-          <div class="cs-col-label">Approach</div>
-          <div class="cs-col-text">Took ownership of the domain and ran structured discovery to understand where the system was breaking down in practice. Prioritised the edge cases causing the most operator pain, worked closely with engineering to address root causes, and built a rhythm of regular user interviews to keep improvements grounded in real need.</div>
-        </div>
-        <div>
-          <div class="cs-col-label">Outcome</div>
-          <div class="cs-col-text">CSAT lifted from 66% to 87% through structured discovery and regular user interviews. Misconfigurations reduced by 36% year-on-year. The system now runs live across all active markets globally, with engineering capacity redirected from maintenance to growth.</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Case Study 2 -->
-    <div class="cs-card cs-card--light reveal">
-      <div class="cs-top-bar">
-        <span class="cs-company">Arrive (former EasyPark Group)</span>
-        <span class="cs-period">2024</span>
-      </div>
-      <h3 class="cs-headline">Config<br><span class="scribble">Copy<svg class="scribble-svg" viewBox="0 0 300 20" preserveAspectRatio="none" aria-hidden="true">
-        <path d="M1 9 C55 5, 115 4, 185 6 S255 10, 296 12" stroke="#FFB0C8" stroke-width="1.4" fill="none" stroke-linecap="round" opacity="0.8"/>
-        <path d="M25 13 C72 9, 132 8, 198 10 S258 14, 282 16" stroke="#FFB0C8" stroke-width="2.6" fill="none" stroke-linecap="round"/>
-        <path d="M250 11 L266 3 L258 18 L274 9" stroke="#FFB0C8" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg></span></h3>
-
-      <div class="cs-metrics">
-        <div class="cs-metric">
-          <div class="cs-metric-value" data-count="105" data-suffix="s">105s</div>
-          <div class="cs-metric-label">Config time — before</div>
-        </div>
-        <div class="cs-metric">
-          <div class="cs-metric-value" data-count="27" data-suffix="s">27s</div>
-          <div class="cs-metric-label">Config time — after</div>
-        </div>
-        <div class="cs-metric">
-          <div class="cs-metric-value" data-count="74" data-suffix="% faster">74% faster</div>
-          <div class="cs-metric-label">JTBD + opportunity solution tree</div>
-        </div>
-      </div>
-
-      <div class="cs-chart">
-        <div class="cs-chart-title">Configuration time — before vs. after copy functionality</div>
-        <div class="cs-chart-bars">
-          <div class="cs-chart-row">
-            <span class="cs-chart-label">Before</span>
-            <div class="cs-chart-track">
-              <div class="cs-bar cs-bar--before" data-pct="100">
-                <span class="cs-bar-val">105s</span>
-              </div>
-            </div>
-          </div>
-          <div class="cs-chart-row">
-            <span class="cs-chart-label">After</span>
-            <div class="cs-chart-track">
-              <div class="cs-bar cs-bar--after" data-pct="25.7">
-                <span class="cs-bar-val">27s</span>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="cs-chart-footer">
-          <span class="cs-chart-delta-label">time saved per configuration</span>
-          <span class="cs-chart-delta">−78s</span>
-        </div>
-      </div>
-
-      <div class="cs-narrative">
-        <div>
-          <div class="cs-col-label">Problem</div>
-          <div class="cs-col-text">Operators were rebuilding similar configurations from scratch — repetitive, error-prone, and slow. Every duplicate setup carried the same risk of misconfiguration.</div>
-        </div>
-        <div>
-          <div class="cs-col-label">Approach</div>
-          <div class="cs-col-text">Used Jobs to Be Done and opportunity solution tree mapping to understand operator workflows in depth. Identified that a copy/duplicate function addressed the core job — not a nice-to-have, but the missing piece.</div>
-        </div>
-        <div>
-          <div class="cs-col-label">Outcome</div>
-          <div class="cs-col-text">Configuration time dropped from 105 to 27 seconds — a 74% reduction. Error rates fell. Operators moved faster with more confidence, and support load dropped alongside it.</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Case Study 3 -->
-    <div class="cs-card cs-card--dark reveal">
-      <div class="cs-top-bar">
-        <span class="cs-company">Arrive (former EasyPark Group)</span>
-        <span class="cs-period">2024</span>
-      </div>
-      <h3 class="cs-headline">Background<br><span class="scribble">Validation<svg class="scribble-svg" viewBox="0 0 300 20" preserveAspectRatio="none" aria-hidden="true">
-        <path d="M1 9 C55 5, 115 4, 185 6 S255 10, 296 12" stroke="#FFB0C8" stroke-width="1.4" fill="none" stroke-linecap="round" opacity="0.8"/>
-        <path d="M25 13 C72 9, 132 8, 198 10 S258 14, 282 16" stroke="#FFB0C8" stroke-width="2.6" fill="none" stroke-linecap="round"/>
-        <path d="M250 11 L266 3 L258 18 L274 9" stroke="#FFB0C8" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg></span></h3>
-
-      <div class="cs-metrics">
-        <div class="cs-metric">
-          <div class="cs-metric-value" data-count="33">33</div>
-          <div class="cs-metric-label">Parameters validated per config</div>
-        </div>
-        <div class="cs-metric">
-          <div class="cs-metric-value" data-count="36" data-suffix="%">36%</div>
-          <div class="cs-metric-label">Fewer misconfigurations YoY</div>
-        </div>
-        <div class="cs-metric">
-          <div class="cs-metric-value">Silent</div>
-          <div class="cs-metric-label">Zero workflow interruptions</div>
-        </div>
-      </div>
-
-      <div class="val-demo" id="val-demo">
-
-        <!-- Sidebar nav mock -->
-        <div class="val-sb">
-          <div class="val-sb-icon">
-            <svg viewBox="0 0 24 24"><path d="M3 12L12 4l9 8M5 10v9a1 1 0 001 1h4v-5h4v5h4a1 1 0 001-1v-9"/></svg>
-          </div>
-          <div class="val-sb-icon">
-            <svg viewBox="0 0 24 24"><path d="M7 7h10M7 12h6M7 17h4M5 3h14a2 2 0 012 2v14a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2z"/></svg>
-          </div>
-          <div class="val-sb-icon val-sb-icon--active" style="flex-direction:column;height:auto;padding:5px 0;gap:4px;">
-            <div style="position:relative;width:32px;height:32px;display:flex;align-items:center;justify-content:center;">
-              <svg viewBox="0 0 24 24" style="width:16px;height:16px;"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-              <div class="val-badge">3</div>
-            </div>
-            <div class="val-sb-counts">
-              <div class="val-sb-dot val-sb-dot--err">2</div>
-              <div class="val-sb-dot val-sb-dot--warn">1</div>
-            </div>
-          </div>
-          <div class="val-sb-icon">
-            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93A10 10 0 1 0 4.93 19.07M12 2v2M12 20v2M2 12h2M20 12h2"/></svg>
-          </div>
-        </div>
-
-        <!-- Main panel -->
-        <div class="val-panel">
-
-          <!-- Scan header -->
-          <div class="val-scan">
-            <span class="val-dot"></span>
-            <span class="val-scan-label">Background validation</span>
-            <div class="val-scan-track"><div class="val-scan-beam"></div></div>
-            <span class="val-scan-count">33 / 33</span>
-          </div>
-
-          <!-- Issue list -->
-          <div class="val-issues">
-            <div class="val-issue val-issue--1">
-              <div class="val-sev val-sev--err">✕</div>
-              <div class="val-body">
-                <div class="val-code">PRICE_SPIKE_MEDIAN</div>
-                <div class="val-ctx">Table 'Weekend'<span class="val-ctx-sep">›</span>Period 3</div>
-              </div>
-              <span class="val-action">Review</span>
-            </div>
-            <div class="val-issue val-issue--2">
-              <div class="val-sev val-sev--err">✕</div>
-              <div class="val-body">
-                <div class="val-code">OVERLAPPING_TABLE_DATES</div>
-                <div class="val-ctx">Tables 'Standard'<span class="val-ctx-sep">›</span>'Holiday'</div>
-              </div>
-              <span class="val-action">Review</span>
-            </div>
-            <div class="val-issue val-issue--3">
-              <div class="val-sev val-sev--warn">!</div>
-              <div class="val-body">
-                <div class="val-code">ZERO_PRICE</div>
-                <div class="val-ctx">Table 'Standard'<span class="val-ctx-sep">›</span>Period 7</div>
-              </div>
-              <span class="val-action">Review</span>
-            </div>
-            <div class="val-issue val-issue--4">
-              <div class="val-sev val-sev--ack">✓</div>
-              <div class="val-body">
-                <div class="val-code">MAX_PARKING_FEE_ZERO</div>
-                <div class="val-ctx">Acknowledged<span class="val-ctx-sep">·</span>2 min ago</div>
-              </div>
-              <span class="val-action">Restore</span>
-            </div>
-          </div>
-
-        </div>
-      </div>
-
-      <div class="cs-narrative">
-        <div>
-          <div class="cs-col-label">Problem</div>
-          <div class="cs-col-text">Misconfigurations were frequent and hard to detect. Operators often didn't know something was wrong until it had real-world consequences — incorrect pricing live in market, support escalations, and eroded trust in the system.</div>
-        </div>
-        <div>
-          <div class="cs-col-label">Approach</div>
-          <div class="cs-col-text">Ran a deep-dive root cause analysis across misconfiguration reports to find patterns. Most errors fell into predictable categories: price spikes above the median or adjacent-unit threshold, zero prices on active periods, cap fields set to zero, date ranges where validFrom exceeded validTo, and pricing tables that had expired or left gaps in coverage. Designed a background validation tool that checks 33 parameters silently on every save — surfacing issues as non-intrusive notifications, never blocking the workflow.</div>
-        </div>
-        <div>
-          <div class="cs-col-label">Outcome</div>
-          <div class="cs-col-text">Misconfigurations reduced by 36% year-on-year. Operators get immediate visibility into potential issues without friction. Errors are caught at the source before reaching live pricing — and acknowledged issues leave a clear audit trail.</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Case Study 4 -->
-    <div class="cs-card cs-card--light reveal">
-      <div class="cs-top-bar">
-        <span class="cs-company">Arrive (former EasyPark Group)</span>
-        <span class="cs-period">2024</span>
-      </div>
-      <h3 class="cs-headline">Mass Price<br><span class="scribble">Validator<svg class="scribble-svg" viewBox="0 0 300 20" preserveAspectRatio="none" aria-hidden="true">
-        <path d="M1 9 C55 5, 115 4, 185 6 S255 10, 296 12" stroke="#FFB0C8" stroke-width="1.4" fill="none" stroke-linecap="round" opacity="0.8"/>
-        <path d="M25 13 C72 9, 132 8, 198 10 S258 14, 282 16" stroke="#FFB0C8" stroke-width="2.6" fill="none" stroke-linecap="round"/>
-        <path d="M250 11 L266 3 L258 18 L274 9" stroke="#FFB0C8" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg></span></h3>
-
-      <div class="cs-metrics">
-        <div class="cs-metric">
-          <div class="cs-metric-value" data-count="0">0</div>
-          <div class="cs-metric-label">Holiday incidents since release</div>
-        </div>
-        <div class="cs-metric">
-          <div class="cs-metric-value">&lt; 1hr</div>
-          <div class="cs-metric-label">AI prototype built live on stakeholder call · validated · handed to eng</div>
-        </div>
-        <div class="cs-metric">
-          <div class="cs-metric-value">US</div>
-          <div class="cs-metric-label">Nationwide · thousands of zones</div>
-        </div>
-      </div>
-
-      <!-- Price test visualization -->
-      <div class="pt-viz" id="pt-demo">
-        <div class="pt-viz-header">
-          <span class="pt-run-label">▶ Running</span>
-          <div class="pt-progress-track"><div class="pt-progress-bar"></div></div>
-          <div class="pt-chips">
-            <span class="pt-chip">Jul 4</span>
-            <span class="pt-chip">Nov 28</span>
-            <span class="pt-chip">Dec 25</span>
-          </div>
-        </div>
-        <div class="pt-grid" id="pt-grid"></div>
-        <div class="pt-viz-footer">
-          <span class="pt-footer-stat"><strong>132</strong> zones checked</span>
-          <span class="pt-footer-stat"><strong>5</strong> anomalies</span>
-          <span class="pt-footer-flag">⚑ Paid when should be free</span>
-        </div>
-      </div>
-
-      <div class="cs-narrative">
-        <div>
-          <div class="cs-col-label">Problem</div>
-          <div class="cs-col-text">Configuration experts managing parking across major US cities faced a scale problem: a single nationwide holiday across thousands of zones meant one missed configuration could result in drivers being charged when parking should have been free.</div>
-        </div>
-        <div>
-          <div class="cs-col-label">Approach</div>
-          <div class="cs-col-text">Built a working prototype with AI during the stakeholder call itself — validated live, iterated on the spot, and confirmed as the right solution within the hour. Handed off to engineering the same day to build it securely and properly. The tool lets users select multiple holiday dates, configure time windows and durations, then fire price calls across the full zone estate. A "Check Free Holiday" mode highlights any zone returning a price above zero.</div>
-        </div>
-        <div>
-          <div class="cs-col-label">Outcome</div>
-          <div class="cs-col-text">Zero holiday-related pricing incidents reported since release. The tool's flexibility made it useful beyond holidays — it's now a general-purpose pricing QA tool used by configuration experts across markets.</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Case Study 5 -->
-    <div class="cs-card cs-card--dark reveal">
-      <div class="cs-top-bar">
-        <span class="cs-company">Arrive (former EasyPark Group)</span>
-        <span class="cs-period">2022 — 2024</span>
-      </div>
-      <h3 class="cs-headline">Platform<br><span class="scribble">Migration<svg class="scribble-svg" viewBox="0 0 300 20" preserveAspectRatio="none" aria-hidden="true">
-        <path d="M1 9 C55 5, 115 4, 185 6 S255 10, 296 12" stroke="#FFB0C8" stroke-width="1.4" fill="none" stroke-linecap="round" opacity="0.8"/>
-        <path d="M25 13 C72 9, 132 8, 198 10 S258 14, 282 16" stroke="#FFB0C8" stroke-width="2.6" fill="none" stroke-linecap="round"/>
-        <path d="M250 11 L266 3 L258 18 L274 9" stroke="#FFB0C8" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg></span></h3>
-
-      <div class="cs-metrics">
-        <div class="cs-metric">
-          <div class="cs-metric-value" data-count="35" data-suffix="+">35+</div>
-          <div class="cs-metric-label">Distinct gaps identified &amp; closed</div>
-        </div>
-        <div class="cs-metric">
-          <div class="cs-metric-value" data-count="18" data-suffix=" mo">18 mo</div>
-          <div class="cs-metric-label">End-to-end project span</div>
-        </div>
-        <div class="cs-metric">
-          <div class="cs-metric-value">Auto</div>
-          <div class="cs-metric-label">Programmatic migration jobs — no manual rework</div>
-        </div>
-      </div>
-
-      <div class="mig-viz" id="mig-demo">
-        <div class="mig-main">
-          <div class="mig-svg-wrap">
-            <svg class="mig-svg" viewBox="0 0 280 280" xmlns="http://www.w3.org/2000/svg">
-              <circle class="mig-track" cx="140" cy="140" r="118"/>
-              <circle class="mig-track" cx="140" cy="140" r="96"/>
-              <circle class="mig-track" cx="140" cy="140" r="74"/>
-              <circle class="mig-track" cx="140" cy="140" r="52"/>
-              <circle class="mig-track" cx="140" cy="140" r="30"/>
-              <circle class="mig-ring mig-ring--1" cx="140" cy="140" r="118"/>
-              <circle class="mig-ring mig-ring--2" cx="140" cy="140" r="96"/>
-              <circle class="mig-ring mig-ring--3" cx="140" cy="140" r="74"/>
-              <circle class="mig-ring mig-ring--4" cx="140" cy="140" r="52"/>
-              <circle class="mig-ring mig-ring--5" cx="140" cy="140" r="30"/>
-              <g class="mig-center">
-                <text class="mig-num" x="140" y="148" text-anchor="middle" dominant-baseline="middle">35+</text>
-                <text class="mig-sub" x="140" y="170" text-anchor="middle">GAPS CLOSED</text>
-              </g>
-            </svg>
-          </div>
-
-          <div class="mig-legend">
-            <div class="mig-item">
-              <div class="mig-swatch mig-swatch--1"></div>
-              <div class="mig-item-label">
-                <span class="mig-item-name">Calculation engine</span>
-                <span class="mig-item-count">12 gaps</span>
-              </div>
-            </div>
-            <div class="mig-item">
-              <div class="mig-swatch mig-swatch--2"></div>
-              <div class="mig-item-label">
-                <span class="mig-item-name">Configuration UI</span>
-                <span class="mig-item-count">10 gaps</span>
-              </div>
-            </div>
-            <div class="mig-item">
-              <div class="mig-swatch mig-swatch--3"></div>
-              <div class="mig-item-label">
-                <span class="mig-item-name">Migration jobs</span>
-                <span class="mig-item-count">7 gaps</span>
-              </div>
-            </div>
-            <div class="mig-item">
-              <div class="mig-swatch mig-swatch--4"></div>
-              <div class="mig-item-label">
-                <span class="mig-item-name">Tariff types</span>
-                <span class="mig-item-count mig-item-count--new">4 new</span>
-              </div>
-            </div>
-            <div class="mig-item">
-              <div class="mig-swatch mig-swatch--5"></div>
-              <div class="mig-item-label">
-                <span class="mig-item-name">Simulation tools</span>
-                <span class="mig-item-count mig-item-count--new">4 new</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="mig-timeline">
-          <span class="mig-tl-label">Start</span>
-          <div class="mig-tl-track">
-            <div class="mig-tl-line"></div>
-            <div class="mig-tl-marks" id="mig-marks"></div>
-          </div>
-          <span class="mig-tl-label mig-tl-label--end">18 months · complete</span>
-        </div>
-      </div>
-
-      <div class="cs-narrative">
-        <div>
-          <div class="cs-col-label">Problem</div>
-          <div class="cs-col-text">A legacy parking platform was being sunset. Before migration could begin, every configuration model, tariff type, and pricing behaviour had to be mapped against the new platform — with gaps documented, prioritised, and closed without disrupting live markets.</div>
-        </div>
-        <div>
-          <div class="cs-col-label">Approach</div>
-          <div class="cs-col-text">Led systematic gap discovery across the full platform scope — calculation engine, configuration UI, tariff types, and operator workflows. Identified 35+ distinct gaps. Built simulation tools to verify pricing parity between legacy and new outputs. A new tariff type was created to cover previously unsupported configurations. Automated migration jobs handled the bulk transfer at scale.</div>
-        </div>
-        <div>
-          <div class="cs-col-label">Outcome</div>
-          <div class="cs-col-text">All 35+ gaps identified, scoped, and closed over 18 months. Pricing parity validated across all migrated markets. Programmatic migration jobs eliminated manual rework. The platform migration completed with no pricing incidents in production.</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Case Study 6 -->
-    <div class="cs-card cs-card--light reveal">
-      <div class="cs-top-bar">
-        <span class="cs-company">Arrive (former EasyPark Group)</span>
-        <span class="cs-period">2024</span>
-      </div>
-      <h3 class="cs-headline">Self-Service<br><span class="scribble">Discovery<svg class="scribble-svg" viewBox="0 0 300 20" preserveAspectRatio="none" aria-hidden="true">
-        <path d="M1 9 C55 5, 115 4, 185 6 S255 10, 296 12" stroke="#FFB0C8" stroke-width="1.4" fill="none" stroke-linecap="round" opacity="0.8"/>
-        <path d="M25 13 C72 9, 132 8, 198 10 S258 14, 282 16" stroke="#FFB0C8" stroke-width="2.6" fill="none" stroke-linecap="round"/>
-        <path d="M250 11 L266 3 L258 18 L274 9" stroke="#FFB0C8" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg></span></h3>
-
-      <div class="cs-metrics">
-        <div class="cs-metric">
-          <div class="cs-metric-value" data-count="5650" data-suffix="+">5650+</div>
-          <div class="cs-metric-label">EU operators scored &amp; segmented</div>
-        </div>
-        <div class="cs-metric">
-          <div class="cs-metric-value" data-count="52" data-suffix="%">52%</div>
-          <div class="cs-metric-label">Immediate self-service candidates</div>
-        </div>
-        <div class="cs-metric">
-          <div class="cs-metric-value" data-count="24">24</div>
-          <div class="cs-metric-label">Self-serviceable tariff fields</div>
-        </div>
-      </div>
-
-      <!-- Operator unlock curve chart -->
-      <div class="ssrm-chart-wrap" id="ssrm-demo">
-        <div class="ssrm-chart-header">
-          <span>Cumulative operator coverage by feature tier</span>
-          <span>EU · 5,641 operators</span>
-        </div>
-        <div class="ssrm-svg-wrap">
-          <svg class="ssrm-svg" viewBox="0 0 580 220" xmlns="http://www.w3.org/2000/svg">
-            <!-- Y-axis labels -->
-            <text x="38" y="24"  font-family="IBM Plex Mono,monospace" font-size="8" fill="rgba(0,0,0,0.3)" text-anchor="end">100%</text>
-            <text x="38" y="62"  font-family="IBM Plex Mono,monospace" font-size="8" fill="rgba(0,0,0,0.3)" text-anchor="end">80%</text>
-            <text x="38" y="100" font-family="IBM Plex Mono,monospace" font-size="8" fill="rgba(0,0,0,0.3)" text-anchor="end">60%</text>
-            <text x="38" y="138" font-family="IBM Plex Mono,monospace" font-size="8" fill="rgba(0,0,0,0.3)" text-anchor="end">40%</text>
-            <text x="38" y="176" font-family="IBM Plex Mono,monospace" font-size="8" fill="rgba(0,0,0,0.3)" text-anchor="end">20%</text>
-            <text x="38" y="208" font-family="IBM Plex Mono,monospace" font-size="8" fill="rgba(0,0,0,0.3)" text-anchor="end">0%</text>
-            <!-- Grid lines -->
-            <line x1="44" y1="20"  x2="564" y2="20"  stroke="rgba(0,0,0,0.05)" stroke-width="1"/>
-            <line x1="44" y1="58"  x2="564" y2="58"  stroke="rgba(0,0,0,0.05)" stroke-width="1"/>
-            <line x1="44" y1="96"  x2="564" y2="96"  stroke="rgba(0,0,0,0.05)" stroke-width="1"/>
-            <line x1="44" y1="134" x2="564" y2="134" stroke="rgba(0,0,0,0.05)" stroke-width="1"/>
-            <line x1="44" y1="172" x2="564" y2="172" stroke="rgba(0,0,0,0.05)" stroke-width="1"/>
-            <line x1="44" y1="210" x2="564" y2="210" stroke="rgba(0,0,0,0.1)"  stroke-width="1"/>
-
-            <!-- X-axis labels -->
-            <text x="84"  y="220" font-family="IBM Plex Mono,monospace" font-size="7" fill="rgba(0,0,0,0.3)" text-anchor="middle">F1</text>
-            <text x="124" y="220" font-family="IBM Plex Mono,monospace" font-size="7" fill="rgba(0,0,0,0.3)" text-anchor="middle">F2</text>
-            <text x="164" y="220" font-family="IBM Plex Mono,monospace" font-size="7" fill="rgba(0,0,0,0.3)" text-anchor="middle">F3</text>
-            <text x="204" y="220" font-family="IBM Plex Mono,monospace" font-size="7" fill="rgba(0,0,0,0.3)" text-anchor="middle">F4</text>
-            <text x="244" y="220" font-family="IBM Plex Mono,monospace" font-size="7" fill="rgba(0,0,0,0.3)" text-anchor="middle">F5</text>
-            <text x="284" y="220" font-family="IBM Plex Mono,monospace" font-size="7" fill="rgba(0,0,0,0.3)" text-anchor="middle">F6</text>
-            <text x="324" y="220" font-family="IBM Plex Mono,monospace" font-size="7" fill="rgba(0,0,0,0.3)" text-anchor="middle">F7</text>
-            <text x="364" y="220" font-family="IBM Plex Mono,monospace" font-size="7" fill="rgba(0,0,0,0.5)" text-anchor="middle" font-weight="bold">F8</text>
-            <text x="404" y="220" font-family="IBM Plex Mono,monospace" font-size="7" fill="rgba(0,0,0,0.3)" text-anchor="middle">F9</text>
-            <text x="444" y="220" font-family="IBM Plex Mono,monospace" font-size="7" fill="rgba(0,0,0,0.3)" text-anchor="middle">F10</text>
-            <text x="484" y="220" font-family="IBM Plex Mono,monospace" font-size="7" fill="rgba(0,0,0,0.3)" text-anchor="middle">F11</text>
-            <text x="524" y="220" font-family="IBM Plex Mono,monospace" font-size="7" fill="rgba(0,0,0,0.3)" text-anchor="middle">F12</text>
-
-            <!-- Animated chart area (clip-path left-to-right reveal) -->
-            <g class="ssrm-chart-area">
-              <!-- Step fill: pink accent -->
-              <path d="M44 210 V207 H84 V206 H124 V202 H164 V202 H204 V194 H244 V194 H284 V180 H324 V76 H364 V59 H404 V58 H444 V46 H484 V36 H524 V36 H564 V210 Z"
-                    fill="rgba(255,176,200,0.15)"/>
-              <!-- Step line -->
-              <path d="M44 210 V207 H84 V206 H124 V202 H164 V202 H204 V194 H244 V194 H284 V180 H324 V76 H364 V59 H404 V58 H444 V46 H484 V36 H524 V36 H564"
-                    fill="none" stroke="rgba(10,10,10,0.75)" stroke-width="2" stroke-linejoin="round"/>
-              <!-- Data points -->
-              <circle cx="84"  cy="207" r="2.5" fill="#0a0a0a" opacity="0.5"/>
-              <circle cx="124" cy="206" r="2.5" fill="#0a0a0a" opacity="0.5"/>
-              <circle cx="164" cy="202" r="2.5" fill="#0a0a0a" opacity="0.5"/>
-              <circle cx="204" cy="202" r="2.5" fill="#0a0a0a" opacity="0.5"/>
-              <circle cx="244" cy="194" r="2.5" fill="#0a0a0a" opacity="0.5"/>
-              <circle cx="284" cy="194" r="2.5" fill="#0a0a0a" opacity="0.5"/>
-              <circle cx="324" cy="180" r="2.5" fill="#0a0a0a" opacity="0.5"/>
-              <!-- F8 highlight point -->
-              <circle cx="364" cy="76" r="4"   fill="#FFB0C8"/>
-              <circle cx="404" cy="59"  r="2.5" fill="#0a0a0a" opacity="0.5"/>
-              <circle cx="444" cy="58"  r="2.5" fill="#0a0a0a" opacity="0.5"/>
-              <circle cx="484" cy="46"  r="2.5" fill="#0a0a0a" opacity="0.5"/>
-              <circle cx="524" cy="36"  r="2.5" fill="#0a0a0a" opacity="0.5"/>
-            </g>
-
-            <!-- MVP annotation (appears after reveal) -->
-            <g class="ssrm-mvp-ann">
-              <line x1="364" y1="76" x2="364" y2="14" stroke="#FFB0C8" stroke-width="1" stroke-dasharray="3 3"/>
-              <rect x="250" y="4" width="226" height="16" rx="0" fill="white"/>
-              <text x="363" y="14" font-family="Syne,sans-serif" font-size="8" fill="#FFB0C8" font-weight="700" text-anchor="middle" letter-spacing="1">F8 = MVP THRESHOLD · 71% OF OPERATORS UNLOCKED</text>
-            </g>
+  <section id="about" class="section surface-light" data-surface="light">
+    <div class="wrap">
+      <div class="section-label eyebrow reveal"><span class="section-num">01</span><span>About</span></div>
+      <div class="about-grid">
+        <div class="about-photo-wrap reveal">
+          <img src="profile.jpg" alt="Portrait of Glenn Svendsen" class="about-photo" width="900" height="1200" loading="lazy">
+          <svg class="pipe-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path class="pp-body" d="M 62 68 C 61 77, 61 84, 62 89 C 68 92, 80 92, 86 89 C 87 84, 87 77, 86 68" fill="rgba(255,176,200,0.1)" stroke="#FFB0C8" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+            <path class="pp-rim" d="M 62 68 C 67 65, 81 65, 86 68 C 81 71, 67 71, 62 68" fill="rgba(10,10,10,0.15)" stroke="#FFB0C8" stroke-width="2.1" stroke-linecap="round"/>
+            <path class="pp-handle" d="M 86 73 C 93 73, 93 84, 86 84" fill="none" stroke="#FFB0C8" stroke-width="2.1" stroke-linecap="round"/>
+            <path class="pp-fill" d="M 64 68 C 68 66, 80 66, 84 68 C 80 70, 68 70, 64 68" fill="rgba(10,10,10,0.25)" stroke="#FFB0C8" stroke-width="1.3" stroke-linecap="round" opacity="0.8"/>
+            <path class="pp-s1" d="M 68 64 C 65 57, 71 50, 67 43 C 63 36, 69 29, 65 22" fill="none" stroke="#FFB0C8" stroke-width="1.6" stroke-linecap="round"/>
+            <path class="pp-s2" d="M 74 63 C 77 56, 71 49, 75 42 C 79 35, 73 28, 77 21" fill="none" stroke="#FFB0C8" stroke-width="1.3" stroke-linecap="round"/>
+            <path class="pp-s3" d="M 80 64 C 83 57, 77 50, 81 43 C 85 36, 79 29, 83 22" fill="none" stroke="#FFB0C8" stroke-width="1.1" stroke-linecap="round"/>
+            <path class="pp-d1" d="M 11 5 L 4 5 L 4 14" fill="none" stroke="#FFB0C8" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+            <path class="pp-d2" d="M 11 95 L 4 95 L 4 86" fill="none" stroke="#FFB0C8" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+            <path class="pp-d3" d="M 87 9 L 93 9 M 90 6 L 90 12 M 87.8 6.8 L 92.2 11.2 M 92.2 6.8 L 87.8 11.2" fill="none" stroke="#FFB0C8" stroke-width="1.1" stroke-linecap="round"/>
+            <path class="pp-d4" d="M 7 93 C 22 90, 45 95, 62 92 S 82 89, 93 92" fill="none" stroke="#FFB0C8" stroke-width="0.9" stroke-linecap="round" opacity="0.8"/>
+            <path class="pp-d5" d="M 10 95 C 25 92, 47 97, 64 94 S 83 91, 93 94" fill="none" stroke="#FFB0C8" stroke-width="1.6" stroke-linecap="round"/>
           </svg>
         </div>
-        <div class="ssrm-segments">
-          <div class="ssrm-seg ssrm-seg--highlighted">
-            <div class="ssrm-seg-pct ssrm-seg-pct--simple">10.3%</div>
-            <div class="ssrm-seg-label">Simple</div>
+        <div class="reveal">
+          <h2 class="display about-heading">Hi, I'm Glenn.</h2>
+          <div class="about-body">
+            <p>
+              I'm a <span class="scribble">Senior Product Manager</span> at Arrive (formerly EasyPark Group),
+              where I own parking policies and pricing across Europe, ANZ and the US.
+            </p>
+            <p>
+              My work sits where complex systems meet real people: operators configuring prices for
+              thousands of zones, where one wrong field means a driver pays when parking should have been free.
+              I like taking that kind of complexity and making it <strong>safe, simple and fast</strong>.
+            </p>
+            <p>
+              I lean on continuous discovery, hard data and hands-on prototyping. When it helps a
+              decision, I'll build the first version myself, often with AI, sometimes during the meeting.
+              Outside work I build small apps and games, mostly to learn.
+            </p>
           </div>
-          <div class="ssrm-seg ssrm-seg--highlighted">
-            <div class="ssrm-seg-pct ssrm-seg-pct--moderate">41.7%</div>
-            <div class="ssrm-seg-label">Moderate ← 52% self-service ready</div>
-          </div>
-          <div class="ssrm-seg">
-            <div class="ssrm-seg-pct ssrm-seg-pct--complex">23.1%</div>
-            <div class="ssrm-seg-label">Complex</div>
-          </div>
-          <div class="ssrm-seg">
-            <div class="ssrm-seg-pct ssrm-seg-pct--vcomplex">25.0%</div>
-            <div class="ssrm-seg-label">Very Complex</div>
+          <div class="about-facts eyebrow">
+            <span>5+ years in product</span>
+            <span>B2B · B2C · B2G</span>
+            <span>Based in Oslo</span>
           </div>
         </div>
       </div>
+    </div>
+  </section>
 
-      <div class="cs-narrative">
-        <div>
-          <div class="cs-col-label">Problem</div>
-          <div class="cs-col-text">Operators had no ability to update their own pricing. Every rate change — however routine — required a configuration expert. The question was whether a self-service product was viable, and if so, what exactly would it need to cover to be useful to the breadth of the operator base.</div>
-        </div>
-        <div>
-          <div class="cs-col-label">Approach</div>
-          <div class="cs-col-text">Pulled operator and tariff data from Snowflake for 5,650+ EU operators. Built a 0–25 complexity scoring model across 39 configuration dimensions, segmenting the operator base into four tiers. Mapped all 40 tariff fields for self-serviceability. Modelled a feature milestone roadmap showing the cumulative operator coverage unlocked at each tier — revealing that 8 feature tiers alone would cover 71% of all operators.</div>
-        </div>
-        <div>
-          <div class="cs-col-label">Outcome</div>
-          <div class="cs-col-text">Delivered a data-backed MVP scope with quantified coverage at every feature milestone. Identified that 52% of operators are immediately viable candidates. Price changes — the most requested operator action — emerged as the clearest, highest-value starting point for any self-service feature.</div>
+  <!-- ── WHAT I DO ────────────────────────── -->
+  <section id="skills" class="section surface-dark" data-surface="dark">
+    <div class="wrap">
+      <div class="section-label eyebrow reveal"><span class="section-num">02</span><span>What I do</span></div>
+      <h2 class="display section-title reveal">How I work.</h2>
+      <p class="section-intro reveal">Four things I bring to a product team, each backed by a case study below.</p>
+
+      <div class="pillars">
+        <article class="pillar reveal">
+          <span class="eyebrow pillar-num">01</span>
+          <h3>Discovery that changes the roadmap</h3>
+          <p>Jobs to be Done, opportunity solution trees and a steady rhythm of user interviews, so we build the missing piece instead of the loudest request.</p>
+          <a class="pillar-proof" href="#case-pricing-engine"><b>66→87%</b><span>CSAT lift</span></a>
+        </article>
+        <article class="pillar reveal">
+          <span class="eyebrow pillar-num">02</span>
+          <h3>Making complex platforms safe</h3>
+          <p>Pricing engines, configuration tools and platform migrations, where mistakes cost real money. I help design guardrails that catch errors without slowing people down, and I'm trained in incident management for when things still go wrong.</p>
+          <a class="pillar-proof" href="#case-validation"><b>−36%</b><span>misconfigurations</span></a>
+        </article>
+        <article class="pillar reveal">
+          <span class="eyebrow pillar-num">03</span>
+          <h3>Decisions backed by data</h3>
+          <p>Hands-on analysis in SQL and Snowflake: sizing opportunities, segmenting users and finding root causes, so priorities rest on evidence rather than opinion.</p>
+          <a class="pillar-proof" href="#case-self-service"><b>71%</b><span>coverage at MVP</span></a>
+        </article>
+        <article class="pillar reveal">
+          <span class="eyebrow pillar-num">04</span>
+          <h3>AI-native prototyping</h3>
+          <p>I build working prototypes in hours, not sprints, to check an idea with stakeholders before engineering commits to building it properly.</p>
+          <a class="pillar-proof" href="#case-price-validator"><b>&lt;1 hr</b><span>idea to validated prototype</span></a>
+        </article>
+      </div>
+
+      <div class="toolkit reveal">
+        <span class="eyebrow toolkit-label">Toolkit</span>
+        <div class="toolkit-groups">
+          <div class="toolkit-group">
+            <h3 class="eyebrow">Discovery</h3>
+            <ul><li>Continuous discovery</li><li>User interviews</li><li>Jobs to be Done</li><li>Opportunity solution trees</li><li>Dovetail</li></ul>
+          </div>
+          <div class="toolkit-group">
+            <h3 class="eyebrow">Data</h3>
+            <ul><li>SQL · Snowflake</li><li>Mixpanel</li><li>Segmentation &amp; scoring</li><li>Root-cause analysis</li></ul>
+          </div>
+          <div class="toolkit-group">
+            <h3 class="eyebrow">Leadership</h3>
+            <ul><li>Stakeholder management</li><li>OKRs</li><li>Incident management</li></ul>
+          </div>
+          <div class="toolkit-group">
+            <h3 class="eyebrow">Build</h3>
+            <ul><li>AI prototyping</li><li>JavaScript · React Native</li></ul>
+          </div>
         </div>
       </div>
     </div>
-
   </section>
 
-  <!-- ── PERSONAL PROJECTS ─────────────────── -->
-  <section id="projects">
-    <div class="section-label reveal">
-      <span class="section-num">03</span>
-      <span>Personal Projects</span>
+  <!-- ── WORK ─────────────────────────────── -->
+  <section id="work" aria-labelledby="work-title">
+
+    <div class="section work-intro surface-light" data-surface="light">
+      <div class="wrap">
+        <div class="section-label eyebrow reveal"><span class="section-num">03</span><span>Selected work</span></div>
+        <h2 id="work-title" class="display section-title reveal">Case studies.</h2>
+        <p class="section-intro reveal">Three in depth, three more below. Each one covers the problem, what I did, and what changed.</p>
+      </div>
     </div>
-    <div class="project-list">
 
-      <a class="pi reveal" href="https://glennsvendsen.github.io/equity/" target="_blank" rel="noopener">
-        <div class="pi-head">
-          <span class="pi-num">01</span>
-          <div class="pi-name-col">
-            <span class="pi-name">Equity</span>
-            <span class="pi-desc-line">Time balance tracker for iOS</span>
-          </div>
-          <span class="pi-arrow">↗</span>
+    <!-- Case 01 — Background Validation -->
+    <article id="case-validation" class="case surface-dark" data-surface="dark">
+      <div class="wrap">
+        <div class="case-bar eyebrow reveal">
+          <span class="case-company">Arrive (former EasyPark Group)</span>
+          <span>2024</span>
+          <span class="case-num">Case 01 / 06</span>
         </div>
-        <div class="pi-body">
-          <div class="pi-body-inner">
-            <img src="equity-logo.jpg" alt="" class="pi-img">
-            <div class="pi-detail">
-              <span class="pi-desc">Time balance tracker for iOS</span>
-              <span class="pi-tag">iOS · React Native</span>
+        <div class="case-head reveal">
+          <h3 class="display case-title">Background<br><span class="scribble">Validation</span></h3>
+          <p class="case-lede">A silent safety net that catches pricing mistakes before drivers ever see them.</p>
+        </div>
+        <dl class="metrics reveal">
+          <div class="metric"><dt data-count>36%</dt><dd>Fewer misconfigurations year-on-year</dd></div>
+          <div class="metric"><dt data-count>33</dt><dd>Rules checked on every save</dd></div>
+          <div class="metric"><dt>0</dt><dd>Blocking pop-ups. Checks never interrupt the workflow</dd></div>
+        </dl>
+
+        <figure class="case-visual reveal">
+          <div class="app vd" id="vd">
+            <div class="app-bar">
+              <span class="app-dots" aria-hidden="true"><i></i><i></i><i></i></span>
+              <span class="app-title">Tariff admin — Weekend tariff</span>
+              <span class="vd-try">Interactive</span>
+            </div>
+            <div class="vd-body">
+              <nav class="vd-side" aria-label="Tariff tool sections (illustration)">
+                <span class="vd-ico is-active" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 4h7v7H4zM13 4h7v4h-7zM13 10h7v10h-7zM4 13h7v7H4z"/></svg></span>
+                <span class="vd-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M9 4C7 4 6 5 6 7v2c0 1-1 3-2 3 1 0 2 2 2 3v2c0 2 1 3 3 3M15 4c2 0 3 1 3 3v2c0 1 1 3 2 3-1 0-2 2-2 3v2c0 2-1 3-3 3"/></svg></span>
+                <span class="vd-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3.5 12a8.5 8.5 0 1 0 2.6-6.1M3.5 4v4.5H8M12 7.5V12l3 2"/></svg></span>
+                <span class="vd-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M9 15l6-6M10.5 6.5l1-1a4 4 0 0 1 5.7 5.7l-1 1M13.5 17.5l-1 1a4 4 0 0 1-5.7-5.7l1-1"/></svg></span>
+                <span class="vd-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 4v16h16M7.5 15l4-4 3 3 5-6"/></svg></span>
+                <span class="vd-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 6h16v14H4zM4 10h16M8 3.5v4M16 3.5v4"/></svg></span>
+                <button type="button" class="vd-ico vd-shield" aria-expanded="true" aria-controls="vd-fly" aria-label="Validation: 1 issue">
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l8 4v5c0 4.5-3.4 8.3-8 9-4.6-.7-8-4.5-8-9V7l8-4z"/><path d="M9 12l2 2 4-4"/></svg>
+                  <span class="vd-badge" aria-hidden="true">1</span>
+                </button>
+              </nav>
+
+              <div class="vd-main">
+                <div class="vd-section-head"><span>Time based tariffs</span><span class="vd-section-sub">Weekend · 4 periods</span></div>
+                <table class="vd-table">
+                  <caption class="sr-only">Weekend tariff: price per hour for each period. Edit a price and press Save to run the validator.</caption>
+                  <thead><tr><th scope="col">Period</th><th scope="col">Time</th><th scope="col">Price / hour</th></tr></thead>
+                  <tbody>
+                    <tr><td>1</td><td>08:00–12:00</td><td><label class="vd-price"><span>€</span><input class="vd-input" inputmode="decimal" autocomplete="off" value="2.50" aria-label="Price per hour, period 1"></label></td></tr>
+                    <tr><td>2</td><td>12:00–17:00</td><td><label class="vd-price"><span>€</span><input class="vd-input" inputmode="decimal" autocomplete="off" value="3.00" aria-label="Price per hour, period 2"></label></td></tr>
+                    <tr class="is-flagged"><td>3</td><td>17:00–20:00</td><td><label class="vd-price"><span>€</span><input class="vd-input" inputmode="decimal" autocomplete="off" value="250.00" aria-label="Price per hour, period 3"></label></td></tr>
+                    <tr><td>4</td><td>20:00–23:00</td><td><label class="vd-price"><span>€</span><input class="vd-input" inputmode="decimal" autocomplete="off" value="1.50" aria-label="Price per hour, period 4"></label></td></tr>
+                  </tbody>
+                </table>
+                <div class="vd-actions">
+                  <span class="vd-status is-shown" role="status">✓ Saved · not blocked</span>
+                  <button type="button" class="vd-btn vd-reset">↺ Replay</button>
+                  <button type="button" class="vd-btn vd-save">Save</button>
+                </div>
+              </div>
+
+              <section class="vd-fly" id="vd-fly" aria-label="Tariff validation">
+                <header class="vd-fly-head">
+                  <span class="vd-fly-title">Tariff validation</span>
+                  <span class="vd-chip-count">1 error</span>
+                  <button type="button" class="vd-close" aria-label="Close validation">×</button>
+                </header>
+                <div class="vd-fly-body">
+                  <p class="vd-group vd-group--err">Errors (1)</p>
+                  <ul class="vd-list">
+                    <li class="vd-issue vd-issue--err">
+                      <span class="vd-sev" aria-hidden="true">!</span>
+                      <div class="vd-issue-text">
+                        <p class="vd-msg">Price is far above the median for this tariff.</p>
+                        <p class="vd-ctx">Period 3 · €250.00 is 91× the median</p>
+                        <code class="vd-code">PRICE_SPIKE_MEDIAN</code>
+                      </div>
+                      <button type="button" class="vd-ack" aria-label="Acknowledge">✓</button>
+                    </li>
+                  </ul>
+                </div>
+              </section>
+            </div>
+          </div>
+          <figcaption>Try it: change a price (try 0 or 99) and save. Issues show up quietly on the shield. Click it to review or acknowledge them.</figcaption>
+        </figure>
+
+        <div class="story reveal">
+          <div>
+            <h4 class="eyebrow">Problem</h4>
+            <p>Tariff configurations are detailed and complex, and small mistakes are easy to miss by eye. The goal was to catch them where they start, before they could ever reach drivers, without slowing operators down.</p>
+          </div>
+          <div>
+            <h4 class="eyebrow">What I did</h4>
+            <p>I ran a root-cause analysis across past configuration issues. Most fell into a few predictable patterns:</p>
+            <ul>
+              <li>Price spikes against the median</li>
+              <li>Zero prices on active periods</li>
+              <li>Caps set to zero, inverted date ranges</li>
+              <li>Expired or overlapping tables</li>
+            </ul>
+            <p style="margin-top:0.75rem">I then designed a background validator that checks 33 rules on every save and flags issues without ever blocking the save.</p>
+          </div>
+          <div class="story-outcome">
+            <h4 class="eyebrow">Outcome</h4>
+            <p>Misconfigurations fell 36% year-on-year. Errors are caught where they start, operators stay in their flow, and acknowledged warnings leave a clear audit trail.</p>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- Case 02 — Mass Price Validator -->
+    <article id="case-price-validator" class="case surface-light" data-surface="light">
+      <div class="wrap">
+        <div class="case-bar eyebrow reveal">
+          <span class="case-company">Arrive (former EasyPark Group)</span>
+          <span>2024</span>
+          <span class="case-num">Case 02 / 06</span>
+        </div>
+        <div class="case-head reveal">
+          <h3 class="display case-title">Mass Price<br><span class="scribble">Validator</span></h3>
+          <p class="case-lede">From stakeholder call to validated prototype in under an hour, built live with AI.</p>
+        </div>
+        <dl class="metrics reveal">
+          <div class="metric"><dt>&lt;1 hr</dt><dd>From problem to validated prototype, handed to engineering the same day</dd></div>
+          <div class="metric"><dt>0</dt><dd>Holiday pricing incidents since release</dd></div>
+          <div class="metric"><dt>1,000+</dt><dd>US zones checked in a single run</dd></div>
+        </dl>
+
+        <figure class="case-visual reveal">
+          <div class="chart hour" data-play>
+            <div class="chart-head">
+              <span class="chart-title">From problem to agreed solution, inside one call</span>
+              <span class="chart-sub">Built live with AI, stakeholders on the call</span>
+            </div>
+            <div class="hour-grid">
+              <div class="hour-loop" aria-hidden="true">
+                <svg viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
+                  <defs>
+                    <marker id="hour-arrow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                      <path class="hour-arrowhead" d="M1 1 L8 5 L1 9"/>
+                    </marker>
+                  </defs>
+                  <path class="hour-arc" d="M172.98 57.82 A95 95 0 0 1 242.18 127.02" marker-end="url(#hour-arrow)"/>
+                  <path class="hour-arc" d="M242.18 172.98 A95 95 0 0 1 172.98 242.18" marker-end="url(#hour-arrow)"/>
+                  <path class="hour-arc" d="M127.02 242.18 A95 95 0 0 1 57.82 172.98" marker-end="url(#hour-arrow)"/>
+                  <path class="hour-arc" d="M57.82 127.02 A95 95 0 0 1 127.02 57.82" marker-end="url(#hour-arrow)"/>
+                  <g class="hour-orbit"><circle cx="150" cy="55" r="7"/></g>
+                  <circle class="hour-node hour-node--key" cx="150" cy="55" r="6"/>
+                  <circle class="hour-node" cx="245" cy="150" r="6"/>
+                  <circle class="hour-node" cx="150" cy="245" r="6"/>
+                  <circle class="hour-node" cx="55" cy="150" r="6"/>
+                  <text class="hour-label" x="150" y="34" text-anchor="middle">Build</text>
+                  <text class="hour-label" x="263" y="154" text-anchor="start">Show</text>
+                  <text class="hour-label" x="150" y="276" text-anchor="middle">Feedback</text>
+                  <text class="hour-label" x="37" y="154" text-anchor="end">Adjust</text>
+                  <text class="hour-num" x="150" y="160" text-anchor="middle">&lt;1 HR</text>
+                  <text class="hour-sub" x="150" y="184" text-anchor="middle">ROUND AFTER ROUND</text>
+                </svg>
+              </div>
+              <ol class="hour-steps">
+                <li><b>Problem raised</b><span>One missed holiday setting across thousands of US zones means drivers get charged.</span></li>
+                <li class="is-key"><b>Build, show, adjust, live</b><span>Back and forth with stakeholders, making small improvements on the fly.</span></li>
+                <li><b>Agreed before the call ended</b><span>Validated as the right solution by the people who'd use it.</span></li>
+                <li><b>Handed to engineering the same day</b><span>Rebuilt properly and securely for production.</span></li>
+              </ol>
+            </div>
+            <div class="hour-vs">
+              <span class="eyebrow">Instead of</span>
+              <ol><li>Write spec</li><li>Design</li><li>Review</li><li>Build</li><li>First feedback</li></ol>
+            </div>
+          </div>
+        </figure>
+
+        <figure class="case-visual reveal">
+          <div class="app ptt" id="ptt">
+            <div class="app-bar">
+              <span class="app-dots" aria-hidden="true"><i></i><i></i><i></i></span>
+              <span class="app-title">Price testing tool — Validate pricing at scale</span>
+              <span class="vd-try">Interactive</span>
+            </div>
+
+            <div class="ptt-config">
+              <div class="ptt-field ptt-field--dates">
+                <span class="ptt-label" id="ptt-dates-label">Holidays to test</span>
+                <div class="ptt-chips" role="group" aria-labelledby="ptt-dates-label">
+                  <button type="button" class="ptt-chip" aria-pressed="true" data-date="Jul 4">Jul 4</button>
+                  <button type="button" class="ptt-chip" aria-pressed="true" data-date="Nov 27">Thanksgiving</button>
+                  <button type="button" class="ptt-chip" aria-pressed="true" data-date="Dec 25">Dec 25</button>
+                  <button type="button" class="ptt-chip" aria-pressed="false" data-date="Jan 1">Jan 1</button>
+                </div>
+              </div>
+              <div class="ptt-field">
+                <span class="ptt-label" id="ptt-dur-label">Price call from 12:00 for</span>
+                <div class="ptt-seg" role="group" aria-labelledby="ptt-dur-label">
+                  <button type="button" aria-pressed="false" data-min="30">30 min</button>
+                  <button type="button" aria-pressed="true" data-min="60">60 min</button>
+                  <button type="button" aria-pressed="false" data-min="120">120 min</button>
+                </div>
+              </div>
+              <div class="ptt-field">
+                <label class="ptt-switch">
+                  <input type="checkbox" class="ptt-free" checked>
+                  <span class="ptt-track" aria-hidden="true"></span>
+                  <span class="ptt-switch-text"><b>Check free holiday</b><small>Flag any zone that charges</small></span>
+                </label>
+              </div>
+              <div class="ptt-run-row">
+                <span class="ptt-state" role="status">Not run yet</span>
+                <button type="button" class="vd-btn vd-save ptt-run">▶ Run price test</button>
+              </div>
+              <div class="ptt-progress" aria-hidden="true"><div class="ptt-progress-bar"></div></div>
+            </div>
+
+            <div class="ptt-results">
+              <div class="ptt-stats">
+                <div class="ptt-stat"><b data-k="total">–</b><span>Total calls</span></div>
+                <div class="ptt-stat ptt-stat--free"><b data-k="free">–</b><span>Free ($0)</span></div>
+                <div class="ptt-stat ptt-stat--paid"><b data-k="paid">–</b><span>Paid (price &gt; 0)</span></div>
+              </div>
+              <div class="ptt-toolbar">
+                <span class="ptt-label">Results</span>
+                <div class="ptt-seg ptt-filter" role="group" aria-label="Filter results">
+                  <button type="button" aria-pressed="true" data-f="all">All</button>
+                  <button type="button" aria-pressed="false" data-f="paid">Paid only</button>
+                </div>
+              </div>
+              <div class="ptt-table-wrap">
+                <table class="ptt-table">
+                  <thead><tr><th scope="col">Zone</th><th scope="col">Date</th><th scope="col" class="ptt-col-win">Window</th><th scope="col">Price</th><th scope="col">Result</th></tr></thead>
+                  <tbody></tbody>
+                </table>
+                <p class="ptt-empty">Run the test to see results.</p>
+              </div>
+            </div>
+          </div>
+          <figcaption>Try it: pick holidays, change the duration and run the test. Dummy data. Zones that charge on a free holiday get flagged.</figcaption>
+        </figure>
+
+        <div class="story reveal">
+          <div>
+            <h4 class="eyebrow">Problem</h4>
+            <p>Configuration experts managing parking across major US cities had a scale problem. A single nationwide holiday touches thousands of zones, and one missed configuration means drivers get charged when parking should be free.</p>
+          </div>
+          <div>
+            <h4 class="eyebrow">What I did</h4>
+            <p>Instead of writing a spec, I built a working prototype with AI during the stakeholder call itself. We tested it live, iterated on the spot, and agreed it was the right solution within the hour. Engineering then built it properly and securely.</p>
+            <ul>
+              <li>Pick multiple holiday dates</li>
+              <li>Set time windows and durations</li>
+              <li>Run price calls across every zone</li>
+              <li>Flag any zone that returns a price above zero</li>
+            </ul>
+          </div>
+          <div class="story-outcome">
+            <h4 class="eyebrow">Outcome</h4>
+            <p>Zero holiday-related pricing incidents since release. Because the tool is flexible, it's now used as a general pricing QA tool by configuration experts across markets, not just for holidays.</p>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- Case 03 — Self-Service Discovery -->
+    <article id="case-self-service" class="case surface-dark" data-surface="dark">
+      <div class="wrap">
+        <div class="case-bar eyebrow reveal">
+          <span class="case-company">Arrive (former EasyPark Group)</span>
+          <span>2024</span>
+          <span class="case-num">Case 03 / 06</span>
+        </div>
+        <div class="case-head reveal">
+          <h3 class="display case-title">Self-Service<br><span class="scribble">Discovery</span></h3>
+          <p class="case-lede">Is self-service pricing viable? I answered with data before a line of code was written.</p>
+        </div>
+        <dl class="metrics reveal">
+          <div class="metric"><dt data-count>5,640+</dt><dd>EU operators scored and segmented</dd></div>
+          <div class="metric"><dt data-count>52%</dt><dd>Ready for self-service today</dd></div>
+          <div class="metric"><dt data-count>71%</dt><dd>Covered by the MVP (feature tier 8)</dd></div>
+        </dl>
+
+        <figure class="case-visual reveal">
+          <div class="chart" data-play>
+            <div class="chart-head">
+              <span class="chart-title">One feature tier takes coverage from 16% to 71%</span>
+              <span class="chart-sub">EU · 5,641 operators · cumulative share covered</span>
+            </div>
+            <div class="cols">
+              <div class="cols-y" aria-hidden="true">
+                <span style="bottom:100%">100%</span>
+                <span style="bottom:75%">75%</span>
+                <span style="bottom:50%">50%</span>
+                <span style="bottom:25%">25%</span>
+                <span style="bottom:0">0%</span>
+              </div>
+              <div class="cols-plot" role="list" aria-label="Cumulative operator coverage by feature tier">
+                <div class="col" role="listitem" tabindex="0" style="--v:2%;--i:0"  aria-label="Tier 1: 2%"><span class="col-bar"></span><span class="col-tip">F1 · 2%</span></div>
+                <div class="col" role="listitem" tabindex="0" style="--v:2%;--i:1"  aria-label="Tier 2: 2%"><span class="col-bar"></span><span class="col-tip">F2 · 2%</span></div>
+                <div class="col" role="listitem" tabindex="0" style="--v:4%;--i:2"  aria-label="Tier 3: 4%"><span class="col-bar"></span><span class="col-tip">F3 · 4%</span></div>
+                <div class="col" role="listitem" tabindex="0" style="--v:4%;--i:3"  aria-label="Tier 4: 4%"><span class="col-bar"></span><span class="col-tip">F4 · 4%</span></div>
+                <div class="col" role="listitem" tabindex="0" style="--v:8%;--i:4"  aria-label="Tier 5: 8%"><span class="col-bar"></span><span class="col-tip">F5 · 8%</span></div>
+                <div class="col" role="listitem" tabindex="0" style="--v:8%;--i:5"  aria-label="Tier 6: 8%"><span class="col-bar"></span><span class="col-tip">F6 · 8%</span></div>
+                <div class="col" role="listitem" tabindex="0" style="--v:16%;--i:6" aria-label="Tier 7: 16%"><span class="col-bar"></span><span class="col-label" aria-hidden="true">16%</span><span class="col-tip">F7 · 16%</span></div>
+                <div class="col col--key" role="listitem" tabindex="0" style="--v:71%;--i:7" aria-label="Tier 8, MVP threshold: 71%"><span class="col-bar"></span><span class="col-label" aria-hidden="true">71%</span><span class="col-tip">F8 · MVP · 71%</span></div>
+                <div class="col" role="listitem" tabindex="0" style="--v:79%;--i:8" aria-label="Tier 9: 79%"><span class="col-bar"></span><span class="col-tip">F9 · 79%</span></div>
+                <div class="col" role="listitem" tabindex="0" style="--v:80%;--i:9" aria-label="Tier 10: 80%"><span class="col-bar"></span><span class="col-tip">F10 · 80%</span></div>
+                <div class="col" role="listitem" tabindex="0" style="--v:86%;--i:10" aria-label="Tier 11: 86%"><span class="col-bar"></span><span class="col-tip">F11 · 86%</span></div>
+                <div class="col" role="listitem" tabindex="0" style="--v:92%;--i:11" aria-label="Tier 12: 92%"><span class="col-bar"></span><span class="col-label" aria-hidden="true">92%</span><span class="col-tip">F12 · 92%</span></div>
+              </div>
+              <div class="cols-x" aria-hidden="true">
+                <span>F1</span><span>F2</span><span>F3</span><span>F4</span><span>F5</span><span>F6</span>
+                <span>F7</span><span class="is-key">F8</span><span>F9</span><span>F10</span><span>F11</span><span>F12</span>
+              </div>
+            </div>
+            <p class="chart-callout"><b>Tier 8 became the MVP scope.</b> Everything after it adds far less.</p>
+
+            <div class="segs">
+              <p class="segs-title">Half of all operators are simple enough to self-serve today</p>
+              <div class="segs-bracket-wrap" aria-hidden="true">
+                <div class="segs-bracket"><span>52% self-service ready</span></div>
+              </div>
+              <div class="segs-bar" aria-hidden="true">
+                <span class="seg" style="--w:10.3%;--k:22%"></span>
+                <span class="seg" style="--w:41.7%;--k:42%"></span>
+                <span class="seg" style="--w:23.1%;--k:66%"></span>
+                <span class="seg" style="--w:25%;--k:90%"></span>
+              </div>
+              <ul class="segs-legend">
+                <li><i style="--k:22%"></i><div><b>10.3%</b><span>Simple</span></div></li>
+                <li><i style="--k:42%"></i><div><b>41.7%</b><span>Moderate</span></div></li>
+                <li><i style="--k:66%"></i><div><b>23.1%</b><span>Complex</span></div></li>
+                <li><i style="--k:90%"></i><div><b>25.0%</b><span>Very complex</span></div></li>
+              </ul>
+            </div>
+          </div>
+        </figure>
+
+        <div class="story reveal">
+          <div>
+            <h4 class="eyebrow">Problem</h4>
+            <p>Operators couldn't update their own prices. Every rate change, however routine, needed a configuration expert. Was a self-service product viable, and what would it have to cover to be useful across the whole operator base?</p>
+          </div>
+          <div>
+            <h4 class="eyebrow">What I did</h4>
+            <p>I pulled tariff data for 5,640+ EU operators from Snowflake and built a 0–25 complexity score across 39 configuration dimensions, splitting operators into four tiers. I checked all 40 tariff fields for whether operators could safely edit them (24 could), then modelled how much of the operator base each feature tier would cover.</p>
+          </div>
+          <div class="story-outcome">
+            <h4 class="eyebrow">Outcome</h4>
+            <p>A data-backed MVP scope with measured coverage at every milestone: 52% of operators viable right away, 71% covered by tier 8. Price changes, the most requested operator action, came out as the clear place to start.</p>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- More case studies -->
+    <div id="more-work" class="more surface-light surface-paper" data-surface="light">
+      <div class="wrap">
+        <button class="more-toggle" type="button" aria-expanded="false" aria-controls="more-panel">
+          <span class="more-toggle-text">
+            <span class="more-toggle-title">See 3 more case studies</span>
+            <span class="more-toggle-sub">Global pricing engine · Config copy · Platform migration</span>
+          </span>
+          <span class="more-icon" aria-hidden="true"></span>
+        </button>
+
+        <div class="more-panel" id="more-panel">
+          <div class="more-inner">
+            <div class="more-list">
+
+              <!-- Case 04 — Global Pricing Engine -->
+              <article id="case-pricing-engine" class="case--compact surface-light">
+                <div class="case-bar eyebrow">
+                  <span class="case-company">Arrive (former EasyPark Group)</span>
+                  <span>2023 — Ongoing</span>
+                  <span class="case-num">Case 04 / 06</span>
+                </div>
+                <div class="compact-grid">
+                  <div>
+                    <div class="case-head">
+                      <h3 class="display case-title">Global Pricing Engine</h3>
+                      <p class="case-lede">Owning the domain behind 2.8B+ price requests a year, and making it easier to configure correctly.</p>
+                    </div>
+                    <dl class="metrics">
+                      <div class="metric"><dt>2.8B+</dt><dd>Price requests served in 2025</dd></div>
+                      <div class="metric"><dt>6,000+</dt><dd>Parking operators globally</dd></div>
+                      <div class="metric"><dt>87%</dt><dd>Operator CSAT, up from 66%</dd></div>
+                    </dl>
+                  </div>
+                  <figure class="chart" data-play>
+                    <div class="chart-head">
+                      <span class="chart-title">Operator CSAT up 21 points</span>
+                      <span class="chart-sub">Before vs. after</span>
+                    </div>
+                    <div class="bars">
+                      <div class="bar-row"><span class="bar-label">Before</span><div class="bar-track"><div class="bar" style="--w:66%">66%</div></div></div>
+                      <div class="bar-row"><span class="bar-label">After</span><div class="bar-track"><div class="bar bar--after" style="--w:87%">87%</div></div></div>
+                    </div>
+                    <div class="bars-foot"><span>percentage points</span><b>+21</b></div>
+                  </figure>
+                </div>
+                <div class="story">
+                  <div>
+                    <h4 class="eyebrow">Problem</h4>
+                    <p>Pricing across 20+ countries, each with its own regulations, currencies and operator models, runs on one shared engine. Every new market adds edge cases, which makes getting configuration right harder as the platform grows.</p>
+                  </div>
+                  <div>
+                    <h4 class="eyebrow">What I did</h4>
+                    <p>I took ownership of the domain and ran structured discovery to learn where operators needed it to work better. I prioritised the edge cases that mattered most to them, worked with engineering on root causes, and set up regular user interviews.</p>
+                  </div>
+                  <div class="story-outcome">
+                    <h4 class="eyebrow">Outcome</h4>
+                    <p>CSAT rose from 66% to 87%. The engine runs live in every active market with 100% uptime over the last 24 months, and engineering time has shifted from maintenance to growth.</p>
+                  </div>
+                </div>
+              </article>
+
+              <!-- Case 05 — Config Copy -->
+              <article id="case-config-copy" class="case--compact surface-light">
+                <div class="case-bar eyebrow">
+                  <span class="case-company">Arrive (former EasyPark Group)</span>
+                  <span>2024</span>
+                  <span class="case-num">Case 05 / 06</span>
+                </div>
+                <div class="compact-grid">
+                  <div>
+                    <div class="case-head">
+                      <h3 class="display case-title">Config Copy</h3>
+                      <p class="case-lede">A small feature that removed the most repetitive job operators had.</p>
+                    </div>
+                    <dl class="metrics">
+                      <div class="metric"><dt>74%</dt><dd>Faster to create a configuration</dd></div>
+                      <div class="metric"><dt>−78 sec</dt><dd>Saved on every configuration</dd></div>
+                      <div class="metric"><dt>JTBD</dt><dd>Found with Jobs to be Done and an opportunity solution tree</dd></div>
+                    </dl>
+                  </div>
+                  <figure class="chart" data-play>
+                    <div class="chart-head">
+                      <span class="chart-title">74% less time per configuration</span>
+                      <span class="chart-sub">Seconds · before vs. after copy</span>
+                    </div>
+                    <div class="bars">
+                      <div class="bar-row"><span class="bar-label">Before</span><div class="bar-track"><div class="bar" style="--w:100%">105 sec</div></div></div>
+                      <div class="bar-row"><span class="bar-label">After</span><div class="bar-track"><div class="bar bar--after" style="--w:25.7%">27 sec</div></div></div>
+                    </div>
+                    <div class="bars-foot"><span>saved per configuration</span><b>−78 sec</b></div>
+                  </figure>
+                </div>
+                <div class="story">
+                  <div>
+                    <h4 class="eyebrow">Problem</h4>
+                    <p>Operators often needed configurations very similar to ones they already had, and building each from scratch meant repeating the same manual steps.</p>
+                  </div>
+                  <div>
+                    <h4 class="eyebrow">What I did</h4>
+                    <p>I mapped operator workflows with Jobs to be Done and an opportunity solution tree. It showed that copying an existing configuration wasn't a nice extra. It was what operators were actually trying to do.</p>
+                  </div>
+                  <div class="story-outcome">
+                    <h4 class="eyebrow">Outcome</h4>
+                    <p>Configuration time dropped from 105 to 27 seconds, 74% faster. Error rates and support load fell with it, and operators work with more confidence.</p>
+                  </div>
+                </div>
+              </article>
+
+              <!-- Case 06 — Platform Migration -->
+              <article id="case-migration" class="case--compact surface-light">
+                <div class="case-bar eyebrow">
+                  <span class="case-company">Arrive (former EasyPark Group)</span>
+                  <span>2022 — 2024</span>
+                  <span class="case-num">Case 06 / 06</span>
+                </div>
+                <div class="compact-grid">
+                  <div>
+                    <div class="case-head">
+                      <h3 class="display case-title">Platform Migration</h3>
+                      <p class="case-lede">Retiring a legacy pricing platform without breaking a single live market.</p>
+                    </div>
+                    <dl class="metrics">
+                      <div class="metric"><dt>35+</dt><dd>Gaps found and closed</dd></div>
+                      <div class="metric"><dt>18</dt><dd>Months end-to-end, discovery to completion</dd></div>
+                      <div class="metric"><dt>0</dt><dd>Pricing incidents in production</dd></div>
+                    </dl>
+                  </div>
+                  <figure class="chart" data-play>
+                    <div class="chart-head">
+                      <span class="chart-title">35+ gaps mapped, then closed</span>
+                      <span class="chart-sub">By area</span>
+                    </div>
+                    <div class="gap-stack" aria-hidden="true">
+                      <span class="gap-seg" style="--w:32.4%;--c:color-mix(in srgb, var(--fg) 85%, transparent)"></span>
+                      <span class="gap-seg" style="--w:27%;--c:color-mix(in srgb, var(--fg) 58%, transparent)"></span>
+                      <span class="gap-seg" style="--w:18.9%;--c:color-mix(in srgb, var(--fg) 34%, transparent)"></span>
+                      <span class="gap-seg" style="--w:10.8%;--c:var(--accent)"></span>
+                      <span class="gap-seg" style="--w:10.8%;--c:color-mix(in srgb, var(--accent) 50%, transparent)"></span>
+                    </div>
+                    <ul class="gap-legend">
+                      <li style="--c:color-mix(in srgb, var(--fg) 85%, transparent)"><i></i>Calculation engine<b>12 gaps</b></li>
+                      <li style="--c:color-mix(in srgb, var(--fg) 58%, transparent)"><i></i>Configuration UI<b>10 gaps</b></li>
+                      <li style="--c:color-mix(in srgb, var(--fg) 34%, transparent)"><i></i>Migration jobs<b>7 gaps</b></li>
+                      <li class="is-new" style="--c:var(--accent)"><i></i>Tariff types<b>4 new</b></li>
+                      <li class="is-new" style="--c:color-mix(in srgb, var(--accent) 50%, transparent)"><i></i>Simulation tools<b>4 new</b></li>
+                    </ul>
+                    <div class="deliv">
+                      <p class="deliv-title">How delivery played out</p>
+                      <div class="deliv-plot" aria-hidden="true">
+                        <div class="deliv-note"><span>Feature spike · last 3–4 months</span></div>
+                        <div class="deliv-bars">
+                          <span style="--h:4%;--i:0"></span><span style="--h:18%;--i:1"></span><span style="--h:4%;--i:2"></span><span style="--h:22%;--i:3"></span><span style="--h:14%;--i:4"></span><span style="--h:4%;--i:5"></span>
+                          <span style="--h:26%;--i:6"></span><span style="--h:4%;--i:7"></span><span style="--h:16%;--i:8"></span><span style="--h:20%;--i:9"></span><span style="--h:4%;--i:10"></span><span style="--h:24%;--i:11"></span>
+                          <span style="--h:12%;--i:12"></span><span style="--h:28%;--i:13"></span><span class="is-spike" style="--h:72%;--i:14"></span><span class="is-spike" style="--h:100%;--i:15"></span><span class="is-spike" style="--h:86%;--i:16"></span><span class="is-spike" style="--h:64%;--i:17"></span>
+                        </div>
+                      </div>
+                      <div class="deliv-axis"><span>Month 1</span><span>Month 18 · 0 incidents</span></div>
+                      <p class="deliv-caption">Illustrative shape: fixes landed here and there, most new features shipped at the end.</p>
+                    </div>
+                  </figure>
+                </div>
+                <div class="story">
+                  <div>
+                    <h4 class="eyebrow">Problem</h4>
+                    <p>A legacy parking platform was being retired. Before migrating, every configuration model, tariff type and pricing behaviour had to be mapped to the new platform, and every gap closed without disrupting live markets.</p>
+                  </div>
+                  <div>
+                    <h4 class="eyebrow">What I did</h4>
+                    <p>I led a systematic gap analysis across the calculation engine, configuration UI, tariff types and operator workflows. We built simulation tools to prove pricing parity between the old and new platforms, created a new tariff type for configurations that weren't supported before, and automated the bulk migration.</p>
+                  </div>
+                  <div class="story-outcome">
+                    <h4 class="eyebrow">Outcome</h4>
+                    <p>All 35+ gaps closed over 18 months. Pricing parity was confirmed in every migrated market, automated jobs removed manual rework, and the migration finished with zero pricing incidents in production.</p>
+                  </div>
+                </div>
+              </article>
+
             </div>
           </div>
         </div>
-      </a>
-
-      <a class="pi reveal" href="https://glennsvendsen.github.io/Mybooks/" target="_blank" rel="noopener" style="transition-delay: 0.06s">
-        <div class="pi-head">
-          <span class="pi-num">02</span>
-          <div class="pi-name-col">
-            <span class="pi-name">MyBooks</span>
-            <span class="pi-desc-line">Personal reading companion</span>
-          </div>
-          <span class="pi-arrow">↗</span>
-        </div>
-        <div class="pi-body">
-          <div class="pi-body-inner">
-            <img src="mybooks-logo.jpg" alt="" class="pi-img">
-            <div class="pi-detail">
-              <span class="pi-desc">Personal reading companion</span>
-              <span class="pi-tag">iOS · React Native</span>
-            </div>
-          </div>
-        </div>
-      </a>
-
-      <a class="pi reveal" href="https://glennsvendsen.github.io/utendorsliv/" target="_blank" rel="noopener" style="transition-delay: 0.12s">
-        <div class="pi-head">
-          <span class="pi-num">03</span>
-          <div class="pi-name-col">
-            <span class="pi-name">Utendørsliv</span>
-            <span class="pi-desc-line">Outdoor exploration companion</span>
-          </div>
-          <span class="pi-arrow">↗</span>
-        </div>
-        <div class="pi-body">
-          <div class="pi-body-inner">
-            <img src="utendorsliv-logo.png" alt="" class="pi-img">
-            <div class="pi-detail">
-              <span class="pi-desc">Outdoor exploration companion</span>
-              <span class="pi-tag">Web · JavaScript</span>
-            </div>
-          </div>
-        </div>
-      </a>
-
-      <a class="pi reveal" href="https://www.thegreenlandrun.com" target="_blank" rel="noopener" style="transition-delay: 0.18s">
-        <div class="pi-head">
-          <span class="pi-num">04</span>
-          <div class="pi-name-col">
-            <span class="pi-name">The Greenland Run</span>
-            <span class="pi-desc-line">Fun, satirical action-paced game</span>
-          </div>
-          <span class="pi-arrow">↗</span>
-        </div>
-        <div class="pi-body">
-          <div class="pi-body-inner">
-            <img src="greenlandrun-logo.jpg" alt="" class="pi-img">
-            <div class="pi-detail">
-              <span class="pi-desc">Fun, satirical action-paced game</span>
-              <span class="pi-tag">Web · JavaScript</span>
-            </div>
-          </div>
-        </div>
-      </a>
-
-      <a class="pi reveal" href="https://groruddalengk.pages.dev" target="_blank" rel="noopener" style="transition-delay: 0.24s">
-        <div class="pi-head">
-          <span class="pi-num">05</span>
-          <div class="pi-name-col">
-            <span class="pi-name">GGK Frivillig</span>
-            <span class="pi-desc-line">Volunteer management for Groruddalen Golfklubb</span>
-          </div>
-          <span class="pi-arrow">↗</span>
-        </div>
-        <div class="pi-body">
-          <div class="pi-body-inner">
-            <img src="ggk-cover.svg" alt="" class="pi-img pi-img--wide">
-            <div class="pi-detail">
-              <span class="pi-desc">Volunteer management for Groruddalen Golfklubb</span>
-              <span class="pi-tag">Web · Cloudflare Pages</span>
-            </div>
-          </div>
-        </div>
-      </a>
-
-      <a class="pi reveal" href="https://cointoss-7ja.pages.dev/" target="_blank" rel="noopener" style="transition-delay: 0.30s">
-        <div class="pi-head">
-          <span class="pi-num">06</span>
-          <div class="pi-name-col">
-            <span class="pi-name">Coin Toss</span>
-            <span class="pi-desc-line">Throw the coin into the parking meter</span>
-          </div>
-          <span class="pi-arrow">↗</span>
-        </div>
-        <div class="pi-body">
-          <div class="pi-body-inner">
-            <img src="cointoss-cover.svg" alt="" class="pi-img pi-img--wide">
-            <div class="pi-detail">
-              <span class="pi-desc">Throw the coin into the parking meter</span>
-              <span class="pi-tag">Web · JavaScript</span>
-            </div>
-          </div>
-        </div>
-      </a>
-
+      </div>
     </div>
   </section>
 
-  <!-- ── CONTACT / FOOTER ────────────────── -->
-  <footer id="contact">
-    <div class="section-label reveal">
-      <span>Contact</span>
+  <!-- ── SIDE PROJECTS ────────────────────── -->
+  <section id="projects" class="section surface-light" data-surface="light">
+    <div class="wrap">
+      <div class="section-label eyebrow reveal"><span class="section-num">04</span><span>Side projects</span></div>
+      <div class="projects-head reveal">
+        <h2 class="display section-title">I build to learn.</h2>
+        <p class="section-intro">Small products where I get to be PM, designer and engineer at once. It keeps my instincts sharp and my prototyping fast.</p>
+      </div>
+
+      <div class="project-list">
+        <a class="pi reveal" href="https://glennsvendsen.github.io/equity/" target="_blank" rel="noopener">
+          <div class="pi-head">
+            <span class="pi-num">01</span>
+            <span class="pi-name-col"><span class="pi-name">Equity</span><span class="pi-desc">Time balance tracker for iOS</span></span>
+            <span class="pi-tag">iOS · React Native</span>
+            <span class="pi-arrow" aria-hidden="true">↗</span>
+          </div>
+          <div class="pi-body"><div class="pi-body-inner"><img src="equity-logo.jpg" alt="" class="pi-img" loading="lazy"></div></div>
+        </a>
+        <a class="pi reveal" href="https://glennsvendsen.github.io/Mybooks/" target="_blank" rel="noopener">
+          <div class="pi-head">
+            <span class="pi-num">02</span>
+            <span class="pi-name-col"><span class="pi-name">MyBooks</span><span class="pi-desc">Personal reading companion</span></span>
+            <span class="pi-tag">iOS · React Native</span>
+            <span class="pi-arrow" aria-hidden="true">↗</span>
+          </div>
+          <div class="pi-body"><div class="pi-body-inner"><img src="mybooks-logo.jpg" alt="" class="pi-img" loading="lazy"></div></div>
+        </a>
+        <a class="pi reveal" href="https://glennsvendsen.github.io/utendorsliv/" target="_blank" rel="noopener">
+          <div class="pi-head">
+            <span class="pi-num">03</span>
+            <span class="pi-name-col"><span class="pi-name">Utendørsliv</span><span class="pi-desc">Outdoor exploration companion</span></span>
+            <span class="pi-tag">Web · JavaScript</span>
+            <span class="pi-arrow" aria-hidden="true">↗</span>
+          </div>
+          <div class="pi-body"><div class="pi-body-inner"><img src="utendorsliv-logo.png" alt="" class="pi-img" loading="lazy"></div></div>
+        </a>
+        <a class="pi reveal" href="https://www.thegreenlandrun.com" target="_blank" rel="noopener">
+          <div class="pi-head">
+            <span class="pi-num">04</span>
+            <span class="pi-name-col"><span class="pi-name">The Greenland Run</span><span class="pi-desc">Fast-paced satirical browser game</span></span>
+            <span class="pi-tag">Web · JavaScript</span>
+            <span class="pi-arrow" aria-hidden="true">↗</span>
+          </div>
+          <div class="pi-body"><div class="pi-body-inner"><img src="greenlandrun-logo.jpg" alt="" class="pi-img" loading="lazy"></div></div>
+        </a>
+        <a class="pi reveal" href="https://groruddalengk.pages.dev" target="_blank" rel="noopener">
+          <div class="pi-head">
+            <span class="pi-num">05</span>
+            <span class="pi-name-col"><span class="pi-name">GGK Frivillig</span><span class="pi-desc">Volunteer management for Groruddalen Golfklubb</span></span>
+            <span class="pi-tag">Web · Cloudflare Pages</span>
+            <span class="pi-arrow" aria-hidden="true">↗</span>
+          </div>
+          <div class="pi-body"><div class="pi-body-inner"><img src="ggk-cover.svg" alt="" class="pi-img pi-img--wide" loading="lazy"></div></div>
+        </a>
+        <a class="pi reveal" href="https://cointoss-7ja.pages.dev/" target="_blank" rel="noopener">
+          <div class="pi-head">
+            <span class="pi-num">06</span>
+            <span class="pi-name-col"><span class="pi-name">Coin Toss</span><span class="pi-desc">Throw the coin into the parking meter</span></span>
+            <span class="pi-tag">Web · JavaScript</span>
+            <span class="pi-arrow" aria-hidden="true">↗</span>
+          </div>
+          <div class="pi-body"><div class="pi-body-inner"><img src="cointoss-cover.svg" alt="" class="pi-img pi-img--wide" loading="lazy"></div></div>
+        </a>
+      </div>
     </div>
-    <h2 class="contact-heading reveal" style="transition-delay: 0.1s">
-      Let's<br><span class="scribble">Talk.<svg class="scribble-svg" viewBox="0 0 300 20" preserveAspectRatio="none" aria-hidden="true">
-        <path d="M1 9 C55 5, 115 4, 185 6 S255 10, 296 12" stroke="#FFB0C8" stroke-width="1.4" fill="none" stroke-linecap="round" opacity="0.8"/>
-        <path d="M25 13 C72 9, 132 8, 198 10 S258 14, 282 16" stroke="#FFB0C8" stroke-width="2.6" fill="none" stroke-linecap="round"/>
-        <path d="M250 11 L266 3 L258 18 L274 9" stroke="#FFB0C8" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg></span>
-    </h2>
-    <div class="contact-links reveal" style="transition-delay: 0.2s">
-      <a class="contact-link" href="mailto:gsvendsen@me.com">
-        <span>gsvendsen@me.com</span>
-        <span class="contact-link-meta">Email</span>
-      </a>
-      <a class="contact-link" href="https://github.com/glennsvendsen" target="_blank" rel="noopener">
-        <span>github.com/glennsvendsen</span>
-        <span class="contact-link-meta">GitHub</span>
-      </a>
-      <a class="contact-link" href="https://www.linkedin.com/in/glenn-svendsen-9792b615/" target="_blank" rel="noopener">
-        <span>linkedin.com/in/glenn-svendsen</span>
-        <span class="contact-link-meta">LinkedIn</span>
-      </a>
-    </div>
-    <div class="footer-bottom reveal" style="transition-delay: 0.28s">
-      <span>&copy; 2026 Glenn Svendsen</span>
-      <span>Oslo, Norway</span>
+  </section>
+
+  </main>
+
+  <!-- ── CONTACT ─────────────────────────── -->
+  <footer id="contact" class="section contact surface-dark" data-surface="dark">
+    <div class="wrap">
+      <div class="section-label eyebrow reveal"><span class="section-num">05</span><span>Contact</span></div>
+      <div class="contact-head reveal">
+        <h2 class="display contact-heading">Let's<br><span class="scribble">talk.</span></h2>
+        <p class="contact-lede">Always up for a conversation about product, discovery or building with AI.</p>
+      </div>
+      <div class="contact-links reveal">
+        <a class="contact-link" href="mailto:gsvendsen@me.com">
+          <span class="contact-link-text">gsvendsen@me.com</span>
+          <span class="contact-link-meta"><span class="eyebrow">Email</span><span aria-hidden="true">→</span></span>
+        </a>
+        <a class="contact-link" href="https://www.linkedin.com/in/glenn-svendsen-9792b615/" target="_blank" rel="noopener">
+          <span class="contact-link-text">LinkedIn</span>
+          <span class="contact-link-meta"><span class="eyebrow">Profile</span><span aria-hidden="true">↗</span></span>
+        </a>
+        <a class="contact-link" href="https://github.com/glennsvendsen" target="_blank" rel="noopener">
+          <span class="contact-link-text">github.com/glennsvendsen</span>
+          <span class="contact-link-meta"><span class="eyebrow">GitHub</span><span aria-hidden="true">↗</span></span>
+        </a>
+      </div>
+      <div class="footer-bottom eyebrow">
+        <span>&copy; 2026 Glenn Svendsen</span>
+        <span>Designed &amp; built in Oslo</span>
+      </div>
     </div>
   </footer>
 
-  <script>
-    /* ── METRIC COUNTERS ────────────────────── */
-    const metricObserver = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (!entry.isIntersecting) return;
-        const el = entry.target;
-        const target = parseInt(el.dataset.count, 10);
-        const suffix = el.dataset.suffix || '';
-        if (isNaN(target)) return;
-        const start = performance.now();
-        const duration = 1400;
-        const tick = (now) => {
-          const p = Math.min((now - start) / duration, 1);
-          const eased = 1 - Math.pow(1 - p, 3);
-          const val = Math.round(eased * target);
-          el.textContent = p >= 1 ? val + suffix : val;
-          if (p < 1) requestAnimationFrame(tick);
-        };
-        requestAnimationFrame(tick);
-        metricObserver.unobserve(el);
-      });
-    }, { threshold: 0.6 });
-
-    document.querySelectorAll('[data-count]').forEach(el => metricObserver.observe(el));
-
-    /* ── BAR CHART ANIMATION ─────────────────── */
-    const barObserver = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (!entry.isIntersecting) return;
-        entry.target.querySelectorAll('[data-pct]').forEach(bar => {
-          bar.style.width = bar.dataset.pct + '%';
-        });
-        barObserver.unobserve(entry.target);
-      });
-    }, { threshold: 0.4 });
-
-    document.querySelectorAll('.cs-chart').forEach(el => barObserver.observe(el));
-
-    /* ── MIGRATION VISUALIZATION ────────────── */
-    const migDemo = document.getElementById('mig-demo');
-    const migMarks = document.getElementById('mig-marks');
-    if (migDemo && migMarks) {
-      // Generate 18 month tick marks, accent on months 6 and 12
-      for (let i = 0; i < 18; i++) {
-        const tick = document.createElement('div');
-        tick.className = `mig-tick${(i === 5 || i === 11 || i === 17) ? ' mig-tick--accent' : ''}`;
-        tick.style.setProperty('--td', `${(1.6 + i * 0.12).toFixed(2)}s`);
-        migMarks.appendChild(tick);
-      }
-      const migObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (!entry.isIntersecting) return;
-          entry.target.classList.add('mig-demo--playing');
-          migObserver.unobserve(entry.target);
-        });
-      }, { threshold: 0.3 });
-      migObserver.observe(migDemo);
-    }
-
-    /* ── SSRM CHART ─────────────────────────── */
-    const ssrmDemo = document.getElementById('ssrm-demo');
-    if (ssrmDemo) {
-      const ssrmObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (!entry.isIntersecting) return;
-          entry.target.classList.add('ssrm-demo--playing');
-          ssrmObserver.unobserve(entry.target);
-        });
-      }, { threshold: 0.3 });
-      ssrmObserver.observe(ssrmDemo);
-    }
-
-    /* ── PRICE TEST GRID ─────────────────────── */
-    const ptGrid = document.getElementById('pt-grid');
-    const ptDemo = document.getElementById('pt-demo');
-    if (ptGrid && ptDemo) {
-      const cols = 22, rows = 6;
-      // 5 anomalies spread across rows: (row*22)+col
-      const anomalies = new Set([4, 38, 53, 85, 94]);
-      for (let i = 0; i < cols * rows; i++) {
-        const col = i % cols;
-        const cell = document.createElement('div');
-        cell.className = `pt-cell ${anomalies.has(i) ? 'pt-cell--err' : 'pt-cell--ok'}`;
-        cell.style.setProperty('--cd', `${(0.45 + col * 0.07).toFixed(2)}s`);
-        ptGrid.appendChild(cell);
-      }
-      const ptObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (!entry.isIntersecting) return;
-          entry.target.classList.add('pt-demo--playing');
-          ptObserver.unobserve(entry.target);
-        });
-      }, { threshold: 0.3 });
-      ptObserver.observe(ptDemo);
-    }
-
-    /* ── VALIDATION DEMO ANIMATION ──────────── */
-    const valDemo = document.getElementById('val-demo');
-    if (valDemo) {
-      const demoObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (!entry.isIntersecting) return;
-          entry.target.classList.add('val-demo--playing');
-          demoObserver.unobserve(entry.target);
-        });
-      }, { threshold: 0.35 });
-      demoObserver.observe(valDemo);
-    }
-
-    /* ── SCRIBBLE DRAW-ON-SCROLL ────────────── */
-    // Hide all paths immediately (before render) so there's no flash
-    document.querySelectorAll('.scribble-svg path').forEach(p => {
-      const len = p.getTotalLength ? p.getTotalLength() : 300;
-      p.style.strokeDasharray  = len;
-      p.style.strokeDashoffset = len;
-    });
-
-    const scribbleObserver = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (!entry.isIntersecting) return;
-        const paths = entry.target.querySelectorAll('.scribble-svg path');
-        paths.forEach((p, i) => {
-          setTimeout(() => {
-            p.style.transition = 'stroke-dashoffset 0.9s cubic-bezier(0.16, 1, 0.3, 1)';
-            p.style.strokeDashoffset = '0';
-          }, i * 180);
-        });
-        scribbleObserver.unobserve(entry.target);
-      });
-    }, { threshold: 0.3 });
-
-    document.querySelectorAll('.scribble').forEach(el => scribbleObserver.observe(el));
-
-    /* ── SCROLL REVEAL ──────────────────────── */
-    const revealObserver = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-          revealObserver.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.12 });
-
-    document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
-
-    /* ── NAV ACTIVE SECTION ─────────────────── */
-    const nav       = document.querySelector('nav');
-    const sections  = document.querySelectorAll('section[id], footer[id]');
-    const navLinks  = document.querySelectorAll('.nav-links a');
-    const darkSections = new Set(['hero', 'contact']);
-
-    const sectionObserver = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          nav.classList.toggle('nav--light', !darkSections.has(entry.target.id));
-          navLinks.forEach(a => {
-            a.style.opacity = a.getAttribute('href') === `#${entry.target.id}` ? '1' : '';
-          });
-        }
-      });
-    }, { rootMargin: '-40% 0px -40% 0px' });
-
-    sections.forEach(s => sectionObserver.observe(s));
-  </script>
-
+  <script src="main.js" defer></script>
 </body>
 </html>

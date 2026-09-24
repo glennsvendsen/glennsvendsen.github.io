@@ -1,101 +1,44 @@
 # CLAUDE.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+Guidance for Claude Code when working in this repository.
 
-## Project Overview
+## Project
 
-Arctic Labs is a static portfolio website showcasing personal projects. It's a single-page site with no build process, using pure HTML and CSS with animated aurora effects and a modern glassmorphism design.
+Personal PM portfolio / marketing page for Glenn Svendsen. Live at https://glennsvendsen.github.io.
+Static site, no build step, no dependencies. Auto-deploys to GitHub Pages on push to `main`
+(`.github/workflows/deploy.yml`).
 
-**Live site**: https://glennsvendsen.github.io
+Local preview: `python3 -m http.server 8000`
 
-## Tech Stack
+## Files
 
-- Pure HTML5 and CSS3 (no JavaScript frameworks or build tools)
-- No package manager or dependencies
-- Deployed to GitHub Pages via GitHub Actions
+- `index.html` — all content (single page)
+- `style.css` — all styles
+- `main.js` — progressive enhancement only (the page must read fine without it)
+- `og-image.png` (1200×630) — LinkedIn/social preview; regenerate if name/title/tagline changes
+- `favicon.svg`, `apple-touch-icon.png`, `profile.jpg` (keep < ~200 KB)
 
-## Development
+## Design system
 
-This is a static site with no build process. To develop:
+- Editorial look: Bebas Neue (display, uppercase-only glyphs, so avoid lowercase units like "s" in
+  display numbers; write "sec"), Instrument Sans (body), IBM Plex Mono (labels/data).
+- Every section declares a surface: `class="surface-dark|surface-light"` plus `data-surface="dark|light"`.
+  Surfaces set `--bg --fg --muted --faint --line --track --accent`; components only use these tokens.
+  `data-surface` also drives the nav colour.
+- Accent: `--pink` (#FFB0C8) on dark only. On light surfaces text accent is `--pink-ink` (#B4295F)
+  for contrast. Pink is fine as a *fill* (bars) on light.
+- Minimum text size ~0.7rem for labels; body copy 1rem+.
 
-1. **Local development**: Open `index.html` directly in a browser, or use any simple HTTP server:
-   ```bash
-   python3 -m http.server 8000
-   # or
-   npx serve .
-   ```
+## Patterns
 
-2. **Preview changes**: Simply refresh the browser after editing HTML/CSS files
+- `.reveal` — fades in on scroll (only hidden when `.js` is on `<html>`).
+- `[data-play]` — gets `.is-playing` when scrolled into view; animations key off that.
+- `[data-count]` — animates the first number in its text.
+- `.scribble` — JS injects the hand-drawn underline; use sparingly (featured case titles, about, contact).
+- Case studies: 3 featured `.case` articles, then 3 `.case--compact` inside the `#more-panel`
+  toggle. Links to `#case-*` inside the panel auto-open it.
+- `prefers-reduced-motion` is respected globally in `style.css`.
 
-## Deployment
+## Adding a side project
 
-The site auto-deploys to GitHub Pages on every push to the `main` branch via `.github/workflows/deploy.yml`. No manual deployment steps needed.
-
-## Design System & Architecture
-
-### Color Palette (Arctic/Ice Theme)
-All colors are defined as CSS custom properties in `:root` (style.css:1-15):
-- **Primary**: `--bg-primary` (#050810) - Deep space blue
-- **Accents**: `--accent-ice` (#38bdf8), `--accent-aurora-1/2/3` - Blue/green/purple gradient
-- **Text**: `--text-primary`, `--text-secondary`, `--text-muted` - White to gray scale
-
-### Key Visual Elements
-
-1. **Aurora Background** (style.css:39-93)
-   - Fixed-position animated gradient bands
-   - Three overlapping aurora layers with different animation delays
-   - Uses hardware acceleration (`transform: translate3d`)
-   - `aurora-wave` keyframe animation creates flowing movement
-
-2. **Gradient Text Effects**
-   - Applied via `background-clip: text` technique
-   - Used for hero title "software" and logo text
-   - Animated with `gradient-shift` keyframe (style.css:155-165)
-   - **Important**: Logo subtitle uses bulletproof gradient with color fallback (style.css:201-208)
-
-3. **Project Cards** (style.css:248-330)
-   - Glassmorphism effect with `backdrop-filter: blur(20px)`
-   - Dual-layer gradient borders using `border-box` technique
-   - Hover states: lift (`translateY`), scale, glow effects
-   - Top glow line appears on hover
-   - Arrow icon animates diagonally on hover
-
-4. **Logo SVG** (index.html:47-80)
-   - Custom Arctic Labs logo: hexagonal crystal + mountain
-   - SVG gradients defined inline with `<defs>`
-   - Represents "lab" (hexagon/orbital ring) + "arctic" (crystal mountain)
-
-### File Structure
-
-- `index.html` - Single-page site with semantic HTML5
-- `style.css` - All styles (no CSS preprocessor)
-- `favicon.svg` - Site icon
-- Project logo images: `equity-logo.jpg`, `mybooks-logo.jpg`, `utendorsliv-logo.png`
-
-### Animation Strategy
-
-All animations use `cubic-bezier(0.4, 0, 0.2, 1)` easing for smooth, professional motion:
-- Aurora: Continuous wave animation (10s infinite alternate)
-- Page load: Staggered fade-up animations with delays (style.css:374-403)
-- Hover: Transform-based lift/scale effects (0.4s duration)
-
-## Common Tasks
-
-### Adding a New Project Card
-
-1. Add image to root directory
-2. Add `<a class="project-card">` block in the projects section (index.html:96-146)
-3. Follow existing structure: glow div, logo img, content div, arrow SVG
-4. Update project name, description, and href
-
-### Modifying Colors
-
-Update CSS custom properties in `:root` (style.css:1-15). The entire site uses these variables consistently.
-
-### Adjusting Aurora Effect
-
-Modify `.aurora-band` positions and gradients (style.css:62-81) or animation keyframes (style.css:83-93). Each band has a different animation delay to create layered movement.
-
-### Responsive Design
-
-Mobile breakpoint at 640px (style.css:350-371). Adjusts container padding, hero font sizes, and aurora blur radius for mobile devices.
+Copy an `<a class="pi">` block in `#projects`, update number, name, description, tag, href and image.
