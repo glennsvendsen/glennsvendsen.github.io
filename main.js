@@ -278,6 +278,45 @@
     onceVisible([vd], autoplay, 0.45);
   }
 
+  /* ── CONFIG RACE ─────────────────────────── */
+  // Both lanes run on the same (sped-up) clock; the copy lane loops and counts finished configs.
+  const race = document.getElementById('race');
+  if (race) {
+    const BEFORE = 105, AFTER = 27, SPEED = 30;
+    const fill = (lane) => race.querySelector(`.race-fill[data-lane="${lane}"]`);
+    const time = (lane) => race.querySelector(`.race-time[data-lane="${lane}"]`);
+    const countEl = race.querySelector('.race-count');
+    let raf = 0;
+
+    const draw = (t) => {
+      const before = Math.min(t / BEFORE, 1);
+      const done = Math.min(t, BEFORE) / AFTER;
+      const afterP = t >= BEFORE ? done % 1 || 1 : done % 1;
+      fill('before').style.setProperty('--p', before);
+      fill('after').style.setProperty('--p', t >= BEFORE ? 1 : afterP);
+      time('before').textContent = `${Math.round(Math.min(t, BEFORE))} sec`;
+      time('after').textContent = `${Math.round((done % 1) * AFTER) || (t > 0 ? AFTER : 0)} sec`;
+      countEl.textContent = t >= BEFORE ? (BEFORE / AFTER).toFixed(1) : Math.floor(done);
+      if (t >= BEFORE) time('after').textContent = '27 sec each';
+    };
+
+    const play = () => {
+      cancelAnimationFrame(raf);
+      if (reduceMotion) { draw(BEFORE); return; }
+      const start = performance.now();
+      const tick = (now) => {
+        const t = ((now - start) / 1000) * SPEED;
+        draw(t);
+        if (t < BEFORE) raf = requestAnimationFrame(tick);
+      };
+      raf = requestAnimationFrame(tick);
+    };
+
+    draw(0);
+    race.querySelector('.race-replay').addEventListener('click', play);
+    onceVisible([race], play, 0.5);
+  }
+
   /* ── PLAY ANIMATIONS ON VIEW ─────────────── */
   const photo = document.querySelector('.about-photo-wrap');
   if (photo && noHover) photo.setAttribute('data-play', '');

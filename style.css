@@ -1191,6 +1191,58 @@ body {
   text-decoration-color: color-mix(in srgb, var(--fg) 35%, transparent);
 }
 
+/* ── CONFIG RACE (case 05) ────────────────── */
+.race-lanes { display: grid; gap: 1.1rem; }
+.race-meta { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.4rem; }
+.race-name { font-size: 0.925rem; font-weight: 500; }
+.race-time { font-family: var(--ff-mono); font-size: 0.8rem; color: var(--faint); font-variant-numeric: tabular-nums; }
+.race-lane--after .race-time { color: var(--accent); }
+.race-track { height: 0.9rem; border-radius: 4px; background: var(--track); overflow: hidden; }
+.race-fill {
+  width: 100%;
+  height: 100%;
+  border-radius: 4px;
+  background: color-mix(in srgb, var(--fg) 32%, transparent);
+  transform: scaleX(var(--p, 0));
+  transform-origin: left;
+}
+.race-lane--after .race-fill { background: var(--pink); }
+.race-done {
+  margin-top: 0.55rem;
+  font-family: var(--ff-mono);
+  font-size: 0.78rem;
+  color: var(--faint);
+}
+.race-count {
+  display: inline-block;
+  min-width: 2.2ch;
+  font-family: var(--ff-display);
+  font-size: 1.6rem;
+  line-height: 1;
+  color: var(--accent);
+  font-variant-numeric: tabular-nums;
+}
+.race-foot {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 1.25rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--line);
+}
+.race-note { font-size: 0.9rem; line-height: 1.5; color: var(--muted); }
+.race-note b { color: var(--fg); font-weight: 600; }
+.race-replay {
+  flex-shrink: 0;
+  font-family: var(--ff-mono);
+  font-size: 0.75rem;
+  color: var(--faint);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.race-replay:hover { color: var(--fg); }
+
 /* ── MIGRATION: GAPS + DELIVERY (case 06) ────── */
 .gap-stack { display: flex; gap: 2px; height: 1.75rem; margin-bottom: 1.1rem; }
 .gap-seg { width: var(--w); background: var(--c); transform-origin: left; }
@@ -1447,9 +1499,9 @@ body {
   .nav-mono { font-size: 1.35rem; }
   .nav-links { gap: 1rem; }
   .nav-links a { font-size: 0.7rem; letter-spacing: 0.08em; }
-  .hero-proof { grid-template-columns: 1fr; gap: 1rem; }
-  .hero-proof > div { display: flex; align-items: baseline; gap: 1rem; }
-  .hero-proof dd { margin-top: 0; }
+  .hero-proof { grid-template-columns: 1fr; gap: 1.1rem; }
+  .hero-proof dt { white-space: nowrap; font-size: 2.25rem; }
+  .hero-proof dd { margin-top: 0.2rem; }
   .btn { padding: 0.85rem 1.2rem; font-size: 0.75rem; }
   .pillars { grid-template-columns: 1fr; }
   .toolkit-groups { grid-template-columns: 1fr; gap: 1.5rem; }
