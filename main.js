@@ -379,6 +379,68 @@
     }, 0.6);
   }
 
+  /* ── SECTION DWELL TIME (analytics) ──────── */
+  // How long each landmark section is actually in view, reported in chunks
+  // (on tab hide/close and every 30s) so long or interrupted visits aren't lost.
+  const DWELL_IDS = [
+    'hero', 'about', 'skills',
+    'case-validation', 'case-price-validator', 'case-self-service',
+    'case-pricing-engine', 'case-config-copy', 'case-migration',
+    'projects', 'outside', 'contact',
+  ];
+  const dwellEls = DWELL_IDS.map((id) => document.getElementById(id)).filter(Boolean);
+  if (dwellEls.length) {
+    const activeSince = new Map();   // id -> timestamp its timer started
+    const accumulated = new Map();   // id -> ms banked, not yet reported
+    const intersecting = new Set();  // ids currently on screen
+
+    const startTimer = (id, now) => { if (!activeSince.has(id)) activeSince.set(id, now); };
+    const stopTimer = (id, now) => {
+      const start = activeSince.get(id);
+      if (start == null) return;
+      accumulated.set(id, (accumulated.get(id) || 0) + (now - start));
+      activeSince.delete(id);
+    };
+
+    const flush = () => {
+      const now = performance.now();
+      [...activeSince.keys()].forEach((id) => stopTimer(id, now));
+      accumulated.forEach((ms, id) => {
+        const seconds = Math.round(ms / 1000);
+        if (seconds >= 3) track('section-dwell', { section: id, seconds });
+        accumulated.set(id, 0);
+      });
+      if (document.visibilityState === 'visible') {
+        intersecting.forEach((id) => startTimer(id, now));
+      }
+    };
+
+    const dwellObserver = new IntersectionObserver((entries) => {
+      const now = performance.now();
+      entries.forEach((entry) => {
+        const id = entry.target.id;
+        if (entry.isIntersecting) {
+          intersecting.add(id);
+          if (document.visibilityState === 'visible') startTimer(id, now);
+        } else {
+          intersecting.delete(id);
+          stopTimer(id, now);
+        }
+      });
+    }, { threshold: 0.5 });
+    dwellEls.forEach((el) => dwellObserver.observe(el));
+
+    document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState === 'hidden') flush();
+      else {
+        const now = performance.now();
+        intersecting.forEach((id) => startTimer(id, now));
+      }
+    });
+    window.addEventListener('pagehide', flush);
+    setInterval(() => { if (document.visibilityState === 'visible') flush(); }, 30000);
+  }
+
   /* ── CASE VIEWS (analytics) ──────────────── */
   onceVisible(document.querySelectorAll('article[id^="case-"]'), (el) => {
     track('case-view', { case: el.id.replace('case-', '') });
