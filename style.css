@@ -1473,6 +1473,25 @@ body {
   color: var(--muted);
 }
 
+/* ── TESTIMONIALS (quiet aside, not a featured section) ─── */
+.testimonials-band { padding: clamp(2.5rem, 5vw, 3.5rem) var(--gutter); }
+.testimonials-label { color: var(--faint); margin-bottom: 1.5rem; }
+.testimonial-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.75rem 2.5rem;
+}
+.testimonial { padding-left: 1rem; border-left: 2px solid var(--line); }
+.testimonial p { font-size: 0.95rem; line-height: 1.6; color: var(--muted); }
+.testimonial footer {
+  margin-top: 0.75rem;
+  font-family: var(--ff-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--faint);
+}
+
 /* ── CONTACT ────────────────────────────────── */
 .contact {
   min-height: 80svh;
@@ -1570,6 +1589,7 @@ body {
   .outside-grid { grid-template-columns: 1fr; }
   .sketch { max-width: 22rem; }
   .toolkit-groups { grid-template-columns: 1fr; gap: 1.5rem; }
+  .testimonial-grid { grid-template-columns: 1fr; gap: 1.5rem; }
   .pillar, .pillar + .pillar { padding: 1.75rem 0; border-right: 0; }
   .pillar + .pillar { border-top: 1px solid var(--line); }
   .metrics { grid-template-columns: 1fr; }

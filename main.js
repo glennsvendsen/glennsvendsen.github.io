@@ -493,7 +493,7 @@
   const surfaces = [...document.querySelectorAll('[data-surface]')];
   const links = [...document.querySelectorAll('.nav-links a')];
   // Each link owns its own section; Projects also covers the "Outside work" section after it.
-  const EXTRA = { '#projects': ['#outside'] };
+  const EXTRA = { '#projects': ['#outside'], '#contact': ['#testimonials'] };
   const sections = links.map((a) => {
     const href = a.getAttribute('href');
     return [href, ...(EXTRA[href] || [])].map((sel) => document.querySelector(sel)).filter(Boolean);
