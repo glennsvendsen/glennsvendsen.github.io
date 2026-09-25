@@ -2,6 +2,11 @@
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const noHover = window.matchMedia('(hover: none)').matches;
 
+  /* Analytics (Umami). Safe no-op when the script is blocked or not loaded. */
+  const track = (name, data) => {
+    try { if (window.umami) window.umami.track(name, data); } catch (e) { /* ignore */ }
+  };
+
   /* Fire a callback once when an element scrolls into view */
   const onceVisible = (els, cb, threshold = 0.3) => {
     const io = new IntersectionObserver((entries) => {
@@ -374,6 +379,11 @@
     }, 0.6);
   }
 
+  /* ── CASE VIEWS (analytics) ──────────────── */
+  onceVisible(document.querySelectorAll('article[id^="case-"]'), (el) => {
+    track('case-view', { case: el.id.replace('case-', '') });
+  }, 0.35);
+
   /* ── SCROLL REVEAL ───────────────────────── */
   onceVisible(document.querySelectorAll('.reveal'), (el) => el.classList.add('visible'), 0.12);
 
@@ -390,7 +400,9 @@
     };
     setOpen(false);
     moreToggle.addEventListener('click', () => {
-      setOpen(moreToggle.getAttribute('aria-expanded') !== 'true');
+      const open = moreToggle.getAttribute('aria-expanded') !== 'true';
+      setOpen(open);
+      if (open) track('more-cases-open');
     });
     // Deep links / skill-proof links into a hidden case open the panel first
     const openFor = (hash) => {
