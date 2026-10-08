@@ -619,6 +619,31 @@
     return [href, ...(EXTRA[href] || [])].map((sel) => document.querySelector(sel)).filter(Boolean);
   });
 
+  // Case rail: visible while #work is on the line; each track shows progress through its case.
+  const rail = document.querySelector('.case-rail');
+  const work = document.getElementById('work');
+  const railWide = window.matchMedia('(min-width: 1200px)');
+  const railItems = rail ? [...rail.querySelectorAll('a')].map((a) => [a, document.querySelector(a.getAttribute('href'))]) : [];
+  if (rail) rail.inert = true;
+  const updateRail = (line) => {
+    if (!rail || !work || !railWide.matches) return;
+    const w = work.getBoundingClientRect();
+    const show = w.top <= line && w.bottom > line;
+    if (show !== rail.classList.contains('is-visible')) {
+      rail.classList.toggle('is-visible', show);
+      rail.inert = !show;
+    }
+    if (!show) return;
+    railItems.forEach(([a, el]) => {
+      const r = el.getBoundingClientRect();
+      a.style.setProperty('--p', Math.min(Math.max((line - r.top) / r.height, 0), 1).toFixed(3));
+      const active = r.top <= line && r.bottom > line;
+      a.classList.toggle('is-active', active);
+      if (active) a.setAttribute('aria-current', 'true');
+      else a.removeAttribute('aria-current');
+    });
+  };
+
   const updateNav = () => {
     const probe = nav.offsetHeight / 2;
     const under = surfaces.find((s) => {
@@ -636,6 +661,7 @@
       });
       a.classList.toggle('is-active', inView);
     });
+    updateRail(line);
   };
 
   let ticking = false;

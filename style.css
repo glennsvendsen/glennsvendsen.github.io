@@ -1448,6 +1448,58 @@ body {
 .annot--brace { top: -0.1rem; right: -1rem; width: 0.65rem; height: calc(200% + 0.75rem); }
 .annot--brace .annot-note { right: 1rem; top: calc(100% + 0.35rem); }
 
+/* ── CASE RAIL ──────────────────────────────── */
+/* Fixed in the left margin while #work is on screen; each track fills with progress through
+   its case (main.js sets --p). Only where the margin is wide enough, and only with JS. */
+.case-rail { display: none; }
+@media (min-width: 1200px) {
+  .js .case-rail {
+    position: fixed;
+    top: 50%;
+    left: calc(max(var(--gutter), (100vw - var(--maxw)) / 2) - var(--gutter) / 2);
+    z-index: 50;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.35rem;
+    background: none;
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.4s, visibility 0s 0.4s;
+  }
+  .js .case-rail.is-visible { opacity: 1; visibility: visible; transition: opacity 0.4s; }
+}
+.case-rail a {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.2rem 0.35rem;
+  font-family: var(--ff-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.06em;
+  text-decoration: none;
+  color: var(--faint);
+  transition: color 0.2s;
+}
+.case-rail a:hover, .case-rail a.is-active { color: var(--accent); }
+.case-rail-track {
+  width: 2px;
+  height: 3.25rem;
+  border-radius: 1px;
+  background: var(--track);
+  overflow: hidden;
+}
+.case-rail-track::before {
+  content: '';
+  display: block;
+  height: 100%;
+  background: var(--accent);
+  transform: scaleY(var(--p, 0));
+  transform-origin: top;
+}
+
 /* ── MORE CASE STUDIES ──────────────────────── */
 .more { padding: clamp(3.5rem, 7vw, 5rem) var(--gutter); }
 .more-toggle {
