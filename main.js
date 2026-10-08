@@ -7,17 +7,50 @@
     try { if (window.umami) window.umami.track(name, data); } catch (e) { /* ignore */ }
   };
 
-  /* Fire a callback once when an element scrolls into view */
+  /* Pinned layers (see CURTAIN): the hero and the finale stay on screen underneath the flow
+     sections, so "in the viewport" isn't the same as "showing". Paint order, top to bottom:
+     flow sections (layer 0), the hero (1), the finale (2). */
+  const main = document.getElementById('main');
+  const hero = document.getElementById('hero');
+  const finale = document.querySelector('.finale');
+  const layerOf = (el) => ((finale && finale.contains(el)) ? 2 : (hero && hero.contains(el)) ? 1 : 0);
+  const isPinned = (el) => layerOf(el) > 0;
+  // Of the elements spanning some line, only those on the topmost layer are actually showing.
+  const topmost = (els) => els.filter((el) => layerOf(el) === Math.min(...els.map(layerOf)));
+  // Share of an element's height that's actually showing (0–1)
+  const shownRatio = (el) => {
+    const r = el.getBoundingClientRect();
+    let top = Math.max(r.top, 0);
+    let bottom = Math.min(r.bottom, window.innerHeight);
+    if (finale && finale.contains(el)) top = Math.max(top, main.getBoundingClientRect().bottom);
+    else if (hero && hero.contains(el) && hero.nextElementSibling) bottom = Math.min(bottom, hero.nextElementSibling.getBoundingClientRect().top);
+    return r.height ? Math.max(0, bottom - top) / r.height : 0;
+  };
+
+  /* Fire a callback once when an element scrolls into view. An element in a pinned layer can
+     intersect while still covered; it waits (re-checked on scroll) until it's really showing. */
+  const covered = new Map();  // el -> { cb, threshold, io }
   const onceVisible = (els, cb, threshold = 0.3) => {
     const io = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         if (!entry.isIntersecting) return;
+        if (isPinned(entry.target) && shownRatio(entry.target) < threshold) {
+          covered.set(entry.target, { cb, threshold, io });
+          return;
+        }
+        covered.delete(entry.target);
         cb(entry.target);
         io.unobserve(entry.target);
       });
     }, { threshold });
     els.forEach((el) => io.observe(el));
   };
+  const checkCovered = () => covered.forEach(({ cb, threshold, io }, el) => {
+    if (shownRatio(el) < threshold) return;
+    covered.delete(el);
+    io.unobserve(el);
+    cb(el);
+  });
 
   /* Report elements as they start/stop spanning the middle of the viewport. Unlike a ratio
      threshold this works for sections of any height, including ones several screens tall. */
@@ -488,7 +521,7 @@
   if (dwellEls.length) {
     const activeSince = new Map();   // id -> timestamp its timer started
     const accumulated = new Map();   // id -> ms banked, not yet reported
-    const intersecting = new Set();  // ids currently on screen
+    const onLine = new Set();        // ids on the centre line (a pinned one may be covered)
 
     const startTimer = (id, now) => { if (!activeSince.has(id)) activeSince.set(id, now); };
     const stopTimer = (id, now) => {
@@ -506,29 +539,27 @@
         if (seconds >= 3) track('section-dwell', { section: id, seconds });
         accumulated.set(id, 0);
       });
-      if (document.visibilityState === 'visible') {
-        intersecting.forEach((id) => startTimer(id, now));
-      }
+      sync(now);
+    };
+
+    // Time whatever is showing on the line, not a pinned layer covered by it.
+    const sync = (now) => {
+      const els = [...onLine].map((id) => document.getElementById(id));
+      const showing = document.visibilityState === 'visible' ? topmost(els).map((el) => el.id) : [];
+      [...activeSince.keys()].forEach((id) => { if (!showing.includes(id)) stopTimer(id, now); });
+      showing.forEach((id) => startTimer(id, now));
     };
 
     // A section is "in view" while it spans the middle of the viewport, so only one counts at a time.
     onCentreLine(dwellEls, (el, active) => {
-      const now = performance.now();
-      if (active) {
-        intersecting.add(el.id);
-        if (document.visibilityState === 'visible') startTimer(el.id, now);
-      } else {
-        intersecting.delete(el.id);
-        stopTimer(el.id, now);
-      }
+      if (active) onLine.add(el.id);
+      else onLine.delete(el.id);
+      sync(performance.now());
     });
 
     document.addEventListener('visibilitychange', () => {
       if (document.visibilityState === 'hidden') flush();
-      else {
-        const now = performance.now();
-        intersecting.forEach((id) => startTimer(id, now));
-      }
+      else sync(performance.now());
     });
     window.addEventListener('pagehide', flush);
     setInterval(() => { if (document.visibilityState === 'visible') flush(); }, 30000);
@@ -644,24 +675,26 @@
     });
   };
 
+  // Pinned layers sit under flow sections, so "spans the line" isn't enough: only the topmost
+  // layer at that line is showing.
+  const spans = (el, y) => {
+    const r = el.getBoundingClientRect();
+    return r.top <= y && r.bottom > y;
+  };
+  const showingAt = (y) => topmost(surfaces.filter((s) => spans(s, y)));
+
   const updateNav = () => {
-    const probe = nav.offsetHeight / 2;
-    const under = surfaces.find((s) => {
-      const r = s.getBoundingClientRect();
-      return r.top <= probe && r.bottom > probe;
-    });
+    const [under] = showingAt(nav.offsetHeight / 2);
     if (under) nav.dataset.theme = under.dataset.surface;
     nav.classList.toggle('is-scrolled', window.scrollY > 24);
 
     const line = window.innerHeight * 0.4;
+    const layerHere = Math.min(...showingAt(line).map(layerOf));
     links.forEach((a, i) => {
-      const inView = sections[i].some((el) => {
-        const r = el.getBoundingClientRect();
-        return r.top <= line && r.bottom > line;
-      });
-      a.classList.toggle('is-active', inView);
+      a.classList.toggle('is-active', sections[i].some((el) => spans(el, line) && layerOf(el) <= layerHere));
     });
     updateRail(line);
+    checkCovered();
   };
 
   let ticking = false;
@@ -673,6 +706,77 @@
   window.addEventListener('scroll', onScroll, { passive: true });
   window.addEventListener('resize', onScroll);
   updateNav();
+
+  /* ── CURTAIN: PINNED HERO AND FINALE ─────── */
+  // The pinning itself is CSS. Here: pin offsets, so a layer taller than the viewport scrolls
+  // to its end before pinning (hero) or is revealed top-first (finale), plus the two things
+  // sticky layers break natively: anchor links to them and keyboard focus inside them.
+  if (main && hero && finale) {
+    const navH = () => nav.offsetHeight;
+    const setPins = () => {
+      const vh = window.innerHeight;
+      hero.style.setProperty('--hero-pin', `${Math.min(0, vh - hero.offsetHeight)}px`);
+      // The finale pins with its top just under the nav, so its first lines never hide behind it.
+      finale.style.setProperty('--finale-pin', `${Math.min(0, vh - navH() - finale.offsetHeight)}px`);
+    };
+    setPins();
+    const ro = new ResizeObserver(setPins);
+    ro.observe(hero);
+    ro.observe(finale);
+    window.addEventListener('resize', setPins);
+
+    const mainBottom = () => main.getBoundingClientRect().bottom + window.scrollY;
+    // Where an element in a pinned layer really sits in the document, as if nothing were pinned
+    const realTop = (el) => {
+      const layer = hero.contains(el) ? hero : finale;
+      const layerTop = layer === hero ? main.getBoundingClientRect().top + window.scrollY : mainBottom();
+      return layerTop + el.getBoundingClientRect().top - layer.getBoundingClientRect().top;
+    };
+    const scrollToY = (top, smooth) => {
+      if (smooth && !reduceMotion) { window.scrollTo({ top, behavior: 'smooth' }); return; }
+      const root = document.documentElement;
+      root.style.scrollBehavior = 'auto';
+      window.scrollTo(0, top);
+      root.style.scrollBehavior = '';
+    };
+
+    // Anchor links to a pinned layer do nothing natively: its stuck box is already "in view".
+    const PINNED = ['#hero', '#testimonials', '#contact'];
+    const goTo = (hash, smooth) => {
+      const el = document.querySelector(hash);
+      if (el) scrollToY(el === hero ? 0 : realTop(el) - navH(), smooth);
+    };
+    document.querySelectorAll(PINNED.map((h) => `a[href="${h}"]`).join(',')).forEach((a) => {
+      a.addEventListener('click', (e) => {
+        e.preventDefault();
+        history.pushState(null, '', a.getAttribute('href'));
+        goTo(a.getAttribute('href'), true);
+      });
+    });
+    window.addEventListener('hashchange', () => { if (PINNED.includes(location.hash)) goTo(location.hash, true); });
+    if (PINNED.includes(location.hash)) {
+      // Again on load: late fonts and images move things, and the browser re-scrolls to the hash.
+      requestAnimationFrame(() => goTo(location.hash, false));
+      window.addEventListener('load', () => goTo(location.hash, false), { once: true });
+    }
+
+    // Keyboard focus must never sit behind another section (WCAG 2.4.11). If it lands in a
+    // covered pinned layer, scroll that layer to its real position.
+    const revealFocus = (e) => {
+      const el = e.target;
+      requestAnimationFrame(() => {
+        const r = el.getBoundingClientRect();
+        const hit = document.elementFromPoint(r.left + r.width / 2, r.top + r.height / 2);
+        if (hit && el.contains(hit)) return;
+        const top = realTop(el);
+        const fit = top + r.height + 24 - window.innerHeight;  // scroll that puts el near the bottom
+        if (hero.contains(el)) scrollToY(Math.max(0, Math.min(hero.offsetHeight - window.innerHeight, fit)));
+        else scrollToY(Math.max(mainBottom() - navH(), fit));
+      });
+    };
+    hero.addEventListener('focusin', revealFocus);
+    finale.addEventListener('focusin', revealFocus);
+  }
 
   /* ── HELLO, DEVTOOLS ─────────────────────── */
   const GS = [

@@ -336,6 +336,31 @@ body {
   to   { opacity: 1; transform: none; }
 }
 
+/* ── CURTAIN (pinned layers) ────────────────── */
+/* With JS, the hero stays pinned while About slides over it like paper, and the finale
+   (testimonials + contact) waits underneath until Outside slides off it. main.js sets the pin
+   offsets so a layer taller than the viewport scrolls to its end first. Flow sections always
+   paint over the hero, which paints over the finale; anything in main.js that asks "what's
+   showing" respects that order. The finale sits at 0, not -1: a negative z-index would put it
+   under <body>'s box for hit-testing, and its links would stop being clickable. */
+.js .finale { position: sticky; bottom: var(--finale-pin, 0px); z-index: 0; }
+.js .hero { position: sticky; top: var(--hero-pin, 0px); z-index: 1; }
+.js main > :not(.hero) { position: relative; z-index: 2; }
+.js #about { box-shadow: 0 -28px 56px -20px rgba(0, 0, 0, 0.6); }
+.js #outside { box-shadow: 0 28px 56px -20px rgba(0, 0, 0, 0.6); }
+/* The hero content recedes as it's covered (scroll-driven; static where unsupported) */
+@keyframes heroCovered { to { opacity: 0.3; transform: scale(0.95); } }
+@supports (animation-timeline: scroll()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .js .hero-inner {
+      transform-origin: 50% 30%;
+      animation: heroCovered linear both;
+      animation-timeline: scroll();
+      animation-range: calc(var(--hero-pin, 0px) * -1) calc(var(--hero-pin, 0px) * -1 + 100vh);
+    }
+  }
+}
+
 /* ── SECTIONS ───────────────────────────────── */
 .section { padding: clamp(5rem, 10vw, 8rem) var(--gutter); }
 
