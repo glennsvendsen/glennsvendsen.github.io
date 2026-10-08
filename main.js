@@ -109,7 +109,7 @@
           <td>$${r.price.toFixed(2)}</td>
           <td><span class="ptt-tag">${check ? (r.price > 0 ? '⚑ Paid on free day' : 'Free ✓') : 'Success'}</span></td>
         </tr>`).join('');
-      if (!rows.length) tbody.innerHTML = '<tr><td colspan="5" style="text-decoration:none;color:rgba(245,242,236,.55)">No paid zones. Everything is free as it should be.</td></tr>';
+      if (!rows.length) tbody.innerHTML = '<tr><td colspan="5" style="text-decoration:none;color:var(--app-muted)">No paid zones. Everything is free as it should be.</td></tr>';
     };
 
     const run = () => {
@@ -357,6 +357,26 @@
       });
       sk.classList.add('is-drawn');
     }, 0.4);
+  }
+
+  /* ── APP WINDOW SHEEN ────────────────────── */
+  if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+    document.querySelectorAll('.app').forEach((app) => {
+      let frame = 0;
+      let x = 0;
+      let y = 0;
+      app.addEventListener('pointermove', (e) => {
+        x = e.clientX;
+        y = e.clientY;
+        if (frame) return;
+        frame = requestAnimationFrame(() => {
+          frame = 0;
+          const r = app.getBoundingClientRect();
+          app.style.setProperty('--mx', `${x - r.left}px`);
+          app.style.setProperty('--my', `${y - r.top}px`);
+        });
+      });
+    });
   }
 
   /* ── PLAY ANIMATIONS ON VIEW ─────────────── */
