@@ -19,6 +19,16 @@
     els.forEach((el) => io.observe(el));
   };
 
+  /* Report elements as they start/stop spanning the middle of the viewport. Unlike a ratio
+     threshold this works for sections of any height, including ones several screens tall. */
+  const onCentreLine = (els, cb) => {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => cb(entry.target, entry.isIntersecting));
+    }, { rootMargin: '-50% 0px -50% 0px', threshold: 0 });
+    els.forEach((el) => io.observe(el));
+    return io;
+  };
+
   /* ── SCRIBBLE UNDERLINES ─────────────────── */
   const SCRIBBLE = `
     <svg class="scribble-svg" viewBox="0 0 300 20" preserveAspectRatio="none" aria-hidden="true">
@@ -386,7 +396,7 @@
     'hero', 'about', 'skills',
     'case-validation', 'case-price-validator', 'case-self-service',
     'case-pricing-engine', 'case-config-copy', 'case-migration',
-    'projects', 'outside', 'contact',
+    'projects', 'outside', 'testimonials', 'contact',
   ];
   const dwellEls = DWELL_IDS.map((id) => document.getElementById(id)).filter(Boolean);
   if (dwellEls.length) {
@@ -415,20 +425,17 @@
       }
     };
 
-    const dwellObserver = new IntersectionObserver((entries) => {
+    // A section is "in view" while it spans the middle of the viewport, so only one counts at a time.
+    onCentreLine(dwellEls, (el, active) => {
       const now = performance.now();
-      entries.forEach((entry) => {
-        const id = entry.target.id;
-        if (entry.isIntersecting) {
-          intersecting.add(id);
-          if (document.visibilityState === 'visible') startTimer(id, now);
-        } else {
-          intersecting.delete(id);
-          stopTimer(id, now);
-        }
-      });
-    }, { threshold: 0.5 });
-    dwellEls.forEach((el) => dwellObserver.observe(el));
+      if (active) {
+        intersecting.add(el.id);
+        if (document.visibilityState === 'visible') startTimer(el.id, now);
+      } else {
+        intersecting.delete(el.id);
+        stopTimer(el.id, now);
+      }
+    });
 
     document.addEventListener('visibilitychange', () => {
       if (document.visibilityState === 'hidden') flush();
@@ -442,9 +449,11 @@
   }
 
   /* ── CASE VIEWS (analytics) ──────────────── */
-  onceVisible(document.querySelectorAll('article[id^="case-"]'), (el) => {
+  const caseViews = onCentreLine(document.querySelectorAll('article[id^="case-"]'), (el, active) => {
+    if (!active) return;
     track('case-view', { case: el.id.replace('case-', '') });
-  }, 0.35);
+    caseViews.unobserve(el);
+  });
 
   /* ── SCROLL REVEAL ───────────────────────── */
   onceVisible(document.querySelectorAll('.reveal'), (el) => el.classList.add('visible'), 0.12);
