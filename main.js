@@ -561,4 +561,33 @@
   window.addEventListener('scroll', onScroll, { passive: true });
   window.addEventListener('resize', onScroll);
   updateNav();
+
+  /* ── HELLO, DEVTOOLS ─────────────────────── */
+  const GS = [
+    '   ██████   ██████',
+    '  ██       ██',
+    '  ██  ████  █████',
+    '  ██    ██      ██',
+    '   ██████  ██████',
+  ].join('\n');
+  const CUP = [
+    '       ( (',
+    '        ) )',
+    '     ........',
+    '     |      |]',
+    '     \\      /',
+    "      `----'",
+  ].join('\n');
+  const MONO = 'font-family: ui-monospace, monospace; line-height: 1.15';
+  console.log(`%c${GS}`, `color: #FFB0C8; ${MONO}`);
+  console.log(
+    '%cHi, engineer 👋\nNo framework. No build step.\n0 dependencies. View source is the docs.\n\n› try: coffee()',
+    'color: #8f8a84; line-height: 1.5',
+  );
+  // Returns the sign-off so the console prints it instead of "undefined".
+  window.coffee = () => {
+    console.log(`%c${CUP}`, `color: #FFB0C8; ${MONO}`);
+    track('console-coffee');
+    return "Brewed. Let's talk → gsvendsen@me.com";
+  };
 })();
