@@ -56,6 +56,73 @@
     }, 0.6);
   }
 
+  /* ── SPLIT-FLAP HERO NUMBERS ─────────────── */
+  // The proof values arrive like a departure board: blank tiles, a few random glyphs, then the
+  // value. Screen readers get a plain sr-only copy. Each cell is pinned to its final glyph's
+  // width while it flips, so the line never jitters (Bebas glyph widths vary a lot).
+  if (!reduceMotion) {
+    const GLYPHS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    const STEP = 45;
+    const cells = [];
+    document.querySelectorAll('.hero-proof dt').forEach((dt, d) => {
+      const text = dt.textContent;
+      const board = document.createElement('span');
+      board.setAttribute('aria-hidden', 'true');
+      let k = 0;
+      [...text].forEach((ch) => {
+        if (/[\s·]/.test(ch)) { board.append(ch); return; }
+        const cell = document.createElement('span');
+        cell.className = 'flap is-waiting';
+        cell.textContent = ch;
+        board.append(cell);
+        cells.push({ cell, final: ch, delay: d * 150 + k++ * 50, steps: 6 + Math.floor(Math.random() * 5), step: -1 });
+      });
+      const label = document.createElement('span');
+      label.className = 'sr-only';
+      label.textContent = text;
+      dt.replaceChildren(label, board);
+    });
+
+    const flip = (c, glyph) => {
+      c.cell.textContent = glyph;
+      c.cell.animate(
+        [{ transform: 'perspective(6em) rotateX(-90deg)' }, { transform: 'none' }],
+        { duration: STEP * 1.2, easing: 'ease-out' },
+      );
+    };
+    const run = () => {
+      if (!cells.length) return;
+      const size = parseFloat(getComputedStyle(cells[0].cell).fontSize);
+      cells.forEach((c) => { c.cell.style.width = `${c.cell.getBoundingClientRect().width / size}em`; });
+      const t0 = performance.now();
+      const tick = (now) => {
+        let pending = false;
+        cells.forEach((c) => {
+          if (c.done) return;
+          const step = Math.floor((now - t0 - c.delay) / STEP);
+          pending = true;
+          if (step < 0 || step === c.step) return;
+          c.step = step;
+          if (step < c.steps) {
+            c.cell.classList.replace('is-waiting', 'is-flipping');
+            flip(c, GLYPHS[Math.floor(Math.random() * GLYPHS.length)]);
+            return;
+          }
+          flip(c, c.final);
+          c.cell.classList.remove('is-flipping');
+          c.cell.style.width = '';
+          c.done = true;
+        });
+        if (pending) requestAnimationFrame(tick);
+      };
+      requestAnimationFrame(tick);
+    };
+    // Start once the font is in (widths depend on it) and the hero's fade-up has mostly landed.
+    const fontsReady = document.fonts ? document.fonts.ready : Promise.resolve();
+    Promise.race([fontsReady, new Promise((r) => setTimeout(r, 3000))])
+      .then(() => setTimeout(run, Math.max(0, 900 - performance.now())));
+  }
+
   /* ── GENERATED VISUALS ───────────────────── */
   /* ── INTERACTIVE PRICE TESTING TOOL ──────── */
   // Dummy data: hourly rate per zone, plus the zone/holiday pairs that are (wrongly) still charging.

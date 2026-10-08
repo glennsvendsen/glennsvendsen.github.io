@@ -287,6 +287,29 @@ body {
   color: var(--faint);
   line-height: 1.4;
 }
+/* Split-flap intro for the proof values (main.js). Each cell is exactly as wide as its final
+   glyph (no padding), so the strip is never wider than the plain text and nothing shifts. */
+.flap {
+  position: relative;
+  isolation: isolate;
+  display: inline-block;
+  overflow: clip;
+  text-align: center;
+}
+.flap::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: 2px;
+  background:
+    linear-gradient(var(--bg), var(--bg)) center / 100% 1px no-repeat,
+    linear-gradient(var(--track), var(--track)) center / calc(100% - 2px) 100% no-repeat;
+  opacity: 0;
+  transition: opacity 0.6s;
+}
+.flap:is(.is-waiting, .is-flipping)::before { opacity: 1; transition: none; }
+.flap.is-waiting { color: transparent; }
 .hero-ambient {
   position: absolute;
   right: 1.5rem;
