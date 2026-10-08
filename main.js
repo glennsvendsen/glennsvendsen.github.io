@@ -708,16 +708,20 @@
   updateNav();
 
   /* ── CURTAIN: PINNED HERO AND FINALE ─────── */
-  // The pinning itself is CSS. Here: pin offsets, so a layer taller than the viewport scrolls
-  // to its end before pinning (hero) or is revealed top-first (finale), plus the two things
-  // sticky layers break natively: anchor links to them and keyboard focus inside them.
+  // The pinning itself is CSS. Here: pin offsets (a hero taller than the viewport scrolls to its
+  // end before pinning; the finale rests where it can be read), plus the two things sticky layers
+  // break natively: anchor links to them and keyboard focus inside them.
   if (main && hero && finale) {
     const navH = () => nav.offsetHeight;
     const setPins = () => {
       const vh = window.innerHeight;
       hero.style.setProperty('--hero-pin', `${Math.min(0, vh - hero.offsetHeight)}px`);
-      // The finale pins with its top just under the nav, so its first lines never hide behind it.
-      finale.style.setProperty('--finale-pin', `${Math.min(0, vh - navH() - finale.offsetHeight)}px`);
+      // The finale waits with its first block (testimonials) resting on the bottom of the viewport:
+      // Outside lifts off it, then it scrolls up at normal pace, so it can be read, not glimpsed.
+      // If that block doesn't fit under the nav (phones), nothing is held back; it just scrolls in.
+      const lead = finale.firstElementChild.offsetHeight;
+      const restTop = lead <= vh - navH() ? vh - lead : vh;
+      finale.style.setProperty('--finale-pin', `${Math.min(0, vh - restTop - finale.offsetHeight)}px`);
     };
     setPins();
     const ro = new ResizeObserver(setPins);

@@ -339,9 +339,10 @@ body {
 /* ── CURTAIN (pinned layers) ────────────────── */
 /* With JS, the hero stays pinned while About slides over it like paper, and the finale
    (testimonials + contact) waits underneath until Outside slides off it. main.js sets the pin
-   offsets so a layer taller than the viewport scrolls to its end first. Flow sections always
-   paint over the hero, which paints over the finale; anything in main.js that asks "what's
-   showing" respects that order. The finale sits at 0, not -1: a negative z-index would put it
+   offsets: a hero taller than the viewport scrolls to its end first, and the finale rests with
+   the testimonials on the bottom of the viewport so they then scroll by at reading pace.
+   Flow sections always paint over the hero, which paints over the finale; anything in main.js
+   that asks "what's showing" respects that order. The finale sits at 0, not -1: a negative z-index would put it
    under <body>'s box for hit-testing, and its links would stop being clickable. */
 .js .finale { position: sticky; bottom: var(--finale-pin, 0px); z-index: 0; }
 .js .hero { position: sticky; top: var(--hero-pin, 0px); z-index: 1; }

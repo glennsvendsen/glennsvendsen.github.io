@@ -57,6 +57,8 @@ Local preview: `python3 -m http.server 8000`
   `layerOf`/`topmost`/`shownRatio` in main.js. Anchor links and focus into pinned layers are
   handled in main.js (`#hero`, `#testimonials`, `#contact`); add new pinned anchors to `PINNED`.
   Pin offsets (`--hero-pin`, `--finale-pin`) come from a ResizeObserver so tall layers stay reachable.
+  The finale rests with its first block (testimonials) on the bottom of the viewport, so it scrolls
+  by at reading pace once uncovered; where that block doesn't fit (phones) it just scrolls in.
 - `.case-rail` — fixed progress rail in the left margin while `#work` is on screen (≥1200px, JS only).
   Items link to the featured cases; progress is computed in the nav's rAF scroll handler.
 - Hero proof numbers (`.hero-proof dt`) get a split-flap intro (`.flap` cells, JS + motion only).
