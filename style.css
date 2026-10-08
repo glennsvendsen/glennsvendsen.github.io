@@ -1534,6 +1534,25 @@ body {
 .contact-link:hover .contact-link-text::after { transform: scaleX(1); }
 .contact-link-meta { color: var(--faint); display: flex; align-items: center; gap: 0.75rem; flex-shrink: 0; }
 .contact-link:hover .contact-link-meta { color: var(--accent); }
+/* Email row: the mailto link plus a sibling copy button (a button can't live inside a link) */
+.contact-row { display: flex; align-items: center; border-bottom: 1px solid var(--line); }
+.contact-row .contact-link { flex: 1; min-width: 0; border-bottom: 0; }
+.contact-copy {
+  flex-shrink: 0;
+  margin-left: 1.25rem;
+  padding: 0.6rem 0 0.6rem 1.25rem;
+  border-left: 1px solid var(--line);
+  font-family: var(--ff-mono);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: var(--faint);
+  transition: color 0.15s;
+}
+.contact-copy[hidden] { display: none; }
+.contact-copy:hover, .contact-copy.is-copied { color: var(--accent); }
 .footer-bottom {
   display: flex;
   flex-wrap: wrap;

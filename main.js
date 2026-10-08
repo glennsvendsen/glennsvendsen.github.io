@@ -455,6 +455,31 @@
     caseViews.unobserve(el);
   });
 
+  /* ── COPY EMAIL ──────────────────────────── */
+  // The button ships hidden; it only appears where the Clipboard API exists.
+  const copyBtn = document.querySelector('.contact-copy');
+  if (copyBtn && navigator.clipboard) {
+    const row = copyBtn.parentElement;
+    const label = copyBtn.querySelector('.contact-copy-label');
+    const announce = row.querySelector('[role="status"]');
+    const email = row.querySelector('a[href^="mailto:"]').getAttribute('href').slice(7);
+    let resetTimer = 0;
+    copyBtn.hidden = false;
+    copyBtn.addEventListener('click', async () => {
+      try { await navigator.clipboard.writeText(email); } catch (e) { return; }
+      label.textContent = 'Copied ✓';
+      copyBtn.classList.add('is-copied');
+      announce.textContent = 'Email address copied';
+      track('contact-copy-email');
+      clearTimeout(resetTimer);
+      resetTimer = setTimeout(() => {
+        label.textContent = 'Copy';
+        copyBtn.classList.remove('is-copied');
+        announce.textContent = '';
+      }, 2000);
+    });
+  }
+
   /* ── SCROLL REVEAL ───────────────────────── */
   onceVisible(document.querySelectorAll('.reveal'), (el) => el.classList.add('visible'), 0.12);
 
