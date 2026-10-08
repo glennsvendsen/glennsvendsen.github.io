@@ -1358,8 +1358,14 @@ body {
 .js .gap-seg:nth-child(4) { transition-delay: 0.24s; }
 .js .gap-seg:nth-child(5) { transition-delay: 0.32s; }
 .is-playing .gap-seg { transform: scaleX(1); }
-.gap-legend { display: grid; grid-template-columns: repeat(auto-fill, minmax(12rem, 1fr)); gap: 0.55rem 1.75rem; }
-.gap-legend li { display: flex; align-items: center; gap: 0.6rem; font-size: 0.925rem; }
+/* One column when narrow; two columns filled top-to-bottom when there's room, so the two
+   "new" areas always stack together (the brace annotation relies on that). */
+.chart--gaps { container-type: inline-size; }
+.gap-legend { display: grid; grid-template-columns: minmax(0, 1fr); gap: 0.55rem 1.75rem; }
+@container (min-width: 30rem) {
+  .gap-legend { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: repeat(3, auto); grid-auto-flow: column; }
+}
+.gap-legend li { position: relative; display: flex; align-items: center; gap: 0.6rem; font-size: 0.925rem; }
 .gap-legend i { width: 10px; height: 10px; flex-shrink: 0; border-radius: 2px; background: var(--c); }
 .gap-legend b { margin-left: auto; font-family: var(--ff-mono); font-size: 0.75rem; font-weight: 500; color: var(--faint); }
 .gap-legend .is-new b { color: var(--accent); }
@@ -1395,6 +1401,52 @@ body {
 .deliv-axis span { white-space: nowrap; }
 .deliv-axis { display: flex; justify-content: space-between; gap: 1rem; margin-top: 0.5rem; font-family: var(--ff-mono); font-size: 0.7rem; color: var(--faint); }
 .deliv-caption { margin-top: 0.75rem; font-size: 0.8rem; color: var(--faint); }
+
+/* ── HAND-DRAWN CHART ANNOTATIONS ───────────── */
+/* Notebook marks on the charts, each anchored inside the element it marks so it follows the
+   responsive layout. Strokes get the sketch wobble; the note text stays crisp. main.js draws
+   them in (drawIn); without JS they're simply there. */
+.annot { position: absolute; z-index: 1; pointer-events: none; }
+.annot svg { width: 100%; height: 100%; overflow: visible; }
+.annot path {
+  fill: none;
+  stroke: var(--scribble);
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  filter: url(#sketch-rough);
+}
+.annot-note {
+  position: absolute;
+  font-family: var(--ff-mono);
+  font-size: 0.7rem;
+  line-height: 1.3;
+  color: var(--accent);
+  white-space: nowrap;
+}
+.js .annot-note { opacity: 0; transition: opacity 0.5s ease 1.5s; }
+.js .annot.is-drawn .annot-note { opacity: 1; }
+
+/* Case 03: ring around the MVP column's top and its label */
+.annot--ring { left: 50%; bottom: calc(var(--v) - 1.05rem); width: 3.9rem; height: 3.3rem; transform: translateX(-50%); }
+.annot--ring path { stroke-width: 2; }
+.annot--ring .annot-note { right: calc(100% + 0.3rem); top: 0.15rem; }
+
+/* Case 04: arrow from the end of Before to the end of After. Bar rows are a 4.5rem label,
+   a 1rem gap and the track; --from is where the Before bar ends. */
+.bars { position: relative; }
+.annot--gain {
+  --track-w: calc(100% - 5.5rem);
+  left: calc(5.5rem + var(--track-w) * var(--from));
+  width: calc(var(--track-w) * (1 - var(--from)));
+  top: 1.25rem;
+  height: 3.1rem;
+}
+.annot--gain .annot-note { left: 0.25rem; bottom: calc(100% + 1.6rem); }
+
+/* Case 06: brace beside the two "new" legend rows, in the chart's right padding */
+.annot--brace { top: -0.1rem; right: -1rem; width: 0.65rem; height: calc(200% + 0.75rem); }
+.annot--brace .annot-note { right: 1rem; top: calc(100% + 0.35rem); }
 
 /* ── MORE CASE STUDIES ──────────────────────── */
 .more { padding: clamp(3.5rem, 7vw, 5rem) var(--gutter); }
@@ -1724,6 +1776,8 @@ body {
   .vd-status { flex-basis: 100%; order: 2; text-align: right; }
   .vd-btn { white-space: nowrap; padding: 0.5rem 0.8rem; }
   .deliv-note span { font-size: 0.62rem; }
+  .annot-note { display: none; }
+  .annot--ring { width: 3.3rem; height: 2.8rem; bottom: calc(var(--v) - 0.85rem); }
   .cols { grid-template-columns: 2.25rem minmax(0, 1fr); gap: 0 0.5rem; }
   .cols-note { left: 2.75rem; }
   .cols-x { font-size: 0.6rem; }

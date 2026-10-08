@@ -51,6 +51,15 @@
 </head>
 
 <body>
+  <!-- Shared "pencil" wobble for hand-drawn strokes (sketches, chart annotations) -->
+  <svg class="sketch-defs" width="0" height="0" aria-hidden="true" focusable="false">
+    <defs>
+      <filter id="sketch-rough" x="-5%" y="-5%" width="110%" height="110%">
+        <feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="2" seed="7"/>
+        <feDisplacementMap in="SourceGraphic" scale="2.2"/>
+      </filter>
+    </defs>
+  </svg>
   <a class="skip-link" href="#main">Skip to content</a>
 
   <!-- ── NAV ─────────────────────────────── -->
@@ -512,7 +521,9 @@
                 <div class="col" role="listitem" tabindex="0" style="--v:8%;--i:4"  aria-label="Tier 5: 8%"><span class="col-bar"></span><span class="col-tip">F5 · 8%</span></div>
                 <div class="col" role="listitem" tabindex="0" style="--v:8%;--i:5"  aria-label="Tier 6: 8%"><span class="col-bar"></span><span class="col-tip">F6 · 8%</span></div>
                 <div class="col" role="listitem" tabindex="0" style="--v:16%;--i:6" aria-label="Tier 7: 16%"><span class="col-bar"></span><span class="col-label" aria-hidden="true">16%</span><span class="col-tip">F7 · 16%</span></div>
-                <div class="col col--key" role="listitem" tabindex="0" style="--v:71%;--i:7" aria-label="Tier 8, MVP threshold: 71%"><span class="col-bar"></span><span class="col-label" aria-hidden="true">71%</span><span class="col-tip">F8 · MVP · 71%</span></div>
+                <div class="col col--key" role="listitem" tabindex="0" style="--v:71%;--i:7" aria-label="Tier 8, MVP threshold: 71%"><span class="col-bar"></span><span class="col-label" aria-hidden="true">71%</span><span class="col-tip">F8 · MVP · 71%</span>
+                  <span class="annot annot--ring" aria-hidden="true"><svg viewBox="0 0 78 62"><path d="M50 4 C24 1, 3 14, 4 32 C5 51, 30 61, 52 58 C72 55, 77 35, 72 20 C67 7, 46 1, 29 6"/></svg><span class="annot-note">MVP cut · +55 pts in one tier</span></span>
+                </div>
                 <div class="col" role="listitem" tabindex="0" style="--v:79%;--i:8" aria-label="Tier 9: 79%"><span class="col-bar"></span><span class="col-tip">F9 · 79%</span></div>
                 <div class="col" role="listitem" tabindex="0" style="--v:80%;--i:9" aria-label="Tier 10: 80%"><span class="col-bar"></span><span class="col-tip">F10 · 80%</span></div>
                 <div class="col" role="listitem" tabindex="0" style="--v:86%;--i:10" aria-label="Tier 11: 86%"><span class="col-bar"></span><span class="col-tip">F11 · 86%</span></div>
@@ -606,6 +617,7 @@
                     <div class="bars">
                       <div class="bar-row"><span class="bar-label">Before</span><div class="bar-track"><div class="bar" style="--w:66%">66%</div></div></div>
                       <div class="bar-row"><span class="bar-label">After</span><div class="bar-track"><div class="bar bar--after" style="--w:87%">87%</div></div></div>
+                      <span class="annot annot--gain" aria-hidden="true" style="--from:0.66"><svg viewBox="0 0 150 50" preserveAspectRatio="none"><path d="M4 3 C46 -8, 126 -8, 139 15 C147 30, 130 46, 101 48"/><path d="M111 40 L100 48 L112 54"/></svg><span class="annot-note">+21 pts</span></span>
                     </div>
                     <div class="bars-foot"><span>percentage points</span><b>+21</b></div>
                   </figure>
@@ -704,7 +716,7 @@
                       <div class="metric"><dt>0</dt><dd>Pricing incidents in production</dd></div>
                     </dl>
                   </div>
-                  <figure class="chart" data-play>
+                  <figure class="chart chart--gaps" data-play>
                     <div class="chart-head">
                       <span class="chart-title">35+ gaps mapped, then closed</span>
                       <span class="chart-sub">By area</span>
@@ -720,7 +732,7 @@
                       <li style="--c:color-mix(in srgb, var(--fg) 85%, transparent)"><i></i>Calculation engine<b>12 gaps</b></li>
                       <li style="--c:color-mix(in srgb, var(--fg) 58%, transparent)"><i></i>Configuration UI<b>10 gaps</b></li>
                       <li style="--c:color-mix(in srgb, var(--fg) 34%, transparent)"><i></i>Migration jobs<b>7 gaps</b></li>
-                      <li class="is-new" style="--c:var(--accent)"><i></i>Tariff types<b>4 new</b></li>
+                      <li class="is-new" style="--c:var(--accent)"><i></i>Tariff types<b>4 new</b><span class="annot annot--brace" aria-hidden="true"><svg viewBox="0 0 10 56" preserveAspectRatio="none"><path d="M1 1 C6 1, 6 4, 6 10 L6 22 C6 26, 7.5 28, 10 28 C7.5 28, 6 30, 6 34 L6 46 C6 52, 6 55, 1 55"/></svg><span class="annot-note">built new, not just ported</span></span></li>
                       <li class="is-new" style="--c:color-mix(in srgb, var(--accent) 50%, transparent)"><i></i>Simulation tools<b>4 new</b></li>
                     </ul>
                     <div class="deliv">
@@ -822,14 +834,6 @@
 
   <!-- ── OUTSIDE WORK ─────────────────────── -->
   <section id="outside" class="section surface-light surface-paper" data-surface="light">
-    <svg class="sketch-defs" width="0" height="0" aria-hidden="true" focusable="false">
-      <defs>
-        <filter id="sketch-rough" x="-5%" y="-5%" width="110%" height="110%">
-          <feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="2" seed="7"/>
-          <feDisplacementMap in="SourceGraphic" scale="2.2"/>
-        </filter>
-      </defs>
-    </svg>
     <div class="wrap">
       <div class="section-label eyebrow reveal"><span class="section-num">05</span><span>Outside work</span></div>
       <div class="projects-head reveal">

@@ -29,6 +29,28 @@
     return io;
   };
 
+  /* Hand-drawn strokes (scribbles, sketches, chart annotations): hide each path behind its own
+     dash, then draw it in once the element is in view. With reduced motion it's drawn at once. */
+  const drawIn = (els, {
+    paths = 'path', threshold = 0.4, delay = 0, stagger = 45, duration = 1.1,
+    ease = 'cubic-bezier(0.4, 0, 0.2, 1)', onDraw = () => {},
+  } = {}) => {
+    els = [...els];
+    els.forEach((el) => el.querySelectorAll(paths).forEach((p) => {
+      const len = p.getTotalLength();
+      p.style.strokeDasharray = len;
+      p.style.strokeDashoffset = reduceMotion ? 0 : len;
+    }));
+    if (reduceMotion) { els.forEach(onDraw); return; }
+    onceVisible(els, (el) => {
+      el.querySelectorAll(paths).forEach((p, i) => {
+        p.style.transition = `stroke-dashoffset ${duration}s ${ease} ${delay + i * stagger}ms`;
+        p.style.strokeDashoffset = '0';
+      });
+      onDraw(el);
+    }, threshold);
+  };
+
   /* ── SCRIBBLE UNDERLINES ─────────────────── */
   const SCRIBBLE = `
     <svg class="scribble-svg" viewBox="0 0 300 20" preserveAspectRatio="none" aria-hidden="true">
@@ -37,24 +59,15 @@
       <path d="M250 11 L266 3 L258 18 L274 9" stroke="currentColor" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
     </svg>`;
   const scribbles = document.querySelectorAll('.scribble');
-  scribbles.forEach((el) => {
-    el.insertAdjacentHTML('beforeend', SCRIBBLE);
-    el.querySelectorAll('path').forEach((p) => {
-      const len = p.getTotalLength();
-      p.style.strokeDasharray = len;
-      p.style.strokeDashoffset = reduceMotion ? 0 : len;
-    });
+  scribbles.forEach((el) => el.insertAdjacentHTML('beforeend', SCRIBBLE));
+  drawIn(scribbles, { threshold: 0.6, delay: 300, stagger: 180, duration: 0.9, ease: 'cubic-bezier(0.16, 1, 0.3, 1)' });
+
+  /* ── CHART ANNOTATIONS ───────────────────── */
+  // Drawn after the chart's own bars have mostly landed; the note fades in after the stroke (CSS).
+  drawIn(document.querySelectorAll('.annot'), {
+    threshold: 0.9, delay: 900, stagger: 160, duration: 0.8,
+    onDraw: (el) => el.classList.add('is-drawn'),
   });
-  if (!reduceMotion) {
-    onceVisible(scribbles, (el) => {
-      el.querySelectorAll('path').forEach((p, i) => {
-        setTimeout(() => {
-          p.style.transition = 'stroke-dashoffset 0.9s cubic-bezier(0.16, 1, 0.3, 1)';
-          p.style.strokeDashoffset = '0';
-        }, 300 + i * 180);
-      });
-    }, 0.6);
-  }
 
   /* ── SPLIT-FLAP HERO NUMBERS ─────────────── */
   // The proof values arrive like a departure board: blank tiles, a few random glyphs, then the
@@ -409,22 +422,8 @@
       ghost.setAttribute('transform', `translate(${i % 2 ? 0.9 : -0.7} ${i % 3 ? 0.6 : -0.5})`);
       el.after(ghost);
     });
-    if (reduceMotion) { sk.classList.add('is-drawn'); return; }
-    sk.querySelectorAll('.ink > *, .notes path').forEach((el) => {
-      const len = el.getTotalLength();
-      el.style.strokeDasharray = len;
-      el.style.strokeDashoffset = len;
-    });
   });
-  if (!reduceMotion) {
-    onceVisible(sketches, (sk) => {
-      sk.querySelectorAll('.ink > *, .notes path').forEach((el, i) => {
-        el.style.transition = `stroke-dashoffset 1.1s cubic-bezier(0.4, 0, 0.2, 1) ${i * 45}ms`;
-        el.style.strokeDashoffset = '0';
-      });
-      sk.classList.add('is-drawn');
-    }, 0.4);
-  }
+  drawIn(sketches, { paths: '.ink > *, .notes path', onDraw: (sk) => sk.classList.add('is-drawn') });
 
   /* ── APP WINDOW SHEEN ────────────────────── */
   if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
