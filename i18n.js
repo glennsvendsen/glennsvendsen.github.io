@@ -20,6 +20,13 @@ window.I18N = {
     'sky.dusk': 'gyllen time',
     'sky.night': 'månen er oppe',
     'sky.aurora': 'nordlysvær',
+    'wx.fog': 'tåke',
+    'wx.drizzle': 'yr',
+    'wx.rain': 'regn',
+    'wx.snow': 'snø',
+    'wx.storm': 'torden',
+    'wx.overcast': 'overskyet',
+    'wx.ice': 'is på fjorden',
 
     'about.alt': 'Portrett av Glenn Svendsen',
     'about.caption': 'Det er meg.',
@@ -64,6 +71,6 @@ window.I18N = {
     'copy.sr': ' e-postadresse',
     'copy.done': 'Kopiert ✓',
     'copy.announce': 'E-postadressen er kopiert',
-    fine: 'Tegnet og laget i Oslo · Anonym besøksstatistikk uten informasjonskapsler',
+    fine: 'Tegnet og laget i Oslo · Vær fra <a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo</a> · Anonym besøksstatistikk uten informasjonskapsler',
   },
 };

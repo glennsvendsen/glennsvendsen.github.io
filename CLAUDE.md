@@ -56,8 +56,14 @@ Local preview: `python3 -m http.server 8000`
 - **Skyline** (`.land`): layers `layer--sky|far|mid|near` parallax on scroll (scroll-driven
   animations), draw in on first load (`.is-drawing` → `.is-drawn`), and `.life` holds the ferry,
   sailboat, gulls; the City Hall flag is the accent. `.fill` paths are paper silhouettes.
+- **Weather & seasons**: main.js fetches Oslo weather once per visit from Open-Meteo (free, no key, no
+  cookies, CC BY 4.0, credited in the footer; cached 30 min in sessionStorage) and sets `data-wx`
+  (clear|cloud|fog|rain|snow|storm), `data-clouds` (0–3), `data-intensity`, `data-cover` (none|light|deep,
+  from snow depth) and `data-ice` (0–2, from freezing degree-days over 14 days) on `.land`. Snow/ice are
+  in the `.cover` groups, falling weather in `.wx-front`; all paused when the skyline is off-screen.
+  Debug on localhost: `?wx=snow&snow=0.3&ice=2&temp=-8&clouds=2` (wx: clear|cloud|fog|drizzle|rain|snow|storm).
 - **Sky**: main.js places sun/moon by the real time in Oslo (`Intl`, `Europe/Oslo`) and a month table of
-  sunrise/sunset; aurora on winter nights. The City Hall clock hands (`.hand--hour/--min`, rotated in `updateSky`) show the same Oslo time.
+  sunrise/sunset; aurora on winter nights. The City Hall clock hands (`.hand--hour/--min`, `data-pivot`, rotated in `updateSky`) show the same Oslo time.
   Debug on localhost: `?hour=22.5&month=1`.
 - **Sketches** (`.sketch`, the Life section): `.ink` strokes get pathLength="1" + ghost copies from
   main.js and draw with scroll (`view()` timeline; IntersectionObserver fallback). `.is-drawn` starts

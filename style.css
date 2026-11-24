@@ -13,6 +13,9 @@
 :root {
   color-scheme: light dark;
 
+  --snow:    light-dark(oklch(1 0 0),          oklch(0.93 0.012 240));
+  --ice:     light-dark(oklch(0.93 0.03 225),  oklch(0.62 0.035 230 / 0.5));
+
   --paper:   light-dark(oklch(0.976 0.008 85), oklch(0.205 0.012 260));
   --paper-2: light-dark(oklch(0.952 0.013 82), oklch(0.245 0.014 260));
   --ink:     light-dark(oklch(0.24 0.012 60),  oklch(0.93 0.012 85));
@@ -254,7 +257,9 @@ p { text-wrap: pretty; }
 .fjord .ink .hand { stroke-width: 1.2; stroke-opacity: 0.95; }
 .fjord .ink .hand--hour { stroke-width: 1.5; }
 .fjord .ink .trees { stroke-opacity: 0.6; fill: var(--paper); }
-.fjord .ink .trees--back { stroke-opacity: 0.35; }
+.fjord .ink .trees--near { stroke-opacity: 0.45; }
+.fjord .ink .hatch { stroke-opacity: 0.3; }
+.fjord .ink .people { stroke-opacity: 0.9; stroke-width: 0.7; }
 .fjord .fill { fill: var(--paper); stroke: none; }
 .fjord .accent { stroke: var(--accent); }
 .layer--far path:not(.fill) { stroke-opacity: 0.7; }
@@ -334,6 +339,73 @@ p { text-wrap: pretty; }
   0%   { translate: -3% 0; scale: 1 0.8; opacity: 0.55; }
   50%  { translate: 2% -4%; scale: 1.05 1.25; opacity: 1; }
   100% { translate: 4% 2%; scale: 0.96 0.9; opacity: 0.7; }
+}
+
+/* Weather and seasons over the skyline (main.js sets data-wx, data-clouds, data-intensity,
+   data-cover and data-ice on .land from the current weather in Oslo). Snow and ice sit in the
+   `.cover` groups so they parallax with what they lie on; falling weather is in `.wx-front`. */
+.js .land:not(.is-drawn) :is(.cover, .wx-clouds) { opacity: 0; }
+.land :is(.cover, .wx-clouds) { transition: opacity 1.2s ease 0.4s; }
+.fjord .snow { fill: var(--snow); stroke: var(--ink); stroke-width: 0.5; stroke-opacity: 0.3; opacity: 0; transition: opacity 1.6s; }
+.land[data-cover='light'] .snow-light,
+.land[data-cover='deep'] :is(.snow-light, .snow-deep) { opacity: 1; }
+.fjord .ice { fill: var(--ice); stroke: var(--ink); stroke-width: 0.6; stroke-opacity: 0.35; opacity: 0; transition: opacity 2s; }
+.fjord .ice-line { fill: none; stroke: var(--ink); stroke-width: 0.8; stroke-opacity: 0.35; opacity: 0; transition: opacity 2s; }
+.fjord .skate { stroke-dasharray: 5 4; stroke-opacity: 0.25; }
+.land[data-ice='1'] .ice-1,
+.land[data-ice='2'] :is(.ice-1, .ice-2) { opacity: 1; }
+.land[data-ice='2'] .sailboat { opacity: 0; }
+.sailboat { transition: opacity 1.5s; }
+
+.wx-clouds .cloud { opacity: 0; transition: opacity 2.4s; }
+.land[data-clouds='1'] .c2,
+.land[data-clouds='2'] :is(.c1, .c3),
+.land[data-clouds='3'] .cloud { opacity: 1; }
+.cloud path { fill: var(--paper); stroke: var(--ink); stroke-width: 1.2; stroke-linejoin: round; }
+.cloud path.thin { fill: none; stroke-width: 0.9; stroke-opacity: 0.5; }
+.cloud-drift { animation: drift 70s ease-in-out infinite alternate; }
+.c1 .cloud-drift { animation-delay: -25s; }
+.c3 .cloud-drift { animation-delay: -50s; animation-duration: 90s; }
+@keyframes drift { from { translate: -36px 0; } to { translate: 36px 0; } }
+/* Heavy cloud dims the sun and moon; rain, snow and thunder hide them; fog leaves a pale, rayless disc. */
+.land[data-clouds='3'] .sky :is(.sun, .moon) { opacity: 0.18; }
+.land:is([data-wx='rain'], [data-wx='snow'], [data-wx='storm']) .sky :is(.sun, .moon),
+.land:is([data-wx='rain'], [data-wx='snow'], [data-wx='storm']) .glint { opacity: 0; }
+.land[data-wx='fog'] .sky :is(.sun, .moon) { opacity: 0.4; }
+.land[data-wx='fog'] .sun .thin { opacity: 0; }
+.land[data-wx='fog'] .glint { opacity: 0.2; }
+.sun .thin { transition: opacity 1.2s; }
+.land[data-clouds='3'] .sky .stars,
+.land[data-wx]:not([data-wx='clear']):not([data-wx='cloud']) .sky .stars { opacity: 0; }
+
+.wx-front > * { opacity: 0; transition: opacity 1.5s; }
+.land[data-wx='rain'] .wx-rain,
+.land[data-wx='storm'] .wx-rain,
+.land[data-wx='snow'] .wx-snow,
+.land[data-wx='fog'] .wx-fog { opacity: 1; }
+.wx-rain path { fill: none; stroke: var(--muted); stroke-width: 1; stroke-linecap: round; stroke-opacity: 0.55; animation: fall var(--t, 1s) linear var(--d, 0s) infinite; }
+.wx-snow circle { fill: var(--snow); stroke: var(--faint); stroke-width: 0.5; animation: flake var(--t, 9s) linear var(--d, 0s) infinite; }
+.land[data-intensity='light'] :is(.wx-rain path, .wx-snow circle):nth-child(2n) { display: none; }
+.land:not([data-intensity='heavy']) :is(.wx-rain path, .wx-snow circle):nth-child(5n) { display: none; }
+@keyframes fall { from { translate: 0 -30px; } to { translate: -22px 250px; } }
+@keyframes flake {
+  0%   { translate: 0 -20px; }
+  25%  { translate: var(--s, 10px) 50px; }
+  50%  { translate: 0 120px; }
+  75%  { translate: calc(var(--s, 10px) * -1) 190px; }
+  100% { translate: 0 262px; }
+}
+.wx-fog { filter: blur(5px); }
+.wx-fog path { fill: none; stroke: var(--paper); stroke-width: 18; stroke-linecap: round; opacity: 0.85; animation: fog 14s ease-in-out var(--d, 0s) infinite alternate; }
+@keyframes fog { from { opacity: 0.55; translate: -20px 0; } to { opacity: 0.9; translate: 20px 0; } }
+.bolt { fill: none; stroke: var(--accent); stroke-width: 1.6; stroke-linejoin: round; stroke-linecap: round; }
+.land[data-wx='storm'] .wx-front > .bolt { animation: bolt 11s linear infinite; }
+/* One soft double flash every 11 s (well under the 3-flashes-a-second limit). */
+@keyframes bolt { 0%, 92% { opacity: 0; } 93% { opacity: 1; } 94% { opacity: 0; } 95.5% { opacity: 0.8; } 97%, 100% { opacity: 0; } }
+/* Off-screen, everything on the skyline holds still. */
+.land.is-paused :is(.wx-front *, .cloud-drift, .ferry, .gulls, .gulls path, .sailboat, .flag, .ab, .stars path, .smoke) { animation-play-state: paused; }
+@media (prefers-reduced-motion: reduce) {
+  .wx-rain, .wx-snow, .bolt { display: none; }
 }
 
 /* ── ABOUT ────────────────────────────────── */
@@ -577,6 +649,8 @@ p { text-wrap: pretty; }
 
 .signoff { margin-top: clamp(3rem, 8vw, 5rem); display: flex; justify-content: flex-end; }
 .signature--signoff { width: min(70%, 22rem); }
+.fine a { color: inherit; text-underline-offset: 2px; }
+.fine a:hover { color: var(--accent); }
 .fine { margin-top: 2.5rem; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0.5rem 2rem; color: var(--faint); }
 
 /* ── WORK PAGE (/work/) ───────────────────── */

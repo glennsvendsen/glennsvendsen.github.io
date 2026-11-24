@@ -70,12 +70,13 @@ html = open('index.html').read()
 land = html[html.index('<svg class="fjord"'):html.index('<!-- /LAND -->')]
 fy = H - 262
 fx = lambda p: (p[0] * SS, (p[1] + fy) * SS)
-cx, cy, r = 330 * SS, (fy + 62) * SS, 16 * SS
+cx, cy, r = 140 * SS, (fy + 70) * SS, 16 * SS
 draw.ellipse((cx - r, cy - r, cx + r, cy + r), fill=(245, 222, 226), outline=ACCENT, width=2 * SS)
 for a in np.linspace(0, 2 * np.pi, 8, endpoint=False):
     draw.line([(cx + np.cos(a) * 26 * SS, cy + np.sin(a) * 26 * SS), (cx + np.cos(a) * 34 * SS, cy + np.sin(a) * 34 * SS)], fill=ACCENT, width=int(1.4 * SS))
 for layer in re.findall(r'<g class="layer layer--(?:far|mid|near) ink">(.*?)</g>', land, re.S):
     for cls, d in re.findall(r'<path(?: class="([^"]*)")? d="([^"]+)"', layer):
+        if 'hand' in cls.split(): continue  # clock hands are positioned by main.js
         lines = parse(d)
         if 'fill' in cls.split() or 'trees' in cls.split():
             for ln in lines:

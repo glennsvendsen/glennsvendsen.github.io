@@ -190,6 +190,78 @@
     if (local && params.has('month')) month = +params.get('month');
     return { hour, month, label };
   };
+  /* Weather in Oslo (Open-Meteo, free, no key, no cookies; CC BY 4.0, credited in the footer).
+     One request per visit, cached for 30 minutes. Any failure leaves the clear sky as it is.
+     Debug on localhost: ?wx=clear|cloud|fog|drizzle|rain|snow|storm&snow=0.3&ice=2&temp=-8&clouds=2 */
+  let weather = null;
+  const wxFrom = (data) => {
+    const c = data.current || {};
+    const code = c.weather_code ?? 0;
+    const temp = c.temperature_2m;
+    const depth = c.snow_depth ?? 0;
+    const cover = c.cloud_cover ?? 0;
+    let wx = 'clear';
+    let intensity = 'normal';
+    if ([1, 2, 3].includes(code)) wx = 'cloud';
+    else if ([45, 48].includes(code)) wx = 'fog';
+    else if (code >= 51 && code <= 57) { wx = 'rain'; intensity = 'light'; }
+    else if ((code >= 61 && code <= 67) || (code >= 80 && code <= 82)) { wx = 'rain'; intensity = [65, 67, 82].includes(code) ? 'heavy' : ([61, 80].includes(code) ? 'light' : 'normal'); }
+    else if ((code >= 71 && code <= 77) || code === 85 || code === 86) { wx = 'snow'; intensity = [75, 86].includes(code) ? 'heavy' : ([71, 77, 85].includes(code) ? 'light' : 'normal'); }
+    else if (code >= 95) wx = 'storm';
+    let clouds = cover < 20 ? 0 : cover < 45 ? 1 : cover < 75 ? 2 : 3;
+    if (code === 3 || !['clear', 'cloud'].includes(wx)) clouds = 3;
+    if (wx === 'clear') clouds = Math.min(clouds, 1);
+    // Lying snow: from the snow depth, or fresh while it's snowing below freezing.
+    let snowCover = depth >= 0.15 ? 'deep' : depth >= 0.01 ? 'light' : 'none';
+    if (snowCover === 'none' && wx === 'snow' && temp !== undefined && temp <= 0.5) snowCover = 'light';
+    // Fjord ice: freezing degree-days over the last two weeks.
+    const means = (data.daily && data.daily.temperature_2m_mean) || [];
+    const fdd = means.reduce((sum, m) => sum + (m === null ? 0 : Math.max(0, -m)), 0);
+    const ice = fdd >= 60 ? 2 : fdd >= 20 ? 1 : 0;
+    return { wx, intensity, clouds, cover: snowCover, ice, temp };
+  };
+  const applyWeather = (w) => {
+    weather = w;
+    land.dataset.wx = w.wx;
+    land.dataset.clouds = String(w.clouds);
+    land.dataset.intensity = w.intensity;
+    land.dataset.cover = w.cover;
+    land.dataset.ice = String(w.ice);
+    updateSky();
+  };
+  const loadWeather = async () => {
+    const params = new URLSearchParams(location.search);
+    const local = /^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname);
+    if (local && ['wx', 'snow', 'ice', 'temp', 'clouds'].some((k) => params.has(k))) {
+      const codes = { clear: 0, cloud: 2, fog: 45, drizzle: 53, rain: 63, snow: 73, storm: 95 };
+      const w = wxFrom({
+        current: {
+          weather_code: codes[params.get('wx')] ?? 0,
+          temperature_2m: params.has('temp') ? +params.get('temp') : -3,
+          snow_depth: params.has('snow') ? +params.get('snow') : 0,
+          cloud_cover: params.has('clouds') ? +params.get('clouds') * 30 : (params.get('wx') === 'cloud' ? 60 : 0),
+        },
+        daily: { temperature_2m_mean: Array(14).fill(({ 0: 0, 1: -2, 2: -6 })[params.get('ice')] ?? 0) },
+      });
+      applyWeather(w);
+      return;
+    }
+    try {
+      const cached = JSON.parse(sessionStorage.getItem('wx') || 'null');
+      if (cached && Date.now() - cached.t < 30 * 60 * 1000) { applyWeather(wxFrom(cached.data)); return; }
+    } catch (e) { /* ignore */ }
+    const ctrl = new AbortController();
+    const timer = setTimeout(() => ctrl.abort(), 6000);
+    try {
+      const res = await fetch('https://api.open-meteo.com/v1/forecast?latitude=59.91&longitude=10.75'
+        + '&current=temperature_2m,weather_code,snow_depth,cloud_cover&daily=temperature_2m_mean'
+        + '&past_days=14&forecast_days=1&timezone=Europe%2FOslo', { signal: ctrl.signal });
+      if (!res.ok) return;
+      const data = await res.json();
+      try { sessionStorage.setItem('wx', JSON.stringify({ t: Date.now(), data })); } catch (e) { /* ignore */ }
+      applyWeather(wxFrom(data));
+    } catch (e) { /* offline or blocked: keep the clear sky */ } finally { clearTimeout(timer); }
+  };
   const place = (sel, x, y) => land.querySelector(sel).setAttribute('transform', `translate(${x.toFixed(1)} ${y.toFixed(1)})`);
   const clock = document.querySelector('.hero-clock');
   const updateSky = () => {
@@ -197,10 +269,9 @@
     // The City Hall clock shows the time in Oslo.
     const hourHand = land.querySelector('.hand--hour');
     const minHand = land.querySelector('.hand--min');
-    if (hourHand && minHand) {
-      hourHand.setAttribute('transform', `rotate(${((hour % 12) * 30).toFixed(1)} 608 106)`);
-      minHand.setAttribute('transform', `rotate(${((hour % 1) * 360).toFixed(1)} 608 106)`);
-    }
+    const turn = (el, deg) => el && el.setAttribute('transform', `translate(${el.dataset.pivot}) rotate(${deg.toFixed(1)})`);
+    turn(hourHand, (hour % 12) * 30);
+    turn(minHand, (hour % 1) * 360);
     const [rise, set] = SUN[month - 1];
     let sky;
     let note;
@@ -223,16 +294,31 @@
       note = tr('sky.night', "moon's up");
       const winter = month >= 9 || month <= 3;
       const dark = ((hour - set + 24) % 24) > 1 && ((rise - hour + 24) % 24) > 1;
-      if (winter && dark) { land.dataset.aurora = ''; note = tr('sky.aurora', 'aurora weather'); } else delete land.dataset.aurora;
+      const clearish = !weather || (weather.wx === 'clear' || (weather.wx === 'cloud' && weather.clouds < 2));
+      if (winter && dark && clearish) { land.dataset.aurora = ''; note = tr('sky.aurora', 'aurora weather'); } else delete land.dataset.aurora;
     }
     place('.glint', x, 206 + Math.max(0, 150 - y) * 0.1);
     land.dataset.sky = sky;
     clock.querySelector('.clock-time').textContent = label;
+    if (weather) {
+      const wxNote = {
+        fog: tr('wx.fog', 'foggy'),
+        rain: weather.intensity === 'light' ? tr('wx.drizzle', 'drizzle') : tr('wx.rain', 'raining'),
+        snow: tr('wx.snow', 'snowing'),
+        storm: tr('wx.storm', 'thunder'),
+        cloud: weather.clouds >= 3 ? tr('wx.overcast', 'overcast') : '',
+      }[weather.wx];
+      if (wxNote) note = wxNote;
+      else if (weather.ice === 2 && sky !== 'night') note = tr('wx.ice', 'ice on the fjord');
+      if (typeof weather.temp === 'number') note = `${Math.round(weather.temp)}° · ${note}`;
+    }
     clock.querySelector('.clock-sky').textContent = `· ${note}`;
     clock.hidden = false;
   };
   updateSky();
   langListeners.push(updateSky);
+  loadWeather();
+  new IntersectionObserver(([e]) => land.classList.toggle('is-paused', !e.isIntersecting)).observe(land);
   setInterval(updateSky, 60 * 1000);
   }
 
