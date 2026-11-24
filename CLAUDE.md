@@ -4,72 +4,66 @@ Guidance for Claude Code when working in this repository.
 
 ## Project
 
-Personal PM portfolio / marketing page for Glenn Svendsen. Live at https://glennsvendsen.github.io.
-Static site, no build step, no dependencies. Auto-deploys to GitHub Pages on push to `main`
-(`.github/workflows/deploy.yml`).
+Personal homepage for Glenn Svendsen (role-neutral: no job title or employer on the home page).
+Live at https://glennsvendsen.github.io. Static site, no build step, no dependencies. Auto-deploys to
+GitHub Pages on push to `main` (`.github/workflows/deploy.yml`).
 
 Local preview: `python3 -m http.server 8000`
 
 ## Files
 
-- `index.html` — all content (single page)
-- `style.css` — all styles
+- `index.html` — the home page: hero (signature + Oslo skyline), about, projects, sketches, hello
+- `style.css` — all home page styles
 - `main.js` — progressive enhancement only (the page must read fine without it)
-- `og-image.png` (1200×630) — LinkedIn/social preview; regenerate if name/title/tagline changes
-- `favicon.svg`, `apple-touch-icon.png`, `profile.jpg` (keep < ~200 KB)
+- `work/` — **frozen copy of the old PM portfolio** (Arrive case studies, testimonials), linked only
+  from the footer as "Earlier work", `noindex`. It has its own `style.css`/`main.js`; don't restyle it.
+  The pre-redesign site is also tagged `v1-portfolio`.
+- `signature.svg` — Glenn's signature: filled outline (`fill-rule="evenodd"`) + the pen strokes (`#pen`)
+- `og-image.png` (1200×630) — regenerate with `python3 assets-src/make_og.py` (reads the signature and
+  the skyline, so run it after changing either)
+- `favicon.svg` (adapts to dark mode), `apple-touch-icon.png`, `profile.jpg` (keep < ~200 KB)
+- `assets-src/` — sources and generators, not used by the page:
+  - `signature.jpg` (original scan), `trace_signature.py` (outline + pen strokes from the scan)
+  - `make_skyline.py` — generates the hero's Oslo panorama into `index.html` between
+    `<!-- LAND -->` markers. Edit the script, not the generated markup.
+  - `make_og.py` — renders `og-image.png`
 
-## Design system
+## Design system: "quiet paper"
 
-- Editorial look: Bebas Neue (display, uppercase-only glyphs, so avoid lowercase units like "s" in
-  display numbers; write "sec"), Instrument Sans (body), IBM Plex Mono (labels/data).
-- Every section declares a surface: `class="surface-dark|surface-light"` plus `data-surface="dark|light"`.
-  Surfaces set `--bg --fg --muted --faint --line --track --accent`; components only use these tokens.
-  `data-surface` also drives the nav colour.
-- Accent: `--pink` (#FFB0C8) on dark only. On light surfaces text accent is `--pink-ink` (#B4295F)
-  for contrast. Pink is fine as a *fill* (bars) on light.
-- Minimum text size ~0.7rem for labels; body copy 1rem+.
-- Product demo windows (`.app`) stay dark on any surface and have their own token set on `.app`:
-  `--app-bg --app-raise --app-fg --app-text --app-muted --app-faint --app-dim --app-line
-  --app-line-strong --app-fill --app-fill-strong --app-accent-wash/-soft/-line`. Everything inside
-  `.app` uses only these (plus `--pink`/`--black` for accents), never raw rgba values.
-- Dark surfaces get a static film grain (`.surface-dark::after`, one noise tile). It needs
-  `position: relative`, which `.surface-dark` sets.
+- Ink on warm paper, one rose accent. Colours are `oklch()` tokens on `:root` using `light-dark()`:
+  `--paper --paper-2 --ink --muted --faint --line --accent --shadow`. Components use only these.
+- Theme: `color-scheme: light dark`; a saved choice sets `html[data-theme]` (inline head script) and
+  JS mirrors the result as `html.is-dark`. The toggle switches with a View Transition ink wipe.
+- Type: Instrument Serif (display, headings, link text), Instrument Sans (body), IBM Plex Mono (`.mono`
+  for small labels). Body copy 1rem+, labels ≥ ~0.72rem.
+- Paper texture is `body::before` (feTurbulence + feDiffuseLighting data URI); a faint light drifts
+  with scroll on `body::after`.
+- Everything decorative should look hand-drawn: pen strokes with the `#sketch-rough` wobble filter,
+  one accent detail per drawing. No glass, neon or 3D.
 
 ## Patterns
 
-- `.reveal` — fades in on scroll (only hidden when `.js` is on `<html>`).
-- `[data-play]` — gets `.is-playing` when scrolled into view; animations key off that.
-- `[data-count]` — animates the first number in its text.
-- `.scribble` — JS injects the hand-drawn underline; use sparingly (featured case titles, about, contact).
-- `drawIn(els, opts)` (main.js) — the one dash-offset draw-in for hand-drawn strokes (scribbles,
-  sketches, annotations). Reduced motion draws immediately.
-- `.annot` — hand-drawn chart annotation: `<span class="annot annot--x" aria-hidden="true">` with an
-  inline SVG stroke (wobbled, `--scribble`) and an optional `.annot-note` (crisp mono, `--accent`).
-  Anchor it inside the element it marks so it follows the layout. Notes hide below 640px.
-- Case studies: 3 featured `.case` articles, then 3 `.case--compact` inside the `#more-panel`
-  toggle. Links to `#case-*` inside the panel auto-open it.
-- `prefers-reduced-motion` is respected globally in `style.css`.
-- Pinned layers (curtain, `.js` only): `.hero` is sticky (About slides over it) and `.finale`
-  (testimonials + contact) is sticky underneath until Outside slides off it. Paint order is
-  flow sections (z 2) > hero (1) > finale (0); never give the finale a negative z-index (it stops
-  being clickable). Rule: **flow beats pinned**. A pinned layer can be in the viewport yet covered,
-  so anything asking "what's showing" (nav theme, active link, dwell, `onceVisible`) goes through
-  `layerOf`/`topmost`/`shownRatio` in main.js. Anchor links and focus into pinned layers are
-  handled in main.js (`#hero`, `#testimonials`, `#contact`); add new pinned anchors to `PINNED`.
-  Pin offsets (`--hero-pin`, `--finale-pin`) come from a ResizeObserver so tall layers stay reachable.
-  The finale rests with its first block (testimonials) on the bottom of the viewport, so it scrolls
-  by at reading pace once uncovered; where that block doesn't fit (phones) it just scrolls in.
-- `.case-rail` — fixed progress rail in the left margin while `#work` is on screen (≥1200px, JS only).
-  Items link to the featured cases; progress is computed in the nav's rAF scroll handler.
-- Hero proof numbers (`.hero-proof dt`) get a split-flap intro (`.flap` cells, JS + motion only).
-  Works with any text; spaces and `·` don't flip; screen readers get an sr-only copy.
-- Demo windows lean back and settle flat on scroll (CSS `animation-timeline: view()`, flat where
-  unsupported) and get a cursor sheen on fine pointers.
-- Console: a GS monogram greeting plus a hidden `coffee()` command (tracked as `console-coffee`).
-- `.sketch` (Outside work) — inline SVG notebook line art. Strokes in `.ink` get the `#sketch-rough`
-  wobble filter, a faint offset "ghost" copy and a draw-in on view (main.js). Use `.thin`, `.accent`
-  (one pink detail per sketch), `.notes` for leader lines + mono annotations; keep text unfiltered.
+- **Signature write-on**: `.signature` SVGs hold the outline (`.sig-ink`) and a `<mask>` of pen strokes
+  (`.pen path`, `pathLength="1"`). `write()` in main.js times each stroke by length, applies the mask
+  while writing and removes it after, so the exact outline shows. Hero plays once per session;
+  the footer sign-off plays when scrolled into view. The header wordmark is `<use href="#sig">`.
+- **Skyline** (`.land`): layers `layer--sky|far|mid|near` parallax on scroll (scroll-driven
+  animations), draw in on first load (`.is-drawing` → `.is-drawn`), and `.life` holds the ferry,
+  sailboat, gulls; the City Hall flag is the accent. `.fill` paths are paper silhouettes.
+- **Sky**: main.js places sun/moon by the real time in Oslo (`Intl`, `Europe/Oslo`) and a month table of
+  sunrise/sunset; aurora on winter nights. Debug on localhost: `?hour=22.5&month=1`.
+- **Sketches** (`.sketch`, From the notebook): `.ink` strokes get pathLength="1" + ghost copies from
+  main.js and draw with scroll (`view()` timeline; IntersectionObserver fallback). `.is-drawn` starts
+  one looping detail per sketch (CSS, by `:nth-child`). Classes: `.thin`, `.accent`, `.notes`, `.trail`.
+- **Project cards** (`.card` in `.cards`): container queries, `:has()` dims siblings on hover, pointer
+  tilt via `@property --rx/--ry`, and the ink-bleed reveal (`.plate.will-bleed` → `.is-bleeding`,
+  `#ink-bleed` filter + growing radial mask).
+- `.reveal` and cards rise in with `animation-timeline: view()`; JS fallback adds `.is-visible`.
+- Page ↔ `/work/` uses cross-document View Transitions (`@view-transition`), the brand morphs.
+- `prefers-reduced-motion`: everything static and fully drawn. Keep that working for anything new.
+- Console: a GS greeting plus a hidden `coffee()` command (tracked as `console-coffee`).
 
 ## Adding a side project
 
-Copy an `<a class="pi">` block in `#projects`, update number, name, description, tag, href and image.
+Copy an `<li><a class="card">` block in `#projects`; update number, name, description, tag, href,
+image (`.cover` for 16:9 art, `.logo` for an app icon) and the `data-umami-event-project` value.

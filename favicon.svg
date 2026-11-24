@@ -1,5 +1,9 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
-  <rect width="64" height="64" rx="12" fill="#0a0a0a"/>
-  <text x="32" y="45" text-anchor="middle" font-family="'Bebas Neue','Arial Narrow',Impact,sans-serif" font-size="38" letter-spacing="1" fill="#f5f2ec">GS</text>
-  <rect x="14" y="50" width="36" height="3" rx="1.5" fill="#FFB0C8"/>
+  <style>
+    .bg { fill: #f8f5ef; } .ink { fill: #2f2a26; }
+    @media (prefers-color-scheme: dark) { .bg { fill: #1b1d23; } .ink { fill: #ece7de; } }
+  </style>
+  <rect class="bg" width="64" height="64" rx="14"/>
+  <text class="ink" x="31" y="43" text-anchor="middle" font-family="'Instrument Serif',Georgia,'Times New Roman',serif" font-style="italic" font-size="34" letter-spacing="-1">GS</text>
+  <path d="M15 50 C24 47.5, 38 52, 49 48.5" fill="none" stroke="#c2416b" stroke-width="2.6" stroke-linecap="round"/>
 </svg>
