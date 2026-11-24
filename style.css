@@ -390,8 +390,11 @@ p { text-wrap: pretty; }
 .sky > g { opacity: 0; transition: opacity 1.2s; }
 .sun circle { fill: color-mix(in oklch, var(--accent) 12%, transparent); stroke: var(--accent); }
 .sun .thin { stroke: var(--accent); stroke-width: 1; animation: spin 60s linear infinite; transform-box: fill-box; transform-origin: 50% 50%; }
-.moon path:first-child { fill: color-mix(in oklch, var(--ink) 6%, transparent); }
-.moon .thin { stroke-width: 0.9; stroke-opacity: 0.6; }
+.moon .lit { fill: color-mix(in oklch, var(--glow) 38%, transparent); }
+.moon .earth { fill: none; stroke-width: 0.9; stroke-opacity: 0.4; stroke-dasharray: 1.5 2.5; }   /* the dark side, faintly */
+/* A soft halo around the moon (one tight, one wide), stronger on dark paper. */
+.moon { filter: drop-shadow(0 0 2px var(--glow)) drop-shadow(0 0 9px color-mix(in oklch, var(--glow) 65%, transparent)); }
+:root.is-dark .moon { filter: drop-shadow(0 0 3px var(--glow)) drop-shadow(0 0 14px color-mix(in oklch, var(--glow) 85%, transparent)); }
 .stars path { stroke-width: 1; animation: twinkle 3.2s ease-in-out infinite; }
 .stars path:nth-child(3n) { animation-delay: -1.1s; }
 .stars path:nth-child(3n + 1) { animation-delay: -2.2s; animation-duration: 4.1s; }
@@ -399,11 +402,14 @@ p { text-wrap: pretty; }
 @keyframes spin { to { rotate: 360deg; } }
 .land[data-sky='day'] .sun,
 .land[data-sky='dusk'] .sun { opacity: 1; }
-.land[data-sky='night'] .moon,
 .land[data-sky='night'] .stars { opacity: 1; }
+/* The moon shows whenever it is really above the horizon (pale by day); main.js sets data-moon. */
+.land[data-moon] .moon { opacity: 0.55; }
+.land[data-moon][data-sky='night'] .moon { opacity: 1; }
 .land[data-sky='dusk'] .stars { opacity: 0.45; }
 .glint { stroke: var(--accent); stroke-width: 1; opacity: 0; transition: opacity 1.2s; }
 .land[data-sky] .glint { opacity: 0.7; }
+.land[data-noglint] .glint { opacity: 0; }
 
 /* Aurora: watercolour bands, only on winter nights. */
 .aurora { opacity: 0; transition: opacity 2s; mix-blend-mode: multiply; }
@@ -588,6 +594,13 @@ p { text-wrap: pretty; }
 }
 .plate-art { position: absolute; inset: 0; display: grid; place-items: center; }
 .plate .cover { width: 100%; height: 100%; object-fit: cover; transition: scale 0.5s var(--ease); }
+/* Clips: a short silent loop fades in over the plate (hover on desktop, mostly in view on touch;
+   main.js decides, and only downloads it when first wanted). The card stays one big link: the video is
+   decorative and ignores the pointer. */
+.plate .clip { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; pointer-events: none; transition: opacity 0.5s var(--ease); }
+.plate .clip.is-playing { opacity: 1; }
+html:not(.js) .plate .clip { display: none; }
+@media (prefers-reduced-motion: reduce) { .plate .clip { display: none; } }
 .plate .logo {
   width: 30%; height: auto; border-radius: 22%;
   box-shadow: 0 1px 2px var(--shadow), 0 16px 26px -14px var(--shadow);
@@ -657,7 +670,8 @@ p { text-wrap: pretty; }
 .sketch .ink, .sketch .notes path, .sketch .trail { filter: url(#sketch-rough); }
 .sketch .ink > * { stroke-width: 1.4; }
 .sketch .ink > .thin { stroke-width: 0.9; stroke-opacity: 0.8; }
-.sketch .ink > .ghost { stroke-opacity: 0.3; stroke-width: 0.9; }
+.sketch .ink > .ghost { stroke-opacity: 0.3; stroke-width: 0.9; fill: none; }
+.sketch .ink > .solid { fill: var(--paper); }   /* parts that sit in front of lines behind them */
 .sketch .ink > .accent { stroke: var(--accent); stroke-width: 1.4; }
 .sketch .notes path { stroke-width: 0.8; stroke-opacity: 0.5; }
 .sketch .trail { stroke: var(--accent); stroke-width: 1; stroke-dasharray: 3 4; stroke-opacity: 0.8; }

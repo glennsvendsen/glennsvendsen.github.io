@@ -31,6 +31,8 @@ Local preview: `python3 -m http.server 8000`
   - `make_skyline.py` — generates the hero's Oslo panorama into `index.html` between
     `<!-- LAND -->` markers. Edit the script, not the generated markup.
   - `make_og.py` — renders `og-image.png`
+  - `make_clips.py` — renders `clips/*.mp4`, the short silent loops that play on the project cards
+    (sources are in `~/Projects`; re-run only when a clip should change)
 
 ## Design system: "quiet paper"
 
@@ -62,9 +64,16 @@ Local preview: `python3 -m http.server 8000`
   from snow depth) and `data-ice` (0–2, from freezing degree-days over 14 days) on `.land`. Snow/ice are
   in the `.cover` groups, falling weather in `.wx-front`; all paused when the skyline is off-screen.
   Debug on localhost: `?wx=snow&snow=0.3&ice=2&temp=-8&clouds=2` (wx: clear|cloud|fog|drizzle|rain|snow|storm).
-- **Sky**: main.js places sun/moon by the real time in Oslo (`Intl`, `Europe/Oslo`) and a month table of
-  sunrise/sunset; aurora on winter nights; at golden hour (dusk/dawn, not overcast) `.afterglow`, a warm haze behind the skyline, follows the sun (`data-glow`). The City Hall clock hands (`.hand--hour/--min`, `data-pivot`, rotated in `updateSky`) show the same Oslo time.
-  Debug on localhost: `?hour=22.5&month=1`.
+- **Sky**: `astro.js` (no dependencies, testable in Node: `require('./astro.js')`) computes the real sun and
+  moon for Oslo: sunrise/sunset, and the moon's phase, tilt, height, rise and set (low-precision, good to a few
+  minutes; the month table in main.js is only a fallback). main.js (`updateSky`) places the sun and moon on
+  east-to-west arcs (the panorama faces north, so only the timing is real), draws the phase into `.moon .lit`,
+  shows the moon (`data-moon`) whenever it is above the horizon (pale by day), names the phase in the clock line
+  at night, and keeps both arcs inside the visible part of the panorama on narrow screens (`arcScale`). Aurora on
+  winter nights; at golden hour (dusk/dawn, not overcast) `.afterglow`, a warm haze behind the skyline, follows
+  the sun (`data-glow`). The City Hall clock hands (`.hand--hour/--min`, `data-pivot`, rotated in `updateSky`)
+  show the same Oslo time.
+  Debug on localhost: `?hour=22.5&month=1`, or a whole date `?date=2026-11-24&hour=16.5` (full moon that day).
 - **Sketches** (`.sketch`, the Life section): `.ink` strokes get pathLength="1" + ghost copies from
   main.js and draw with scroll (`view()` timeline; IntersectionObserver fallback). `.is-drawn` starts
   one looping detail per sketch (CSS, keyed by `.sketch-card--run|hike|board|bike|camera|music`; paused
@@ -74,6 +83,13 @@ Local preview: `python3 -m http.server 8000`
 - **Project cards** (`.card` in `.cards`): container queries, `:has()` dims siblings on hover, pointer
   tilt via `@property --rx/--ry`, and the ink-bleed reveal (`.plate.will-bleed` → `.is-bleeding`,
   `#ink-bleed` filter + growing radial mask).
+- **Card clips** (`<video class="clip" data-src="clips/x.mp4">` inside `.plate-art`): a short muted loop
+  fades in over the plate on hover/keyboard focus (fine pointers) or while the card is mostly in view
+  (touch, one at a time). The video is decorative and ignores the pointer, so the card stays one big link.
+  main.js sets `src` only when first wanted; nothing loads with reduced motion or Save-Data. A card
+  without a `<video>` simply keeps its cover. Portrait phone footage is cropped to a 16:10 band
+  (see `make_clips.py`: The Greenland Run, Coin Toss). To add one: render `clips/<name>.mp4` (720x450, no
+  audio, ~100–400 KB) and add the `<video>` after the card's image.
 - `.reveal` and cards rise in with `animation-timeline: view()`; JS fallback adds `.is-visible`.
 - Page ↔ `/work/` uses cross-document View Transitions (`@view-transition`), the brand morphs.
 - `prefers-reduced-motion`: everything static and fully drawn. Keep that working for anything new.

@@ -177,8 +177,8 @@
             <path class="thin" d="M0 -26v-8M0 26v8M-26 0h-8M26 0h8M-18 -18l-6 -6M18 18l6 6M-18 18l-6 6M18 -18l6 -6"/>
           </g>
           <g class="moon">
-            <path d="M8 -15 A16 16 0 1 0 15 7 A12.5 12.5 0 0 1 8 -15 Z"/>
-            <path class="thin" d="M-5 -2a1.8 1.8 0 1 0 .1 0M2 8a1.2 1.2 0 1 0 .1 0"/>
+            <!-- main.js draws the real phase into .lit and tilts .moon-face (astro.js) -->
+            <g class="moon-face"><circle class="earth" r="16"/><path class="lit" d=""/></g>
           </g>
         </g>
         <g class="layer layer--sky day day-nyttar"><g class="burst b1" style="transform-origin: 330px 58px"><path d="M337.7 58.0 L352.0 58.0 M336.9 61.3 L349.8 67.5 M334.8 64.0 L343.7 75.2 M331.7 65.5 L334.9 79.4 M328.3 65.5 L325.1 79.4 M325.2 64.0 L316.3 75.2 M323.1 61.3 L310.2 67.5 M322.3 58.0 L308.0 58.0 M323.1 54.7 L310.2 48.5 M325.2 52.0 L316.3 40.8 M328.3 50.5 L325.1 36.6 M331.7 50.5 L334.9 36.6 M334.8 52.0 L343.7 40.8 M336.9 54.7 L349.8 48.5"/></g><g class="burst b2" style="transform-origin: 700px 36px"><path d="M709.8 36.0 L728.0 36.0 M709.1 39.8 L725.9 46.7 M706.9 42.9 L719.8 55.8 M703.8 45.1 L710.7 61.9 M700.0 45.8 L700.0 64.0 M696.2 45.1 L689.3 61.9 M693.1 42.9 L680.2 55.8 M690.9 39.8 L674.1 46.7 M690.2 36.0 L672.0 36.0 M690.9 32.2 L674.1 25.3 M693.1 29.1 L680.2 16.2 M696.2 26.9 L689.3 10.1 M700.0 26.2 L700.0 8.0 M703.8 26.9 L710.7 10.1 M706.9 29.1 L719.8 16.2 M709.1 32.2 L725.9 25.3"/></g><g class="burst b3" style="transform-origin: 930px 66px"><path d="M936.3 66.0 L948.0 66.0 M935.5 69.2 L945.6 75.0 M933.1 71.5 L939.0 81.6 M930.0 72.3 L930.0 84.0 M926.9 71.5 L921.0 81.6 M924.5 69.2 L914.4 75.0 M923.7 66.0 L912.0 66.0 M924.5 62.9 L914.4 57.0 M926.9 60.5 L921.0 50.4 M930.0 59.7 L930.0 48.0 M933.1 60.5 L939.0 50.4 M935.5 62.8 L945.6 57.0"/></g><g class="burst b4" style="transform-origin: 520px 74px"><path d="M524.9 74.0 L534.0 74.0 M524.0 76.9 L531.3 82.2 M521.5 78.7 L524.3 87.3 M518.5 78.7 L515.7 87.3 M516.0 76.9 L508.7 82.2 M515.1 74.0 L506.0 74.0 M516.0 71.1 L508.7 65.8 M518.5 69.3 L515.7 60.7 M521.5 69.3 L524.3 60.7 M524.0 71.1 L531.3 65.8"/></g><g class="burst b5" style="transform-origin: 1080px 44px"><path d="M1087.0 44.0 L1100.0 44.0 M1086.3 47.0 L1098.0 52.7 M1084.4 49.5 L1092.5 59.6 M1081.6 50.8 L1084.5 63.5 M1078.4 50.8 L1075.5 63.5 M1075.6 49.5 L1067.5 59.6 M1073.7 47.0 L1062.0 52.7 M1073.0 44.0 L1060.0 44.0 M1073.7 41.0 L1062.0 35.3 M1075.6 38.5 L1067.5 28.4 M1078.4 37.2 L1075.5 24.5 M1081.6 37.2 L1084.5 24.5 M1084.4 38.5 L1092.5 28.4 M1086.3 41.0 L1098.0 35.3"/></g>
@@ -512,27 +512,27 @@
 
       <ul class="cards" role="list">
         <li><a class="card" href="https://glennsvendsen.github.io/equity/" target="_blank" rel="noopener" data-umami-event="project-click" data-umami-event-project="Equity">
-          <div class="plate"><div class="plate-art"><img class="logo" src="equity-logo.jpg" alt="" width="285" height="290" loading="lazy" decoding="async"></div></div>
+          <div class="plate"><div class="plate-art"><img class="logo" src="equity-logo.jpg" alt="" width="285" height="290" loading="lazy" decoding="async"><video class="clip" data-src="clips/equity.mp4" muted loop playsinline preload="none" tabindex="-1" aria-hidden="true"></video></div></div>
           <div class="card-body"><span class="card-num mono">01</span><h3 class="card-name">Equity</h3><p class="card-desc" data-i18n="card.1">Time balance tracker for iOS</p><p class="card-tag mono">iOS · React Native</p><span class="card-arrow" aria-hidden="true">↗</span></div>
         </a></li>
         <li><a class="card" href="https://glennsvendsen.github.io/Mybooks/" target="_blank" rel="noopener" data-umami-event="project-click" data-umami-event-project="Everleaf">
-          <div class="plate"><div class="plate-art"><img class="logo" src="mybooks-logo.jpg" alt="" width="176" height="176" loading="lazy" decoding="async"></div></div>
+          <div class="plate"><div class="plate-art"><img class="logo" src="mybooks-logo.jpg" alt="" width="176" height="176" loading="lazy" decoding="async"><video class="clip" data-src="clips/everleaf.mp4" muted loop playsinline preload="none" tabindex="-1" aria-hidden="true"></video></div></div>
           <div class="card-body"><span class="card-num mono">02</span><h3 class="card-name">Everleaf</h3><p class="card-desc" data-i18n="card.2">Personal reading companion</p><p class="card-tag mono">iOS · React Native</p><span class="card-arrow" aria-hidden="true">↗</span></div>
         </a></li>
         <li><a class="card" href="https://www.thegreenlandrun.com" target="_blank" rel="noopener" data-umami-event="project-click" data-umami-event-project="The Greenland Run">
-          <div class="plate"><div class="plate-art"><img class="logo logo--wide" src="greenlandrun-logo.jpg" alt="" width="150" height="100" loading="lazy" decoding="async"></div></div>
+          <div class="plate"><div class="plate-art"><img class="logo logo--wide" src="greenlandrun-logo.jpg" alt="" width="150" height="100" loading="lazy" decoding="async"><video class="clip" data-src="clips/greenland.mp4" muted loop playsinline preload="none" tabindex="-1" aria-hidden="true"></video></div></div>
           <div class="card-body"><span class="card-num mono">03</span><h3 class="card-name">The Greenland Run</h3><p class="card-desc" data-i18n="card.3">Fast-paced satirical game for the browser and iPhone</p><p class="card-tag mono">Web · iOS</p><span class="card-arrow" aria-hidden="true">↗</span></div>
         </a></li>
         <li><a class="card" href="https://cointoss-7ja.pages.dev/" target="_blank" rel="noopener" data-umami-event="project-click" data-umami-event-project="Coin Toss">
-          <div class="plate"><div class="plate-art"><img class="cover" src="cointoss-cover.jpg" alt="" width="1280" height="720" loading="lazy" decoding="async"></div></div>
+          <div class="plate"><div class="plate-art"><img class="cover" src="cointoss-cover.jpg" alt="" width="1280" height="720" loading="lazy" decoding="async"><video class="clip" data-src="clips/cointoss.mp4" muted loop playsinline preload="none" tabindex="-1" aria-hidden="true"></video></div></div>
           <div class="card-body"><span class="card-num mono">04</span><h3 class="card-name">Coin Toss</h3><p class="card-desc" data-i18n="card.4">Throw the coin into the parking meter</p><p class="card-tag mono">Web · JavaScript</p><span class="card-arrow" aria-hidden="true">↗</span></div>
         </a></li>
         <li><a class="card" href="https://glennsvendsen.github.io/last-signal/" target="_blank" rel="noopener" data-umami-event="project-click" data-umami-event-project="Last Signal">
-          <div class="plate"><div class="plate-art"><img class="cover" src="lastsignal-cover.jpg" alt="" width="800" height="450" loading="lazy" decoding="async"></div></div>
+          <div class="plate"><div class="plate-art"><img class="cover" src="lastsignal-cover.jpg" alt="" width="800" height="450" loading="lazy" decoding="async"><video class="clip" data-src="clips/lastsignal.mp4" muted loop playsinline preload="none" tabindex="-1" aria-hidden="true"></video></div></div>
           <div class="card-body"><span class="card-num mono">05</span><h3 class="card-name">Last Signal</h3><p class="card-desc" data-i18n="card.5">Cold-war night driving game for iPhone</p><p class="card-tag mono">iOS · Unity</p><span class="card-arrow" aria-hidden="true">↗</span></div>
         </a></li>
         <li><a class="card" href="https://glennsvendsen.github.io/soriamoria/" target="_blank" rel="noopener" data-umami-event="project-click" data-umami-event-project="Soria Moria">
-          <div class="plate"><div class="plate-art"><img class="cover" src="soriamoria-cover.jpg" alt="" width="800" height="450" loading="lazy" decoding="async"></div></div>
+          <div class="plate"><div class="plate-art"><img class="cover" src="soriamoria-cover.jpg" alt="" width="800" height="450" loading="lazy" decoding="async"><video class="clip" data-src="clips/soriamoria.mp4" muted loop playsinline preload="none" tabindex="-1" aria-hidden="true"></video></div></div>
           <div class="card-body"><span class="card-num mono">06</span><h3 class="card-name">Soria Moria</h3><p class="card-desc" data-i18n="card.6">Norwegian fairytales that teach kids to read</p><p class="card-tag mono">iOS · Unity</p><span class="card-arrow" aria-hidden="true">↗</span></div>
         </a></li>
       </ul>
@@ -604,29 +604,36 @@
           <div class="sketch" aria-hidden="true">
             <svg viewBox="0 0 200 140" xmlns="http://www.w3.org/2000/svg">
               <g class="ink">
-                <path class="thin" d="M96 52 L124 22 L140 38 L160 16 L194 52"/>
-                <path class="thin" d="M118 29 L124 22 L130 28 L126 27 L122 31 Z M154 23 L160 16 L166 22 L162 21 L158 25 Z"/>
-                <path d="M8 124 C60 116, 130 100, 194 84"/>
-                <path class="thin" d="M30 126 L40 124 M78 117 L90 114 M124 106 L136 103 M164 97 L176 94"/>
-                <circle class="thin flake" cx="22" cy="30" r="1.2"/>
-                <circle class="thin flake" cx="52" cy="18" r="1"/>
-                <circle class="thin flake" cx="74" cy="40" r="1.3"/>
-                <circle class="thin flake" cx="38" cy="56" r="1"/>
-                <circle class="thin flake" cx="92" cy="14" r="1.1"/>
-                <circle class="thin flake" cx="12" cy="76" r="1.2"/>
-                <path class="accent" d="M172 74 C176 64, 184 60, 192 58 M168 70 C170 60, 174 54, 180 50 M176 80 C182 74, 190 72, 196 72"/>
+                <path d="M6 76 L30 50 L38 56 L54 30 L66 48 L72 44 L96 76"/>
+                <path d="M92 76 L118 40 L126 46 L146 18 L160 36 L170 30 L196 62 L198 76"/>
+                <path class="thin" d="M54 30 L47 42 L52 40 L50 48 M54 30 L60 40 L58 44 L63 46 M146 18 L138 32 L144 30 L141 40 M146 18 L152 30 L150 36 L156 40 M118 40 L112 52 L118 50"/>
+                <path class="thin" d="M58 52 L66 66 M62 50 L72 66 M66 52 L78 68 M70 50 L84 72 M150 44 L162 62 M156 42 L172 62 M162 40 L182 66 M122 50 L132 64 M128 48 L142 66"/>
+                <path d="M0 78 C34 74 66 80 108 77 S172 74 200 78"/>
+                <path class="thin" d="M12 78 L12 74 M12 58 L7 70 L17 70 Z M12 64 L6 74 L18 74 Z M22 78 L22 75 M22 64 L18 72 L26 72 Z M22 69 L17 76 L27 76 Z"/>
+                <path class="thin" d="M8 92 C30 88 54 92 78 90 M120 88 C146 84 170 88 196 84 M14 128 C40 124 64 128 90 126 M150 128 C168 126 184 128 198 126"/>
+                <path class="thin" d="M47.7 131.6 L56.6 130.0 M69.4 127.8 L78.2 126.2 M91.0 123.9 L99.9 122.4 M112.7 120.1 L121.6 118.6 M134.4 116.3 L143.2 114.7"/>
+                <circle class="thin flake" cx="16" cy="26" r="1.2"/>
+                <circle class="thin flake" cx="40" cy="12" r="1"/>
+                <circle class="thin flake" cx="80" cy="24" r="1.3"/>
+                <circle class="thin flake" cx="106" cy="10" r="1"/>
+                <circle class="thin flake" cx="176" cy="10" r="1.1"/>
+                <circle class="thin flake" cx="190" cy="36" r="1.2"/>
+                <path class="accent" d="M172.4 92.1 C179.4 84.1, 185.4 79.1, 194.4 76.1 M173.4 95.1 C182.4 91.1, 189.4 88.1, 199.4 88.1 M171.4 89.1 C175.4 80.1, 179.4 72.1, 183.4 64.1"/>
+                <path d="M19.2 113.5 L19.2 112.6 L19.5 111.3 L20.3 110.0 L21.3 108.8 L22.8 107.5 L24.6 106.4 L26.9 105.4 L29.5 104.5 L32.5 103.8 L35.8 103.5 L39.6 103.6 L43.7 103.4 L48.0 103.0 L52.6 102.5 L57.3 101.9 L62.3 101.3 L67.4 100.6 L72.6 99.9 L77.9 99.1 L83.4 98.2 L88.8 97.3 L94.3 96.4 L99.8 95.4 L105.2 94.4 L110.6 93.4 L115.9 92.3 L121.1 91.3 L126.1 90.3 L131.0 89.2 L135.7 88.2 L140.2 87.2 L144.4 86.2 L148.4 85.1 L152.1 83.9 L155.5 82.7 L158.6 81.8 L161.5 81.4 L164.2 81.5 L166.5 81.9 L168.5 82.6 L170.1 83.6 L171.4 84.9 L172.3 86.5 L172.8 88.3 L172.8 88.3 L172.9 90.2 L172.7 92.3 L172.0 94.5 L170.9 96.7 L169.5 98.9 L167.6 101.0 L165.3 102.9 L162.6 104.5 L159.5 105.7 L156.0 106.5 L152.3 107.2 L148.2 107.9 L143.9 108.5 L139.4 109.1 L134.6 109.8 L129.7 110.5 L124.6 111.2 L119.4 112.0 L114.0 112.9 L108.6 113.7 L103.2 114.7 L97.7 115.6 L92.2 116.6 L86.8 117.6 L81.4 118.7 L76.1 119.8 L70.9 120.8 L65.9 122.0 L61.0 123.1 L56.4 124.1 L51.9 125.2 L47.7 126.2 L43.7 126.9 L40.1 127.4 L36.6 127.1 L33.3 126.2 L30.3 124.8 L27.6 123.2 L25.3 121.5 L23.3 119.6 L21.6 117.8 L20.4 116.1 L19.6 114.6 L19.2 113.5 Z"/>
+                <path class="thin" d="M22.5 109.3 L24.5 108.0 L27.0 106.8 L30.0 105.8 L33.5 105.0 L37.6 104.9 L42.2 104.9 L47.1 104.5 L52.3 103.9 L57.8 103.2 L63.6 102.5 L69.5 101.7 L75.6 100.8 L81.9 99.8 L88.2 98.8 L94.5 97.7 L100.9 96.6 L107.2 95.4 L113.4 94.2 L119.4 93.0 L125.3 91.8 L131.0 90.6 L136.4 89.5 L141.5 88.3 L146.3 87.1 L150.8 85.8 L154.8 84.4 L158.5 83.2 L161.9 82.8 L164.9 82.9 L167.5 83.4 L169.8 96.8 L167.8 99.2 L165.2 101.4 L162.1 103.3 L158.4 104.5 L154.2 105.5 L149.7 106.3 L144.8 107.0 L139.6 107.7 L134.1 108.5 L128.4 109.3 L122.5 110.2 L116.3 111.1 L110.1 112.1 L103.8 113.2 L97.5 114.3 L91.1 115.4 L84.8 116.6 L78.6 117.8 L72.6 119.1 L66.7 120.4 L61.1 121.7 L55.7 122.9 L50.6 124.2 L45.8 125.2 L41.3 125.9 L37.2 125.9 L33.4 124.9 L29.9 123.4 L26.8 121.5 L24.2 119.4 Z"/>
+                <path class="thin" d="M27.6 125.8 L30.3 127.4 L33.3 128.8 L36.6 129.7 L40.1 130.0 L43.7 129.5 L47.7 128.8 L51.9 127.8 L56.4 126.7 L61.0 125.7 L65.9 124.6 L70.9 123.4 L76.1 122.4 L81.4 121.3 L86.8 120.2 L92.2 119.2 L97.7 118.2 L103.2 117.3 L108.6 116.3 L114.0 115.5 L119.4 114.6 L124.6 113.8 L129.7 113.1 L134.6 112.4 L139.4 111.7 L143.9 111.1 L148.2 110.5 L152.3 109.8 L156.0 109.1 L159.5 108.3 L162.6 107.1 L165.3 105.5 L167.6 103.6 M25.3 121.5 L25.3 124.1 M169.4 99.0 L169.4 101.6"/>
+                <path class="thin" d="M86.7 110.7 L90.6 104.0 L96.3 107.4 L100.2 101.2 L106.7 106.9 M147.0 91.0 L147.7 91.0 L148.4 91.2 L149.0 91.7 L149.2 92.2 L150.7 100.7 L150.7 101.4 L150.3 102.0 L149.8 102.4 L149.0 102.7 L141.5 104.0 L140.8 104.0 L140.1 103.8 L139.6 103.3 L139.3 102.8 L137.8 94.2 L137.8 93.6 L138.2 93.0 L138.8 92.6 L139.5 92.3 Z M26.1 114.8 L34.0 115.4"/>
+                <path class="solid" d="M80.2 97.9 L81.1 98.1 L81.9 98.6 L82.4 99.3 L82.5 100.1 L80.4 115.9 L80.1 116.7 L79.5 117.3 L78.6 117.8 L77.6 117.9 L68.5 117.7 L67.5 117.5 L66.8 117.1 L66.3 116.4 L66.2 115.6 L68.2 99.8 L68.5 99.0 L69.2 98.3 L70.1 97.9 L71.1 97.7 Z"/>
+                <path class="thin" d="M67.4 110.6 Q74.0 103.2 80.5 110.9 M67.3 111.5 Q73.8 104.2 80.4 111.8 M68.4 102.8 Q75.0 97.5 81.5 103.1 M68.6 101.9 Q75.1 96.5 81.6 102.2 M69.9 114.4 l0.01 0 M77.0 114.5 l0.01 0 M71.6 101.1 l0.01 0 M78.7 101.3 l0.01 0 "/>
+                <path class="solid" d="M66.8 117.2 L66.9 112.1 L68.0 104.5 L72.6 103.4 L77.4 104.7 L78.8 112.4 L79.4 117.5 Z"/>
+                <path class="thin" d="M68.7 114.5 L72.9 114.6 L77.0 114.7 M68.6 109.4 L72.8 109.5 L76.9 109.6"/>
+                <path class="solid" d="M119.4 89.3 L120.4 89.2 L121.4 89.4 L122.2 89.8 L122.6 90.5 L128.4 105.2 L128.5 106.0 L128.2 106.8 L127.5 107.5 L126.6 108.0 L117.9 110.7 L116.9 110.8 L115.9 110.6 L115.1 110.2 L114.7 109.5 L108.9 94.8 L108.8 94.0 L109.1 93.2 L109.8 92.5 L110.7 92.0 Z"/>
+                <path class="thin" d="M113.4 104.7 Q119.7 95.2 126.0 100.8 M113.8 105.6 Q120.0 96.1 126.3 101.7 M110.6 97.4 Q116.9 90.0 123.2 93.6 M110.3 96.5 Q116.6 89.1 122.8 92.7 M117.6 107.2 l0.01 0 M124.5 105.1 l0.01 0 M112.8 94.9 l0.01 0 M119.7 92.8 l0.01 0 "/>
+                <path class="solid" d="M116.0 110.8 L117.1 105.4 L118.7 97.3 L123.4 94.6 L127.8 94.5 L128.5 101.9 L128.2 107.0 Z"/>
+                <path class="thin" d="M118.7 107.3 L122.7 106.0 L126.7 104.8 M119.1 102.1 L123.0 100.8 L127.0 99.6"/>
               </g>
-              <g class="ink" transform="rotate(-13 100 90)">
-                <path d="M48 81 C70 83, 130 83, 152 81 C164 80, 170 85, 170 91 C170 97, 164 102, 152 101 C130 99, 70 99, 48 101 C36 102, 30 97, 30 91 C30 85, 36 80, 48 81 Z"/>
-                <path class="thin" d="M40 88 C80 90, 120 90, 160 88"/>
-                <path d="M64 83 L80 83 L80 99 L64 99 Z"/>
-                <path class="thin" d="M64 83 C58 87, 58 95, 64 99 M66 87 L80 86 M66 95 L80 96"/>
-                <path d="M120 83 L136 83 L136 99 L120 99 Z"/>
-                <path class="thin" d="M120 83 C114 87, 114 95, 120 99 M122 87 L136 86 M122 95 L136 96"/>
-              </g>
-              <path class="trail" d="M6 136 C30 134, 18 126, 26 120"/>
               <g class="notes">
-                <path d="M116 130 L108 108"/>
+                <path d="M100.4 119.4 L104.4 130.0"/>
                 <text x="104" y="137" data-i18n="sketch.board.note">since 1993, still sideways</text>
               </g>
             </svg>
@@ -780,6 +787,7 @@
   </footer>
 
   <script src="i18n.js" defer></script>
+  <script src="astro.js" defer></script>
   <script src="main.js" defer></script>
 </body>
 </html>

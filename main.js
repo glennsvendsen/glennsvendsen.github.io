@@ -172,8 +172,10 @@
   }
 
   /* ── SKY OVER THE FJORD ──────────────────── */
-  // Sun or moon placed by the actual time in Oslo, with stars at night and an aurora on winter
-  // nights. Approximate Oslo sunrise / sunset (local hours) by month.
+  // The sun and the moon placed from real astronomy for Oslo (astro.js): sunrise and sunset, the moon's
+  // phase, tilt, height, rise and set. Stars at night and an aurora on winter nights. The month table
+  // below is only a fallback if astro.js is missing. Looking north from the fjord the arcs run east
+  // (right) to west (left); the real azimuth would put them behind you, so only the timing is real.
   if (land) {
   const SUN = [[9.2, 15.5], [8.0, 17.0], [6.7, 18.3], [6.3, 20.4], [5.0, 21.6], [3.9, 22.7],
     [4.3, 22.4], [5.6, 21.0], [7.0, 19.4], [8.2, 17.7], [8.3, 15.8], [9.2, 15.2]];
@@ -181,24 +183,34 @@
     const params = new URLSearchParams(location.search);
     const local = /^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname);
     const parts = Object.fromEntries(new Intl.DateTimeFormat('en-GB', {
-      timeZone: 'Europe/Oslo', hour: 'numeric', minute: 'numeric', month: 'numeric', day: 'numeric', hourCycle: 'h23',
+      timeZone: 'Europe/Oslo', hour: 'numeric', minute: 'numeric', year: 'numeric', month: 'numeric', day: 'numeric', hourCycle: 'h23',
     }).formatToParts(new Date()).map((p) => [p.type, p.value]));
     let hour = +parts.hour + parts.minute / 60;
+    let year = +parts.year;
     let month = +parts.month;
+    let date = +parts.day;
+    let debug = false;
     let label = `${parts.hour}:${parts.minute}`;
+    const dateParam = local && /^(\d{4})-(\d{1,2})-(\d{1,2})$/.exec(params.get('date') || '');
+    if (dateParam) { year = +dateParam[1]; month = +dateParam[2]; date = +dateParam[3]; debug = true; }   // debug: ?date=2026-11-24
     if (local && params.has('hour')) {   // debug: ?hour=22.5&month=1
+      debug = true;
       hour = +params.get('hour');
       label = `${String(Math.floor(hour)).padStart(2, '0')}:${String(Math.round((hour % 1) * 60)).padStart(2, '0')}`;
     }
-    if (local && params.has('month')) month = +params.get('month');
+    if (local && params.has('month')) { month = +params.get('month'); debug = true; }
+    // The instant, and local midnight in Oslo (EU summer time: last Sunday of March to last Sunday of October).
+    const lastSunday = (m) => { const last = new Date(Date.UTC(year, m, 0)); return last.getUTCDate() - last.getUTCDay(); };
+    const summer = (month > 3 && month < 10) || (month === 3 && date >= lastSunday(3)) || (month === 10 && date < lastSunday(10));
+    const mid = Date.UTC(year, month - 1, date) - (summer ? 2 : 1) * 3600000;
+    const ms = debug ? mid + hour * 3600000 : Date.now();
     // Days of the year: 17 May, Christmas (1 Dec to 6 Jan), New Year's Eve night.
-    const date = +parts.day;
     let day = '';
     if (month === 5 && date === 17) day = '17mai';
     else if ((month === 12 && date === 31 && hour >= 20) || (month === 1 && date === 1 && hour < 2)) day = 'nyttar';
     else if (month === 12 || (month === 1 && date <= 6)) day = 'jul';
     if (local && params.has('day')) day = params.get('day');   // debug: ?day=17mai|jul|nyttar
-    return { hour, month, label, day };
+    return { hour, month, label, day, ms, mid };
   };
   /* Weather in Oslo (Open-Meteo, free, no key, no cookies; CC BY 4.0, credited in the footer).
      One request per visit, cached for 30 minutes. Any failure leaves the clear sky as it is.
@@ -274,8 +286,35 @@
   };
   const place = (sel, x, y) => land.querySelector(sel).setAttribute('transform', `translate(${x.toFixed(1)} ${y.toFixed(1)})`);
   const clock = document.querySelector('.hero-clock');
+  // The panorama is cropped to the middle on narrow screens, so the sun and moon travel a shorter arc there.
+  const arcScale = () => {
+    const w = land.clientWidth;
+    const h = land.clientHeight;
+    const visible = w / Math.max(w / 1200, h / 260);       // viewBox units on screen (xMidYMax slice)
+    return Math.min(1, Math.max(0.2, (visible / 2 - 46) / 510));
+  };
+  /* The moon: real phase drawn into .lit (a half disc plus the terminator ellipse), tilted like the real one. */
+  const PHASES = { new: 'new moon', 'wax-cres': 'waxing crescent', q1: 'first quarter', 'wax-gib': 'waxing gibbous', full: 'full moon',
+    'wan-gib': 'waning gibbous', q3: 'last quarter', 'wan-cres': 'waning crescent' };
+  const phaseOf = (p) => (p < 0.03 || p > 0.97 ? 'new' : p < 0.22 ? 'wax-cres' : p < 0.28 ? 'q1' : p < 0.47 ? 'wax-gib'
+    : p < 0.53 ? 'full' : p < 0.72 ? 'wan-gib' : p < 0.78 ? 'q3' : 'wan-cres');
+  const moonLit = land.querySelector('.moon .lit');
+  const moonFace = land.querySelector('.moon .moon-face');
+  let moonDrawn = '';
+  const drawMoon = (m) => {
+    const r = 16;
+    const a = r * Math.abs(2 * m.fraction - 1);                    // the terminator's half-width
+    const d = m.fraction < 0.02 ? '' : `M0 ${-r} A${r} ${r} 0 0 1 0 ${r} A${a.toFixed(2)} ${r} 0 0 ${m.fraction < 0.5 ? 0 : 1} 0 ${-r} Z`;
+    const rot = (Math.atan2(-Math.cos(m.zenithAngle), -Math.sin(m.zenithAngle)) * 180) / Math.PI;   // lit side starts on the right
+    const key = `${d}|${Math.round(rot)}`;
+    if (key === moonDrawn) return;
+    moonDrawn = key;
+    moonLit.setAttribute('d', d);
+    moonFace.setAttribute('transform', `rotate(${rot.toFixed(1)})`);
+  };
+  let sunCache = { mid: 0, times: null };
   const updateSky = () => {
-    const { hour, month, label, day } = osloNow();
+    const { hour, month, label, day, ms, mid } = osloNow();
     if (day) land.dataset.day = day; else delete land.dataset.day;
     // The City Hall clock shows the time in Oslo.
     const hourHand = land.querySelector('.hand--hour');
@@ -283,33 +322,51 @@
     const turn = (el, deg) => el && el.setAttribute('transform', `translate(${el.dataset.pivot}) rotate(${deg.toFixed(1)})`);
     turn(hourHand, (hour % 12) * 30);
     turn(minHand, (hour % 1) * 360);
-    const [rise, set] = SUN[month - 1];
+    // Real sunrise and sunset for today (the month table is only a fallback).
+    const Astro = window.Astro;
+    if (sunCache.mid !== mid) sunCache = { mid, times: Astro ? Astro.sunTimes(mid) : null };
+    const [rise, set] = sunCache.times ? [sunCache.times.rise, sunCache.times.set] : SUN[month - 1];
+    // The real moon, whenever it is above the horizon: east (rising) on the right, west (setting) on the left.
+    let moonX = null;
+    let moonY = null;
+    let phaseName = '';
+    if (Astro && Astro.moonAlt(ms) > 0) {
+      const moon = Astro.moonInfo(ms);
+      const span = Astro.moonSpan(ms);
+      const t = span.rise && span.set ? Math.min(1, Math.max(0, (ms - span.rise) / (span.set - span.rise))) : 0.5;
+      moonX = 600 + (510 - 1020 * t) * arcScale();
+      moonY = 92 - 62 * Math.min(1, Math.max(0, moon.alt) / 55);       // real height: a low summer full moon, a high winter one
+      place('.moon', moonX, moonY);
+      drawMoon(moon);
+      const k = phaseOf(moon.phase);
+      phaseName = tr(`moon.${k}`, PHASES[k]);
+      land.dataset.moon = '';
+    } else delete land.dataset.moon;
     let sky;
     let note;
-    let x;
-    let y;
+    let x = null;
+    let y = null;
     if (hour >= rise && hour < set) {
       const t = (hour - rise) / (set - rise);
       // Looking north from the fjord: east (sunrise) is on the right, west (sunset) on the left.
-      x = 1110 - 1020 * t;
+      x = 600 + (510 - 1020 * t) * arcScale();
       y = 150 - Math.sin(Math.PI * t) * 112;
       place('.sun', x, y);
       sky = (hour - rise < 0.7 || set - hour < 0.7) ? 'dusk' : 'day';
       note = sky === 'dusk' ? tr('sky.dusk', 'golden hour') : tr('sky.day', "sun's up");
     } else {
-      const nightLen = 24 - (set - rise);
-      const t = ((hour - set + 24) % 24) / nightLen;
-      x = 1110 - 1020 * t;   // the moon crosses the same way, east to west
-      y = 140 - Math.sin(Math.PI * t) * 98;
-      place('.moon', x, y);
       sky = 'night';
-      note = tr('sky.night', "moon's up");
+      note = phaseName || tr('sky.night', 'night');
       const winter = month >= 9 || month <= 3;
       const dark = ((hour - set + 24) % 24) > 1 && ((rise - hour + 24) % 24) > 1;
       const clearish = !weather || (weather.wx === 'clear' || (weather.wx === 'cloud' && weather.clouds < 2));
       if (winter && dark && clearish) { land.dataset.aurora = ''; note = tr('sky.aurora', 'aurora weather'); } else delete land.dataset.aurora;
     }
-    place('.glint', x, 206 + Math.max(0, 150 - y) * 0.1);
+    // The sun's or the moon's reflection in the water (none when neither is up).
+    const gx = sky === 'night' ? moonX : x;
+    const gy = sky === 'night' ? moonY : y;
+    if (gx === null) land.dataset.noglint = '';
+    else { delete land.dataset.noglint; place('.glint', gx, 206 + Math.max(0, 150 - gy) * 0.1); }
     land.dataset.sky = sky;
     // Golden hour: a warm glow on the horizon under the sun, unless the sky is grey.
     const glowWeather = !weather || weather.wx === 'clear' || (weather.wx === 'cloud' && weather.clouds < 3);
@@ -335,6 +392,8 @@
     clock.hidden = false;
   };
   updateSky();
+  let resizing = 0;
+  window.addEventListener('resize', () => { cancelAnimationFrame(resizing); resizing = requestAnimationFrame(updateSky); });
   langListeners.push(updateSky);
   loadWeather();
   new IntersectionObserver(([e]) => land.classList.toggle('is-paused', !e.isIntersecting)).observe(land);
@@ -386,6 +445,56 @@
         card.style.setProperty('--rx', '0deg');
         card.style.setProperty('--ry', '0deg');
       });
+    });
+  }
+
+  // Clips: a card with <video class="clip" data-src> plays a short silent loop over its plate, on hover or
+  // keyboard focus with a mouse, or while it is mostly in view on touch screens (one at a time, no
+  // "tap to play": a tap still opens the project). Nothing is downloaded until a clip is first wanted,
+  // and nothing at all with reduced motion or Save-Data. If the browser refuses to play, the cover stays.
+  const clips = [...document.querySelectorAll('.plate .clip')];
+  const saveData = !!(navigator.connection && navigator.connection.saveData);
+  if (clips.length && !reduceMotion && !saveData) {
+    let current = null;
+    const stop = (v) => {
+      v.classList.remove('is-playing');
+      v.pause();
+      if (current === v) current = null;
+    };
+    const start = (v) => {
+      if (current && current !== v) stop(current);
+      current = v;
+      if (!v.getAttribute('src')) v.src = v.dataset.src;
+      const shown = () => { if (current === v) v.classList.add('is-playing'); };
+      const p = v.play();
+      if (p && p.then) p.then(shown, () => v.classList.remove('is-playing')); else shown();
+      if (!v.dataset.tracked) {
+        v.dataset.tracked = '1';
+        track('card-clip', { project: v.closest('.card').dataset.umamiEventProject });
+      }
+    };
+    if (finePointer) {
+      clips.forEach((v) => {
+        const card = v.closest('.card');
+        card.addEventListener('pointerenter', () => start(v));
+        card.addEventListener('pointerleave', () => stop(v));
+        card.addEventListener('focusin', () => { if (card.matches(':focus-visible')) start(v); });
+        card.addEventListener('focusout', () => stop(v));
+      });
+    } else if ('IntersectionObserver' in window) {
+      const ratios = new Map();
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach((e) => ratios.set(e.target.querySelector('.clip'), e.intersectionRatio));
+        let best = null;
+        ratios.forEach((r, v) => { if (r >= 0.6 && (!best || r > ratios.get(best))) best = v; });
+        clips.forEach((v) => { if (v !== best && v.classList.contains('is-playing')) stop(v); });
+        if (best && best !== current) start(best);
+      }, { threshold: [0, 0.3, 0.6, 0.8, 1] });
+      clips.forEach((v) => io.observe(v.closest('.plate')));
+    }
+    document.addEventListener('visibilitychange', () => {
+      if (!current) return;
+      if (document.hidden) current.pause(); else current.play().catch(() => {});
     });
   }
 

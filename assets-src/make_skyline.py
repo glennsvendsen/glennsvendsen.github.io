@@ -6,7 +6,7 @@
 Coordinates: viewBox 1200x260, the water line at y=196. main.js places the sun/moon on arcs above it.
 
 Layers, back to front. Each is a <g class="layer layer--*"> so CSS can parallax it on scroll:
-  sky   sun / moon / stars (placed by main.js from the time in Oslo), clouds
+  sky   sun / moon / stars (placed by main.js from the real sun and moon over Oslo, see astro.js), clouds
   back  the hills far inland (Grefsenkollen with its mast), faint, for depth
   far   Holmenkollåsen in the west: the ridge, the Tryvann tower and the Holmenkollen ski jump
   mid   the west hills; the city: City Hall (Rådhuset), Akershus, Oslo Plaza, the Opera, Munch, the
@@ -602,8 +602,8 @@ markup = f'''<!-- LAND -->
             <path class="thin" d="M0 -26v-8M0 26v8M-26 0h-8M26 0h8M-18 -18l-6 -6M18 18l6 6M-18 18l-6 6M18 -18l6 -6"/>
           </g>
           <g class="moon">
-            <path d="M8 -15 A16 16 0 1 0 15 7 A12.5 12.5 0 0 1 8 -15 Z"/>
-            <path class="thin" d="M-5 -2a1.8 1.8 0 1 0 .1 0M2 8a1.2 1.2 0 1 0 .1 0"/>
+            <!-- main.js draws the real phase into .lit and tilts .moon-face (astro.js) -->
+            <g class="moon-face"><circle class="earth" r="16"/><path class="lit" d=""/></g>
           </g>
         </g>
         <g class="layer layer--sky day day-nyttar">{fireworks}
