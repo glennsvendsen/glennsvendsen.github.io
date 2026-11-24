@@ -745,8 +745,6 @@ html:not(.js) .plate .clip { display: none; }
 /* ── HELLO ────────────────────────────────── */
 .hello { padding-bottom: 3rem; border-top: 1px solid var(--line); }
 .links { margin-top: clamp(2rem, 5vw, 3rem); border-top: 1px solid var(--line); }
-.link-row { display: flex; align-items: stretch; border-bottom: 1px solid var(--line); }
-.link-row .link { flex: 1; border-bottom: 0; }
 .link {
   display: flex; align-items: baseline; justify-content: space-between; gap: 1rem;
   padding: 1.15rem 0.2rem;
@@ -758,8 +756,85 @@ html:not(.js) .plate .clip { display: none; }
 .link-text { font-family: var(--ff-serif); font-size: clamp(1.6rem, 4vw, 2.4rem); line-height: 1.1; }
 .link-meta { color: var(--faint); white-space: nowrap; text-transform: uppercase; transition: color 0.3s; }
 .link:hover .link-meta { color: var(--accent); }
-.copy { padding: 0 0.2rem 0 1.2rem; color: var(--faint); text-transform: uppercase; }
-.copy:hover, .copy.is-copied { color: var(--accent); }
+
+/* Contact form: a taped letter card (cream in both themes, like .note), links beside it on wide screens. */
+.hello-body { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 26rem); gap: clamp(2rem, 6vw, 5rem); align-items: start; }
+.hello-body .links { margin-top: clamp(2rem, 5vw, 3rem); }
+.link-text { overflow-wrap: anywhere; }
+@media (max-width: 1060px) { .hello-body { grid-template-columns: 1fr; } .hello-body .letter { order: -1; max-width: 32rem; } }
+.no-js .letter, .letter[hidden] { display: none; }
+.letter {
+  --l-ink: oklch(0.28 0.012 60); --l-soft: oklch(0.5 0.012 60); --l-accent: oklch(0.52 0.15 8); --l-rule: oklch(0.62 0.07 240 / 0.2);
+  position: relative; margin-top: clamp(2rem, 5vw, 3rem);
+  padding: 2rem 1.6rem 1.3rem; border-radius: 3px; rotate: 1deg;
+  background: oklch(0.975 0.01 85); color: var(--l-ink);
+  box-shadow: 0 1px 2px var(--shadow), 0 24px 40px -24px var(--shadow);
+  transition: rotate 0.6s var(--ease);
+}
+.letter:focus-within { rotate: 0deg; }
+.letter::before {
+  content: ''; position: absolute; top: -0.55rem; left: 1.4rem; width: 4.6rem; height: 1.4rem; rotate: -6deg;
+  background: color-mix(in oklch, var(--l-accent) 26%, oklch(0.96 0.02 85) 74%); opacity: 0.85; box-shadow: 0 1px 2px var(--shadow);
+}
+.stamp { position: absolute; top: 1rem; right: 1.1rem; width: 2.9rem; rotate: 4deg; overflow: visible; }
+.stamp-edge { fill: oklch(0.96 0.02 85); stroke: var(--l-soft); stroke-width: 1.4; stroke-dasharray: 2 2.6; }
+.stamp-art { fill: none; stroke: var(--l-accent); stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; filter: url(#sketch-rough); }
+.stamp text { font: 600 9px var(--ff-mono); letter-spacing: 0.08em; fill: var(--l-soft); }
+.letter-kicker { color: var(--l-accent); text-transform: uppercase; letter-spacing: 0.08em; padding-right: 3.5rem; }
+.letter-dear { margin-top: 0.9rem; font-family: var(--ff-serif); font-style: italic; font-size: 1.5rem; line-height: 1.2; }
+.letter textarea, .letter input {
+  width: 100%; font: inherit; color: inherit; background: transparent; border: 0; border-radius: 0; outline: none;
+}
+.letter textarea {
+  display: block; margin-top: 0.3rem; resize: vertical; min-height: calc(1.72rem * 5);
+  font-family: var(--ff-serif); font-style: italic; font-size: 1.28rem; line-height: 1.72rem;
+  background-image: repeating-linear-gradient(transparent 0 calc(1.72rem - 1px), var(--l-rule) calc(1.72rem - 1px) 1.72rem);
+  background-attachment: local;
+}
+.letter ::placeholder { color: oklch(0.6 0.012 60); opacity: 1; }
+.letter-from { margin-top: 1.1rem; display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem 1.2rem; }
+@media (max-width: 420px) { .letter-from { grid-template-columns: 1fr; } }
+.letter-from label { display: grid; gap: 0.15rem; }
+.letter-from .mono { color: var(--l-soft); text-transform: uppercase; }
+.letter input { padding: 0.25rem 0 0.3rem; font-family: var(--ff-serif); font-size: 1.15rem; border-bottom: 1px solid oklch(0.28 0.012 60 / 0.3); transition: border-color 0.3s; }
+.letter input:focus, .letter textarea:focus { border-color: var(--l-accent); }
+.letter textarea:focus { background-image: repeating-linear-gradient(transparent 0 calc(1.72rem - 1px), oklch(0.52 0.15 8 / 0.3) calc(1.72rem - 1px) 1.72rem); }
+.letter :focus-visible { outline: 2px solid var(--l-accent); outline-offset: 3px; }
+.letter textarea:focus-visible, .letter input:focus-visible { outline: none; }
+.letter-trap { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+.letter-check:not(:empty) { margin-top: 0.9rem; }
+.letter-foot { margin-top: 1.1rem; display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+.letter-status { color: var(--l-soft); min-height: 1em; text-wrap: pretty; }
+.letter-status.is-error { color: var(--l-accent); }
+.letter-status a { color: inherit; }
+.letter-send {
+  display: inline-flex; align-items: center; gap: 0.55rem; flex: none;
+  padding: 0.6rem 1rem; font-size: 0.8rem; text-transform: uppercase; color: var(--l-ink); cursor: pointer; touch-action: manipulation;
+  background: none; border: 1.4px solid currentColor; border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px;
+  transition: color 0.3s, translate 0.3s var(--ease);
+}
+.letter-send svg { width: 1.3rem; fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linejoin: round; overflow: visible; transition: translate 0.4s var(--ease); }
+.letter-send:hover, .letter-send:focus-visible { color: var(--l-accent); }
+.letter-send:hover svg { translate: 3px -2px; }
+.letter-send:disabled { opacity: 0.5; cursor: progress; }
+.letter-send[hidden] { display: none; }
+.letter-privacy { margin-top: 0.9rem; padding-top: 0.7rem; border-top: 1px dashed oklch(0.5 0.012 60 / 0.3); font-size: 0.78rem; line-height: 1.45; color: var(--l-soft); text-wrap: pretty; }
+/* Sent: the card gets a postmark, drawn on like a stamp hitting paper. */
+.postmark { position: absolute; right: 12%; top: 26%; width: 9.5rem; rotate: -14deg; overflow: visible; pointer-events: none; opacity: 0; }
+.postmark circle, .postmark path { fill: none; stroke: var(--l-accent); stroke-width: 2.4; stroke-linecap: round; stroke-dasharray: 1 1; stroke-dashoffset: 1; filter: url(#sketch-rough); }
+.postmark text { fill: var(--l-accent); font-family: var(--ff-mono); letter-spacing: 0.12em; text-transform: uppercase; }
+.postmark .pm-big { font-size: 15px; font-weight: 600; }
+.postmark .pm-small { font-size: 9px; }
+.letter.is-sent .postmark { opacity: 0.85; }
+.letter.is-sent .postmark :is(circle, path) { stroke-dashoffset: 0; transition: stroke-dashoffset 0.7s var(--ease); }
+.letter.is-sent .postmark circle + circle { transition-delay: 0.15s; }
+.letter.is-sent .postmark path { transition-delay: 0.3s; }
+.letter.is-sent :is(textarea, input) { color: var(--l-soft); }
+@media (prefers-reduced-motion: no-preference) {
+  .letter.is-sent .postmark { animation: thud 0.35s var(--ease); }
+}
+@keyframes thud { from { scale: 1.4; opacity: 0; } }
+@media (prefers-reduced-motion: reduce) { .postmark circle, .postmark path { stroke-dashoffset: 0; } }
 
 .signoff { margin-top: clamp(3rem, 8vw, 5rem); display: flex; justify-content: flex-end; }
 .signature--signoff { width: min(70%, 22rem); }

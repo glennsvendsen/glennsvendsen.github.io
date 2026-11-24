@@ -26,10 +26,17 @@ jobs:
       - name: Setup Pages
         uses: actions/configure-pages@v4
 
+      # Publish only the site: not the Worker source, generators, scans or notes.
+      - name: Collect site files
+        run: |
+          rsync -a ./ _site/ \
+            --exclude '.git*' --exclude '.github' --exclude '.claude' --exclude '_site' \
+            --exclude 'worker' --exclude 'assets-src' --exclude '*.md' --exclude '.DS_Store'
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: '.'
+          path: '_site'
 
   deploy:
     needs: build

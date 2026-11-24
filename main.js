@@ -544,29 +544,95 @@
     el.classList.add('is-developed');
   }, 0.5);
 
-  /* ── COPY EMAIL ──────────────────────────── */
-  // The button ships hidden; it only appears where the Clipboard API exists.
-  const copyBtn = document.querySelector('.copy');
-  if (copyBtn && navigator.clipboard) {
-    const row = copyBtn.parentElement;
-    const label = copyBtn.querySelector('.copy-label');
-    const announce = row.querySelector('[role="status"]');
-    const email = row.querySelector('a[href^="mailto:"]').getAttribute('href').slice(7);
-    let resetTimer = 0;
-    copyBtn.hidden = false;
-    copyBtn.addEventListener('click', async () => {
-      try { await navigator.clipboard.writeText(email); } catch (e) { return; }
-      label.textContent = tr('copy.done', 'Copied ✓');
-      copyBtn.classList.add('is-copied');
-      announce.textContent = tr('copy.announce', 'Email address copied');
-      track('contact-copy-email');
-      clearTimeout(resetTimer);
-      resetTimer = setTimeout(() => {
-        label.textContent = tr('copy', 'Copy');
-        copyBtn.classList.remove('is-copied');
-        announce.textContent = '';
-      }, 2000);
-    });
+  /* ── CONTACT FORM ────────────────────────── */
+  // The letter card posts to the Worker in worker/ (api.glennsvendsen.com), which mails hello@.
+  // Cloudflare Turnstile (spam check) loads only once someone starts writing: nothing third-party on load.
+  // On localhost it uses Turnstile's always-pass test key and a local `wrangler dev` (port 8787).
+  const letter = document.querySelector('.letter');
+  if (letter) {
+    const local = /^(localhost|127\.0\.0\.1)$/.test(location.hostname);
+    const siteKey = local ? '1x00000000000000000000AA' : letter.dataset.sitekey;
+    const endpoint = local ? 'http://localhost:8787/contact' : letter.action;
+    const status = letter.querySelector('.letter-status');
+    const sendBtn = letter.querySelector('.letter-send');
+    const check = letter.querySelector('.letter-check');
+    const say = (text, isError) => { status.innerHTML = text; status.classList.toggle('is-error', !!isError); };
+    const failText = () => tr('hello.form.fail', 'That didn’t go through. Try again, or <a href="mailto:hello@glennsvendsen.com">email me</a>.');
+
+    if (!siteKey || siteKey.startsWith('REPLACE')) {
+      letter.hidden = true;   // not set up yet: the email link does the job
+    } else {
+      let widget = null;
+      let token = '';
+      let waiting = null;     // resolves when a token arrives
+      let loading = null;
+      const loadTurnstile = () => loading || (loading = new Promise((resolve, reject) => {
+        window.onTurnstileLoad = resolve;
+        const s = document.createElement('script');
+        s.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit&onload=onTurnstileLoad';
+        s.async = true;
+        s.onerror = reject;
+        document.head.append(s);
+      }).then(() => {
+        widget = window.turnstile.render(check, {
+          sitekey: siteKey,
+          appearance: 'interaction-only',  // invisible unless Cloudflare wants a click
+          theme: 'light',
+          language: lang === 'no' ? 'nb' : 'en',
+          'refresh-expired': 'auto',
+          callback: (t) => { token = t; if (waiting) waiting(t); },
+          'expired-callback': () => { token = ''; },
+        });
+      }));
+      letter.addEventListener('focusin', () => { loadTurnstile().catch(() => {}); }, { once: true });
+
+      const getToken = () => (token ? Promise.resolve(token) : new Promise((resolve) => {
+        waiting = resolve;
+        setTimeout(() => resolve(''), 15000);
+      }));
+
+      letter.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        if (letter.classList.contains('is-sent')) return;
+        sendBtn.disabled = true;
+        say(tr('hello.form.sending', 'Sending…'));
+        let ok = false;
+        try {
+          await loadTurnstile();
+          const t = await getToken();
+          const fields = Object.fromEntries(new FormData(letter));
+          const res = await fetch(endpoint, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ ...fields, 'cf-turnstile-response': t }),
+          });
+          ok = (await res.json()).ok === true;
+        } catch (err) { /* network or Turnstile failed */ }
+        if (ok) {
+          letter.classList.add('is-sent');
+          letter.querySelectorAll('textarea, input').forEach((el) => { el.readOnly = true; });
+          sendBtn.hidden = true;
+          say(tr('hello.form.sent', 'Sent. Thank you! I’ll write back soon.'));
+          track('contact-form');
+        } else {
+          sendBtn.disabled = false;
+          say(failText(), true);
+          track('contact-form-failed');
+        }
+        token = '';
+        if (widget !== null && window.turnstile) window.turnstile.reset(widget);
+      });
+    }
+
+    // A no-JS post comes back to ?sent=1|0 (the form needs JS, so this is rare; still, say something).
+    const sent = new URLSearchParams(location.search).get('sent');
+    if (sent === '1' || sent === '0') {
+      const line = document.createElement('p');
+      line.className = 'letter-status mono';
+      line.setAttribute('role', 'status');
+      line.innerHTML = sent === '1' ? tr('hello.form.sent', 'Sent. Thank you! I’ll write back soon.') : failText();
+      document.querySelector('.hello .intro')?.after(line);
+    }
   }
 
   /* ── HELLO, DEVTOOLS ─────────────────────── */
@@ -595,6 +661,6 @@
   window.coffee = () => {
     console.log(`%c${CUP}`, `color: #c2416b; ${MONO}`);
     track('console-coffee');
-    return "Brewed. Let's talk → gsvendsen@me.com";
+    return "Brewed. Let's talk → hello@glennsvendsen.com";
   };
 })();

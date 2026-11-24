@@ -3,6 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Security: only this site and the few services listed may load or receive anything. The sha256 hashes are the
+       inline <script>s in the two pages' heads; after editing one, recompute (see CLAUDE.md, "Security"). -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-yETAa+HQqtQmvBLxFQGBuOAbf30+J/77lKGS6Y1eWtA=' 'sha256-2tPLUO/hIjuJ/qs6ytzM7r9Ay+L05j6mlVIJWGcQlOU=' 'sha256-i+FD+CFcGc/PiZoSrGq6wyRT5U0SHGYlWKS6YoaZkyw=' https://cloud.umami.is https://challenges.cloudflare.com; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; media-src 'self'; connect-src 'self' https://api.open-meteo.com https://cloud.umami.is https://api-gateway.umami.dev https://api.glennsvendsen.com http://localhost:8787; frame-src https://challenges.cloudflare.com; form-action https://api.glennsvendsen.com; base-uri 'none'; object-src 'none'">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
   <script>
     (() => {
       const d = document.documentElement;
@@ -18,14 +22,14 @@
   <meta name="color-scheme" content="light dark">
   <meta name="theme-color" content="#f8f5ef" media="(prefers-color-scheme: light)">
   <meta name="theme-color" content="#16181d" media="(prefers-color-scheme: dark)">
-  <link rel="canonical" href="https://glennsvendsen.github.io/work/">
+  <link rel="canonical" href="https://www.glennsvendsen.com/work/">
   <link rel="icon" type="image/svg+xml" href="../favicon.svg">
   <link rel="apple-touch-icon" href="../apple-touch-icon.png">
   <!-- Fonts are served from this site (no third-party requests). The serif sets the first impression. -->
   <link rel="preload" href="../fonts/instrument-serif.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="../fonts/instrument-sans.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="../style.css">
-  <script defer src="https://cloud.umami.is/script.js" data-website-id="984de795-976a-4859-818a-95177710cb59" data-domains="glennsvendsen.github.io"></script>
+  <script defer src="https://cloud.umami.is/script.js" data-website-id="984de795-976a-4859-818a-95177710cb59" data-domains="www.glennsvendsen.com,glennsvendsen.com,glennsvendsen.github.io"></script>
 </head>
 
 <body class="page-work">
@@ -166,7 +170,7 @@
       <h2 class="title reveal" data-i18n="w.hello.title">Let's talk.</h2>
       <p class="intro reveal" data-i18n="w.hello.intro">Always up for a conversation about products, discovery or building with AI.</p>
       <div class="links reveal">
-        <a class="link" href="mailto:gsvendsen@me.com" data-umami-event="work-email"><span class="link-text">gsvendsen@me.com</span><span class="link-meta mono" data-i18n="hello.email">Email <span aria-hidden="true">→</span></span></a>
+        <a class="link" href="mailto:hello@glennsvendsen.com" data-umami-event="work-email"><span class="link-text">hello@glennsvendsen.com</span><span class="link-meta mono" data-i18n="hello.email">Email <span aria-hidden="true">→</span></span></a>
         <a class="link" href="https://www.linkedin.com/in/glenn-svendsen-9792b615/" target="_blank" rel="noopener" data-umami-event="work-linkedin"><span class="link-text">LinkedIn</span><span class="link-meta mono" data-i18n="hello.profile">Profile <span aria-hidden="true">↗</span></span></a>
         <a class="link" href="../"><span class="link-text" data-i18n="w.back">Back to the home page</span><span class="link-meta mono" data-i18n="w.home">Home <span aria-hidden="true">→</span></span></a>
       </div>

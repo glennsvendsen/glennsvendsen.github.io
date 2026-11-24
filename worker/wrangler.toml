@@ -1,0 +1,26 @@
+# The contact form's backend. Deploy from this folder: npx wrangler deploy
+name = "contact"
+main = "contact.js"
+compatibility_date = "2026-11-01"
+workers_dev = false
+
+# Served at https://api.glennsvendsen.com/contact (Cloudflare creates the DNS record and certificate).
+routes = [{ pattern = "api.glennsvendsen.com", custom_domain = true }]
+
+[vars]
+FROM = "form@glennsvendsen.com"
+
+# Email Routing must be on for the domain. The inbox (TO) is a secret so it stays out of this public repo;
+# it must be a verified Email Routing destination address.
+[[send_email]]
+name = "SEND"
+
+# At most 5 posts a minute from one IP.
+[[ratelimits]]
+name = "LIMIT"
+namespace_id = "1001"
+simple = { limit = 5, period = 60 }
+
+# Secrets (not in this file):
+#   npx wrangler secret put TURNSTILE_SECRET
+#   npx wrangler secret put TO          (the inbox hello@ forwards to)

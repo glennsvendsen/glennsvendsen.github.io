@@ -5,8 +5,11 @@ Guidance for Claude Code when working in this repository.
 ## Project
 
 Personal homepage for Glenn Svendsen (role-neutral: no job title or employer on the home page).
-Live at https://glennsvendsen.github.io. Static site, no build step, no dependencies. Auto-deploys to
-GitHub Pages on push to `main` (`.github/workflows/deploy.yml`).
+Live at https://www.glennsvendsen.com (custom domain on GitHub Pages, `CNAME`; glennsvendsen.github.io and the
+bare domain redirect there; DNS and mail are at Cloudflare). Static site, no build step, no dependencies. Auto-deploys
+to GitHub Pages on push to `main` (`.github/workflows/deploy.yml`), which publishes only the site files (not `worker/`,
+`assets-src/` or `*.md`). Project sites (equity, last-signal, soriamoria) live under `/<repo>/` on the same domain;
+Everleaf has its own domain (everleafapp.com).
 
 Local preview: `python3 -m http.server 8000`
 
@@ -16,6 +19,8 @@ Local preview: `python3 -m http.server 8000`
 - `style.css` — all home page styles
 - `main.js` — progressive enhancement only (the page must read fine without it)
 - `i18n.js` — Norwegian (Bokmål) strings for the EN/NO switch; English is the HTML itself
+- `worker/` — the contact form's Cloudflare Worker (`api.glennsvendsen.com/contact`), deployed with wrangler,
+  not by Pages. See `worker/README.md`. Secrets (`TURNSTILE_SECRET`, `TO`) are never in the repo.
 - `work/` — "Earlier work": the old PM content (six case studies, colleague quotes) re-told in the new
   design. Hand-written `work/index.html` that shares `../style.css` (the "WORK PAGE" block) and
   `../main.js` (null-safe on pages without the hero) and `../i18n.js` (keys `w.*`; the colleagues' quotes stay in English). `noindex`, linked from the footer.
@@ -105,6 +110,14 @@ Local preview: `python3 -m http.server 8000`
   Rådhusplassen or fireworks; on snowy days (`data-cover`) a ski jumper leaves Holmenkollen now and then.
   Debug on localhost: `?day=17mai|jul|nyttar`.
 - **Fonts** are self-hosted in `fonts/` (woff2, Latin subset; `@font-face` at the top of style.css).
+- **Contact form** (`.letter` in the hello footer): a taped letter card (cream in both themes, ruled lines, a stamp).
+  Only shown with JS, and hidden while `data-sitekey` is still the placeholder; the mailto link is the no-JS way.
+  Cloudflare Turnstile loads on first focus, `fetch` posts JSON to the Worker, success adds `.is-sent` (a postmark
+  draws on). Localhost uses Turnstile's test key and `wrangler dev` on :8787. Strings are `hello.form.*`.
+- **Security**: both pages carry a `Content-Security-Policy` meta. New outside hosts must be added there. The
+  inline head `<script>`s are allowed by sha256 hash, so after editing one, recompute its hash
+  (`python3 -c "import hashlib,base64,sys;print(base64.b64encode(hashlib.sha256(sys.stdin.read().encode()).digest()).decode())"`
+  on the exact text between the tags) and update the CSP in both pages.
 - Console: a GS greeting plus a hidden `coffee()` command (tracked as `console-coffee`).
 
 ## Adding a side project
