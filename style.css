@@ -538,12 +538,19 @@ p { text-wrap: pretty; }
   .sketch-card:nth-child(2) .sketch.is-drawn .accent { transform-origin: 0% 50%; animation: wave 1.8s ease-in-out infinite; }
   .sketch-card:nth-child(3) .sketch.is-drawn :is(path[d^='M50 76'], path[d^='M172 76']) { transform-box: fill-box; transform-origin: 50% 50%; animation: spin 7s linear infinite; }
   .sketch-card:nth-child(3) .sketch.is-drawn .accent { animation: blink 2.4s steps(1) infinite; }
-  .sketch-card:nth-child(4) .sketch.is-drawn .accent:last-child { animation: spark 0.9s steps(2) infinite; }
+  .sketch-card:nth-child(4) .sketch.is-drawn .steam { animation: steam-up 3.4s ease-in-out infinite; }
+  .sketch-card:nth-child(4) .sketch.is-drawn .steam:nth-of-type(2) { animation-delay: -1.1s; }
+  .sketch-card:nth-child(4) .sketch.is-drawn .steam:nth-of-type(3) { animation-delay: -2.2s; }
 }
 @keyframes flutter { 50% { rotate: -6deg; } }
 @keyframes wave { 0%, 100% { scale: 1 1; } 50% { scale: 0.82 1.1; } }
 @keyframes blink { 50% { stroke-opacity: 0.15; } }
-@keyframes spark { 50% { opacity: 0; } }
+@keyframes steam-up {
+  0%   { stroke-dashoffset: 1.01; opacity: 0; }
+  20%  { opacity: 0.9; }
+  60%  { stroke-dashoffset: 0; opacity: 0.6; }
+  100% { stroke-dashoffset: -1.01; opacity: 0; }
+}
 
 .sketch-close { margin-top: clamp(3rem, 7vw, 5rem); font-family: var(--ff-serif); font-style: italic; font-size: clamp(1.4rem, 3vw, 1.9rem); color: var(--muted); text-align: center; text-wrap: balance; }
 

@@ -39,7 +39,7 @@ window.I18N = {
 
     'sketches.kicker': 'På fritiden',
     'sketches.title': 'Borte fra skjermen.',
-    'sketches.intro': 'Når jeg ikke lager noe, er jeg som regel ute et sted. Resten av tiden lager jeg noe lite som nok ikke trengte en datamaskin.',
+    'sketches.intro': 'Når jeg ikke bygger noe, er jeg som regel ute, på løpetur, fjelltur eller på Bonnien. Resten av tiden er jeg med familien og spiser stekt ris, og senere, når ungene har lagt seg, nyter fermenterte druer.',
     'sketch.1.title': 'Løping',
     'sketch.1.text': 'Sakte nok til å tenke, raskt nok til å kalle det trening. De beste ideene dukker gjerne opp rundt femte kilometer, uten noe å skrive dem ned på.',
     'sketch.1.note': 'slitasje: mest på hælen',
@@ -49,9 +49,9 @@ window.I18N = {
     'sketch.3.title': 'To hjul',
     'sketch.3.text': 'En Triumph Bonneville: klassiske linjer, rekkemotor med to sylindre, og en eier som bruker nesten like mye tid på å se på den som å kjøre den.',
     'sketch.3.note': 'to sylindre, ofte polert',
-    'sketch.4.title': 'Fikling',
-    'sketch.4.text': 'Små apper, sideprosjekter og en og annen dings. Jeg lærer best ved å lage ting, og en gang iblant blir én av dem til og med ferdig.',
-    'sketch.4.note': 'blink.py: virker på andre forsøk',
+    'sketch.4.title': 'Stekt ris',
+    'sketch.4.text': 'Middag med familien, med stekt ris så ofte jeg får bestemme. Den eneste lanseringen ingen noen gang har klaget på.',
+    'sketch.4.note': 'rester: aldri',
     'sketches.close': 'Kort sagt: er det ute eller har en av/på-knapp, er jeg nok interessert.',
 
     'hello.title': 'Si hei.',
