@@ -313,7 +313,7 @@
     land.dataset.sky = sky;
     // Golden hour: a warm glow on the horizon under the sun, unless the sky is grey.
     const glowWeather = !weather || weather.wx === 'clear' || (weather.wx === 'cloud' && weather.clouds < 3);
-    if (sky === 'dusk' && glowWeather) { land.dataset.glow = ''; place('.glow-sun', Math.min(1080, Math.max(120, x)), 128); } else delete land.dataset.glow;
+    if (sky === 'dusk' && glowWeather) { land.dataset.glow = ''; place('.glow-sun', Math.min(1080, Math.max(120, x)), 122); } else delete land.dataset.glow;
     // Windows light up after dark; after half past eleven most go out again.
     if (sky === 'day') delete land.dataset.lights;
     else if (sky === 'dusk') land.dataset.lights = 'dusk';   // the first few, faint, as the light goes
