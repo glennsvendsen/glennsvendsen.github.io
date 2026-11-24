@@ -37,10 +37,13 @@ export default {
       to.hash = 'hello';
       return Response.redirect(to.toString(), 303);
     };
-    const reply = (ok, error, status = ok ? 200 : 400) =>
-      wantsJson
+    const reply = (ok, error, status = ok ? 200 : 400) => {
+      // Log why a message was turned away (the reason only, never what people wrote). See: npx wrangler tail contact
+      if (!ok) console.log('rejected:', error);
+      return wantsJson
         ? new Response(JSON.stringify(ok ? { ok } : { ok, error }), { status, headers: { 'Content-Type': 'application/json', ...cors } })
         : back(ok);
+    };
 
     let data;
     try {
@@ -104,7 +107,10 @@ export default {
 };
 
 async function human(token, ip, env) {
-  if (!token || !env.TURNSTILE_SECRET) return false;
+  if (!token || !env.TURNSTILE_SECRET) {
+    console.log('turnstile:', !token ? 'no token from the page' : 'TURNSTILE_SECRET is not set');
+    return false;
+  }
   const body = new FormData();
   body.append('secret', env.TURNSTILE_SECRET);
   body.append('response', token);
@@ -112,9 +118,12 @@ async function human(token, ip, env) {
   try {
     const res = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', { method: 'POST', body });
     const out = await res.json();
+    if (!out.success) console.log('turnstile:', (out['error-codes'] || []).join(', ') || 'failed');
+    else if (out.hostname) console.log('turnstile ok for', out.hostname);
     // The token must come from this site (or localhost in development with Turnstile's test keys).
     return out.success === true && (!out.hostname || /^(www\.)?glennsvendsen\.com$|^localhost$|^127\.0\.0\.1$|^example\.com$/.test(out.hostname));
-  } catch {
+  } catch (err) {
+    console.log('turnstile: siteverify unreachable', err && err.message);
     return false;
   }
 }
