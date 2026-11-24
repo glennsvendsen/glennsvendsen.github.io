@@ -27,7 +27,7 @@
   --paper-2: light-dark(oklch(0.952 0.013 82), oklch(0.245 0.014 260));
   --ink:     light-dark(oklch(0.24 0.012 60),  oklch(0.93 0.012 85));
   --muted:   light-dark(oklch(0.46 0.012 60),  oklch(0.76 0.012 85));
-  --faint:   light-dark(oklch(0.6 0.012 60),   oklch(0.6 0.014 85));
+  --faint:   light-dark(oklch(0.53 0.012 60),  oklch(0.64 0.014 85));   /* ≥ 4.5:1 on --paper and --paper-2 */
   --line:    light-dark(oklch(0.24 0.012 60 / 0.13), oklch(0.93 0.012 85 / 0.13));
   --accent:  light-dark(oklch(0.56 0.15 6),    oklch(0.8 0.1 6));
   --shadow:  light-dark(oklch(0.3 0.03 60 / 0.16), oklch(0 0 0 / 0.45));
@@ -182,6 +182,15 @@ p { text-wrap: pretty; }
 }
 .top-links a:hover { color: var(--ink); background-size: 100% 1px; }
 @media (max-width: 560px) { .top-links a:not([href='#hello']) { display: none; } }
+/* Narrow phones: keep the wordmark and the links from touching (a 1rem gap at least). */
+.top { gap: 1rem; }
+@media (max-width: 420px) {
+  .brand-sig { width: 6.25rem; }
+  .top-links { gap: 0.6rem; }
+  .lang-switch { margin-inline: 0; }
+  .lang-switch button { padding-inline: 0.45rem; }
+}
+@media (max-width: 350px) { .brand-sig { width: 5.25rem; } }
 
 /* EN / NO: the active language is circled by hand, like a word ringed in a notebook. Switching
    erases the old ring quickly and draws a new one around the other language. */
