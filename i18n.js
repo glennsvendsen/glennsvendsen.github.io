@@ -13,7 +13,7 @@ window.I18N = {
     'nav.sketches': 'Livet',
     'nav.hello': 'Si hei',
 
-    'hero.lede': 'Produkter om dagen,<br> sideprosjekter om kvelden,<br> <em>skisser innimellom.</em>',
+    'hero.lede': 'Produkter om dagen,<br> sideprosjekter om kvelden,<br> <em>ute når jeg kan.</em>',
     'hero.place': 'Oslo, Norge',
     'sky.day': 'sola er oppe',
     'sky.dusk': 'gyllen time',

@@ -168,34 +168,27 @@ p { text-wrap: pretty; }
 .top-links a:hover { color: var(--ink); background-size: 100% 1px; }
 @media (max-width: 560px) { .top-links a:not([href='#hello']) { display: none; } }
 
-/* EN / NO: a small pill with a sliding thumb (moves via :has(), no JS styling). */
-.lang-switch {
-  position: relative;
-  display: inline-grid;
-  grid-template-columns: 1fr 1fr;
-  padding: 3px;
-  border: 1px solid var(--line);
-  border-radius: 999px;
-  font-family: var(--ff-mono);
-  font-size: 0.7rem;
-  letter-spacing: 0.08em;
-  isolation: isolate;
-}
+/* EN / NO: the active language is circled by hand, like a word ringed in a notebook. Switching
+   erases the old ring quickly and draws a new one around the other language. */
+.lang-switch { display: inline-flex; align-items: center; gap: 0.35rem; margin-inline: 0.3rem; font-family: var(--ff-mono); font-size: 0.72rem; letter-spacing: 0.08em; }
 .lang-switch[hidden] { display: none; }
-.lang-switch::before {
-  content: '';
-  position: absolute;
-  inset: 3px auto 3px 3px;
-  width: calc(50% - 3px);
-  border-radius: 999px;
-  background: var(--ink);
-  z-index: -1;
-  transition: translate 0.45s var(--ease);
+.lang-switch button > span { position: relative; display: inline-block; letter-spacing: 0.04em; }
+.lang-switch button { position: relative; padding: 0.4rem 0.65rem; color: var(--faint); transition: color 0.3s; }
+.lang-switch button[aria-pressed='true'] { color: var(--ink); }
+.lang-switch button[aria-pressed='false']:hover { color: var(--muted); }
+.lang-slash { font-family: var(--ff-serif); font-style: italic; font-size: 1rem; color: var(--faint); rotate: 8deg; }
+.lang-ring {
+  position: absolute; top: -0.5em; left: -0.75em; width: calc(100% + 1.5em); height: calc(100% + 1em); max-width: none;
+  overflow: visible; pointer-events: none;
+  fill: none; stroke: var(--accent); stroke-width: 1.5; stroke-linecap: round;
+  filter: url(#sketch-rough);
 }
-.lang-switch:has([data-lang='no'][aria-pressed='true'])::before { translate: 100% 0; }
-.lang-switch button { padding: 0.28rem 0.62rem; border-radius: 999px; color: var(--muted); transition: color 0.3s; }
-.lang-switch button[aria-pressed='true'] { color: var(--paper); }
-.lang-switch button[aria-pressed='false']:hover { color: var(--ink); }
+.lang-ring path { vector-effect: non-scaling-stroke; stroke-dasharray: 1 2; stroke-dashoffset: 1.01; transition: stroke-dashoffset 0.22s ease-in; }
+.lang-switch button[aria-pressed='true'] .lang-ring path { stroke-dashoffset: 0; transition: stroke-dashoffset 0.6s cubic-bezier(0.5, 0, 0.25, 1) 0.15s; }
+/* A faint pencil preview of the ring on hover. */
+.lang-switch button[aria-pressed='false']:hover .lang-ring path { stroke-dashoffset: 0.55; transition-duration: 0.35s; }
+.lang-switch button[aria-pressed='false']:hover .lang-ring { stroke: var(--faint); }
+
 .theme-toggle { width: 2.2rem; height: 2.2rem; display: grid; place-items: center; border-radius: 50%; color: var(--ink); }
 .theme-toggle:hover { background: var(--line); }
 .theme-toggle svg { width: 1.2rem; height: 1.2rem; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; overflow: visible; }
