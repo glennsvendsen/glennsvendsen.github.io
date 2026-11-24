@@ -744,7 +744,7 @@ html:not(.js) .plate .clip { display: none; }
 
 /* ── HELLO ────────────────────────────────── */
 .hello { padding-bottom: 3rem; border-top: 1px solid var(--line); }
-.links { margin-top: clamp(2rem, 5vw, 3rem); border-top: 1px solid var(--line); }
+.links { margin-top: clamp(2rem, 5vw, 3rem); border-top: 1px solid var(--line); container-type: inline-size; }
 .link {
   display: flex; align-items: baseline; justify-content: space-between; gap: 1rem;
   padding: 1.15rem 0.2rem;
@@ -753,14 +753,15 @@ html:not(.js) .plate .clip { display: none; }
   transition: padding 0.4s var(--ease), color 0.3s;
 }
 .link:hover { padding-inline: 0.8rem 0.2rem; }
-.link-text { font-family: var(--ff-serif); font-size: clamp(1.6rem, 4vw, 2.4rem); line-height: 1.1; }
+.link-text { font-family: var(--ff-serif); font-size: clamp(1.6rem, 4vw, 2.4rem); line-height: 1.1; white-space: nowrap; }
+/* The email address is the longest line: size the text to the column so it always fits on one line. */
+@supports (width: 1cqi) { .link-text { font-size: clamp(1.15rem, calc((100cqi - 7.5rem) / 10), 2.4rem); } }
 .link-meta { color: var(--faint); white-space: nowrap; text-transform: uppercase; transition: color 0.3s; }
 .link:hover .link-meta { color: var(--accent); }
 
 /* Contact form: a taped letter card (cream in both themes, like .note), links beside it on wide screens. */
 .hello-body { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 26rem); gap: clamp(2rem, 6vw, 5rem); align-items: start; }
 .hello-body .links { margin-top: clamp(2rem, 5vw, 3rem); }
-.link-text { overflow-wrap: anywhere; }
 @media (max-width: 1060px) { .hello-body { grid-template-columns: 1fr; } .hello-body .letter { order: -1; max-width: 32rem; } }
 .no-js .letter, .letter[hidden] { display: none; }
 .letter {
