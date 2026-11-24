@@ -240,6 +240,7 @@ p { text-wrap: pretty; }
 
 .signature { color: var(--ink); width: 100%; height: auto; overflow: visible; }
 .signature--hero { width: min(100%, 46rem); margin-left: -1%; }
+.signature--hero .sig-ink { filter: url(#sig-thin); }   /* a finer pen at hero size */
 /* Writing: the outline is masked by the pen strokes (pathLength="1"), drawn one after another.
    main.js applies the mask only while writing, so without JS the full signature shows. */
 .signature .pen path { stroke-dasharray: 1 2; stroke-dashoffset: 1.01; }
@@ -639,6 +640,15 @@ html:not(.js) .plate .clip { display: none; }
 .card-name { font-family: var(--ff-serif); font-weight: 400; font-size: 1.7rem; line-height: 1.1; grid-column: 2; }
 .card-desc { grid-column: 2; color: var(--muted); margin-top: 0.3rem; font-size: 0.98rem; }
 .card-tag { grid-column: 2; color: var(--faint); margin-top: 0.8rem; }
+/* Where to get it: small hand-drawn pills (App Store / Play in browser in the accent, prototypes plain). */
+.card-status { grid-column: 2; display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.75rem; }
+.chip {
+  font-family: var(--ff-mono); font-size: 0.68rem; letter-spacing: 0.06em; text-transform: uppercase; line-height: 1;
+  padding: 0.32rem 0.55rem 0.28rem; color: var(--muted);
+  border: 1px solid color-mix(in oklch, currentColor 55%, transparent);
+  border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px;
+}
+.chip--go { color: var(--accent); }
 .card-arrow { grid-column: 3; grid-row: 1; color: var(--accent); font-size: 1.1rem; transition: translate 0.25s var(--ease); }
 .card:hover .card-arrow { translate: 3px -3px; }
 @container (min-width: 30rem) {

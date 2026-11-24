@@ -59,7 +59,7 @@ Local preview: `python3 -m http.server 8000`
 
 ## Patterns
 
-- **Signature write-on**: `.signature` SVGs hold the outline (`.sig-ink`) and a `<mask>` of pen strokes
+- **Signature write-on** (the hero's outline is thinned ~1px a side by the `#sig-thin` erode filter): `.signature` SVGs hold the outline (`.sig-ink`) and a `<mask>` of pen strokes
   (`.pen path`, `pathLength="1"`). `write()` in main.js times each stroke by length, applies the mask
   while writing and removes it after, so the exact outline shows. Hero plays once per session;
   the footer sign-off plays when scrolled into view. The header wordmark is `<use href="#sig">`.
@@ -127,6 +127,9 @@ Local preview: `python3 -m http.server 8000`
 
 ## Adding a side project
 
-Copy an `<li><a class="card">` block in `#projects`; update number, name, description, tag, href,
-image (`.cover` for 16:9 art, `.logo` for an app icon) and the `data-umami-event-project` value.
-Give the description `data-i18n="card.N"` and add its Norwegian text to `i18n.js`.
+Copy an `<li><a class="card">` block in `#projects`; update number, name, description, status chips, tag, href,
+cover image and the `data-umami-event-project` value. Every card uses a 16:10 `.cover` (720x450 JPEG, ~20-100 KB):
+a still from the project's clip works well (`ffmpeg -ss <sec> -i clips/x.mp4 -frames:v 1 -q:v 3 x-cover.jpg`).
+The description is one factual sentence about what makes it interesting (`data-i18n="card.N"`, Norwegian in
+`i18n.js`). `.card-status` holds `.chip`s for where to get it: `status.appstore`, `status.browser` (both
+`.chip--go`, accent) or `status.prototype` (plain); add new `status.*` keys to `i18n.js` if needed.

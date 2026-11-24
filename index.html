@@ -71,6 +71,8 @@
        and the signature as a symbol for the small header wordmark. -->
   <svg class="defs" width="0" height="0" aria-hidden="true" focusable="false">
     <defs>
+      <!-- Thins the hero signature's traced outline by about a pixel per side, so it reads like a fine pen. -->
+      <filter id="sig-thin"><feMorphology operator="erode" radius="0.3"/></filter>
       <filter id="sketch-rough" x="-5%" y="-5%" width="110%" height="110%">
         <feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="2" seed="7"/>
         <feDisplacementMap in="SourceGraphic" scale="2.2"/>
@@ -514,33 +516,33 @@
       <header class="section-head reveal">
         <p class="kicker mono" data-i18n="nav.projects">Projects</p>
         <h2 class="title" data-i18n="projects.title">Things I've built.</h2>
-        <p class="intro" data-i18n="projects.intro">Small products where I get to be designer, engineer and product manager at once. A few are finished. All of them taught me something.</p>
+        <p class="intro" data-i18n="projects.intro">Small products where I get to be designer, engineer and product manager at once. Most of them are out in the world. All of them taught me something.</p>
       </header>
 
       <ul class="cards" role="list">
         <li><a class="card" href="https://www.glennsvendsen.com/equity/" target="_blank" rel="noopener" data-umami-event="project-click" data-umami-event-project="Equity">
-          <div class="plate"><div class="plate-art"><img class="logo" src="equity-logo.jpg" alt="" width="285" height="290" loading="lazy" decoding="async"><video class="clip" data-src="clips/equity.mp4" muted loop playsinline preload="none" tabindex="-1" aria-hidden="true"></video></div></div>
-          <div class="card-body"><span class="card-num mono">01</span><h3 class="card-name">Equity</h3><p class="card-desc" data-i18n="card.1">Time balance tracker for iOS</p><p class="card-tag mono">iOS · React Native</p><span class="card-arrow" aria-hidden="true">↗</span></div>
+          <div class="plate"><div class="plate-art"><img class="cover" src="equity-cover.jpg" alt="" width="720" height="450" loading="lazy" decoding="async"><video class="clip" data-src="clips/equity.mp4" muted loop playsinline preload="none" tabindex="-1" aria-hidden="true"></video></div></div>
+          <div class="card-body"><span class="card-num mono">01</span><h3 class="card-name">Equity</h3><p class="card-desc" data-i18n="card.1">A score that shows at a glance whether you're ahead, behind or right on target with your hours.</p><p class="card-status"><span class="chip chip--go" data-i18n="status.appstore">App Store</span></p><p class="card-tag mono">iOS · React Native</p><span class="card-arrow" aria-hidden="true">↗</span></div>
         </a></li>
         <li><a class="card" href="https://everleafapp.com/" target="_blank" rel="noopener" data-umami-event="project-click" data-umami-event-project="Everleaf">
-          <div class="plate"><div class="plate-art"><img class="logo" src="mybooks-logo.jpg" alt="" width="176" height="176" loading="lazy" decoding="async"><video class="clip" data-src="clips/everleaf.mp4" muted loop playsinline preload="none" tabindex="-1" aria-hidden="true"></video></div></div>
-          <div class="card-body"><span class="card-num mono">02</span><h3 class="card-name">Everleaf</h3><p class="card-desc" data-i18n="card.2">Personal reading companion</p><p class="card-tag mono">iOS · React Native</p><span class="card-arrow" aria-hidden="true">↗</span></div>
+          <div class="plate"><div class="plate-art"><img class="cover" src="everleaf-cover.jpg" alt="" width="720" height="450" loading="lazy" decoding="async"><video class="clip" data-src="clips/everleaf.mp4" muted loop playsinline preload="none" tabindex="-1" aria-hidden="true"></video></div></div>
+          <div class="card-body"><span class="card-num mono">02</span><h3 class="card-name">Everleaf</h3><p class="card-desc" data-i18n="card.2">A private reading log: scan a book's barcode, set a reading goal, no account and no ads.</p><p class="card-status"><span class="chip chip--go" data-i18n="status.appstore">App Store</span></p><p class="card-tag mono">iOS · React Native</p><span class="card-arrow" aria-hidden="true">↗</span></div>
         </a></li>
         <li><a class="card" href="https://www.thegreenlandrun.com" target="_blank" rel="noopener" data-umami-event="project-click" data-umami-event-project="The Greenland Run">
-          <div class="plate"><div class="plate-art"><img class="logo logo--wide" src="greenlandrun-logo.jpg" alt="" width="150" height="100" loading="lazy" decoding="async"><video class="clip" data-src="clips/greenland.mp4" muted loop playsinline preload="none" tabindex="-1" aria-hidden="true"></video></div></div>
-          <div class="card-body"><span class="card-num mono">03</span><h3 class="card-name">The Greenland Run</h3><p class="card-desc" data-i18n="card.3">Fast-paced satirical game for the browser and iPhone</p><p class="card-tag mono">Web · iOS</p><span class="card-arrow" aria-hidden="true">↗</span></div>
+          <div class="plate"><div class="plate-art"><img class="cover" src="greenland-cover.jpg" alt="" width="720" height="450" loading="lazy" decoding="async"><video class="clip" data-src="clips/greenland.mp4" muted loop playsinline preload="none" tabindex="-1" aria-hidden="true"></video></div></div>
+          <div class="card-body"><span class="card-num mono">03</span><h3 class="card-name">The Greenland Run</h3><p class="card-desc" data-i18n="card.3">A satirical endless runner across the ice, with a live leaderboard.</p><p class="card-status"><span class="chip chip--go" data-i18n="status.browser">Play in browser</span><span class="chip chip--go" data-i18n="status.appstore">App Store</span></p><p class="card-tag mono">Web · iOS</p><span class="card-arrow" aria-hidden="true">↗</span></div>
         </a></li>
         <li><a class="card" href="https://cointoss-7ja.pages.dev/" target="_blank" rel="noopener" data-umami-event="project-click" data-umami-event-project="Coin Toss">
           <div class="plate"><div class="plate-art"><img class="cover" src="cointoss-cover.jpg" alt="" width="1280" height="720" loading="lazy" decoding="async"><video class="clip" data-src="clips/cointoss.mp4" muted loop playsinline preload="none" tabindex="-1" aria-hidden="true"></video></div></div>
-          <div class="card-body"><span class="card-num mono">04</span><h3 class="card-name">Coin Toss</h3><p class="card-desc" data-i18n="card.4">Throw the coin into the parking meter</p><p class="card-tag mono">Web · JavaScript</p><span class="card-arrow" aria-hidden="true">↗</span></div>
+          <div class="card-body"><span class="card-num mono">04</span><h3 class="card-name">Coin Toss</h3><p class="card-desc" data-i18n="card.4">A tiny browser game: flick the coin into the parking meter.</p><p class="card-status"><span class="chip chip--go" data-i18n="status.browser">Play in browser</span></p><p class="card-tag mono">Web · JavaScript</p><span class="card-arrow" aria-hidden="true">↗</span></div>
         </a></li>
         <li><a class="card" href="https://www.glennsvendsen.com/last-signal/" target="_blank" rel="noopener" data-umami-event="project-click" data-umami-event-project="Last Signal">
           <div class="plate"><div class="plate-art"><img class="cover" src="lastsignal-cover.jpg" alt="" width="800" height="450" loading="lazy" decoding="async"><video class="clip" data-src="clips/lastsignal.mp4" muted loop playsinline preload="none" tabindex="-1" aria-hidden="true"></video></div></div>
-          <div class="card-body"><span class="card-num mono">05</span><h3 class="card-name">Last Signal</h3><p class="card-desc" data-i18n="card.5">Cold-war night driving game for iPhone</p><p class="card-tag mono">iOS · Unity</p><span class="card-arrow" aria-hidden="true">↗</span></div>
+          <div class="card-body"><span class="card-num mono">05</span><h3 class="card-name">Last Signal</h3><p class="card-desc" data-i18n="card.5">One road out of Pripyat on a cold night in 1986, and a radio that won't stop talking.</p><p class="card-status"><span class="chip chip--go" data-i18n="status.appstore">App Store</span><span class="chip" data-i18n="status.prototype">Mac/PC prototype</span></p><p class="card-tag mono">iOS · Mac · Windows · Unity</p><span class="card-arrow" aria-hidden="true">↗</span></div>
         </a></li>
         <li><a class="card" href="https://www.glennsvendsen.com/soriamoria/" target="_blank" rel="noopener" data-umami-event="project-click" data-umami-event-project="Soria Moria">
           <div class="plate"><div class="plate-art"><img class="cover" src="soriamoria-cover.jpg" alt="" width="800" height="450" loading="lazy" decoding="async"><video class="clip" data-src="clips/soriamoria.mp4" muted loop playsinline preload="none" tabindex="-1" aria-hidden="true"></video></div></div>
-          <div class="card-body"><span class="card-num mono">06</span><h3 class="card-name">Soria Moria</h3><p class="card-desc" data-i18n="card.6">Norwegian fairytales that teach kids to read</p><p class="card-tag mono">iOS · Unity</p><span class="card-arrow" aria-hidden="true">↗</span></div>
+          <div class="card-body"><span class="card-num mono">06</span><h3 class="card-name">Soria Moria</h3><p class="card-desc" data-i18n="card.6">Asbjørnsen and Moe's fairy tales read aloud, each word lighting up as it's read.</p><p class="card-status"><span class="chip chip--go" data-i18n="status.appstore">App Store</span></p><p class="card-tag mono">iOS · Unity</p><span class="card-arrow" aria-hidden="true">↗</span></div>
         </a></li>
       </ul>
     </div>
