@@ -842,6 +842,9 @@ html:not(.js) .plate .clip { display: none; }
 .fine a { color: inherit; text-underline-offset: 2px; }
 .fine a:hover { color: var(--accent); }
 .fine { margin-top: 2.5rem; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0.5rem 2rem; color: var(--faint); }
+.fine { align-items: baseline; }
+.fine-group { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.5rem 1.4rem; }
+.fine .how-btn { letter-spacing: inherit; line-height: inherit; padding-block: 0.4rem; margin-block: -0.4rem; } /* same tap area, no shift */
 
 /* ── WORK PAGE (/work/) ───────────────────── */
 .work-intro { padding-top: clamp(8rem, 18vw, 12rem); padding-bottom: 0; }
@@ -876,7 +879,6 @@ html:not(.js) .plate .clip { display: none; }
 .policy-updated { margin-top: 2.5rem; color: var(--faint); text-transform: uppercase; }
 .letter-privacy a { color: inherit; text-underline-offset: 2px; }
 .letter-privacy a:hover { color: var(--l-accent); }
-.fine a + .how-btn { margin-left: 0; }
 @media (max-width: 720px) { .case { grid-template-columns: 1fr; } .case-meta { flex-direction: row; gap: 1rem; padding-top: 0; } }
 
 /* Colleague quotes as index cards taped to the page. Like the portrait print they stay cream in dark mode. */
