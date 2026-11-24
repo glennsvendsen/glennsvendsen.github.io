@@ -7,7 +7,7 @@ a honeypot field, a 5-per-minute limit per IP, an Origin check and a 16 KB size 
 ## One-time setup
 
 1. **Turnstile** (Cloudflare dashboard → Turnstile → Add widget): hostnames `www.glennsvendsen.com`,
-   `glennsvendsen.com`; mode *Managed*. Put the **site key** in `index.html` (`data-sitekey` on `<form class="letter">`;
+   `glennsvendsen.com`; mode *Managed*. The **site key** is in `index.html` (`data-sitekey` on `<form class="letter">`;
    the form stays hidden until it's set). Keep the **secret key** for step 3.
 2. Email Routing must stay on for glennsvendsen.com, with the destination inbox verified (already done).
 3. From this folder:
