@@ -385,18 +385,7 @@ p { text-wrap: pretty; }
   .portrait:hover .bubble { animation: hi 0.9s var(--ease); }
 }
 @keyframes hi { 30% { rotate: -6deg; scale: 1.08; } 60% { rotate: 4deg; scale: 1.04; } }
-.portrait-note {
-  position: absolute; left: 100%; top: 10%; margin-left: 0.9rem; width: 9rem;
-  display: flex; align-items: flex-start; gap: 0.3rem; flex-direction: column;
-  color: var(--faint); text-transform: uppercase; font-size: 0.68rem; line-height: 1.5;
-}
-.portrait-note svg { width: 3.4rem; height: auto; overflow: visible; fill: none; stroke: var(--accent); stroke-width: 1.4; stroke-linecap: round; scale: -1 1; align-self: flex-start; margin-left: -2.4rem; }
-.portrait-note path { stroke-dasharray: 1 2; stroke-dashoffset: 1.01; transition: stroke-dashoffset 1s var(--ease) 1.4s; }
-.portrait.is-developed .portrait-note path { stroke-dashoffset: 0; }
-.js .portrait-note span { opacity: 0; transition: opacity 0.8s ease 2s; }
-.js .portrait.is-developed .portrait-note span { opacity: 1; }
-@media (max-width: 1100px) { .portrait-note { display: none; } }
-@media (prefers-reduced-motion: reduce) { .js .print-photo img { filter: none; } .portrait-note path, .bubble-line { stroke-dashoffset: 0; fill-opacity: 1; } .bubble-text { opacity: 1; } }
+@media (prefers-reduced-motion: reduce) { .js .print-photo img { filter: none; } .bubble-line { stroke-dashoffset: 0; fill-opacity: 1; } .bubble-text { opacity: 1; } }
 @media (max-width: 760px) {
   .about { grid-template-columns: 1fr; }
   .portrait { max-width: 16rem; margin-inline: auto; }
