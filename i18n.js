@@ -1,0 +1,66 @@
+/* Norwegian (Bokmål) strings for the home page. English lives in index.html itself: elements carry
+   data-i18n="key" (innerHTML) or data-i18n-attr="attr:key", and main.js swaps them in and out.
+   Add a key here whenever you add translatable text to the page. Values may contain inline markup. */
+window.I18N = {
+  no: {
+    skip: 'Hopp til innhold',
+    brand: 'Glenn Svendsen, til toppen',
+    lang: 'Språk',
+    'theme.dark': 'Bytt til mørkt tema',
+    'theme.light': 'Bytt til lyst tema',
+
+    'nav.projects': 'Prosjekter',
+    'nav.sketches': 'Livet',
+    'nav.hello': 'Si hei',
+
+    'hero.lede': 'Produkter om dagen,<br> sideprosjekter om kvelden,<br> <em>skisser innimellom.</em>',
+    'hero.place': 'Oslo, Norge',
+    'sky.day': 'sola er oppe',
+    'sky.dusk': 'gyllen time',
+    'sky.night': 'månen er oppe',
+    'sky.aurora': 'nordlysvær',
+
+    'about.alt': 'Portrett av Glenn Svendsen',
+    'about.title': 'Hei, jeg er Glenn.',
+    'about.p1': 'Jeg er en produktperson i Oslo. Jeg liker å ta kompliserte systemer og få dem til å føles enkle, og jeg trives best et sted mellom de som bruker noe og de som lager det.',
+    'about.p2': 'Ved siden av lager jeg små apper og spill, som regel med AI som makker, for å lære hva som er mulig og holde fingrene i det. Borte fra skjermen er jeg ute og løper, halvveis opp et fjell, eller pusser på en motorsykkel jeg heller burde kjørt.',
+
+    'projects.title': 'Ting jeg har laget.',
+    'projects.intro': 'Små produkter der jeg får være designer, utvikler og produktleder på én gang. Noen er ferdige. Alle har lært meg noe.',
+    'card.1': 'Hold styr på timebalansen, for iOS',
+    'card.2': 'Din personlige lesekompis',
+    'card.3': 'Et raskt og satirisk spill for nettleser og iPhone',
+    'card.4': 'Kast mynten i parkeringsautomaten',
+    'card.5': 'Nattkjøring under den kalde krigen, for iPhone',
+    'card.6': 'Norske folkeeventyr som lærer barn å lese',
+
+    'sketches.kicker': 'På fritiden',
+    'sketches.title': 'Fra skisseboka.',
+    'sketches.intro': 'Når jeg ikke lager noe, er jeg som regel ute et sted. Resten av tiden lager jeg noe lite som nok ikke trengte en datamaskin.',
+    'sketch.1.title': 'Løping',
+    'sketch.1.text': 'Sakte nok til å tenke, raskt nok til å kalle det trening. De beste ideene dukker gjerne opp rundt femte kilometer, uten noe å skrive dem ned på.',
+    'sketch.1.note': 'slitasje: mest på hælen',
+    'sketch.2.title': 'Fjell',
+    'sketch.2.text': 'På tur hvor som helst med en topp og en utsikt som får stigningen til å virke som en god idé hele veien. Å være ute i det hele tatt, egentlig.',
+    'sketch.2.note': 'rute: optimistisk',
+    'sketch.3.title': 'To hjul',
+    'sketch.3.text': 'En Triumph Bonneville: klassiske linjer, rekkemotor med to sylindre, og en eier som bruker nesten like mye tid på å se på den som å kjøre den.',
+    'sketch.3.note': 'to sylindre, ofte polert',
+    'sketch.4.title': 'Fikling',
+    'sketch.4.text': 'Små apper, sideprosjekter og en og annen dings. Jeg lærer best ved å lage ting, og en gang iblant blir én av dem til og med ferdig.',
+    'sketch.4.note': 'blink.py: virker på andre forsøk',
+    'sketches.close': 'Kort sagt: er det ute eller har en av/på-knapp, er jeg nok interessert.',
+
+    'hello.title': 'Si hei.',
+    'hello.intro': 'Alltid klar for en prat om produkter, om å lage ting med AI, eller om hvilket fjell som står for tur.',
+    'hello.email': 'E-post <span aria-hidden="true">→</span>',
+    'hello.profile': 'Profil <span aria-hidden="true">↗</span>',
+    'hello.earlier': 'Tidligere arbeid',
+    'hello.cases': 'Case-studier (engelsk) <span aria-hidden="true">→</span>',
+    copy: 'Kopier',
+    'copy.sr': ' e-postadresse',
+    'copy.done': 'Kopiert ✓',
+    'copy.announce': 'E-postadressen er kopiert',
+    fine: 'Tegnet og laget i Oslo · Anonym besøksstatistikk uten informasjonskapsler',
+  },
+};

@@ -15,6 +15,7 @@ Local preview: `python3 -m http.server 8000`
 - `index.html` — the home page: hero (signature + Oslo skyline), about, projects, sketches, hello
 - `style.css` — all home page styles
 - `main.js` — progressive enhancement only (the page must read fine without it)
+- `i18n.js` — Norwegian (Bokmål) strings for the EN/NO switch; English is the HTML itself
 - `work/` — **frozen copy of the old PM portfolio** (Arrive case studies, testimonials), linked only
   from the footer as "Earlier work", `noindex`. It has its own `style.css`/`main.js`; don't restyle it.
   The pre-redesign site is also tagged `v1-portfolio`.
@@ -61,9 +62,14 @@ Local preview: `python3 -m http.server 8000`
 - `.reveal` and cards rise in with `animation-timeline: view()`; JS fallback adds `.is-visible`.
 - Page ↔ `/work/` uses cross-document View Transitions (`@view-transition`), the brand morphs.
 - `prefers-reduced-motion`: everything static and fully drawn. Keep that working for anything new.
+- **Language (EN/NO)**: text that should translate gets `data-i18n="key"` (swaps innerHTML) or
+  `data-i18n-attr="attr:key"`; add the key to `i18n.js`. Strings made in JS go through `tr(key, english)`
+  and re-render via `langListeners`. Choice is saved in `localStorage.lang`; first visits follow the
+  browser's languages (nb/nn/no → Norwegian). `/work/` stays English only.
 - Console: a GS greeting plus a hidden `coffee()` command (tracked as `console-coffee`).
 
 ## Adding a side project
 
 Copy an `<li><a class="card">` block in `#projects`; update number, name, description, tag, href,
 image (`.cover` for 16:9 art, `.logo` for an app icon) and the `data-umami-event-project` value.
+Give the description `data-i18n="card.N"` and add its Norwegian text to `i18n.js`.

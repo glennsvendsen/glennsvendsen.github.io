@@ -20,6 +20,54 @@
     [...els].forEach((el) => io.observe(el));
   };
 
+  /* ── LANGUAGE (EN / NO) ──────────────────── */
+  // English is the page itself. Norwegian strings come from i18n.js; elements say what to swap with
+  // data-i18n="key" (innerHTML) or data-i18n-attr="attr:key". The choice is saved; first visits
+  // follow the browser's languages. Switching cross-fades through a View Transition.
+  const NO = (window.I18N && window.I18N.no) || {};
+  let lang = 'en';
+  const tr = (key, english) => (lang === 'no' && NO[key] !== undefined ? NO[key] : english);
+  const langListeners = [];
+  const originals = new Map();   // el -> { html, attrs: { name: value } }
+  const remember = (el) => {
+    if (!originals.has(el)) originals.set(el, { html: el.innerHTML, attrs: {} });
+    return originals.get(el);
+  };
+  const applyLang = (next) => {
+    lang = next;
+    document.querySelectorAll('[data-i18n]').forEach((el) => {
+      const o = remember(el);
+      el.innerHTML = tr(el.dataset.i18n, o.html);
+    });
+    document.querySelectorAll('[data-i18n-attr]').forEach((el) => {
+      const o = remember(el);
+      el.dataset.i18nAttr.split(',').forEach((pair) => {
+        const [name, key] = pair.split(':').map((x) => x.trim());
+        if (!(name in o.attrs)) o.attrs[name] = el.getAttribute(name);
+        el.setAttribute(name, tr(key, o.attrs[name]));
+      });
+    });
+    root.lang = lang === 'no' ? 'nb' : 'en';
+    document.querySelectorAll('.lang-switch button').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.lang === lang)));
+    langListeners.forEach((fn) => fn());
+  };
+  const langSwitch = document.querySelector('.lang-switch');
+  let saved = null;
+  try { saved = localStorage.getItem('lang'); } catch (e) { /* private mode */ }
+  const prefersNo = (navigator.languages || [navigator.language]).some((l) => /^(nb|nn|no)\b/i.test(l || ''));
+  const initialLang = saved === 'en' || saved === 'no' ? saved : (prefersNo ? 'no' : 'en');
+  if (initialLang === 'no') applyLang('no');
+  langSwitch.hidden = false;
+  langSwitch.addEventListener('click', (e) => {
+    const btn = e.target.closest('button[data-lang]');
+    if (!btn || btn.dataset.lang === lang) return;
+    const next = btn.dataset.lang;
+    try { localStorage.setItem('lang', next); } catch (err) { /* private mode */ }
+    track('language', { lang: next });
+    if (!document.startViewTransition || reduceMotion) applyLang(next);
+    else document.startViewTransition(() => applyLang(next));
+  });
+
   /* ── THEME ───────────────────────────────── */
   // The saved choice wins; otherwise follow the system. The switch is an ink wipe from the toggle.
   const systemDark = window.matchMedia('(prefers-color-scheme: dark)');
@@ -27,12 +75,13 @@
   const themeListeners = [];
   const syncTheme = () => {
     root.classList.toggle('is-dark', isDark());
-    toggle.setAttribute('aria-label', `Switch to ${isDark() ? 'light' : 'dark'} theme`);
+    toggle.setAttribute('aria-label', isDark() ? tr('theme.light', 'Switch to light theme') : tr('theme.dark', 'Switch to dark theme'));
     themeListeners.forEach((fn) => fn());
   };
   const toggle = document.querySelector('.theme-toggle');
   toggle.hidden = false;
   syncTheme();
+  langListeners.push(syncTheme);
   systemDark.addEventListener('change', () => { if (!root.dataset.theme) syncTheme(); });
   toggle.addEventListener('click', () => {
     const next = isDark() ? 'light' : 'dark';
@@ -146,7 +195,7 @@
       y = 150 - Math.sin(Math.PI * t) * 112;
       place('.sun', x, y);
       sky = (hour - rise < 0.7 || set - hour < 0.7) ? 'dusk' : 'day';
-      note = sky === 'dusk' ? 'golden hour' : "sun's up";
+      note = sky === 'dusk' ? tr('sky.dusk', 'golden hour') : tr('sky.day', "sun's up");
     } else {
       const nightLen = 24 - (set - rise);
       const t = ((hour - set + 24) % 24) / nightLen;
@@ -154,10 +203,10 @@
       y = 140 - Math.sin(Math.PI * t) * 98;
       place('.moon', x, y);
       sky = 'night';
-      note = "moon's up";
+      note = tr('sky.night', "moon's up");
       const winter = month >= 9 || month <= 3;
       const dark = ((hour - set + 24) % 24) > 1 && ((rise - hour + 24) % 24) > 1;
-      if (winter && dark) { land.dataset.aurora = ''; note = 'aurora weather'; } else delete land.dataset.aurora;
+      if (winter && dark) { land.dataset.aurora = ''; note = tr('sky.aurora', 'aurora weather'); } else delete land.dataset.aurora;
     }
     place('.glint', x, 206 + Math.max(0, 150 - y) * 0.1);
     land.dataset.sky = sky;
@@ -166,6 +215,7 @@
     clock.hidden = false;
   };
   updateSky();
+  langListeners.push(updateSky);
   setInterval(updateSky, 60 * 1000);
 
   /* ── SCROLL REVEAL (fallback) ────────────── */
@@ -248,13 +298,13 @@
     copyBtn.hidden = false;
     copyBtn.addEventListener('click', async () => {
       try { await navigator.clipboard.writeText(email); } catch (e) { return; }
-      label.textContent = 'Copied ✓';
+      label.textContent = tr('copy.done', 'Copied ✓');
       copyBtn.classList.add('is-copied');
-      announce.textContent = 'Email address copied';
+      announce.textContent = tr('copy.announce', 'Email address copied');
       track('contact-copy-email');
       clearTimeout(resetTimer);
       resetTimer = setTimeout(() => {
-        label.textContent = 'Copy';
+        label.textContent = tr('copy', 'Copy');
         copyBtn.classList.remove('is-copied');
         announce.textContent = '';
       }, 2000);

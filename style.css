@@ -168,6 +168,34 @@ p { text-wrap: pretty; }
 .top-links a:hover { color: var(--ink); background-size: 100% 1px; }
 @media (max-width: 560px) { .top-links a:not([href='#hello']) { display: none; } }
 
+/* EN / NO: a small pill with a sliding thumb (moves via :has(), no JS styling). */
+.lang-switch {
+  position: relative;
+  display: inline-grid;
+  grid-template-columns: 1fr 1fr;
+  padding: 3px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  font-family: var(--ff-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  isolation: isolate;
+}
+.lang-switch[hidden] { display: none; }
+.lang-switch::before {
+  content: '';
+  position: absolute;
+  inset: 3px auto 3px 3px;
+  width: calc(50% - 3px);
+  border-radius: 999px;
+  background: var(--ink);
+  z-index: -1;
+  transition: translate 0.45s var(--ease);
+}
+.lang-switch:has([data-lang='no'][aria-pressed='true'])::before { translate: 100% 0; }
+.lang-switch button { padding: 0.28rem 0.62rem; border-radius: 999px; color: var(--muted); transition: color 0.3s; }
+.lang-switch button[aria-pressed='true'] { color: var(--paper); }
+.lang-switch button[aria-pressed='false']:hover { color: var(--ink); }
 .theme-toggle { width: 2.2rem; height: 2.2rem; display: grid; place-items: center; border-radius: 50%; color: var(--ink); }
 .theme-toggle:hover { background: var(--line); }
 .theme-toggle svg { width: 1.2rem; height: 1.2rem; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; overflow: visible; }
