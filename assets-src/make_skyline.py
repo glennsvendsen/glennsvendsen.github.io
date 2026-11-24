@@ -287,13 +287,28 @@ ef_b = forest(east_segs, 1060, 1081, 6, 8, 12, 13, dy=6)          # below the re
 ef_c = forest(east_segs, 1192, 1200, 5, 8, 12, 23, dy=2)
 ef = tuple(' '.join(p) for p in zip(ef_a, ef_b, ef_c))
 ef2 = forest(east_segs, 1090, 1200, 12, 9, 15, 31, dy=40)          # lower down, towards Bjørvika
+# Sjømannsskolen (Kongshavn videregående) has four towers; seen from the fjord only two show, the near
+# one slightly taller. Brick wings run between and beyond them.
+sj_towers = ((sx0 + 17, 5.5, 41), (sx1 - 13, 5, 37))     # (centre x, half width, height above sy)
+sj_fill = f'M{sx0} {sy:.1f} L{sx0} {sy - 14:.1f}'
+sj_ink = f'M{sx0} {sy:.1f} L{sx0} {sy - 12:.1f} L{sx0 + 3} {sy - 15:.1f}'
+sj_thin = ''
+cur = sx0 + 3
+for tx, hw, th in sj_towers:
+    sj_fill += f' L{tx - hw} {sy - 14:.1f} L{tx - hw} {sy - th + 11:.1f} L{tx} {sy - th:.1f} L{tx + hw} {sy - th + 11:.1f} L{tx + hw} {sy - 14:.1f}'
+    sj_ink += f' L{tx - hw} {sy - 15:.1f} M{tx - hw} {sy - 13:.1f} L{tx - hw} {sy - th + 12:.1f} L{tx + hw} {sy - th + 12:.1f} L{tx + hw} {sy - 13:.1f} M{tx - hw - 1} {sy - th + 12:.1f} L{tx} {sy - th + 1:.1f} L{tx + hw + 1} {sy - th + 12:.1f} M{tx + hw} {sy - 15:.1f}'
+    sj_thin += f' M{tx - 2.5} {sy - th + 18:.1f} L{tx + 2.5} {sy - th + 18:.1f} L{tx + 2.5} {sy - th + 24:.1f} L{tx - 2.5} {sy - th + 24:.1f} Z M{tx - 2.5} {sy - th + 30:.1f} L{tx + 2.5} {sy - th + 30:.1f}'
+sj_fill += f' L{sx1} {sy - 14:.1f} L{sx1} {sy + 2:.1f} Z'
+sj_ink += f' L{sx1 - 3} {sy - 15:.1f} L{sx1} {sy - 12:.1f} L{sx1} {sy + 2:.1f}'
+sj_wins = [x for x in range(sx0 + 4, sx1 - 2, 4) if all(abs(x - tx) > hw + 2 for tx, hw, _ in sj_towers)]
+sj_thin += ' ' + ' '.join(f'M{x} {sy - 10:.1f} L{x} {sy - 7:.1f} M{x} {sy - 5:.1f} L{x} {sy - 2:.1f}' for x in sj_wins)
 ekeberg = f'''
         <path class="fill" d="M{rx0} {ry:.1f} L{rx0} {ry - 12:.1f} C{rx0} {ry - 15:.1f}, {rx0 + 2} {ry - 16:.1f}, {rx0 + 5} {ry - 16:.1f} L{rx1} {ry - 16:.1f} L{rx1} {ry - 8:.1f} Z"/>
         <path d="M{rx0} {ry:.1f} L{rx0} {ry - 12:.1f} C{rx0} {ry - 15:.1f}, {rx0 + 2} {ry - 16:.1f}, {rx0 + 5} {ry - 16:.1f} L{rx1} {ry - 16:.1f} L{rx1} {ry - 9:.1f} M{rx0 - 3} {ry:.1f} L{rx0 + 14} {ry - 2:.1f}"/>
         <path class="thin" d="M{rx0 + 2} {ry - 11:.1f} L{rx1 - 1} {ry - 11:.1f} M{rx0 + 2} {ry - 6:.1f} L{rx0 + 22} {ry - 6:.1f} M{rx0 + 3} {ry - 18:.1f} L{rx1 - 4} {ry - 18:.1f} M{rx0 + 3} {ry - 16:.1f} L{rx0 + 3} {ry - 18:.1f} M{rx1 - 4} {ry - 16:.1f} L{rx1 - 4} {ry - 18:.1f}"/>
-        <path class="fill" d="M{sx0} {sy:.1f} L{sx0} {sy - 14:.1f} L{sc - 6} {sy - 14:.1f} L{sc - 6} {sy - 30:.1f} L{sc - 3} {sy - 37:.1f} L{sc} {sy - 42:.1f} L{sc + 3} {sy - 37:.1f} L{sc + 6} {sy - 30:.1f} L{sc + 6} {sy - 14:.1f} L{sx1} {sy - 14:.1f} L{sx1} {sy + 2:.1f} Z"/>
-        <path d="M{sx0} {sy:.1f} L{sx0} {sy - 12:.1f} L{sx0 + 3} {sy - 15:.1f} L{sc - 6} {sy - 15:.1f} M{sc + 6} {sy - 15:.1f} L{sx1 - 3} {sy - 15:.1f} L{sx1} {sy - 12:.1f} L{sx1} {sy + 2:.1f} M{sc - 6} {sy - 13:.1f} L{sc - 6} {sy - 30:.1f} L{sc + 6} {sy - 30:.1f} L{sc + 6} {sy - 13:.1f} M{sc - 7} {sy - 30:.1f} L{sc} {sy - 40:.1f} L{sc + 7} {sy - 30:.1f} M{sc} {sy - 40:.1f} L{sc} {sy - 45:.1f}"/>
-        <path class="thin" d="{' '.join(f'M{x} {sy - 10:.1f} L{x} {sy - 7:.1f} M{x} {sy - 5:.1f} L{x} {sy - 2:.1f}' for x in list(range(sx0 + 4, int(sc) - 7, 4)) + list(range(int(sc) + 9, sx1 - 2, 4)))} M{sc - 3} {sy - 25:.1f} L{sc + 3} {sy - 25:.1f} L{sc + 3} {sy - 19:.1f} L{sc - 3} {sy - 19:.1f} Z M{sc - 2} {sy - 12:.1f} L{sc - 2} {sy - 4:.1f} M{sc + 2} {sy - 12:.1f} L{sc + 2} {sy - 4:.1f}"/>'''
+        <path class="fill" d="{sj_fill}"/>
+        <path d="{sj_ink}"/>
+        <path class="thin" d="{sj_thin}"/>'''
 
 # City Hall: west tower 530–566 (top 98), east tower 588–628 (top 88, clock at 608,106)
 ch = '''M522 196 L522 160 L530 160 M530 196 L530 98 L566 98 L566 196 M528 98 L568 98 M533 98 L533 92 L563 92 L563 98
@@ -367,8 +382,9 @@ roofs_light = ' '.join(snow_band(p, d, s, step=3) for p, d, s in [
     ([(470, 170), (486, 170)], 1.6, 36), ([(486, 164), (506, 164)], 1.6, 37), ([(506, 174), (522, 174)], 1.6, 38),
     ([(762, 182), (780, 182)], 1.6, 39), ([(780, 176), (800, 176)], 1.6, 40), ([(800, 186), (822, 186)], 1.6, 41)])
 roofs_light = shift_d(roofs_light, CITY_DX) + ' ' + ' '.join(snow_band(p, d, s, step=3) for p, d, s in [
-    ([(rx0 + 5, ry - 16), (rx1, ry - 16)], 1.6, 42), ([(sx0 + 3, sy - 15), (sc - 6, sy - 15)], 1.8, 43),
-    ([(sc + 6, sy - 15), (sx1 - 3, sy - 15)], 1.8, 44)])
+    ([(rx0 + 5, ry - 16), (rx1, ry - 16)], 1.6, 42), ([(sx0 + 3, sy - 15), (sj_towers[0][0] - 5.5, sy - 15)], 1.8, 43),
+    ([(sj_towers[0][0] + 5.5, sy - 15), (sj_towers[1][0] - 5, sy - 15)], 1.8, 44),
+    ([(sj_towers[1][0] + 5, sy - 15), (sx1 - 3, sy - 15)], 1.8, 45)])
 east_pts = samples(east_segs, 40)
 byg_snow = snow_band(samples(byg_segs, 30), 2.6, 71, step=5)
 east_runs = [[p for p in east_pts if a <= p[0] <= b] for a, b in ((1078, 1083), (1117, 1133), (1191, 1200))]
@@ -481,10 +497,10 @@ cells_city = (
     + [(x, y, 3, 3) for x in (474.5, 491, 497) for y in (178, 186)] + [(x, 186, 4, 3) for x in (766, 806, 812)]
     + [(x, 177, 3, 3) for x in (946, 958, 970)])
 lit = windows(cells_city, dx=CITY_DX)
-lit += windows([(sx, sy - 10, 1.6, 3) for sx in list(range(sx0 + 3, int(sc) - 7, 4)) + list(range(int(sc) + 8, sx1 - 2, 4))]
-               + [(sx, sy - 5, 1.6, 3) for sx in list(range(sx0 + 3, int(sc) - 7, 4)) + list(range(int(sc) + 8, sx1 - 2, 4))], keep=0.5)
+lit += windows([(sx - 0.8, sy - 10, 1.6, 3) for sx in sj_wins] + [(sx - 0.8, sy - 5, 1.6, 3) for sx in sj_wins], keep=0.5)
 lit.append(('l1', f'M{rx0 + 2} {ry - 12:.1f} h{rx1 - rx0 - 3} v1.8 h{-(rx1 - rx0 - 3)} Z'))   # the restaurant's ribbon window
-lit.append(('l2', f'M{sc - 2.6:.1f} {sy - 24.5:.1f} h5.2 v5 h-5.2 Z'))                       # Sjømannsskolen's tower
+for tx, hw, th in sj_towers:
+    lit.append(('l2', f'M{tx - 2.1:.1f} {sy - th + 18.5:.1f} h4.2 v5 h-4.2 Z'))   # a tower window
 lights = ''.join(f'\n        <path class="{c}" d="{d}"/>' for c, d in lit)
 # their reflections: short warm strokes in the water under the lit buildings
 lights_reflect = shift_d('M541 201 L541 206 M552 202 L552 210 M603 201 L603 207 M613 202 L613 212 M851 201 L851 209 '
@@ -504,7 +520,7 @@ def mini_flag(x, y, k=0.32):
 # 17 May: flags on the rooftops (City Hall's own flag grows in CSS)
 may17 = ''.join(mini_flag(x + dx, y) for x, y, dx in [
     (548, 92, CITY_DX), (694, 116, CITY_DX), (721, 102, CITY_DX), (851, 100, CITY_DX), (953, 152, CITY_DX),
-    (1034, 104, CITY_DX), (1061, 122, CITY_DX), (sc, sy - 45, 0), (rx0 + 6, ry - 18, 0), (472, 170, CITY_DX)])
+    (1034, 104, CITY_DX), (1061, 122, CITY_DX), (sj_towers[0][0], sy - sj_towers[0][2] - 4, 0), (rx0 + 6, ry - 18, 0), (472, 170, CITY_DX)])
 # Christmas: a tree on Rådhusplassen, in front of City Hall, with lights and a star
 tx_ = 577 + CITY_DX
 tree = (f'M{tx_} 170 L{tx_ + 5} 178 L{tx_ + 3} 178 L{tx_ + 8} 186 L{tx_ + 5} 186 L{tx_ + 10} 194 L{tx_ + 1.2} 194 '
