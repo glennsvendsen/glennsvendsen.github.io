@@ -19,6 +19,9 @@ Local preview: `python3 -m http.server 8000`
 - `style.css` — all home page styles
 - `main.js` — progressive enhancement only (the page must read fine without it)
 - `i18n.js` — Norwegian (Bokmål) strings for the EN/NO switch; English is the HTML itself
+- `privacy/` — the privacy page (GDPR notice), linked from both footers and the form. Same layout as `/work/`
+  (`.case` rows + `.policy-text`), keys `p.*`. **Update it whenever the site starts sending data somewhere new**
+  (a new service, a new stored key, a change to the form).
 - `worker/` — the contact form's Cloudflare Worker (`api.glennsvendsen.com/contact`), deployed with wrangler,
   not by Pages. See `worker/README.md`. Secrets (`TURNSTILE_SECRET`, `TO`) are never in the repo.
 - `work/` — "Earlier work": the old PM content (six case studies, colleague quotes) re-told in the new
