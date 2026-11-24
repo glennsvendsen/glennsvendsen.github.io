@@ -283,8 +283,11 @@
   onceVisible(sketches, (sk) => sk.classList.add('is-drawn'), reduceMotion ? 0 : 0.75);
 
   /* ── PORTRAIT DOODLE ─────────────────────── */
-  // Hover draws the coffee cup; on touch screens it draws itself once in view.
-  if (!finePointer) onceVisible(document.querySelectorAll('.portrait'), (el) => el.classList.add('is-playing'), 0.6);
+  // The print develops once it's well in view. Hover draws the coffee cup; on touch screens it draws itself too.
+  onceVisible(document.querySelectorAll('.portrait'), (el) => {
+    el.classList.add('is-developed');
+    if (!finePointer) el.classList.add('is-playing');
+  }, 0.5);
 
   /* ── COPY EMAIL ──────────────────────────── */
   // The button ships hidden; it only appears where the Clipboard API exists.

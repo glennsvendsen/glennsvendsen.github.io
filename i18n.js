@@ -21,6 +21,8 @@ window.I18N = {
     'sky.aurora': 'nordlysvær',
 
     'about.alt': 'Portrett av Glenn Svendsen',
+    'about.caption': 'Det er meg.',
+    'about.note': 'fremkalt i dagslys',
     'about.title': 'Hei, jeg er Glenn.',
     'about.p1': 'Jeg er en produktperson i Oslo. Jeg liker å ta kompliserte systemer og få dem til å føles enkle, og jeg trives best et sted mellom de som bruker noe og de som lager det.',
     'about.p2': 'Ved siden av lager jeg små apper og spill, som regel med AI som makker, for å lære hva som er mulig og holde fingrene i det. Borte fra skjermen er jeg ute og løper, halvveis opp et fjell, eller pusser på en motorsykkel jeg heller burde kjørt.',

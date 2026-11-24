@@ -207,8 +207,12 @@
   <section id="about" class="section">
     <div class="wrap about">
       <figure class="portrait reveal">
-        <img src="profile.jpg" alt="Portrait of Glenn Svendsen" data-i18n-attr="alt:about.alt" width="1000" height="1000" loading="lazy" decoding="async">
-        <svg class="doodle" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <span class="tape tape--a" aria-hidden="true"></span>
+        <span class="tape tape--b" aria-hidden="true"></span>
+        <div class="print">
+          <div class="print-photo">
+            <img src="profile.jpg" alt="Portrait of Glenn Svendsen" data-i18n-attr="alt:about.alt" width="960" height="1200" loading="lazy" decoding="async">
+            <svg class="doodle" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
             <path class="pp-body" d="M 62 68 C 61 77, 61 84, 62 89 C 68 92, 80 92, 86 89 C 87 84, 87 77, 86 68" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
             <path class="pp-rim" d="M 62 68 C 67 65, 81 65, 86 68 C 81 71, 67 71, 62 68" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round"/>
             <path class="pp-handle" d="M 86 73 C 93 73, 93 84, 86 84" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round"/>
@@ -222,6 +226,13 @@
             <path class="pp-d4" d="M 7 93 C 22 90, 45 95, 62 92 S 82 89, 93 92" fill="none" stroke="currentColor" stroke-width="0.9" stroke-linecap="round" opacity="0.8"/>
             <path class="pp-d5" d="M 10 95 C 25 92, 47 97, 64 94 S 83 91, 93 94" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
           </svg>
+          </div>
+          <figcaption class="print-caption" data-i18n="about.caption">That's me.</figcaption>
+        </div>
+        <span class="portrait-note mono" aria-hidden="true">
+          <svg viewBox="0 0 60 40"><path pathLength="1" d="M4 6 C20 0, 44 6, 52 30 M52 30 L44 25 M52 30 L54 21"/></svg>
+          <span data-i18n="about.note">developed in daylight</span>
+        </span>
       </figure>
       <div class="about-text reveal">
         <h2 class="title" data-i18n="about.title">Hi, I'm Glenn.</h2>

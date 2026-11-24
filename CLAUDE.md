@@ -48,6 +48,9 @@ Local preview: `python3 -m http.server 8000`
   (`.pen path`, `pathLength="1"`). `write()` in main.js times each stroke by length, applies the mask
   while writing and removes it after, so the exact outline shows. Hero plays once per session;
   the footer sign-off plays when scrolled into view. The header wordmark is `<use href="#sig">`.
+- **Portrait** (`.portrait`): a taped polaroid. The photo "develops" (washed-out, blurred proof → colour via a
+  CSS filter transition) when `.is-developed` is added by main.js; hover straightens it and draws the coffee
+  doodle; the "developed in daylight" arrow note shows only ≥1100px. `profile.jpg` is 4:5 (960×1200), < 200 KB.
 - **Skyline** (`.land`): layers `layer--sky|far|mid|near` parallax on scroll (scroll-driven
   animations), draw in on first load (`.is-drawing` → `.is-drawn`), and `.life` holds the ferry,
   sailboat, gulls; the City Hall flag is the accent. `.fill` paths are paper silhouettes.
