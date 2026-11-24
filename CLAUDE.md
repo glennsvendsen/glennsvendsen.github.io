@@ -70,10 +70,13 @@ Local preview: `python3 -m http.server 8000`
   east-to-west arcs (the panorama faces north, so only the timing is real), draws the phase into `.moon .lit`,
   shows the moon (`data-moon`) whenever it is above the horizon (pale by day), names the phase in the clock line
   at night, and keeps both arcs inside the visible part of the panorama on narrow screens (`arcScale`). Aurora on
-  winter nights; at golden hour (dusk/dawn, not overcast) `.afterglow`, a warm haze behind the skyline, follows
+  winter nights (painted decoration for clear, dark winter nights, not real aurora data, and the text says so); at golden hour (dusk/dawn, not overcast) `.afterglow`, a warm haze behind the skyline, follows
   the sun (`data-glow`). The City Hall clock hands (`.hand--hour/--min`, `data-pivot`, rotated in `updateSky`)
   show the same Oslo time.
   Debug on localhost: `?hour=22.5&month=1`, or a whole date `?date=2026-11-24&hour=16.5` (full moon that day).
+- **How this page works**: a footer button (`.how-btn`) opens `#how`, a taped index card in a native popover.
+  Static text is `data-i18n="how.*"`; the "Right now" rows (`.hl-sun/.hl-moon/.hl-oslo`) are filled by `updateSky`
+  from the same astronomy and weather that drive the sky. Keep it honest: only the weather is fetched.
 - **Sketches** (`.sketch`, the Life section): `.ink` strokes get pathLength="1" + ghost copies from
   main.js and draw with scroll (`view()` timeline; IntersectionObserver fallback). `.is-drawn` starts
   one looping detail per sketch (CSS, keyed by `.sketch-card--run|hike|board|bike|camera|music`; paused

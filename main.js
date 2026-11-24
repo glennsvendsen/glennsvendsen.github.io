@@ -313,6 +313,9 @@
     moonFace.setAttribute('transform', `rotate(${rot.toFixed(1)})`);
   };
   let sunCache = { mid: 0, times: null };
+  const liveSun = document.querySelector('.hl-sun');
+  const liveMoon = document.querySelector('.hl-moon');
+  const liveOslo = document.querySelector('.hl-oslo');
   const updateSky = () => {
     const { hour, month, label, day, ms, mid } = osloNow();
     if (day) land.dataset.day = day; else delete land.dataset.day;
@@ -330,16 +333,17 @@
     let moonX = null;
     let moonY = null;
     let phaseName = '';
-    if (Astro && Astro.moonAlt(ms) > 0) {
-      const moon = Astro.moonInfo(ms);
+    const moon = Astro ? Astro.moonInfo(ms) : null;
+    const moonUp = !!moon && Astro.moonAlt(ms) > 0;
+    const phaseKey = moon ? phaseOf(moon.phase) : '';
+    if (moonUp) {
       const span = Astro.moonSpan(ms);
       const t = span.rise && span.set ? Math.min(1, Math.max(0, (ms - span.rise) / (span.set - span.rise))) : 0.5;
       moonX = 600 + (510 - 1020 * t) * arcScale();
       moonY = 92 - 62 * Math.min(1, Math.max(0, moon.alt) / 55);       // real height: a low summer full moon, a high winter one
       place('.moon', moonX, moonY);
       drawMoon(moon);
-      const k = phaseOf(moon.phase);
-      phaseName = tr(`moon.${k}`, PHASES[k]);
+      phaseName = tr(`moon.${phaseKey}`, PHASES[phaseKey]);
       land.dataset.moon = '';
     } else delete land.dataset.moon;
     let sky;
@@ -360,7 +364,8 @@
       const winter = month >= 9 || month <= 3;
       const dark = ((hour - set + 24) % 24) > 1 && ((rise - hour + 24) % 24) > 1;
       const clearish = !weather || (weather.wx === 'clear' || (weather.wx === 'cloud' && weather.clouds < 2));
-      if (winter && dark && clearish) { land.dataset.aurora = ''; note = tr('sky.aurora', 'aurora weather'); } else delete land.dataset.aurora;
+      // The aurora is a painted effect for clear, dark winter nights, not real aurora data, so the text only says that.
+      if (winter && dark && clearish) { land.dataset.aurora = ''; if (!phaseName) note = tr('sky.clear', 'clear winter night'); } else delete land.dataset.aurora;
     }
     // The sun's or the moon's reflection in the water (none when neither is up).
     const gx = sky === 'night' ? moonX : x;
@@ -390,6 +395,21 @@
     }
     clock.querySelector('.clock-sky').textContent = `· ${note}`;
     clock.hidden = false;
+    // "How this page works": what is driving the sky right now.
+    if (liveSun) {
+      const hm = (h) => { const m = Math.round(h * 60); return `${String(Math.floor(m / 60) % 24).padStart(2, '0')}:${String(m % 60).padStart(2, '0')}`; };
+      liveSun.textContent = `↑ ${hm(rise)}  ↓ ${hm(set)}`;
+      liveMoon.textContent = !moon ? '–' : `${tr(`moon.${phaseKey}`, PHASES[phaseKey])} · ${moonUp ? `${Math.round(moon.alt)}° ${tr('how.up', 'up')}` : tr('how.below', 'below the horizon')}`;
+      const wxWord = !weather ? '' : {
+        clear: tr('wx.clear', 'clear'),
+        cloud: weather.clouds >= 3 ? tr('wx.overcast', 'overcast') : tr('wx.cloud', 'partly cloudy'),
+        fog: tr('wx.fog', 'foggy'),
+        rain: weather.intensity === 'light' ? tr('wx.drizzle', 'drizzle') : tr('wx.rain', 'raining'),
+        snow: tr('wx.snow', 'snowing'),
+        storm: tr('wx.storm', 'thunder'),
+      }[weather.wx] || '';
+      liveOslo.textContent = weather && typeof weather.temp === 'number' ? `${Math.round(weather.temp)}° · ${wxWord}` : '–';
+    }
   };
   updateSky();
   let resizing = 0;
