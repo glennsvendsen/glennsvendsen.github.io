@@ -194,6 +194,13 @@
   const clock = document.querySelector('.hero-clock');
   const updateSky = () => {
     const { hour, month, label } = osloNow();
+    // The City Hall clock shows the time in Oslo.
+    const hourHand = land.querySelector('.hand--hour');
+    const minHand = land.querySelector('.hand--min');
+    if (hourHand && minHand) {
+      hourHand.setAttribute('transform', `rotate(${((hour % 12) * 30).toFixed(1)} 608 106)`);
+      minHand.setAttribute('transform', `rotate(${((hour % 1) * 360).toFixed(1)} 608 106)`);
+    }
     const [rise, set] = SUN[month - 1];
     let sky;
     let note;

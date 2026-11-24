@@ -251,6 +251,8 @@ p { text-wrap: pretty; }
 .fjord .ink { filter: url(#sketch-rough); }
 .fjord .ink path { stroke-width: 1.5; }
 .fjord .ink .thin { stroke-width: 1; stroke-opacity: 0.75; }
+.fjord .ink .hand { stroke-width: 1.2; stroke-opacity: 0.95; }
+.fjord .ink .hand--hour { stroke-width: 1.5; }
 .fjord .ink .trees { stroke-opacity: 0.6; fill: var(--paper); }
 .fjord .ink .trees--back { stroke-opacity: 0.35; }
 .fjord .fill { fill: var(--paper); stroke: none; }

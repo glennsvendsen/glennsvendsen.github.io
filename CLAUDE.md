@@ -57,7 +57,8 @@ Local preview: `python3 -m http.server 8000`
   animations), draw in on first load (`.is-drawing` → `.is-drawn`), and `.life` holds the ferry,
   sailboat, gulls; the City Hall flag is the accent. `.fill` paths are paper silhouettes.
 - **Sky**: main.js places sun/moon by the real time in Oslo (`Intl`, `Europe/Oslo`) and a month table of
-  sunrise/sunset; aurora on winter nights. Debug on localhost: `?hour=22.5&month=1`.
+  sunrise/sunset; aurora on winter nights. The City Hall clock hands (`.hand--hour/--min`, rotated in `updateSky`) show the same Oslo time.
+  Debug on localhost: `?hour=22.5&month=1`.
 - **Sketches** (`.sketch`, the Life section): `.ink` strokes get pathLength="1" + ghost copies from
   main.js and draw with scroll (`view()` timeline; IntersectionObserver fallback). `.is-drawn` starts
   one looping detail per sketch (CSS, by `:nth-child`). Classes: `.thin`, `.accent`, `.notes`, `.trail`.
