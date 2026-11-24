@@ -38,7 +38,7 @@ window.I18N = {
     'card.6': 'Norske folkeeventyr som lærer barn å lese',
 
     'sketches.kicker': 'På fritiden',
-    'sketches.title': 'Fra skisseboka.',
+    'sketches.title': 'Borte fra skjermen.',
     'sketches.intro': 'Når jeg ikke lager noe, er jeg som regel ute et sted. Resten av tiden lager jeg noe lite som nok ikke trengte en datamaskin.',
     'sketch.1.title': 'Løping',
     'sketch.1.text': 'Sakte nok til å tenke, raskt nok til å kalle det trening. De beste ideene dukker gjerne opp rundt femte kilometer, uten noe å skrive dem ned på.',
