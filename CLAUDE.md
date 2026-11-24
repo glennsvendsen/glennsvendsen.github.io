@@ -18,7 +18,7 @@ Local preview: `python3 -m http.server 8000`
 - `i18n.js` — Norwegian (Bokmål) strings for the EN/NO switch; English is the HTML itself
 - `work/` — "Earlier work": the old PM content (six case studies, colleague quotes) re-told in the new
   design. Hand-written `work/index.html` that shares `../style.css` (the "WORK PAGE" block) and
-  `../main.js` (null-safe on pages without the hero). English only, `noindex`, linked from the footer.
+  `../main.js` (null-safe on pages without the hero) and `../i18n.js` (keys `w.*`; the colleagues' quotes stay in English). `noindex`, linked from the footer.
   Quotes are taped index cards (`.note`), cases are `.case` rows with `.case-stats`.
 - `work/archive/` — **frozen copy of the original v1 site** (interactive case-study demos) with its own
   old `style.css`/`main.js`; linked from the end of the case list. Don't restyle it. Also tagged `v1-portfolio`.
@@ -80,7 +80,12 @@ Local preview: `python3 -m http.server 8000`
 - **Language (EN/NO)**: text that should translate gets `data-i18n="key"` (swaps innerHTML) or
   `data-i18n-attr="attr:key"`; add the key to `i18n.js`. Strings made in JS go through `tr(key, english)`
   and re-render via `langListeners`. Choice is saved in `localStorage.lang`; first visits follow the
-  browser's languages (nb/nn/no → Norwegian). `/work/` stays English only.
+  browser's languages (nb/nn/no → Norwegian). `/work/` has its own switch and follows the same saved choice (the archive stays English).
+- **Night lights & days of the year**: `.lights` windows glow after dark (`data-lights` on|late from
+  `updateSky`). `data-day` (17mai | jul | nyttar, from the Oslo date) shows rooftop flags, a Christmas tree on
+  Rådhusplassen or fireworks; on snowy days (`data-cover`) a ski jumper leaves Holmenkollen now and then.
+  Debug on localhost: `?day=17mai|jul|nyttar`.
+- **Fonts** are self-hosted in `fonts/` (woff2, Latin subset; `@font-face` at the top of style.css).
 - Console: a GS greeting plus a hidden `coffee()` command (tracked as `console-coffee`).
 
 ## Adding a side project

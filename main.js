@@ -181,7 +181,7 @@
     const params = new URLSearchParams(location.search);
     const local = /^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname);
     const parts = Object.fromEntries(new Intl.DateTimeFormat('en-GB', {
-      timeZone: 'Europe/Oslo', hour: 'numeric', minute: 'numeric', month: 'numeric', hourCycle: 'h23',
+      timeZone: 'Europe/Oslo', hour: 'numeric', minute: 'numeric', month: 'numeric', day: 'numeric', hourCycle: 'h23',
     }).formatToParts(new Date()).map((p) => [p.type, p.value]));
     let hour = +parts.hour + parts.minute / 60;
     let month = +parts.month;
@@ -191,7 +191,14 @@
       label = `${String(Math.floor(hour)).padStart(2, '0')}:${String(Math.round((hour % 1) * 60)).padStart(2, '0')}`;
     }
     if (local && params.has('month')) month = +params.get('month');
-    return { hour, month, label };
+    // Days of the year: 17 May, Christmas (1 Dec to 6 Jan), New Year's Eve night.
+    const date = +parts.day;
+    let day = '';
+    if (month === 5 && date === 17) day = '17mai';
+    else if ((month === 12 && date === 31 && hour >= 20) || (month === 1 && date === 1 && hour < 2)) day = 'nyttar';
+    else if (month === 12 || (month === 1 && date <= 6)) day = 'jul';
+    if (local && params.has('day')) day = params.get('day');   // debug: ?day=17mai|jul|nyttar
+    return { hour, month, label, day };
   };
   /* Weather in Oslo (Open-Meteo, free, no key, no cookies; CC BY 4.0, credited in the footer).
      One request per visit, cached for 30 minutes. Any failure leaves the clear sky as it is.
@@ -268,7 +275,8 @@
   const place = (sel, x, y) => land.querySelector(sel).setAttribute('transform', `translate(${x.toFixed(1)} ${y.toFixed(1)})`);
   const clock = document.querySelector('.hero-clock');
   const updateSky = () => {
-    const { hour, month, label } = osloNow();
+    const { hour, month, label, day } = osloNow();
+    if (day) land.dataset.day = day; else delete land.dataset.day;
     // The City Hall clock shows the time in Oslo.
     const hourHand = land.querySelector('.hand--hour');
     const minHand = land.querySelector('.hand--min');
@@ -302,6 +310,10 @@
     }
     place('.glint', x, 206 + Math.max(0, 150 - y) * 0.1);
     land.dataset.sky = sky;
+    // Windows light up after dark; after half past eleven most go out again.
+    if (sky === 'day') delete land.dataset.lights;
+    else if (sky === 'dusk') land.dataset.lights = 'dusk';   // the first few, faint, as the light goes
+    else land.dataset.lights = hour >= 23.5 || hour < 5.5 ? 'late' : 'on';
     clock.querySelector('.clock-time').textContent = label;
     if (weather) {
       const wxNote = {

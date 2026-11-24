@@ -457,8 +457,76 @@ flag = f'''
             <path class="nf-edge" d="{frect(0, 0, 22, 16)}"/>
           </g>'''
 
+# ── Night lights ────────────────────────────────
+# Windows that glow after dark (main.js sets data-lights="on" in the evening, "late" after
+# midnight, when only the l2 windows stay lit). Drawn as small warm rectangles over the ink.
+r = rng(101)
+def windows(cells, keep=0.55, late=0.35, dx=0):
+    lit = []
+    for (x, y, w, h) in cells:
+        k = next(r)
+        if k > keep:
+            continue
+        cls = 'l2' if next(r) < late else 'l1'
+        lit.append((cls, f'M{x + dx:.1f} {y:.1f} h{w} v{h} h{-w} Z'))
+    return lit
+cells_city = (
+    [(x - 1.3, y + 0.5, 2.6, 8) for x in (539, 545.5, 552, 558.5) for y in (101, 115, 131, 147, 163, 179)]
+    + [(x - 1.3, y + 0.5, 2.6, 8) for x in (597, 603, 613, 619) for y in (125, 141, 157, 173)]
+    + [(x, y, 2.2, 3) for x in (843.2, 847.6, 852.6, 857) for y in range(106, 190, 7)]
+    + [(x, y, 2.4, 3) for x in (1013.5, 1018.6, 1023.6, 1028.6, 1033.4, 1037) for y in range(132, 190, 7)]
+    + [(1048.6, y, 2.4, 3) for y in range(144, 190, 7)] + [(x, y, 2.4, 3) for x in (1058.4, 1062) for y in range(126, 190, 7)]
+    + [(x, y, 2.4, 3) for x in (1070.4, 1074) for y in range(136, 190, 7)]
+    + [(x, 159, 2.4, 4.5) for x in (690.8, 696.8, 704.8, 712.8, 720.8)]
+    + [(x, y, 3, 3) for x in (474.5, 491, 497) for y in (178, 186)] + [(x, 186, 4, 3) for x in (766, 806, 812)]
+    + [(x, 177, 3, 3) for x in (946, 958, 970)])
+lit = windows(cells_city, dx=CITY_DX)
+lit += windows([(sx, sy - 10, 1.6, 3) for sx in list(range(sx0 + 3, int(sc) - 7, 4)) + list(range(int(sc) + 8, sx1 - 2, 4))]
+               + [(sx, sy - 5, 1.6, 3) for sx in list(range(sx0 + 3, int(sc) - 7, 4)) + list(range(int(sc) + 8, sx1 - 2, 4))], keep=0.5)
+lit.append(('l1', f'M{rx0 + 2} {ry - 12:.1f} h{rx1 - rx0 - 3} v1.8 h{-(rx1 - rx0 - 3)} Z'))   # the restaurant's ribbon window
+lit.append(('l2', f'M{sc - 2.6:.1f} {sy - 24.5:.1f} h5.2 v5 h-5.2 Z'))                       # Sjømannsskolen's tower
+lights = ''.join(f'\n        <path class="{c}" d="{d}"/>' for c, d in lit)
+# their reflections: short warm strokes in the water under the lit buildings
+lights_reflect = shift_d('M541 201 L541 206 M552 202 L552 210 M603 201 L603 207 M613 202 L613 212 M851 201 L851 209 '
+                         'M1020 202 L1020 208 M1030 201 L1030 211 M1060 202 L1060 207 M700 201 L700 205', CITY_DX)
+
+# ── Days of the year (main.js sets data-day on .land from the date in Oslo) ──
+def mini_flag(x, y, k=0.32):
+    """A small Norwegian flag on a short pole whose foot is at (x, y)."""
+    w, h = 22 * k, 16 * k
+    top = y - 9
+    def fr(a, b, c, d):
+        return f'M{x + a * k:.2f} {top + b * k:.2f} h{c * k:.2f} v{d * k:.2f} h{-c * k:.2f} Z'
+    return (f'<path class="pole" d="M{x} {y} L{x} {top}"/>'
+            f'<path class="nf-red" d="{fr(0, 0, 22, 16)}"/>'
+            f'<path class="nf-white" d="{fr(6, 0, 4, 16)} {fr(0, 6, 22, 4)}"/>'
+            f'<path class="nf-blue" d="{fr(7, 0, 2, 16)} {fr(0, 7, 22, 2)}"/>')
+# 17 May: flags on the rooftops (City Hall's own flag grows in CSS)
+may17 = ''.join(mini_flag(x + dx, y) for x, y, dx in [
+    (548, 92, CITY_DX), (694, 116, CITY_DX), (721, 102, CITY_DX), (851, 100, CITY_DX), (953, 152, CITY_DX),
+    (1034, 104, CITY_DX), (1061, 122, CITY_DX), (sc, sy - 45, 0), (rx0 + 6, ry - 18, 0), (472, 170, CITY_DX)])
+# Christmas: a tree on Rådhusplassen, in front of City Hall, with lights and a star
+tx_ = 577 + CITY_DX
+tree = (f'M{tx_} 170 L{tx_ + 5} 178 L{tx_ + 3} 178 L{tx_ + 8} 186 L{tx_ + 5} 186 L{tx_ + 10} 194 L{tx_ + 1.2} 194 '
+        f'L{tx_ + 1.2} 197 L{tx_ - 1.2} 197 L{tx_ - 1.2} 194 L{tx_ - 10} 194 L{tx_ - 5} 186 L{tx_ - 8} 186 L{tx_ - 3} 178 L{tx_ - 5} 178 Z')
+tree_lights = ' '.join(circle(tx_ + ox, y, 0.7) for ox, y in [(-2, 177), (2.5, 181), (-4, 184), (1, 186), (5, 189), (-6, 191), (-1, 191), (3, 193)])
+star = f'M{tx_} 165.5 L{tx_ + 1.1} 168.4 L{tx_ + 3.2} 168.6 L{tx_ + 1.5} 170.2 L{tx_ + 2} 172.6 L{tx_} 171.3 L{tx_ - 2} 172.6 L{tx_ - 1.5} 170.2 L{tx_ - 3.2} 168.6 L{tx_ - 1.1} 168.4 Z'
+jul = (f'<path class="tree" d="{tree}"/><path class="thin" d="M{tx_ - 7} 189 C{tx_ - 2} 191, {tx_ + 3} 188, {tx_ + 7} 189 '
+       f'M{tx_ - 5} 182 C{tx_ - 1} 184, {tx_ + 2} 181, {tx_ + 5} 182"/><path class="bulbs" d="{tree_lights}"/><path class="star" d="{star}"/>')
+# New Year's Eve: fireworks over the fjord
+def burst(cx, cy, rr, n, cls):
+    rays = ' '.join(f'M{cx + math.cos(a) * rr * 0.35:.1f} {cy + math.sin(a) * rr * 0.35:.1f} L{cx + math.cos(a) * rr:.1f} {cy + math.sin(a) * rr:.1f}'
+                    for a in [i * 2 * math.pi / n for i in range(n)])
+    return f'<g class="burst {cls}" style="transform-origin: {cx}px {cy}px"><path d="{rays}"/></g>'
+fireworks = (burst(330, 58, 22, 14, 'b1') + burst(700, 36, 28, 16, 'b2') + burst(930, 66, 18, 12, 'b3')
+             + burst(520, 74, 14, 10, 'b4') + burst(1080, 44, 20, 14, 'b5'))
+# Snowy days: a ski jumper leaves the Holmenkollen take-off now and then (main.js-free: CSS only)
+jumper = (f'<g class="jumper"><path d="M{tx - 3} {tyo - 6.5:.1f} L{tx + 3.5} {tyo - 8:.1f} M{tx - 2.6} {tyo - 5.6:.1f} L{tx + 4} {tyo - 7.2:.1f} '
+          f'M{tx + 0.4} {tyo - 7:.1f} L{tx + 2.4} {tyo - 11:.1f} M{tx + 2.4} {tyo - 11:.1f} L{tx + 3.2} {tyo - 12.4:.1f}"/></g>')
+jump_dx, jump_dy = lx - tx - 6, ly - tyo + 4
+
 life = '''
-        <g class="ferry"><g transform="translate(0 212)"><path d="M0 0 L46 0 L41 7 L5 7 Z M10 0 L10 -6 L36 -6 L36 0 M14 -3 L16 -3 M20 -3 L22 -3 M26 -3 L28 -3 M26 -6 L26 -11 L31 -11 L31 -6"/></g></g>
+        <g class="ferry"><g transform="translate(0 212)"><path d="M0 0 L46 0 L41 7 L5 7 Z M10 0 L10 -6 L36 -6 L36 0 M14 -3 L16 -3 M20 -3 L22 -3 M26 -3 L28 -3 M26 -6 L26 -11 L31 -11 L31 -6"/><path class="ferry-lit" d="M13 -4.5 h4 v3 h-4 Z M19 -4.5 h4 v3 h-4 Z M25 -4.5 h4 v3 h-4 Z M27.4 -13.2 h2.2 v2.2 h-2.2 Z"/></g></g>
         <g transform="translate(790 208)"><g class="sailboat"><path d="M-20 0 C-12 8, 12 8, 22 0 Z M0 0 L0 -30 M0 -28 L16 -4 L0 -4 Z"/></g></g>
         <g class="gulls"><path d="M0 0 C3 -4, 7 -4, 10 0 C13 -4, 17 -4, 20 0" transform="translate(380 56)"/><path d="M0 0 C2 -3, 5 -3, 7 0 C9 -3, 12 -3, 14 0" transform="translate(410 46)"/></g>'''
 
@@ -521,6 +589,8 @@ markup = f'''<!-- LAND -->
             <path class="thin" d="M-5 -2a1.8 1.8 0 1 0 .1 0M2 8a1.2 1.2 0 1 0 .1 0"/>
           </g>
         </g>
+        <g class="layer layer--sky day day-nyttar">{fireworks}
+        </g>
         <g class="layer layer--sky wx-clouds">{clouds}
         </g>
         <g class="layer layer--back ink">{back}
@@ -531,11 +601,21 @@ markup = f'''<!-- LAND -->
         </g>
         <g class="layer layer--far cover">{far_cover}
         </g>
+        <g class="layer layer--far jumper-layer" style="--jx: {jump_dx:.0f}px; --jy: {jump_dy:.0f}px">{jumper}
+        </g>
         <g class="layer layer--mid ink">{mid}
         </g>
         <g class="layer layer--mid cover">{mid_cover}
         </g>
+        <g class="layer layer--mid lights">{lights}
+        </g>
+        <g class="layer layer--near lights lights-reflect"><path d="{lights_reflect}"/>
+        </g>
         <g class="layer layer--mid flagpole">{flag}
+        </g>
+        <g class="layer layer--mid day day-17mai">{may17}
+        </g>
+        <g class="layer layer--mid day day-jul">{jul}
         </g>
         <g class="layer layer--near ink">{near}
         </g>
