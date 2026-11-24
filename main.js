@@ -119,16 +119,19 @@
   /* ── SIGNATURE ───────────────────────────── */
   // Each stroke takes time in proportion to its length (a steady pen), with a short lift
   // between strokes. Paths carry pathLength="1", so CSS animates stroke-dashoffset 1 → 0.
-  const write = (svg, { speed = 520, lift = 0.07, onDone = () => {} } = {}) => {
+  // maxTotal caps the whole signature: a long one simply gets a quicker pen.
+  const write = (svg, { speed = 520, lift = 0.07, maxTotal = Infinity, onDone = () => {} } = {}) => {
     const ink = svg.querySelector('.sig-ink');
     const paths = [...svg.querySelectorAll('.pen path')];
+    const lens = paths.map((p) => p.getTotalLength());
+    const natural = lens.reduce((sum, len) => sum + Math.max(0.06, len / speed) + lift, 0);
+    const k = natural > maxTotal ? maxTotal / natural : 1;
     let t = 0;
-    paths.forEach((p) => {
-      const len = p.getTotalLength();
-      const dur = Math.max(0.08, len / speed);
+    paths.forEach((p, i) => {
+      const dur = Math.max(0.06, lens[i] / speed) * k;
       p.style.setProperty('--delay', `${t.toFixed(3)}s`);
       p.style.setProperty('--dur', `${dur.toFixed(3)}s`);
-      t += dur + lift;
+      t += dur + lift * k;
     });
     ink.setAttribute('mask', ink.dataset.mask);
     svg.classList.add('is-writing');
@@ -155,17 +158,17 @@
     hero.classList.add('is-in');
     land.classList.add('is-drawn');
   } else {
-    const total = write(heroSig, { speed: 300 });
-    const start = Math.min(total * 0.45, 1.4) * 1000;
-    setTimeout(() => hero.classList.add('is-in'), Math.min(total * 0.7, 1.8) * 1000);
+    const total = write(heroSig, { speed: 520, lift: 0.04, maxTotal: 1.6 });
+    const start = Math.min(total * 0.3, 0.8) * 1000;
+    setTimeout(() => hero.classList.add('is-in'), Math.min(total * 0.5, 1) * 1000);
     setTimeout(() => land.classList.add('is-drawing'), start);
-    setTimeout(() => { land.classList.add('is-drawn'); land.classList.remove('is-drawing'); }, start + 3100);
+    setTimeout(() => { land.classList.add('is-drawn'); land.classList.remove('is-drawing'); }, start + 2100);
   }
   const signoff = document.querySelector('.signature--signoff');
   if (signoff && !reduceMotion) {
     const ink = signoff.querySelector('.sig-ink');
     ink.style.opacity = '0';
-    onceVisible([signoff], () => { ink.style.opacity = ''; write(signoff, { speed: 380 }); }, 0.8);
+    onceVisible([signoff], () => { ink.style.opacity = ''; write(signoff, { speed: 600, lift: 0.04, maxTotal: 1.4 }); }, 0.8);
   }
 
   /* ── SKY OVER THE FJORD ──────────────────── */
@@ -384,7 +387,11 @@
     });
     sk.querySelectorAll('.ink > *, .notes path').forEach((el) => el.setAttribute('pathLength', '1'));
   });
-  onceVisible(sketches, (sk) => sk.classList.add('is-drawn'), reduceMotion ? 0 : 0.75);
+  onceVisible(sketches, (sk) => sk.classList.add('is-drawn'), reduceMotion ? 0 : 0.4);
+  // Looping details pause while their sketch is off-screen.
+  const pauser = new IntersectionObserver((entries) => entries.forEach((e) => e.target.classList.toggle('is-paused', !e.isIntersecting)));
+  sketches.forEach((sk) => pauser.observe(sk));
+
 
   /* ── PORTRAIT DOODLE ─────────────────────── */
   // The print develops once it's well in view; the speech bubble pops up after.

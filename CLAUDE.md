@@ -67,7 +67,10 @@ Local preview: `python3 -m http.server 8000`
   Debug on localhost: `?hour=22.5&month=1`.
 - **Sketches** (`.sketch`, the Life section): `.ink` strokes get pathLength="1" + ghost copies from
   main.js and draw with scroll (`view()` timeline; IntersectionObserver fallback). `.is-drawn` starts
-  one looping detail per sketch (CSS, by `:nth-child`). Classes: `.thin`, `.accent`, `.notes`, `.trail`.
+  one looping detail per sketch (CSS, keyed by `.sketch-card--run|hike|board|bike|camera|music`; paused
+  off-screen via `.is-paused`). Classes: `.thin`, `.accent`, `.notes`, `.trail`. The turntable sketch is an
+  `<a class="sketch sketch-link">` to the Spotify playlist (mouse shortcut, `tabindex=-1`; the inline link
+  in the text is the accessible one); its `.platter` group spins.
 - **Project cards** (`.card` in `.cards`): container queries, `:has()` dims siblings on hover, pointer
   tilt via `@property --rx/--ry`, and the ink-bleed reveal (`.plate.will-bleed` → `.is-bleeding`,
   `#ink-bleed` filter + growing radial mask).

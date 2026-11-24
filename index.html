@@ -38,7 +38,12 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Instrument+Sans:wght@400;500;600&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://api.open-meteo.com" crossorigin>
   <link rel="stylesheet" href="style.css">
+  <!-- Prerender "Earlier work" as soon as someone shows intent (hover / touch), so it opens instantly. -->
+  <script type="speculationrules">
+  { "prerender": [{ "where": { "href_matches": "/work/*" }, "eagerness": "moderate" }] }
+  </script>
   <!-- Cookie-free analytics (Umami). Only counts visits on the live domain. -->
   <script defer src="https://cloud.umami.is/script.js" data-website-id="984de795-976a-4859-818a-95177710cb59" data-domains="glennsvendsen.github.io"></script>
 
@@ -324,11 +329,11 @@
       <header class="section-head reveal">
         <p class="kicker mono" data-i18n="sketches.kicker">Off the clock</p>
         <h2 class="title" data-i18n="sketches.title">Away from the screen.</h2>
-        <p class="intro" data-i18n="sketches.intro">When I'm not building something, I'm usually outside, running, hiking or riding my Bonnie. The rest of the time I'm with the family, eating fried rice, and later, once the kids are in bed, enjoying fermented grapes.</p>
+        <p class="intro" data-i18n="sketches.intro">When I'm not building something, I'm usually outside, running, hiking, snowboarding or riding my Bonnie. The rest of the time I'm with the family, eating fried rice, and later, once the kids are in bed, enjoying fermented grapes.</p>
       </header>
 
       <div class="sketch-grid">
-        <article class="sketch-card reveal">
+        <article class="sketch-card sketch-card--run reveal">
           <div class="sketch" aria-hidden="true">
             <svg viewBox="0 0 200 140" xmlns="http://www.w3.org/2000/svg">
               <g class="ink">
@@ -355,7 +360,7 @@
           <p data-i18n="sketch.1.text">Slow enough to think, fast enough to call it training. My better ideas tend to turn up around kilometre five, with nothing to write them down on.</p>
         </article>
 
-        <article class="sketch-card reveal">
+        <article class="sketch-card sketch-card--hike reveal">
           <div class="sketch" aria-hidden="true">
             <svg viewBox="0 0 200 140" xmlns="http://www.w3.org/2000/svg">
               <g class="ink">
@@ -379,7 +384,43 @@
           <p data-i18n="sketch.2.text">Hiking anywhere with a summit and a view that makes the climb look like it was a good idea all along. Being outdoors in general, really.</p>
         </article>
 
-        <article class="sketch-card reveal">
+        <article class="sketch-card sketch-card--board reveal">
+          <div class="sketch" aria-hidden="true">
+            <svg viewBox="0 0 200 140" xmlns="http://www.w3.org/2000/svg">
+              <g class="ink">
+                <path class="thin" d="M96 52 L124 22 L140 38 L160 16 L194 52"/>
+                <path class="thin" d="M118 29 L124 22 L130 28 L126 27 L122 31 Z M154 23 L160 16 L166 22 L162 21 L158 25 Z"/>
+                <path d="M8 124 C60 116, 130 100, 194 84"/>
+                <path class="thin" d="M30 126 L40 124 M78 117 L90 114 M124 106 L136 103 M164 97 L176 94"/>
+                <circle class="thin flake" cx="22" cy="30" r="1.2"/>
+                <circle class="thin flake" cx="52" cy="18" r="1"/>
+                <circle class="thin flake" cx="74" cy="40" r="1.3"/>
+                <circle class="thin flake" cx="38" cy="56" r="1"/>
+                <circle class="thin flake" cx="92" cy="14" r="1.1"/>
+                <circle class="thin flake" cx="12" cy="76" r="1.2"/>
+                <path class="accent" d="M172 74 C176 64, 184 60, 192 58 M168 70 C170 60, 174 54, 180 50 M176 80 C182 74, 190 72, 196 72"/>
+              </g>
+              <g class="ink" transform="rotate(-13 100 90)">
+                <path d="M48 81 C70 83, 130 83, 152 81 C164 80, 170 85, 170 91 C170 97, 164 102, 152 101 C130 99, 70 99, 48 101 C36 102, 30 97, 30 91 C30 85, 36 80, 48 81 Z"/>
+                <path class="thin" d="M40 88 C80 90, 120 90, 160 88"/>
+                <path d="M64 83 L80 83 L80 99 L64 99 Z"/>
+                <path class="thin" d="M64 83 C58 87, 58 95, 64 99 M66 87 L80 86 M66 95 L80 96"/>
+                <path d="M120 83 L136 83 L136 99 L120 99 Z"/>
+                <path class="thin" d="M120 83 C114 87, 114 95, 120 99 M122 87 L136 86 M122 95 L136 96"/>
+              </g>
+              <path class="trail" d="M6 136 C30 134, 18 126, 26 120"/>
+              <g class="notes">
+                <path d="M116 130 L108 108"/>
+                <text x="104" y="137" data-i18n="sketch.board.note">since 1993, still sideways</text>
+              </g>
+            </svg>
+          </div>
+          <p class="eyebrow sketch-fig">Fig. 03</p>
+          <h3 data-i18n="sketch.board.title">Snowboard</h3>
+          <p data-i18n="sketch.board.text">The big love of my life since 1993. Give me a cold, clear morning and the first lift up, and everything else can wait.</p>
+        </article>
+
+        <article class="sketch-card sketch-card--bike reveal">
           <div class="sketch" aria-hidden="true">
             <svg viewBox="0 0 220 140" xmlns="http://www.w3.org/2000/svg">
               <g class="ink">
@@ -420,37 +461,72 @@
               </g>
             </svg>
           </div>
-          <p class="eyebrow sketch-fig">Fig. 03</p>
+          <p class="eyebrow sketch-fig">Fig. 04</p>
           <h3 data-i18n="sketch.3.title">Two wheels</h3>
           <p data-i18n="sketch.3.text">A Triumph Bonneville: classic lines, a parallel twin, and an owner who spends almost as much time looking at it as riding it.</p>
         </article>
 
-        <article class="sketch-card reveal">
+        <article class="sketch-card sketch-card--camera reveal">
           <div class="sketch" aria-hidden="true">
             <svg viewBox="0 0 200 140" xmlns="http://www.w3.org/2000/svg">
               <g class="ink">
-                <path d="M34 66 C34 100, 66 124, 100 124 C134 124, 166 100, 166 66"/>
-                <path d="M34 66 C34 58, 166 58, 166 66 C166 74, 34 74, 34 66 Z"/>
-                <path d="M80 124 L83 131 L117 131 L120 124"/>
-                <path d="M44 64 C49 46, 74 35, 100 35 C126 35, 151 46, 156 64"/>
-                <path d="M122 38 L178 8 M129 42 L184 14"/>
-                <path class="thin" d="M50 88 C72 98, 128 98, 150 88 M60 99 C80 107, 120 107, 140 99"/>
-                <path class="thin" d="M70 58 l5 -2 M84 49 l5 2 M100 44 l5 -3 M112 51 l5 2 M132 56 l5 -2 M62 66 l5 1 M94 58 l5 -2 M120 64 l5 1 M78 66 l5 -1 M142 66 l5 1 M106 62 l5 1"/>
-                <path class="thin steam" d="M84 30 C78 22, 90 16, 84 8"/>
-                <path class="thin steam" d="M100 28 C94 20, 106 14, 100 6"/>
-                <path class="thin steam" d="M116 30 C110 22, 122 16, 116 8"/>
-                <path class="accent" d="M88 46 l6 -1 l1 5 l-6 1 Z M108 55 l6 1 l-1 5 l-6 -1 Z M70 62 l5 -1 l1 4 l-5 1 Z"/>
-                <path class="accent" d="M128 49 a2.2 2.2 0 1 0 .1 0 M92 62 a2.2 2.2 0 1 0 .1 0 M146 61 a2.2 2.2 0 1 0 .1 0"/>
+                <path d="M38 46 L162 46 C168 46, 170 50, 170 56 L170 104 C170 110, 166 112, 160 112 L40 112 C34 112, 30 108, 30 102 L30 56 C30 50, 32 46, 38 46 Z"/>
+                <path d="M44 46 L44 39 L60 39 L60 46"/>
+                <path d="M106 46 L106 37 L126 37 L126 46"/>
+                <path class="thin" d="M110 37 L110 46 M114 37 L114 46 M118 37 L118 46 M122 37 L122 46"/>
+                <path class="thin" d="M40 56 L62 56 L62 68 L40 68 Z M132 56 L152 56 L152 66 L132 66 Z"/>
+                <path class="thin" d="M30 72 L64 72 M120 72 L170 72 M30 104 L68 104 M116 104 L170 104"/>
+                <circle cx="92" cy="86" r="26"/>
+                <circle class="thin" cx="92" cy="86" r="20"/>
+                <circle cx="92" cy="86" r="12"/>
+                <path class="thin" d="M84 78 C86 76, 90 75, 93 75"/>
+                <path class="thin" d="M30 60 L24 60 C14 42, 20 22, 38 14 M170 60 L176 60 C186 42, 180 22, 162 14"/>
+                <path class="accent" d="M136 46 L136 40 C136 38, 146 38, 146 40 L146 46"/>
               </g>
               <g class="notes">
-                <path d="M60 112 L46 124"/>
-                <text x="8" y="136" data-i18n="sketch.4.note">leftovers: never</text>
+                <path d="M62 126 L74 108"/>
+                <text x="8" y="134" data-i18n="sketch.camera.note">f/8 and be there</text>
               </g>
             </svg>
           </div>
-          <p class="eyebrow sketch-fig">Fig. 04</p>
-          <h3 data-i18n="sketch.4.title">Fried rice</h3>
-          <p data-i18n="sketch.4.text">Dinner with the family, with fried rice whenever I get a say. The one release nobody has ever complained about.</p>
+          <p class="eyebrow sketch-fig">Fig. 05</p>
+          <h3 data-i18n="sketch.camera.title">Photography</h3>
+          <p data-i18n="sketch.camera.text">Where it started: a background in photography, and studies in journalism and political science. I still see the world in frames.</p>
+        </article>
+
+        <article class="sketch-card sketch-card--music reveal">
+          <!-- The drawing is a mouse shortcut; the text link below is the accessible one. -->
+          <a class="sketch sketch-link" href="https://open.spotify.com/playlist/4tz6vP2nloYw6MsF6Q84mq" target="_blank" rel="noopener" tabindex="-1" aria-hidden="true" data-umami-event="sketch-playlist" data-umami-event-from="drawing">
+            <svg viewBox="0 0 200 140" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <g class="ink">
+                <path d="M22 30 L178 30 C184 30, 186 33, 186 38 L186 116 C186 121, 184 124, 178 124 L22 124 C16 124, 14 121, 14 116 L14 38 C14 33, 16 30, 22 30 Z"/>
+                <circle class="thin" cx="80" cy="77" r="42"/>
+                <path class="thin" d="M28 124 L28 128 L40 128 L40 124 M160 124 L160 128 L172 128 L172 124"/>
+                <path class="thin" d="M20 108 L36 108 L36 118 L20 118 Z M42 112 L50 112 L50 118 L42 118 Z M54 112 L62 112 L62 118 L54 118 Z"/>
+                <path class="thin" d="M170 70 L176 70 L176 114 L170 114 Z M168 92 L178 92"/>
+                <circle cx="160" cy="44" r="6"/>
+                <path class="thin" d="M163 38 L166 33 C168 30, 172 31, 171 35 L168 40"/>
+                <path d="M158 49 L148 88 C146 94, 140 96, 132 96"/>
+                <path d="M132 92 L112 94 L112 99 L132 99 Z"/>
+                <path class="thin" d="M152 96 L158 96 L158 102"/>
+              </g>
+              <g class="ink platter">
+                <circle cx="80" cy="77" r="38"/>
+                <circle class="thin" cx="80" cy="77" r="31"/>
+                <circle class="thin" cx="80" cy="77" r="24"/>
+                <circle class="thin" cx="80" cy="77" r="2"/>
+                <path class="thin" d="M58 50 C64 45, 72 42, 80 42"/>
+                <path class="accent" d="M80 66 C86 66, 91 71, 91 77 C91 83, 86 88, 80 88 C74 88, 69 83, 69 77 C69 71, 74 66, 80 66 Z M80 68 L80 72"/>
+              </g>
+              <g class="notes">
+                <path d="M144 18 L136 32"/>
+                <text x="100" y="14" data-i18n="sketch.music.note">33⅓ rpm, side B</text>
+              </g>
+            </svg>
+          </a>
+          <p class="eyebrow sketch-fig">Fig. 06</p>
+          <h3 data-i18n="sketch.music.title">Music</h3>
+          <p data-i18n="sketch.music.text">Something is always playing. Japanese jazz, sixties soul, black metal and most things in between, often in that order. Drop the needle for <a class="link-inline" href="https://open.spotify.com/playlist/4tz6vP2nloYw6MsF6Q84mq" target="_blank" rel="noopener" data-umami-event="sketch-playlist">a playlist I keep coming back to <span aria-hidden="true">↗</span></a>.</p>
         </article>
       </div>
 
