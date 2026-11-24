@@ -290,7 +290,8 @@
     let y;
     if (hour >= rise && hour < set) {
       const t = (hour - rise) / (set - rise);
-      x = 90 + 1020 * t;
+      // Looking north from the fjord: east (sunrise) is on the right, west (sunset) on the left.
+      x = 1110 - 1020 * t;
       y = 150 - Math.sin(Math.PI * t) * 112;
       place('.sun', x, y);
       sky = (hour - rise < 0.7 || set - hour < 0.7) ? 'dusk' : 'day';
@@ -298,7 +299,7 @@
     } else {
       const nightLen = 24 - (set - rise);
       const t = ((hour - set + 24) % 24) / nightLen;
-      x = 90 + 1020 * t;
+      x = 1110 - 1020 * t;   // the moon crosses the same way, east to west
       y = 140 - Math.sin(Math.PI * t) * 98;
       place('.moon', x, y);
       sky = 'night';
@@ -310,6 +311,9 @@
     }
     place('.glint', x, 206 + Math.max(0, 150 - y) * 0.1);
     land.dataset.sky = sky;
+    // Golden hour: a warm glow on the horizon under the sun, unless the sky is grey.
+    const glowWeather = !weather || weather.wx === 'clear' || (weather.wx === 'cloud' && weather.clouds < 3);
+    if (sky === 'dusk' && glowWeather) { land.dataset.glow = ''; place('.glow-sun', Math.min(1080, Math.max(120, x)), 128); } else delete land.dataset.glow;
     // Windows light up after dark; after half past eleven most go out again.
     if (sky === 'day') delete land.dataset.lights;
     else if (sky === 'dusk') land.dataset.lights = 'dusk';   // the first few, faint, as the light goes

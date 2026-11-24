@@ -63,7 +63,7 @@ Local preview: `python3 -m http.server 8000`
   in the `.cover` groups, falling weather in `.wx-front`; all paused when the skyline is off-screen.
   Debug on localhost: `?wx=snow&snow=0.3&ice=2&temp=-8&clouds=2` (wx: clear|cloud|fog|drizzle|rain|snow|storm).
 - **Sky**: main.js places sun/moon by the real time in Oslo (`Intl`, `Europe/Oslo`) and a month table of
-  sunrise/sunset; aurora on winter nights. The City Hall clock hands (`.hand--hour/--min`, `data-pivot`, rotated in `updateSky`) show the same Oslo time.
+  sunrise/sunset; aurora on winter nights; at golden hour (dusk/dawn, not overcast) `.afterglow`, a warm haze behind the skyline, follows the sun (`data-glow`). The City Hall clock hands (`.hand--hour/--min`, `data-pivot`, rotated in `updateSky`) show the same Oslo time.
   Debug on localhost: `?hour=22.5&month=1`.
 - **Sketches** (`.sketch`, the Life section): `.ink` strokes get pathLength="1" + ghost copies from
   main.js and draw with scroll (`view()` timeline; IntersectionObserver fallback). `.is-drawn` starts

@@ -407,6 +407,11 @@ p { text-wrap: pretty; }
 
 /* Aurora: watercolour bands, only on winter nights. */
 .aurora { opacity: 0; transition: opacity 2s; mix-blend-mode: multiply; }
+/* Golden hour: a warm haze low over the horizon around the sun, at sunset and sunrise, in clear-ish
+   weather (data-glow from main.js). Same blending as the aurora: tints paper, lights up night paper. */
+.afterglow { opacity: 0; transition: opacity 3s; mix-blend-mode: multiply; }
+.land[data-glow] .afterglow { opacity: 0.9; }
+:root.is-dark .land[data-glow] .afterglow { opacity: 0.55; mix-blend-mode: screen; }
 @media (prefers-color-scheme: dark) { :root:not([data-theme='light']) .aurora { mix-blend-mode: screen; } }
 :root[data-theme='dark'] .aurora { mix-blend-mode: screen; }
 .land[data-aurora] .aurora { opacity: 0.55; }

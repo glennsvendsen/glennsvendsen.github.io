@@ -572,6 +572,23 @@ markup = f'''<!-- LAND -->
           <path class="ab ab3" d="M320 40 C460 10, 600 60, 760 24 S960 20, 1020 44" stroke-width="10"/>
         </g>
       </svg>
+      <svg class="afterglow" viewBox="0 0 {W} {H}" preserveAspectRatio="xMidYMax slice">
+        <defs>
+          <radialGradient id="glow-sun">
+            <stop offset="0" stop-color="oklch(0.86 0.13 75)" stop-opacity="0.95"/>
+            <stop offset="0.45" stop-color="oklch(0.8 0.11 45)" stop-opacity="0.55"/>
+            <stop offset="1" stop-color="oklch(0.78 0.09 15)" stop-opacity="0"/>
+          </radialGradient>
+          <linearGradient id="glow-band" x1="0" x2="0" y1="0" y2="1">
+            <stop offset="0" stop-color="oklch(0.85 0.08 50)" stop-opacity="0"/>
+            <stop offset="1" stop-color="oklch(0.84 0.1 50)" stop-opacity="0.7"/>
+          </linearGradient>
+        </defs>
+        <g class="layer layer--sky">
+          <rect class="glow-band" x="-200" y="40" width="1600" height="160" fill="url(#glow-band)"/>
+          <g class="glow-sun"><ellipse rx="380" ry="120" fill="url(#glow-sun)"/></g>
+        </g>
+      </svg>
       <svg class="fjord" viewBox="0 0 {W} {H}" preserveAspectRatio="xMidYMax slice">
         <g class="layer layer--sky sky">
           <g class="stars">
