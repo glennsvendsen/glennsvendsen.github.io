@@ -19,6 +19,8 @@ Local preview: `python3 -m http.server 8000`
 - `style.css` — all home page styles
 - `main.js` — progressive enhancement only (the page must read fine without it)
 - `i18n.js` — Norwegian (Bokmål) strings for the EN/NO switch; English is the HTML itself
+- Visit stats: Cloudflare Web Analytics beacon (cookie-free, page views only; token in each page's head).
+  `track()` / `data-umami-event*` are inert leftovers from Umami, kept in case events come back.
 - `privacy/` — the privacy page (GDPR notice), linked from both footers and the form. Same layout as `/work/`
   (`.case` rows + `.policy-text`), keys `p.*`. **Update it whenever the site starts sending data somewhere new**
   (a new service, a new stored key, a change to the form).

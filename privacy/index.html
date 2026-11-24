@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <!-- Security: only this site and the few services listed may load or receive anything. The sha256 hashes are the
        inline <script>s in the two pages' heads; after editing one, recompute (see CLAUDE.md, "Security"). -->
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-yETAa+HQqtQmvBLxFQGBuOAbf30+J/77lKGS6Y1eWtA=' 'sha256-2tPLUO/hIjuJ/qs6ytzM7r9Ay+L05j6mlVIJWGcQlOU=' 'sha256-i+FD+CFcGc/PiZoSrGq6wyRT5U0SHGYlWKS6YoaZkyw=' https://cloud.umami.is https://challenges.cloudflare.com; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; media-src 'self'; connect-src 'self' https://api.open-meteo.com https://cloud.umami.is https://api-gateway.umami.dev https://api.glennsvendsen.com http://localhost:8787; frame-src https://challenges.cloudflare.com; form-action https://api.glennsvendsen.com; base-uri 'none'; object-src 'none'">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-yETAa+HQqtQmvBLxFQGBuOAbf30+J/77lKGS6Y1eWtA=' 'sha256-2tPLUO/hIjuJ/qs6ytzM7r9Ay+L05j6mlVIJWGcQlOU=' 'sha256-i+FD+CFcGc/PiZoSrGq6wyRT5U0SHGYlWKS6YoaZkyw=' https://static.cloudflareinsights.com https://challenges.cloudflare.com; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; media-src 'self'; connect-src 'self' https://api.open-meteo.com https://cloudflareinsights.com https://api.glennsvendsen.com http://localhost:8787; frame-src https://challenges.cloudflare.com; form-action https://api.glennsvendsen.com; base-uri 'none'; object-src 'none'">
   <meta name="referrer" content="strict-origin-when-cross-origin">
   <script>
     (() => {
@@ -29,7 +29,7 @@
   <link rel="preload" href="../fonts/instrument-serif.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="../fonts/instrument-sans.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="../style.css">
-  <script defer src="https://cloud.umami.is/script.js" data-website-id="984de795-976a-4859-818a-95177710cb59" data-domains="www.glennsvendsen.com,glennsvendsen.com,glennsvendsen.github.io"></script>
+  <script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "2c6435467bc74cd3a46978c5bc44e5b8"}'></script>
 </head>
 
 <body class="page-work page-privacy">
@@ -110,7 +110,7 @@
           <div class="case-meta mono"><span class="case-num">04</span><span data-i18n="p.stats.label">Visit stats</span></div>
           <div class="policy-text">
             <h2 class="case-title" data-i18n="p.stats.title">Counting visits</h2>
-            <p data-i18n="p.stats.1">I count visits with Umami, a privacy-friendly analytics service. It uses no cookies, does not store IP addresses and cannot follow you from site to site. It records which pages are viewed, where visitors came from, and the type of browser, device and country, in total, never per person. The legal basis is my legitimate interest in knowing whether anyone reads the site.</p>
+            <p data-i18n="p.stats.1">I count visits with Cloudflare Web Analytics. It uses no cookies, does not store IP addresses or fingerprint your browser, and cannot follow you from site to site. It records which pages are viewed, where visitors came from, and the type of browser, device and country, in total, never per person. The legal basis is my legitimate interest in knowing whether anyone reads the site.</p>
           </div>
         </article>
         <article class="case reveal">
@@ -149,7 +149,7 @@
           </div>
         </article>
         </div>
-        <p class="policy-updated mono" data-i18n="p.updated">Last updated 24 November 2026</p>
+        <p class="policy-updated mono" data-i18n="p.updated">Last updated 25 November 2026</p>
       </div>
     </section>
   </main>

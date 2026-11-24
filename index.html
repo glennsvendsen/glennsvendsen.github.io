@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <!-- Security: only this site and the few services listed may load or receive anything. The sha256 hashes are the
        inline <script>s in the two pages' heads; after editing one, recompute (see CLAUDE.md, "Security"). -->
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-yETAa+HQqtQmvBLxFQGBuOAbf30+J/77lKGS6Y1eWtA=' 'sha256-2tPLUO/hIjuJ/qs6ytzM7r9Ay+L05j6mlVIJWGcQlOU=' 'sha256-i+FD+CFcGc/PiZoSrGq6wyRT5U0SHGYlWKS6YoaZkyw=' https://cloud.umami.is https://challenges.cloudflare.com; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; media-src 'self'; connect-src 'self' https://api.open-meteo.com https://cloud.umami.is https://api-gateway.umami.dev https://api.glennsvendsen.com http://localhost:8787; frame-src https://challenges.cloudflare.com; form-action https://api.glennsvendsen.com; base-uri 'none'; object-src 'none'">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-yETAa+HQqtQmvBLxFQGBuOAbf30+J/77lKGS6Y1eWtA=' 'sha256-2tPLUO/hIjuJ/qs6ytzM7r9Ay+L05j6mlVIJWGcQlOU=' 'sha256-i+FD+CFcGc/PiZoSrGq6wyRT5U0SHGYlWKS6YoaZkyw=' https://static.cloudflareinsights.com https://challenges.cloudflare.com; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; media-src 'self'; connect-src 'self' https://api.open-meteo.com https://cloudflareinsights.com https://api.glennsvendsen.com http://localhost:8787; frame-src https://challenges.cloudflare.com; form-action https://api.glennsvendsen.com; base-uri 'none'; object-src 'none'">
   <meta name="referrer" content="strict-origin-when-cross-origin">
   <script>
     // Before paint: JS flag + saved theme (falls back to the system setting).
@@ -48,8 +48,8 @@
   <script type="speculationrules">
   { "prerender": [{ "where": { "href_matches": "/work/*" }, "eagerness": "moderate" }] }
   </script>
-  <!-- Cookie-free analytics (Umami). Only counts visits on the live domain. -->
-  <script defer src="https://cloud.umami.is/script.js" data-website-id="984de795-976a-4859-818a-95177710cb59" data-domains="www.glennsvendsen.com,glennsvendsen.com,glennsvendsen.github.io"></script>
+  <!-- Cookie-free, anonymous visit stats (Cloudflare Web Analytics). -->
+  <script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "2c6435467bc74cd3a46978c5bc44e5b8"}'></script>
 
   <script type="application/ld+json">
   {

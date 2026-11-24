@@ -5,7 +5,8 @@
   const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
   const scrollTimelines = CSS.supports('animation-timeline: view()');
 
-  /* Analytics (Umami). Safe no-op when the script is blocked or not loaded. */
+  /* Custom events. Visit stats are Cloudflare Web Analytics (page views only), so this is a no-op unless an
+     event-capable analytics script (window.umami) is added again. data-umami-event-* attributes are kept for that. */
   const track = (name, data) => {
     try { if (window.umami) window.umami.track(name, data); } catch (e) { /* ignore */ }
   };
