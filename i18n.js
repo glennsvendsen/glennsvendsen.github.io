@@ -14,7 +14,7 @@ window.I18N = {
     'nav.work': 'Arbeid',
     'nav.hello': 'Si hei',
 
-    'hero.lede': 'Produkter om dagen,<br> sideprosjekter om kvelden,<br> <em>ute når jeg kan.</em>',
+    'hero.lede': 'Produkter om dagen,<br> sideprosjekter om kvelden,<br> <em>utendørs når jeg kan.</em>',
     'hero.place': 'Oslo, Norge',
     'sky.day': 'sola er oppe',
     'sky.dusk': 'gyllen time',

@@ -53,9 +53,9 @@ Local preview: `python3 -m http.server 8000`
   the footer sign-off plays when scrolled into view. The header wordmark is `<use href="#sig">`.
 - **Portrait** (`.portrait`): a taped polaroid. The photo "develops" (washed-out, blurred proof → colour via a
   CSS filter transition) when `.is-developed` is added by main.js; a hand-drawn "Hi!" speech bubble pops up after it develops (hover wiggles it). `profile.jpg` is 4:5 (960×1200), < 200 KB.
-- **Skyline** (`.land`): layers `layer--sky|far|mid|near` parallax on scroll (scroll-driven
+- **Skyline** (`.land`): layers `layer--sky|back|far|mid|near` (fainter and finer further back; Holmenkollen/Tryvann west, Bygdøy and a near shore with a pine in front, Ekeberg with Sjømannsskolen and Ekebergrestauranten east; the city is shifted by `CITY_DX`; the skyline uses the finer `#sketch-fine` wobble) parallax on scroll (scroll-driven
   animations), draw in on first load (`.is-drawing` → `.is-drawn`), and `.life` holds the ferry,
-  sailboat, gulls; the City Hall flag is the accent. `.fill` paths are paper silhouettes.
+  sailboat, gulls; the Norwegian flag on City Hall (`.flagpole`, its own mid-layer group so it can wave) is the one place with real colours. `.fill` paths are paper silhouettes.
 - **Weather & seasons**: main.js fetches Oslo weather once per visit from Open-Meteo (free, no key, no
   cookies, CC BY 4.0, credited in the footer; cached 30 min in sessionStorage) and sets `data-wx`
   (clear|cloud|fog|rain|snow|storm), `data-clouds` (0–3), `data-intensity`, `data-cover` (none|light|deep,

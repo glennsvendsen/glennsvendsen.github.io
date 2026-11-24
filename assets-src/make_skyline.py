@@ -7,9 +7,14 @@ Coordinates: viewBox 1200x260, the water line at y=196. main.js places the sun/m
 
 Layers, back to front. Each is a <g class="layer layer--*"> so CSS can parallax it on scroll:
   sky   sun / moon / stars (placed by main.js from the time in Oslo), clouds
-  far   Holmenkollåsen: the ridge, the Tryvann tower and the Holmenkollen ski jump
-  mid   forested hills, City Hall (Rådhuset), Akershus, Oslo Plaza, the Opera, Munch, the Barcode
-  near  the fjord: water, Hovedøya, reflections, and the living bits (ferry, sailboat, gulls)
+  back  the hills far inland (Grefsenkollen with its mast), faint, for depth
+  far   Holmenkollåsen in the west: the ridge, the Tryvann tower and the Holmenkollen ski jump
+  mid   the west hills; the city: City Hall (Rådhuset), Akershus, Oslo Plaza, the Opera, Munch, the
+        Barcode; and Ekebergåsen in the east with Ekebergrestauranten and Sjømannsskolen
+  near  the fjord: water lines that open up towards the viewer, Hovedøya, a skerry with a sea mark,
+        reflections, and the living bits (ferry, sailboat, gulls)
+Depth comes from atmosphere (each layer further back is fainter and thinner, see style.css) and
+from scale (water lines, the skerry).
 
 Rules that other code relies on:
   - `ink` groups stay flat (paths only, no nested <g>): make_og.py parses them with a regex, and
@@ -139,6 +144,51 @@ def forest(segs, x0, x1, step, hmin, hmax, seed, dy=2):
     return ' '.join(outs), ' '.join(trunks), ' '.join(light), ' '.join(deep)
 
 
+def lumps(x0, y0, w, h, seed, n=5):
+    """A lumpy crown sitting on the line y0 from x0 to x0+w (bumps on top, flat-ish bottom)."""
+    r = rng(seed)
+    d = f'M{x0:.1f} {y0:.1f}'
+    step = w / n
+    for i in range(n):
+        a, b = x0 + i * step, x0 + (i + 1) * step
+        top = y0 - h * (0.55 + 0.45 * math.sin(math.pi * (i + 0.5) / n)) * (0.85 + 0.3 * next(r))
+        d += f' C{a:.1f} {top:.1f}, {b:.1f} {top:.1f}, {b:.1f} {y0 - h * 0.25 * next(r):.1f}'
+    return d + f' C{x0 + w * 0.7:.1f} {y0 + h * 0.18:.1f}, {x0 + w * 0.3:.1f} {y0 + h * 0.18:.1f}, {x0:.1f} {y0:.1f} Z'
+
+
+def grove(segs, x0, x1, step, hmin, hmax, seed, dy=2):
+    """Round leafy trees (Bygdøy is mostly oak, lime and birch), overlapping, with a trunk each."""
+    r = rng(seed)
+    crowns, trunks = [], []
+    x = x0
+    while x < x1:
+        h = hmin + (hmax - hmin) * next(r)
+        base = y_at(segs, x) + dy + 2 * next(r)
+        w = h * (0.8 + 0.4 * next(r))
+        crowns.append(lumps(x - w / 2, base - h * 0.35, w, h * 0.65, int(next(r) * 1000), n=3))
+        trunks.append(f'M{x:.1f} {base - h * 0.3:.1f} L{x:.1f} {base:.1f}')
+        x += step * (0.6 + 0.6 * next(r))
+    return ' '.join(crowns), ' '.join(trunks)
+
+
+PAIR = re.compile(r'(-?\d+(?:\.\d+)?) (-?\d+(?:\.\d+)?)')
+
+
+def shift_d(d, dx):
+    """Move absolute path data (or an 'x y' pair) dx to the right."""
+    return PAIR.sub(lambda m: f'{float(m.group(1)) + dx:g} {m.group(2)}', d)
+
+
+def shift_tags(markup, dx):
+    """Move every <path> in a chunk of markup: its d, or for clock hands only their pivot."""
+    def one(m):
+        tag = m.group(0)
+        if 'data-pivot' in tag:
+            return re.sub(r'data-pivot="([^"]+)"', lambda p: f'data-pivot="{shift_d(p.group(1), dx)}"', tag)
+        return re.sub(r' d="([^"]+)"', lambda p: f' d="{shift_d(p.group(1), dx)}"', tag)
+    return re.sub(r'<path[^>]*>', one, markup)
+
+
 def figure(x, y, lean=0):
     """A tiny walker (on the Opera roof)."""
     return (f'M{x} {y} L{x + 0.9 + lean} {y - 3.2} L{x + 1.8} {y} M{x + 0.9 + lean} {y - 3.2} '
@@ -195,12 +245,55 @@ far_cover = f"""
         <path class="snow snow-deep" d="{' '.join(snow_band(run, 6, 6 + i, step=5) for i, run in enumerate(far_runs))}"/>
         <path class="snow snow-light" d="{inrun_top} L{tx} {tyo - 8:.1f} C{tx - 24} {tyo - 24:.1f}, {hx + 18} {hy - 42.5:.1f}, {hx + 5} {hy - 58:.1f} Z {landing} L{lx + 34} {ly + 9:.1f} L{lx - 4} {ly + 6:.1f} C{lx - 40} {ly - 8:.1f}, {tx + 16} {tyo + 19:.1f}, {tx - 4} {tyo + 5:.1f} Z"/>"""
 
+# ── BACK: the hills far inland, seen between Holmenkollåsen and Ekeberg ──
+back_d, back_segs = chain((380, 112), ((470, 100), (560, 96), (640, 102)), ((720, 108), (790, 94), (860, 90)),
+                          ((920, 87), (990, 98), (1060, 106)))
+gx = 868                                     # Grefsenkollen's mast
+gy = y_at(back_segs, gx)
+back = f'''
+        <path class="fill" d="{back_d} L1060 {H} L380 {H} Z"/>
+        <path d="{back_d}"/>
+        <path class="thin" d="M{gx} {gy:.1f} L{gx} {gy - 14:.1f} M{gx - 2} {gy - 4:.1f} L{gx + 2} {gy - 4:.1f}"/>'''
+back_cover = f'''
+        <path class="snow snow-deep" d="{snow_band(samples(back_segs, 30), 3, 51, step=7)}"/>'''
+
 # ── MID: hills, forest, the city ───────────────
 west_d, west_segs = chain((0, 150), ((70, 138), (160, 130), (250, 140)), ((330, 148), (410, 164), (490, 188)))
-east_d, east_segs = chain((1030, WATER), ((1070, 172), (1120, 154), (1200, 148)))
+# Bygdøy: a low, leafy peninsula in front of the west hills, with the Fram museum's A-roof at the water.
+byg_d, byg_segs = chain((0, 170), ((50, 160), (120, 158), (190, 166)), ((240, 172), (290, 186), (338, WATER)))
+byg_trees = grove(byg_segs, 4, 240, 13, 18, 28, 61, dy=4)
+byg_trees2 = grove(byg_segs, 10, 310, 14, 13, 20, 67, dy=15)
+fram = 'M246 196 L262 178 L278 196 M252 196 L262 185 L272 196 M282 196 L282 188 L300 188 L300 196 M226 196 L226 192 L246 192'
+# Tjuvholmen: the Astrup Fearnley museum's sloping sail roof, then the blocks of Aker Brygge.
+tjuv = ('M384 196 L384 186 C404 180, 428 172, 456 166 L458 170 L458 196 M392 196 L392 184 M404 196 L404 180 M418 196 L418 176 '
+        'M432 196 L432 172 M446 196 L446 169')
+aker = 'M458 196 L458 178 L470 178 L470 174 L486 174 L486 196'
+tjuv_fill = 'M384 196 L384 186 C404 180, 428 172, 456 166 L458 170 L458 196 Z M458 196 L458 178 L470 178 L470 174 L486 174 L486 196 Z'
+TJ = -54                                     # Tjuvholmen moves with the city (see CITY_DX)
+tjuv, aker, tjuv_fill = shift_d(tjuv, TJ), shift_d(aker, TJ), shift_d(tjuv_fill, TJ)
+# Ekebergåsen rises steeply behind Bjørvika: Ekebergrestauranten (white, functionalist, ribbon
+# windows, half dug into the slope) and, higher up and further south, Sjømannsskolen (long brick
+# wings and a central tower).
+east_d, east_segs = chain((956, WATER), ((990, 180), (1030, 158), (1070, 144)), ((1110, 132), (1146, 114), (1200, 108)))
+rx0, rx1 = 1084, 1116                         # Ekebergrestauranten
+ry = y_at(east_segs, rx0) + 1                 # its lower (west) end
+sx0, sx1 = 1134, 1190                         # Sjømannsskolen
+sy = y_at(east_segs, sx0 + 12) + 2
+sc = (sx0 + sx1) / 2 - 2                      # the tower
 wf = forest(west_segs, 6, 466, 7, 14, 27, 7)
 wf2 = forest(west_segs, 14, 440, 10, 10, 18, 11, dy=15)
-ef = forest(east_segs, 1084, 1198, 7, 11, 21, 3)
+ef_a = forest(east_segs, 1120, 1200, 8, 9, 14, 3, dy=18)          # the wooded slope below Sjømannsskolen
+ef_b = forest(east_segs, 1060, 1081, 6, 8, 12, 13, dy=6)          # below the restaurant's west end
+ef_c = forest(east_segs, 1192, 1200, 5, 8, 12, 23, dy=2)
+ef = tuple(' '.join(p) for p in zip(ef_a, ef_b, ef_c))
+ef2 = forest(east_segs, 1090, 1200, 12, 9, 15, 31, dy=40)          # lower down, towards Bjørvika
+ekeberg = f'''
+        <path class="fill" d="M{rx0} {ry:.1f} L{rx0} {ry - 12:.1f} C{rx0} {ry - 15:.1f}, {rx0 + 2} {ry - 16:.1f}, {rx0 + 5} {ry - 16:.1f} L{rx1} {ry - 16:.1f} L{rx1} {ry - 8:.1f} Z"/>
+        <path d="M{rx0} {ry:.1f} L{rx0} {ry - 12:.1f} C{rx0} {ry - 15:.1f}, {rx0 + 2} {ry - 16:.1f}, {rx0 + 5} {ry - 16:.1f} L{rx1} {ry - 16:.1f} L{rx1} {ry - 9:.1f} M{rx0 - 3} {ry:.1f} L{rx0 + 14} {ry - 2:.1f}"/>
+        <path class="thin" d="M{rx0 + 2} {ry - 11:.1f} L{rx1 - 1} {ry - 11:.1f} M{rx0 + 2} {ry - 6:.1f} L{rx0 + 22} {ry - 6:.1f} M{rx0 + 3} {ry - 18:.1f} L{rx1 - 4} {ry - 18:.1f} M{rx0 + 3} {ry - 16:.1f} L{rx0 + 3} {ry - 18:.1f} M{rx1 - 4} {ry - 16:.1f} L{rx1 - 4} {ry - 18:.1f}"/>
+        <path class="fill" d="M{sx0} {sy:.1f} L{sx0} {sy - 14:.1f} L{sc - 6} {sy - 14:.1f} L{sc - 6} {sy - 30:.1f} L{sc - 3} {sy - 37:.1f} L{sc} {sy - 42:.1f} L{sc + 3} {sy - 37:.1f} L{sc + 6} {sy - 30:.1f} L{sc + 6} {sy - 14:.1f} L{sx1} {sy - 14:.1f} L{sx1} {sy + 2:.1f} Z"/>
+        <path d="M{sx0} {sy:.1f} L{sx0} {sy - 12:.1f} L{sx0 + 3} {sy - 15:.1f} L{sc - 6} {sy - 15:.1f} M{sc + 6} {sy - 15:.1f} L{sx1 - 3} {sy - 15:.1f} L{sx1} {sy - 12:.1f} L{sx1} {sy + 2:.1f} M{sc - 6} {sy - 13:.1f} L{sc - 6} {sy - 30:.1f} L{sc + 6} {sy - 30:.1f} L{sc + 6} {sy - 13:.1f} M{sc - 7} {sy - 30:.1f} L{sc} {sy - 40:.1f} L{sc + 7} {sy - 30:.1f} M{sc} {sy - 40:.1f} L{sc} {sy - 45:.1f}"/>
+        <path class="thin" d="{' '.join(f'M{x} {sy - 10:.1f} L{x} {sy - 7:.1f} M{x} {sy - 5:.1f} L{x} {sy - 2:.1f}' for x in list(range(sx0 + 4, int(sc) - 7, 4)) + list(range(int(sc) + 9, sx1 - 2, 4)))} M{sc - 3} {sy - 25:.1f} L{sc + 3} {sy - 25:.1f} L{sc + 3} {sy - 19:.1f} L{sc - 3} {sy - 19:.1f} Z M{sc - 2} {sy - 12:.1f} L{sc - 2} {sy - 4:.1f} M{sc + 2} {sy - 12:.1f} L{sc + 2} {sy - 4:.1f}"/>'''
 
 # City Hall: west tower 530–566 (top 98), east tower 588–628 (top 88, clock at 608,106)
 ch = '''M522 196 L522 160 L530 160 M530 196 L530 98 L566 98 L566 196 M528 98 L568 98 M533 98 L533 92 L563 92 L563 98
@@ -223,9 +316,20 @@ mid = f'''
         <path class="trees" d="{wf[0]}"/>
         <path class="thin trees-trunk" d="{wf[1]}"/>
         <path class="trees trees--near" d="{wf2[0]}"/>
-        <path class="fill" d="{east_d} L1200 {H} L1030 {H} Z"/>
+        <path class="fill" d="{byg_d} L338 {H} L0 {H} Z"/>
+        <path d="{byg_d}"/>
+        <path class="trees" d="{byg_trees[0]}"/>
+        <path class="thin trees-trunk" d="{byg_trees[1]}"/>
+        <path class="trees trees--near" d="{byg_trees2[0]}"/>
+        <path class="fill" d="{fram} L300 196 Z {tjuv_fill}"/>
+        <path d="{fram}"/>
+        <path d="{tjuv}"/>
+        <path class="thin" d="{aker} {shift_d('M462 184 L468 184 M462 190 L468 190 M474 180 L482 180 M474 186 L482 186 M474 192 L482 192', TJ)}"/>
+        <path class="fill" d="{east_d} L1200 {H} L962 {H} Z"/>
         <path d="{east_d}"/>
+        <path class="thin hatch" d="{' '.join(f'M{x} {y_at(east_segs, x) + 5:.1f} L{x + 4} {y_at(east_segs, x) + 11:.1f}' for x in range(980, 1080, 11))}"/>{ekeberg}
         <path class="trees" d="{ef[0]}"/>
+        <path class="trees trees--near" d="{ef2[0]}"/>
         <path class="fill" d="{city_fill}"/>
         <path class="thin" d="M470 196 L470 170 L486 170 L486 164 L506 164 L506 174 L522 174 M474 176 L482 176 M474 184 L482 184 M490 170 L502 170 M490 178 L502 178 M490 186 L502 186 M510 180 L518 180 M510 188 L518 188"/>
         <path d="{ch}"/>
@@ -234,7 +338,6 @@ mid = f'''
         <path class="hand hand--hour" data-pivot="608 106" d="M0 0 L0 -3.8"/>
         <path class="hand hand--min" data-pivot="608 106" d="M0 0 L0 -5.6"/>
         <path class="thin" d="M608 86 L608 70"/>
-        <path class="accent flag" d="M608 70 L621 73 L608 77"/>
         <path d="M650 196 C652 188, 658 184, 664 183 L742 183 C752 185, 758 190, 762 196 M664 183 L664 172 L742 172 L742 183"/>
         <path class="thin" d="M664 172 L664 169 L668 169 L668 172 M674 172 L674 169 L678 169 L678 172 M736 172 L736 169 L740 169 L740 172 M656 190 C664 188, 672 190, 680 188 M720 189 C730 187, 740 190, 752 188"/>
         <path d="M684 172 L684 150 L732 150 L732 172 M682 150 L708 140 L734 150 M690 150 L690 136 L686 136 L694 120 L702 136 L698 136 L698 150 M716 150 L716 130 L712 130 L721 108 L730 130 L726 130 L726 150 M721 108 L721 102"/>
@@ -250,6 +353,11 @@ mid = f'''
         <path d="M1046 196 L1046 140 L1054 140 L1054 196 M1056 196 L1056 122 L1066 122 L1066 196 M1068 196 L1068 132 L1078 132 L1078 196"/>
         <path class="thin" d="M1048 148 L1052 148 M1048 158 L1052 158 M1048 168 L1052 168 M1048 178 L1052 178 M1058 130 L1064 130 M1058 142 L1064 142 M1058 154 L1064 154 M1058 166 L1064 166 M1058 178 L1064 178 M1070 140 L1076 140 M1070 152 L1076 152 M1070 164 L1076 164 M1070 176 L1076 176"/>'''
 
+# The city sits a little left of where it was drawn, so the panorama balances between Holmenkollen
+# and Ekeberg (everything from City Hall to the Barcode moves together, clock pivots included).
+CITY_DX = -40
+_cut = mid.index('<path class="fill" d="M468')
+mid = mid[:_cut] + shift_tags(mid[_cut:], CITY_DX)
 roofs_light = ' '.join(snow_band(p, d, s, step=3) for p, d, s in [
     ([(528, 98), (568, 98)], 2.2, 21), ([(533, 92), (563, 92)], 1.8, 22), ([(586, 92), (630, 92)], 2.2, 23),
     ([(592, 86), (624, 86)], 1.8, 24), ([(566, 150), (588, 150)], 2.4, 25), ([(522, 160), (530, 160)], 1.8, 26),
@@ -258,28 +366,69 @@ roofs_light = ' '.join(snow_band(p, d, s, step=3) for p, d, s in [
     ([(1046, 140), (1054, 140)], 1.6, 33), ([(1056, 122), (1066, 122)], 1.6, 34), ([(1068, 132), (1078, 132)], 1.6, 35),
     ([(470, 170), (486, 170)], 1.6, 36), ([(486, 164), (506, 164)], 1.6, 37), ([(506, 174), (522, 174)], 1.6, 38),
     ([(762, 182), (780, 182)], 1.6, 39), ([(780, 176), (800, 176)], 1.6, 40), ([(800, 186), (822, 186)], 1.6, 41)])
+roofs_light = shift_d(roofs_light, CITY_DX) + ' ' + ' '.join(snow_band(p, d, s, step=3) for p, d, s in [
+    ([(rx0 + 5, ry - 16), (rx1, ry - 16)], 1.6, 42), ([(sx0 + 3, sy - 15), (sc - 6, sy - 15)], 1.8, 43),
+    ([(sc + 6, sy - 15), (sx1 - 3, sy - 15)], 1.8, 44)])
+east_pts = samples(east_segs, 40)
+byg_snow = snow_band(samples(byg_segs, 30), 2.6, 71, step=5)
+east_runs = [[p for p in east_pts if a <= p[0] <= b] for a, b in ((1078, 1083), (1117, 1133), (1191, 1200))]
 mid_cover = f'''
-        <path class="snow snow-light" d="{roofs_light}"/>
-        <path class="snow snow-light" d="{wf[2]} {wf2[2]} {ef[2]}"/>
-        <path class="snow snow-deep" d="{wf[3]} {wf2[3]} {ef[3]}"/>
-        <path class="snow snow-deep" d="M872 196 L930 166 L978 166 L1006 196 L1003 196 L976 168.5 L932 168.5 L878 196 Z M690 136 L694 120 L698 136 Z M716 130 L721 108 L726 130 Z"/>'''
+        <path class="snow snow-light" d="{roofs_light} {snow_band([(246, 196), (262, 178), (278, 196)], 1.8, 72, step=3)} {shift_d(snow_band([(384, 186), (420, 175), (456, 166)], 1.8, 73, step=4), TJ)}"/>
+        <path class="snow snow-deep" d="{byg_snow}"/>
+        <path class="snow snow-light" d="{wf[2]} {wf2[2]} {ef[2]} {ef2[2]}"/>
+        <path class="snow snow-light" d="{' '.join(snow_band(run, 2.4, 45 + i, step=4) for i, run in enumerate(east_runs) if len(run) > 1)}"/>
+        <path class="snow snow-deep" d="{wf[3]} {wf2[3]} {ef[3]} {ef2[3]}"/>
+        <path class="snow snow-deep" d="{shift_d('M872 196 L930 166 L978 166 L1006 196 L1003 196 L976 168.5 L932 168.5 L878 196 Z M690 136 L694 120 L698 136 Z M716 130 L721 108 L726 130 Z', CITY_DX)}"/>'''
 
 # ── NEAR: the fjord ─────────────────────────────
-water_hatch = ('M70 212 L140 212 M220 222 L320 222 M410 210 L460 210 M640 226 L760 226 M820 212 L900 212 '
-               'M980 222 L1060 222 M110 238 L180 238 M350 244 L430 244 M690 246 L770 246 M1000 240 L1080 240 M520 234 L580 234')
+# Water lines in perspective: short, faint and close together near the city; longer, darker and
+# further apart towards the viewer.
 r = rng(17)
-isl = forest(chain((232, 197), ((262, 186), (330, 184), (368, 197)))[1], 268, 338, 7, 7, 12, 19, dy=1)
+water_rows = []
+for k in range(7):
+    t = k / 6
+    y = 201 + 56 * t ** 1.55
+    length = 10 + 70 * t
+    segs = []
+    x = next(r) * 90
+    while x < W:
+        if not ((1040 < x < 1200 and y > 228) or (x < 236 and y > 226)):   # leave the skerry and the shore clear
+            segs.append(f'M{x:.0f} {y:.1f} L{x + length * (0.7 + 0.6 * next(r)):.0f} {y + (next(r) - 0.5) * 0.8:.1f}')
+        x += length * 2.2 + 150 * next(r) * (1 - 0.5 * t)
+    water_rows.append(f'<path class="thin water" style="stroke-opacity:{0.28 + 0.5 * t:.2f};stroke-width:{0.7 + 0.7 * t:.2f}" d="{" ".join(segs)}"/>')
+skerry = 'M1046 260 C1056 248, 1072 240, 1092 241 C1104 236, 1120 236, 1132 240 C1150 234, 1172 236, 1186 243 C1194 247, 1198 252, 1200 254'
+seamark = 'M1150 236 L1150 212 M1150 214 L1160 211 M1146 236 L1154 236'
+shore = 'M0 232 C24 228, 54 230, 84 236 C110 240, 140 242, 168 248 C190 252, 214 256, 236 260'
+# a coastal Scots pine: a crooked trunk and flat, layered crowns (the nearest thing in the picture)
+pine_trunk = ('M60 234 C64 212, 56 196, 66 178 C72 166, 80 156, 88 146 M68 234 C72 212, 64 198, 73 182 C78 172, 86 160, 94 150 '
+              'M66 192 C54 184, 42 180, 30 178 M78 168 C92 164, 108 160, 124 154 M88 150 C84 142, 80 136, 72 132')
+pine_crowns = ' '.join([lumps(8, 180, 50, 17, 81, n=4), lumps(96, 156, 56, 19, 82, n=4), lumps(44, 136, 58, 21, 83, n=4),
+                        lumps(70, 120, 44, 16, 84, n=3)])
+naust = 'M122 242 L122 228 L134 218 L146 228 L146 245 M128 243 L128 232 L140 232 L140 244'
+isl = forest(chain((744, 197), ((768, 188), (830, 186), (872, 197)))[1], 776, 846, 7, 6, 10, 19, dy=1)
 near = f'''
         <path class="fill" d="M0 {WATER} L1200 {WATER} L1200 {H} L0 {H} Z"/>
         <path d="M0 196 C200 194, 400 199, 600 196 S1000 194, 1200 197"/>
-        <path class="thin" d="M232 197 C262 186, 330 184, 368 197"/>
+        <path class="thin" d="M744 197 C768 188, 830 186, 872 197"/>
         <path class="trees" d="{isl[0]}"/>
-        <path class="thin reflect" d="M548 202 C550 206, 546 210, 548 214 M541 202 L541 206 M608 202 C610 207, 606 212, 608 218 M615 202 L615 207 M721 200 L721 205 M851 202 C853 208, 849 214, 851 220 M953 202 L953 206 M1026 202 C1028 206, 1024 210, 1026 213"/>
-        <path class="thin water" d="{water_hatch}"/>'''
+        <path class="thin reflect" d="{shift_d('M548 202 C550 206, 546 210, 548 214 M541 202 L541 206 M608 202 C610 207, 606 212, 608 218 M615 202 L615 207 M721 200 L721 205 M851 202 C853 208, 849 214, 851 220 M953 202 L953 206 M1026 202 C1028 206, 1024 210, 1026 213', CITY_DX)}"/>
+        {chr(10).join('        ' + w for w in water_rows).strip()}
+        <path class="fill" d="{skerry} L1200 {H} L1046 {H} Z"/>
+        <path d="{skerry}"/>
+        <path class="thin" d="M1070 250 C1080 246, 1090 247, 1098 250 M1124 246 L1134 252 M1164 244 C1172 242, 1180 245, 1186 250 M1040 258 L1030 258 M1060 252 L1052 252"/>
+        <path d="{seamark}"/>
+        <path class="fill" d="{shore} L236 {H} L0 {H} Z"/>
+        <path d="{shore}"/>
+        <path class="thin" d="M20 240 C30 238, 40 240, 48 243 M96 246 L104 252 M150 252 C160 252, 170 254, 178 258 M6 248 L16 247"/>
+        <path class="fill" d="{naust} Z"/>
+        <path d="{naust}"/>
+        <path class="thin" d="M126 230 L142 230 M134 218 L134 214"/>
+        <path d="{pine_trunk}"/>
+        <path class="trees pine" d="{pine_crowns}"/>
+        <path class="thin" d="M14 182 L22 178 M24 183 L32 179 M104 158 L112 154 M116 159 L124 155 M130 158 L138 154 M52 138 L60 134 M64 139 L72 135 M78 122 L86 118"/>'''
 
 # Ice on the fjord: edges along the shore (level 1), a wide sheet after a long cold spell (level 2).
-ice1 = ('M0 197 L0 206 C40 209, 90 204, 140 208 C180 211, 210 205, 236 203 L232 197 Z '
-        'M368 197 C380 202, 420 204, 470 200 L470 197 Z '
+ice1 = ('M0 197 L0 206 C40 209, 90 204, 140 208 C180 211, 230 205, 300 204 C340 203, 380 206, 470 200 L470 197 Z '
         'M1006 197 C1030 203, 1080 206, 1130 202 C1160 200, 1185 205, 1200 203 L1200 197 Z')
 ice2 = ('M0 197 L0 232 C60 236, 120 226, 190 230 C260 234, 320 224, 400 228 C470 231, 520 222, 560 218 '
         'C600 214, 640 224, 700 222 C760 220, 820 228, 900 224 C980 220, 1060 230, 1130 226 C1160 224, 1185 229, 1200 227 L1200 197 Z')
@@ -290,7 +439,23 @@ near_cover = f'''
         <path class="ice ice-1" d="{ice1}"/>
         <path class="ice ice-2" d="{ice2}"/>
         <path class="ice-line ice-2" d="{cracks}"/>
-        <path class="ice-line ice-2 skate" d="{skate}"/>'''
+        <path class="ice-line ice-2 skate" d="{skate}"/>
+        <path class="snow snow-light" d="{snow_band([(0, 232), (40, 229), (84, 236), (140, 242), (236, 260)], 2.8, 91, step=5)} {snow_band([(122, 228), (134, 218), (146, 228)], 1.6, 92, step=3)} {snow_band([(1046, 260), (1092, 241), (1132, 240), (1186, 243), (1200, 254)], 2.6, 93, step=5)}"/>
+        <path class="snow snow-deep" d="{snow_band([(14, 168), (52, 168)], 2.4, 94, step=3)} {snow_band([(102, 142), (148, 142)], 2.4, 95, step=3)} {snow_band([(50, 120), (96, 120)], 2.6, 96, step=3)} {snow_band([(76, 106), (110, 106)], 2.2, 97, step=3)}"/>'''
+
+# The Norwegian flag on City Hall's east tower (red, a white-edged blue Nordic cross: 6-1-2-1-12 by
+# 6-1-2-1-6). Its own group in the mid layer, so it moves with the city but can wave as one piece.
+fx0, fy0, u = 608 + CITY_DX, 70, 0.5         # top-left at the pole; one unit = 0.5
+fw, fh = 22 * u, 16 * u
+def frect(x, y, w, h):
+    return f'M{fx0 + x * u:g} {fy0 + y * u:g} h{w * u:g} v{h * u:g} h{-w * u:g} Z'
+flag = f'''
+          <g class="flag">
+            <path class="nf-red" d="{frect(0, 0, 22, 16)}"/>
+            <path class="nf-white" d="{frect(6, 0, 4, 16)} {frect(0, 6, 22, 4)}"/>
+            <path class="nf-blue" d="{frect(7, 0, 2, 16)} {frect(0, 7, 22, 2)}"/>
+            <path class="nf-edge" d="{frect(0, 0, 22, 16)}"/>
+          </g>'''
 
 life = '''
         <g class="ferry"><g transform="translate(0 212)"><path d="M0 0 L46 0 L41 7 L5 7 Z M10 0 L10 -6 L36 -6 L36 0 M14 -3 L16 -3 M20 -3 L22 -3 M26 -3 L28 -3 M26 -6 L26 -11 L31 -11 L31 -6"/></g></g>
@@ -358,6 +523,10 @@ markup = f'''<!-- LAND -->
         </g>
         <g class="layer layer--sky wx-clouds">{clouds}
         </g>
+        <g class="layer layer--back ink">{back}
+        </g>
+        <g class="layer layer--back cover">{back_cover}
+        </g>
         <g class="layer layer--far ink">{far}
         </g>
         <g class="layer layer--far cover">{far_cover}
@@ -365,6 +534,8 @@ markup = f'''<!-- LAND -->
         <g class="layer layer--mid ink">{mid}
         </g>
         <g class="layer layer--mid cover">{mid_cover}
+        </g>
+        <g class="layer layer--mid flagpole">{flag}
         </g>
         <g class="layer layer--near ink">{near}
         </g>
