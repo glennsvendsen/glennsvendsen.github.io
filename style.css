@@ -298,8 +298,17 @@ p { text-wrap: pretty; }
 .js .land .layer--mid path:nth-child(3n + 2)  { --d: 0.45s; }
 .js .land .layer--mid path:nth-child(3n)      { --d: 0.6s; }
 @keyframes draw { to { stroke-dashoffset: 0; } }
-.js .land:not(.is-drawn) :is(.life, .sky, .flagpole, .lights) { opacity: 0; }
-.land :is(.life, .sky, .flagpole) { transition: opacity 0.9s ease 0.2s; }
+.js .land:not(.is-drawn) :is(.life, .sky, .flagpole, .lights, .beacon-layer) { opacity: 0; }
+.land :is(.life, .sky, .flagpole, .beacon-layer) { transition: opacity 0.9s ease 0.2s; }
+/* The red aviation light on the Tryvann tower: a slow glowing pulse after dusk, a dim dot by day. */
+.beacon, .beacon-halo { fill: oklch(0.62 0.24 27); stroke: none; }
+.beacon { opacity: 0.3; filter: drop-shadow(0 0 1.5px oklch(0.62 0.24 27 / 0.8)) drop-shadow(0 0 4px oklch(0.62 0.24 27 / 0.45)); }
+.beacon-halo { opacity: 0; filter: blur(1.6px); transform-box: fill-box; transform-origin: 50% 50%; }
+.land:is([data-sky='dusk'], [data-sky='night']) .beacon { opacity: 0.85; animation: beacon 2.6s ease-in-out infinite; }
+.land:is([data-sky='dusk'], [data-sky='night']) .beacon-halo { animation: beacon-halo 2.6s ease-out infinite; }
+@keyframes beacon { 0%, 100% { opacity: 0.25; } 40% { opacity: 0.85; } }
+@keyframes beacon-halo { 0%, 100% { opacity: 0; scale: 0.5; } 40% { opacity: 0.3; scale: 1.1; } 80% { opacity: 0; scale: 1.5; } }
+@media (prefers-reduced-motion: reduce) { .land:is([data-sky='dusk'], [data-sky='night']) .beacon { opacity: 0.85; } }
 /* The flag on City Hall: the one place with real colours (Norway's), drawn small with an ink edge. */
 /* Night lights: windows glow warm after dark (data-lights from main.js; "late" keeps only l2 on). */
 .land { --glow: light-dark(oklch(0.8 0.13 80), oklch(0.86 0.13 85)); }
@@ -493,7 +502,7 @@ p { text-wrap: pretty; }
 /* One soft double flash every 11 s (well under the 3-flashes-a-second limit). */
 @keyframes bolt { 0%, 92% { opacity: 0; } 93% { opacity: 1; } 94% { opacity: 0; } 95.5% { opacity: 0.8; } 97%, 100% { opacity: 0; } }
 /* Off-screen, everything on the skyline holds still. */
-.land.is-paused :is(.wx-front *, .cloud-drift, .ferry, .gulls, .gulls path, .sailboat, .flag, .ab, .stars path, .smoke) { animation-play-state: paused; }
+.land.is-paused :is(.wx-front *, .cloud-drift, .ferry, .gulls, .gulls path, .sailboat, .flag, .ab, .stars path, .smoke, .beacon, .beacon-halo) { animation-play-state: paused; }
 @media (prefers-reduced-motion: reduce) {
   .wx-rain, .wx-snow, .bolt { display: none; }
 }

@@ -618,6 +618,9 @@ markup = f'''<!-- LAND -->
         </g>
         <g class="layer layer--far cover">{far_cover}
         </g>
+        <g class="layer layer--far beacon-layer">
+          <circle class="beacon-halo" cx="{vx + 0.3}" cy="5" r="5"/><circle class="beacon" cx="{vx + 0.3}" cy="5" r="1.5"/>
+        </g>
         <g class="layer layer--far jumper-layer" style="--jx: {jump_dx:.0f}px; --jy: {jump_dy:.0f}px">{jumper}
         </g>
         <g class="layer layer--mid ink">{mid}
