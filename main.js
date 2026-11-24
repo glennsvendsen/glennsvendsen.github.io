@@ -47,7 +47,7 @@
         el.setAttribute(name, tr(key, o.attrs[name]));
       });
     });
-    root.lang = lang === 'no' ? 'nb' : 'en';
+    if (document.querySelector('[data-i18n]')) root.lang = lang === 'no' ? 'nb' : 'en';
     document.querySelectorAll('.lang-switch button').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.lang === lang)));
     langListeners.forEach((fn) => fn());
   };
@@ -57,8 +57,8 @@
   const prefersNo = (navigator.languages || [navigator.language]).some((l) => /^(nb|nn|no)\b/i.test(l || ''));
   const initialLang = saved === 'en' || saved === 'no' ? saved : (prefersNo ? 'no' : 'en');
   if (initialLang === 'no') applyLang('no');
-  langSwitch.hidden = false;
-  langSwitch.addEventListener('click', (e) => {
+  if (langSwitch) langSwitch.hidden = false;
+  if (langSwitch) langSwitch.addEventListener('click', (e) => {
     const btn = e.target.closest('button[data-lang]');
     if (!btn || btn.dataset.lang === lang) return;
     const next = btn.dataset.lang;
@@ -105,9 +105,16 @@
   /* ── HEADER ──────────────────────────────── */
   const top = document.querySelector('.top');
   const heroSig = document.querySelector('.signature--hero');
-  new IntersectionObserver(([entry]) => {
-    top.classList.toggle('is-scrolled', !entry.isIntersecting);
-  }, { rootMargin: '-64px 0px 0px 0px' }).observe(heroSig);
+  if (heroSig) {
+    new IntersectionObserver(([entry]) => {
+      top.classList.toggle('is-scrolled', !entry.isIntersecting);
+    }, { rootMargin: '-64px 0px 0px 0px' }).observe(heroSig);
+  } else {
+    // Pages without the big hero signature (Work): the header settles once you scroll.
+    const settle = () => top.classList.toggle('is-scrolled', scrollY > 40);
+    addEventListener('scroll', settle, { passive: true });
+    settle();
+  }
 
   /* ── SIGNATURE ───────────────────────────── */
   // Each stroke takes time in proportion to its length (a steady pen), with a short lift
@@ -140,8 +147,10 @@
   try { seen = sessionStorage.getItem('signed') === '1'; sessionStorage.setItem('signed', '1'); } catch (e) { /* ignore */ }
   // The skyline draws itself in under the signature: ridge, then city, then water.
   const land = document.querySelector('.land');
-  land.querySelectorAll('.ink path:not(.fill)').forEach((p) => p.setAttribute('pathLength', '1'));
-  if (reduceMotion || seen) {
+  if (land) land.querySelectorAll('.ink path:not(.fill)').forEach((p) => p.setAttribute('pathLength', '1'));
+  if (!land || !hero || !heroSig) {
+    // no hero on this page
+  } else if (reduceMotion || seen) {
     heroSig.classList.add('is-written');
     hero.classList.add('is-in');
     land.classList.add('is-drawn');
@@ -153,7 +162,7 @@
     setTimeout(() => { land.classList.add('is-drawn'); land.classList.remove('is-drawing'); }, start + 3100);
   }
   const signoff = document.querySelector('.signature--signoff');
-  if (!reduceMotion) {
+  if (signoff && !reduceMotion) {
     const ink = signoff.querySelector('.sig-ink');
     ink.style.opacity = '0';
     onceVisible([signoff], () => { ink.style.opacity = ''; write(signoff, { speed: 380 }); }, 0.8);
@@ -162,6 +171,7 @@
   /* ── SKY OVER THE FJORD ──────────────────── */
   // Sun or moon placed by the actual time in Oslo, with stars at night and an aurora on winter
   // nights. Approximate Oslo sunrise / sunset (local hours) by month.
+  if (land) {
   const SUN = [[9.2, 15.5], [8.0, 17.0], [6.7, 18.3], [6.3, 20.4], [5.0, 21.6], [3.9, 22.7],
     [4.3, 22.4], [5.6, 21.0], [7.0, 19.4], [8.2, 17.7], [8.3, 15.8], [9.2, 15.2]];
   const osloNow = () => {
@@ -217,6 +227,7 @@
   updateSky();
   langListeners.push(updateSky);
   setInterval(updateSky, 60 * 1000);
+  }
 
   /* ── SCROLL REVEAL (fallback) ────────────── */
   // Where scroll-driven animations exist, CSS does this on its own.
@@ -283,10 +294,9 @@
   onceVisible(sketches, (sk) => sk.classList.add('is-drawn'), reduceMotion ? 0 : 0.75);
 
   /* ── PORTRAIT DOODLE ─────────────────────── */
-  // The print develops once it's well in view. Hover draws the coffee cup; on touch screens it draws itself too.
+  // The print develops once it's well in view; the speech bubble pops up after.
   onceVisible(document.querySelectorAll('.portrait'), (el) => {
     el.classList.add('is-developed');
-    if (!finePointer) el.classList.add('is-playing');
   }, 0.5);
 
   /* ── COPY EMAIL ──────────────────────────── */

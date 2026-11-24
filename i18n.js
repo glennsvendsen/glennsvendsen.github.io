@@ -22,6 +22,7 @@ window.I18N = {
 
     'about.alt': 'Portrett av Glenn Svendsen',
     'about.caption': 'Det er meg.',
+    'about.hi': 'Hei!',
     'about.note': 'fremkalt i dagslys',
     'about.title': 'Hei, jeg er Glenn.',
     'about.p1': 'Jeg er en produktperson i Oslo. Jeg liker å ta kompliserte systemer og få dem til å føles enkle, og jeg trives best et sted mellom de som bruker noe og de som lager det.',

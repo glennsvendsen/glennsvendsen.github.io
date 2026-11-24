@@ -16,9 +16,12 @@ Local preview: `python3 -m http.server 8000`
 - `style.css` — all home page styles
 - `main.js` — progressive enhancement only (the page must read fine without it)
 - `i18n.js` — Norwegian (Bokmål) strings for the EN/NO switch; English is the HTML itself
-- `work/` — **frozen copy of the old PM portfolio** (Arrive case studies, testimonials), linked only
-  from the footer as "Earlier work", `noindex`. It has its own `style.css`/`main.js`; don't restyle it.
-  The pre-redesign site is also tagged `v1-portfolio`.
+- `work/` — "Earlier work": the old PM content (six case studies, colleague quotes) re-told in the new
+  design. Hand-written `work/index.html` that shares `../style.css` (the "WORK PAGE" block) and
+  `../main.js` (null-safe on pages without the hero). English only, `noindex`, linked from the footer.
+  Quotes are taped index cards (`.note`), cases are `.case` rows with `.case-stats`.
+- `work/archive/` — **frozen copy of the original v1 site** (interactive case-study demos) with its own
+  old `style.css`/`main.js`; linked from the end of the case list. Don't restyle it. Also tagged `v1-portfolio`.
 - `signature.svg` — Glenn's signature: filled outline (`fill-rule="evenodd"`) + the pen strokes (`#pen`)
 - `og-image.png` (1200×630) — regenerate with `python3 assets-src/make_og.py` (reads the signature and
   the skyline, so run it after changing either)
@@ -49,8 +52,7 @@ Local preview: `python3 -m http.server 8000`
   while writing and removes it after, so the exact outline shows. Hero plays once per session;
   the footer sign-off plays when scrolled into view. The header wordmark is `<use href="#sig">`.
 - **Portrait** (`.portrait`): a taped polaroid. The photo "develops" (washed-out, blurred proof → colour via a
-  CSS filter transition) when `.is-developed` is added by main.js; hover straightens it and draws the coffee
-  doodle; the "developed in daylight" arrow note shows only ≥1100px. `profile.jpg` is 4:5 (960×1200), < 200 KB.
+  CSS filter transition) when `.is-developed` is added by main.js; a hand-drawn "Hi!" speech bubble pops up after it develops (hover wiggles it); the "developed in daylight" arrow note shows only ≥1100px. `profile.jpg` is 4:5 (960×1200), < 200 KB.
 - **Skyline** (`.land`): layers `layer--sky|far|mid|near` parallax on scroll (scroll-driven
   animations), draw in on first load (`.is-drawing` → `.is-drawn`), and `.life` holds the ferry,
   sailboat, gulls; the City Hall flag is the accent. `.fill` paths are paper silhouettes.
