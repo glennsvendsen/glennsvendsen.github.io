@@ -43,7 +43,7 @@ window.I18N = {
     'about.hi': 'Hei!',
     'about.title': 'Hei, jeg er Glenn.',
     'about.p1': 'Jeg er en produktperson i Oslo. Jeg liker å ta kompliserte systemer og få dem til å føles enkle, og jeg trives best et sted mellom de som bruker noe og de som lager det.',
-    'about.p2': 'Ved siden av lager jeg små apper og spill, som regel med AI som makker, for å lære hva som er mulig og holde fingrene i det. Jeg kom til produktutvikling via foto og journalistikk, og jeg begynner fortsatt det meste med å spørre hvem det er for og hva historien er.',
+    'about.p2': 'Jeg har jobbet i teknologibransjen i tretten år, i kommersielle roller og de siste fem innen produkt. Før det var jeg bryllups- og pressefotograf, og jeg studerte journalistikk og statsvitenskap. Ved siden av lager jeg små apper og spill, som regel med AI som makker, for å lære hva som er mulig og holde fingrene i det.',
 
     'projects.title': 'Ting jeg har laget.',
     'projects.intro': 'Små produkter der jeg får være designer, utvikler og produktleder på én gang. Noen er ferdige. Alle har lært meg noe.',
