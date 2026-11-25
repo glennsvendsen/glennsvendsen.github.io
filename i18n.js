@@ -75,7 +75,7 @@ window.I18N = {
     'sketch.board.note': 'siden 1993, fortsatt på tvers',
     'sketch.camera.title': 'Foto',
     'sketch.camera.text': 'Der det startet: bakgrunn som fotograf, og studier i journalistikk og statsvitenskap. Jeg ser fortsatt verden i utsnitt.',
-    'sketch.camera.note': 'f/8 og vær der',
+    'sketch.camera.note': 'f/1.4',
     'sketch.music.title': 'Musikk',
     'sketch.music.text': 'Det er alltid noe som spiller. Japansk jazz, sekstitallssoul, black metal og det meste midt imellom, gjerne i den rekkefølgen. Senk nåla for <a class="link-inline" href="https://open.spotify.com/playlist/4tz6vP2nloYw6MsF6Q84mq" target="_blank" rel="noopener" data-umami-event="sketch-playlist">en spilleliste jeg stadig vender tilbake til <span aria-hidden="true">↗</span></a>.',
     'sketch.music.note': '33⅓ o/min, side B',
