@@ -42,8 +42,8 @@ window.I18N = {
     'about.caption': 'Det er meg.',
     'about.hi': 'Hei!',
     'about.title': 'Hei, jeg er Glenn.',
-    'about.p1': 'Jeg er en produktperson i Oslo. Jeg liker å ta kompliserte systemer og få dem til å føles enkle, og jeg trives best et sted mellom de som bruker noe og de som lager det.',
-    'about.p2': 'Jeg har jobbet i teknologibransjen i tretten år, i kommersielle roller og de siste fem innen produkt. Før det var jeg bryllups- og pressefotograf, og jeg studerte journalistikk og statsvitenskap. Ved siden av lager jeg små apper og spill, som regel med AI som makker, for å lære hva som er mulig og holde fingrene i det.',
+    'about.p1': 'Jeg er en produktperson i Oslo. Jeg liker å gjøre komplekse ting enklere å forstå og bruke, og trives best i skjæringspunktet mellom mennesker, teknologi og forretning.',
+    'about.p2': 'Jeg har jobbet med teknologi i tretten år, først i kommersielle roller og de siste fem innen produkt. Før det jobbet jeg som bryllups- og pressefotograf og studerte journalistikk og statsvitenskap. På fritiden lager jeg også små apper og spill, ofte med AI som kodepartner. Både for å utforske hva som er mulig, og rett og slett fordi jeg liker å skape ting.',
 
     'projects.title': 'Ting jeg har laget.',
     'projects.intro': 'Små produkter der jeg får være designer, utvikler og produktleder på én gang. De fleste er ute i verden. Alle har lært meg noe.',
@@ -60,7 +60,7 @@ window.I18N = {
 
     'sketches.kicker': 'På fritiden',
     'sketches.title': 'Borte fra skjermen.',
-    'sketches.intro': 'Når jeg ikke bygger noe, er jeg som regel ute, på løpetur, fjelltur, snøbrett eller på Bonnien. Resten av tiden er jeg med familien og spiser stekt ris, og senere, når ungene har lagt seg, nyter fermenterte druer.',
+    'sketches.intro': 'Når jeg ikke lager noe, finner du meg som regel ute – på løpetur, fjelltur, snowboard eller på Bonnien. Ellers går tiden med til familien, stekt ris og, etter at ungene har lagt seg, et glass fermenterte druer.',
     'sketch.1.title': 'Løping',
     'sketch.1.text': 'Sakte nok til å tenke, raskt nok til å kalle det trening. De beste ideene dukker gjerne opp rundt femte kilometer, uten noe å skrive dem ned på.',
     'sketch.1.note': 'slitasje: mest på hælen',
