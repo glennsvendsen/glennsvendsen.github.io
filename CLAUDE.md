@@ -78,8 +78,8 @@ Local preview: `python3 -m http.server 8000`
   Cosy extras: up to seven clouds (four smaller `.far` ones further back) and, at `data-clouds=3`, a low `.deck`
   that fades out upwards; a `.wx-wash` haze over the horizon coloured by the weather (`--wash`); rain rings on the
   fjord (`.wx-ripple`); smoke from the boathouse chimney when it's 5 °C or colder (`data-cold`); and on grey, wet
-  or snowy days a few windows are lit by day (`data-lights="dusk"`) and the Tryvann aviation light pulses (it pulses
-  whenever `data-lights` is set). Under the overcast deck the sun and moon show through, pale.
+  or snowy days a few windows are lit by day (`data-lights="dusk"`). The Tryvann aviation light always pulses: softly on
+  clear days, brighter whenever `data-lights` is set (`--beacon-peak`). Under the overcast deck the sun and moon show through, pale.
   Debug on localhost: `?wx=snow&snow=0.3&ice=2&temp=-8&clouds=2` (wx: clear|cloud|fog|drizzle|rain|snow|storm).
 - **Sky**: `astro.js` (no dependencies, testable in Node: `require('./astro.js')`) computes the real sun and
   moon for Oslo: sunrise/sunset, and the moon's phase, tilt, height, rise and set (low-precision, good to a few

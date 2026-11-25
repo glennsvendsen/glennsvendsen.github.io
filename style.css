@@ -315,11 +315,14 @@ p { text-wrap: pretty; }
 .beacon { opacity: 0.3; filter: drop-shadow(0 0 1.5px oklch(0.62 0.24 27 / 0.8)) drop-shadow(0 0 4px oklch(0.62 0.24 27 / 0.45)); }
 .beacon-halo { opacity: 0; filter: blur(1.6px); transform-box: fill-box; transform-origin: 50% 50%; }
 /* The aviation light pulses whenever the windows are lit: after dark, and on grey, wet days. */
-.land[data-lights] .beacon { opacity: 0.85; animation: beacon 2.6s ease-in-out infinite; }
-.land[data-lights] .beacon-halo { animation: beacon-halo 2.6s ease-out infinite; }
-@keyframes beacon { 0%, 100% { opacity: 0.25; } 40% { opacity: 0.85; } }
-@keyframes beacon-halo { 0%, 100% { opacity: 0; scale: 0.5; } 40% { opacity: 0.3; scale: 1.1; } 80% { opacity: 0; scale: 1.5; } }
-@media (prefers-reduced-motion: reduce) { .land[data-lights] .beacon { opacity: 0.85; } }
+/* the aviation light always pulses: softly on clear days, brighter when the lights are on (dusk, night, grey days) */
+.land { --beacon-peak: 0.6; --halo-peak: 0.18; }
+.land[data-lights] { --beacon-peak: 0.85; --halo-peak: 0.3; }
+.beacon { animation: beacon 2.6s ease-in-out infinite; }
+.beacon-halo { animation: beacon-halo 2.6s ease-out infinite; }
+@keyframes beacon { 0%, 100% { opacity: 0.25; } 40% { opacity: var(--beacon-peak); } }
+@keyframes beacon-halo { 0%, 100% { opacity: 0; scale: 0.5; } 40% { opacity: var(--halo-peak); scale: 1.1; } 80% { opacity: 0; scale: 1.5; } }
+@media (prefers-reduced-motion: reduce) { .beacon { opacity: var(--beacon-peak); } }
 /* The flag on City Hall: the one place with real colours (Norway's), drawn small with an ink edge. */
 /* Night lights: windows glow warm after dark (data-lights from main.js; "late" keeps only l2 on). */
 .land { --glow: light-dark(oklch(0.8 0.13 80), oklch(0.86 0.13 85)); }

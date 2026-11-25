@@ -247,11 +247,12 @@ far_cover = f"""
 
 # ── BACK: the hills far inland, seen between Holmenkollåsen and Ekeberg ──
 back_d, back_segs = chain((380, 112), ((470, 100), (560, 96), (640, 102)), ((720, 108), (790, 94), (860, 90)),
-                          ((920, 87), (990, 98), (1060, 106)))
+                          ((920, 87), (990, 98), (1060, 106)),
+                          ((1110, 112), (1160, 126), (1240, 134)))   # runs on behind Ekeberg, so it never just stops
 gx = 868                                     # Grefsenkollen's mast
 gy = y_at(back_segs, gx)
 back = f'''
-        <path class="fill" d="{back_d} L1060 {H} L380 {H} Z"/>
+        <path class="fill" d="{back_d} L1240 {H} L380 {H} Z"/>
         <path d="{back_d}"/>
         <path class="thin" d="M{gx} {gy:.1f} L{gx} {gy - 14:.1f} M{gx - 2} {gy - 4:.1f} L{gx + 2} {gy - 4:.1f}"/>'''
 back_cover = f'''
