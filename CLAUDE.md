@@ -141,4 +141,4 @@ and a paper mat in CSS, dimmed in the dark theme):
 a still from the project's clip works well (`ffmpeg -ss <sec> -i clips/x.mp4 -frames:v 1 -q:v 3 x-cover.jpg`).
 The description is one factual sentence about what makes it interesting (`data-i18n="card.N"`, Norwegian in
 `i18n.js`). `.card-status` holds `.chip`s for where to get it: `status.appstore`, `status.browser` (both
-`.chip--go`, accent) or `status.prototype` (plain); add new `status.*` keys to `i18n.js` if needed.
+`.chip--go`, accent), `status.mac` (accent; Equity's menu-bar companion, a DMG download) or `status.prototype` (plain); add new `status.*` keys to `i18n.js` if needed.

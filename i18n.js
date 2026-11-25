@@ -55,6 +55,7 @@ window.I18N = {
     'card.6': 'Asbjørnsen og Moes eventyr lest høyt, og hvert ord lyser opp mens det leses.',
     'status.appstore': 'App Store',
     'status.browser': 'Spill i nettleseren',
+    'status.mac': 'Mac-app',
     'status.prototype': 'Prototype for Mac/PC',
 
     'sketches.kicker': 'På fritiden',
