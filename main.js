@@ -250,6 +250,8 @@
     land.dataset.intensity = w.intensity;
     land.dataset.cover = w.cover;
     land.dataset.ice = String(w.ice);
+    // Cold enough for a fire: smoke from the boathouse chimney.
+    if (typeof w.temp === 'number' && w.temp <= 5) land.dataset.cold = ''; else delete land.dataset.cold;
     updateSky();
   };
   const loadWeather = async () => {
@@ -378,7 +380,9 @@
     const glowWeather = !weather || weather.wx === 'clear' || (weather.wx === 'cloud' && weather.clouds < 3);
     if (sky === 'dusk' && glowWeather) { land.dataset.glow = ''; place('.glow-sun', Math.min(1080, Math.max(120, x)), 122); } else delete land.dataset.glow;
     // Windows light up after dark; after half past eleven most go out again.
-    if (sky === 'day') delete land.dataset.lights;
+    // On a grey, wet or snowy day a few windows are lit anyway, as they would be.
+    const gloomy = weather && (weather.clouds >= 3 || ['rain', 'snow', 'storm', 'fog'].includes(weather.wx));
+    if (sky === 'day') { if (gloomy) land.dataset.lights = 'dusk'; else delete land.dataset.lights; }
     else if (sky === 'dusk') land.dataset.lights = 'dusk';   // the first few, faint, as the light goes
     else land.dataset.lights = hour >= 23.5 || hour < 5.5 ? 'late' : 'on';
     clock.querySelector('.clock-time').textContent = label;

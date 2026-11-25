@@ -41,6 +41,8 @@ Local preview: `python3 -m http.server 8000`
   - `make_skyline.py` — generates the hero's Oslo panorama into `index.html` between
     `<!-- LAND -->` markers. Edit the script, not the generated markup.
   - `make_og.py` — renders `og-image.png`
+  - `make_covers.py` — renders the composed card covers (`equity-cover.jpg`, `everleaf-cover.jpg`: real app
+    screens peeking up from warm paper, no store slogans) and normalises `cointoss-cover.jpg` to 720x450
   - `make_clips.py` — renders `clips/*.mp4`, the short silent loops that play on the project cards
     (sources are in `~/Projects`; re-run only when a clip should change)
 
@@ -73,6 +75,11 @@ Local preview: `python3 -m http.server 8000`
   (clear|cloud|fog|rain|snow|storm), `data-clouds` (0–3), `data-intensity`, `data-cover` (none|light|deep,
   from snow depth) and `data-ice` (0–2, from freezing degree-days over 14 days) on `.land`. Snow/ice are
   in the `.cover` groups, falling weather in `.wx-front`; all paused when the skyline is off-screen.
+  Cosy extras: up to seven clouds (four smaller `.far` ones further back) and, at `data-clouds=3`, a low `.deck`
+  that fades out upwards; a `.wx-wash` haze over the horizon coloured by the weather (`--wash`); rain rings on the
+  fjord (`.wx-ripple`); smoke from the boathouse chimney when it's 5 °C or colder (`data-cold`); and on grey, wet
+  or snowy days a few windows are lit by day (`data-lights="dusk"`) and the Tryvann aviation light pulses (it pulses
+  whenever `data-lights` is set). Under the overcast deck the sun and moon show through, pale.
   Debug on localhost: `?wx=snow&snow=0.3&ice=2&temp=-8&clouds=2` (wx: clear|cloud|fog|drizzle|rain|snow|storm).
 - **Sky**: `astro.js` (no dependencies, testable in Node: `require('./astro.js')`) computes the real sun and
   moon for Oslo: sunrise/sunset, and the moon's phase, tilt, height, rise and set (low-precision, good to a few
@@ -90,7 +97,8 @@ Local preview: `python3 -m http.server 8000`
 - **Sketches** (`.sketch`, the Life section): `.ink` strokes get pathLength="1" + ghost copies from
   main.js and draw with scroll (`view()` timeline; IntersectionObserver fallback). `.is-drawn` starts
   one looping detail per sketch (CSS, keyed by `.sketch-card--run|hike|board|bike|camera|music`; paused
-  off-screen via `.is-paused`). Classes: `.thin`, `.accent`, `.notes`, `.trail`. The turntable sketch is an
+  off-screen via `.is-paused`). Classes: `.thin`, `.accent`, `.notes`, `.trail`. Under 720px each card puts a smaller drawing beside its
+  number and title (alternating sides) with the text below. The turntable sketch is an
   `<a class="sketch sketch-link">` to the Spotify playlist (mouse shortcut, `tabindex=-1`; the inline link
   in the text is the accessible one); its `.platter` group spins.
 - **Project cards** (`.card` in `.cards`): container queries, `:has()` dims siblings on hover, pointer
@@ -128,7 +136,8 @@ Local preview: `python3 -m http.server 8000`
 ## Adding a side project
 
 Copy an `<li><a class="card">` block in `#projects`; update number, name, description, status chips, tag, href,
-cover image and the `data-umami-event-project` value. Every card uses a 16:10 `.cover` (720x450 JPEG, ~20-100 KB):
+cover image and the `data-umami-event-project` value. Every card uses a 16:10 `.cover` (720x450 JPEG, ~20-100 KB; covers and clips share one muted "print" treatment
+and a paper mat in CSS, dimmed in the dark theme):
 a still from the project's clip works well (`ffmpeg -ss <sec> -i clips/x.mp4 -frames:v 1 -q:v 3 x-cover.jpg`).
 The description is one factual sentence about what makes it interesting (`data-i18n="card.N"`, Norwegian in
 `i18n.js`). `.card-status` holds `.chip`s for where to get it: `status.appstore`, `status.browser` (both

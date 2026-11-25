@@ -439,6 +439,8 @@ near = f'''
         <path class="fill" d="{naust} Z"/>
         <path d="{naust}"/>
         <path class="thin" d="M126 230 L142 230 M134 218 L134 214"/>
+        <path class="fill" d="M139 222.2 L139 215 L143 215 L143 225.5 Z"/>
+        <path d="M139 222.2 L139 215 L143 215 L143 225.5"/>
         <path d="{pine_trunk}"/>
         <path class="trees pine" d="{pine_crowns}"/>
         <path class="thin" d="M14 182 L22 178 M24 183 L32 179 M104 158 L112 154 M116 159 L124 155 M130 158 L138 154 M52 138 L60 134 M64 139 L72 135 M78 122 L86 118"/>'''
@@ -557,10 +559,26 @@ def cloud_path(w):
             f'C{w * 1.02:.1f} {-h * .32:.1f}, {w * 1.03:.1f} {-h * .02:.1f}, {w * .92:.1f} 0 Z')
 
 
+# Seven clouds: three near and big, four further back (smaller, fainter, slower). data-clouds picks how
+# many show (1: one, 2: four, 3: all of them under a low grey deck).
 clouds = ''.join(
-    f'<g class="cloud c{i}" transform="translate({x} {y})"><g class="cloud-drift"><path d="{cloud_path(w)}"/>'
+    f'<g class="cloud c{i}{" far" if i > 3 else ""}" transform="translate({x} {y})"><g class="cloud-drift"><path d="{cloud_path(w)}"/>'
     f'<path class="thin" d="M{w * .18:.1f} {-w * .06:.1f} C{w * .3:.1f} {-w * .1:.1f}, {w * .42:.1f} {-w * .1:.1f}, {w * .5:.1f} {-w * .05:.1f}"/></g></g>'
-    for i, (x, y, w) in enumerate([(170, 46, 92), (560, 34, 120), (900, 58, 84)], 1))
+    for i, (x, y, w) in enumerate([(170, 46, 92), (560, 34, 120), (900, 58, 84),
+                                   (372, 70, 62), (748, 76, 56), (1056, 42, 74), (30, 30, 68)], 1))
+# The overcast deck: a low, lumpy underside across the whole sky, with a few soft hatch strokes.
+r = rng(41)
+xs = list(range(-60, 1300, 46))
+deck_edge = ' '.join(f'C{x + 12} {30 + next(r) * 10:.1f}, {x + 34} {30 + next(r) * 10:.1f}, {x + 46} {24 + next(r) * 6:.1f}' for x in xs)
+deck = (f'<path class="deck-fill" d="M-60 -20 L-60 26 {deck_edge} L{xs[-1] + 46} -20 Z" fill="url(#deck-fade)"/>'
+        f'<path class="deck-edge" d="M-60 26 {deck_edge}"/>')
+r = rng(43)
+deck_hatch = ' '.join(f'M{x:.0f} {y:.0f} l{14 + next(r) * 10:.0f} -4' for x, y in ((next(r) * 1200, 6 + next(r) * 18) for _ in range(22)))
+deck += f'<path class="thin" d="{deck_hatch}"/>'
+# Rain rings on the fjord, and the smoke from the boathouse chimney on cold days.
+r = rng(47)
+ripples = ''.join(f'<ellipse cx="{280 + next(r) * 720:.0f}" cy="{204 + next(r) * 44:.0f}" rx="{5 + next(r) * 4:.1f}" ry="1.4" style="--d:{-next(r) * 2.4:.2f}s"/>' for _ in range(18))
+smoke = ''.join(f'<path class="puff" d="M141 213 C136 209, 147 206, 142 201 C137 196, 149 193, 145 187 C141 182, 151 179, 149 174" style="--d:{-d}s"/>' for d in (0, 2, 4))
 r = rng(11)
 rain = ''.join(f'<path d="M{next(r) * 1260:.0f} {next(r) * 60 - 40:.0f} l-2.4 8" style="--d:{-next(r) * 1.2:.2f}s;--t:{0.75 + next(r) * 0.35:.2f}s"/>' for _ in range(80))
 r = rng(29)
@@ -606,6 +624,19 @@ markup = f'''<!-- LAND -->
         </g>
       </svg>
       <svg class="fjord" viewBox="0 0 {W} {H}" preserveAspectRatio="xMidYMax slice">
+        <defs>
+          <!-- a haze over the horizon, coloured by the weather (style.css sets --wash) -->
+          <linearGradient id="wash" x1="0" x2="0" y1="0" y2="1">
+            <stop offset="0" class="wash-stop" stop-opacity="0"/>
+            <stop offset="0.55" class="wash-stop" stop-opacity="1"/>
+            <stop offset="1" class="wash-stop" stop-opacity="0.6"/>
+          </linearGradient>
+          <!-- the overcast deck fades out upwards, so it has no hard top edge -->
+          <linearGradient id="deck-fade" gradientUnits="userSpaceOnUse" x1="0" x2="0" y1="4" y2="36">
+            <stop offset="0" class="deck-stop" stop-opacity="0"/>
+            <stop offset="1" class="deck-stop" stop-opacity="0.7"/>
+          </linearGradient>
+        </defs>
         <g class="layer layer--sky sky">
           <g class="stars">
             <path d="M160 40h6M163 37v6"/><path d="M300 22h4M302 20v4"/><path d="M430 52h5M432.5 49.5v5"/>
@@ -624,7 +655,10 @@ markup = f'''<!-- LAND -->
         </g>
         <g class="layer layer--sky day day-nyttar">{fireworks}
         </g>
-        <g class="layer layer--sky wx-clouds">{clouds}
+        <g class="layer layer--sky wx-wash"><rect x="-200" y="0" width="1600" height="200" fill="url(#wash)"/>
+        </g>
+        <g class="layer layer--sky wx-clouds">
+          <g class="deck">{deck}</g>{clouds}
         </g>
         <g class="layer layer--back ink">{back}
         </g>
@@ -656,6 +690,10 @@ markup = f'''<!-- LAND -->
         <g class="layer layer--near ink">{near}
         </g>
         <g class="layer layer--near cover">{near_cover}
+        </g>
+        <g class="layer layer--near chimney">{smoke}
+        </g>
+        <g class="layer layer--near wx-ripple">{ripples}
         </g>
         <g class="layer layer--near life">{life}
           <g class="glint"><path d="M-14 0h28M-8 7h16M-4 14h8"/></g>
