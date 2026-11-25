@@ -297,8 +297,8 @@
     return Math.min(1, Math.max(0.2, (visible / 2 - 46) / 510));
   };
   /* The moon: real phase drawn into .lit (a half disc plus the terminator ellipse), tilted like the real one. */
-  const PHASES = { new: 'new moon', 'wax-cres': 'waxing crescent', q1: 'first quarter', 'wax-gib': 'waxing gibbous', full: 'full moon',
-    'wan-gib': 'waning gibbous', q3: 'last quarter', 'wan-cres': 'waning crescent' };
+  const PHASES = { new: 'new moon', 'wax-cres': 'thin growing moon', q1: 'half moon, growing', 'wax-gib': 'almost full moon, growing', full: 'full moon',
+    'wan-gib': 'almost full moon, shrinking', q3: 'half moon, shrinking', 'wan-cres': 'thin shrinking moon' };
   const phaseOf = (p) => (p < 0.03 || p > 0.97 ? 'new' : p < 0.22 ? 'wax-cres' : p < 0.28 ? 'q1' : p < 0.47 ? 'wax-gib'
     : p < 0.53 ? 'full' : p < 0.72 ? 'wan-gib' : p < 0.78 ? 'q3' : 'wan-cres');
   const moonLit = land.querySelector('.moon .lit');
