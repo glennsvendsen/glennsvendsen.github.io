@@ -70,6 +70,9 @@ Local preview: `python3 -m http.server 8000`
 - **Skyline** (`.land`): layers `layer--sky|back|far|mid|near` (fainter and finer further back; Holmenkollen/Tryvann west, Bygdøy and a near shore with a pine in front, Ekeberg with Sjømannsskolen and Ekebergrestauranten east; the city is shifted by `CITY_DX`; the skyline uses the finer `#sketch-fine` wobble) parallax on scroll (scroll-driven
   animations), draw in on first load (`.is-drawing` → `.is-drawn`), and `.life` holds the ferry,
   sailboat, gulls; the Norwegian flag on City Hall (`.flagpole`, its own mid-layer group so it can wave) is the one place with real colours. `.fill` paths are paper silhouettes.
+  The city's reflection (`.mirror`, a mid-layer group drawn after the near layer so the fjord's paper surface doesn't hide
+  it) is `city_fill` mirrored at the water line (`MIRROR_K` of its height, baked into the coordinates) and cut into fading
+  stripes by the `#mirror-stripes` mask; its tone is 0.45 alpha in light, 0.5 in dark, and it hides when the fjord is frozen.
 - **Weather & seasons**: main.js fetches Oslo weather once per visit from Open-Meteo (free, no key, no
   cookies, CC BY 4.0, credited in the footer; cached 30 min in sessionStorage) and sets `data-wx`
   (clear|cloud|fog|rain|snow|storm), `data-clouds` (0–3), `data-intensity`, `data-cover` (none|light|deep,

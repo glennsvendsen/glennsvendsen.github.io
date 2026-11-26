@@ -292,6 +292,9 @@ p { text-wrap: pretty; }
 .fjord .ink .people { stroke-opacity: 0.9; stroke-width: 0.7; }
 .fjord .fill { fill: var(--paper); stroke: none; }
 .fjord .accent { stroke: var(--accent); }
+/* The city's reflection: a striped, faded mirror of its silhouette (strength 0.45 light, 0.5 dark). */
+.fjord .mirror { stroke: none; filter: url(#sketch-fine); transition: opacity 1.5s ease 0.2s; }
+.fjord .mirror path { fill: light-dark(oklch(0.82 0.016 70 / 0.45), oklch(0.36 0.016 250 / 0.5)); }
 .layer--far path:not(.fill) { stroke-opacity: 0.7; }
 /* Atmosphere: the further back, the fainter and finer the line. */
 .fjord .layer--back.ink path:not(.fill) { stroke-opacity: 0.32; stroke-width: 1.1; }
@@ -308,7 +311,7 @@ p { text-wrap: pretty; }
 .js .land .layer--mid path:nth-child(3n + 2)  { --d: 0.45s; }
 .js .land .layer--mid path:nth-child(3n)      { --d: 0.6s; }
 @keyframes draw { to { stroke-dashoffset: 0; } }
-.js .land:not(.is-drawn) :is(.life, .sky, .flagpole, .lights, .beacon-layer) { opacity: 0; }
+.js .land:not(.is-drawn) :is(.life, .sky, .flagpole, .lights, .beacon-layer, .mirror) { opacity: 0; }
 .land :is(.life, .sky, .flagpole, .beacon-layer) { transition: opacity 0.9s ease 0.2s; }
 /* The red aviation light on the Tryvann tower: a slow glowing pulse after dusk, a dim dot by day. */
 .beacon, .beacon-halo { fill: oklch(0.62 0.24 27); stroke: none; }
@@ -467,7 +470,7 @@ p { text-wrap: pretty; }
 .fjord .skate { stroke-dasharray: 5 4; stroke-opacity: 0.25; }
 .land[data-ice='1'] .ice-1,
 .land[data-ice='2'] :is(.ice-1, .ice-2) { opacity: 1; }
-.land[data-ice='2'] .sailboat { opacity: 0; }
+.land[data-ice='2'] :is(.sailboat, .mirror) { opacity: 0; }
 .sailboat { transition: opacity 1.5s; }
 
 .wx-clouds :is(.cloud, .deck) { opacity: 0; transition: opacity 2.4s; }
