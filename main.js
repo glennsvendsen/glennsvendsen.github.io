@@ -165,6 +165,36 @@
     setTimeout(() => land.classList.add('is-drawing'), start);
     setTimeout(() => { land.classList.add('is-drawn'); land.classList.remove('is-drawing'); }, start + 2100);
   }
+  // On narrow touch screens the panorama scrolls sideways (style.css): start at the middle, and once per
+  // visit, after it has drawn, glide a little towards Ekeberg and back so it's clear there is more.
+  if (land) {
+    const sideways = () => land.scrollWidth > land.clientWidth + 4;
+    const centre = () => { if (sideways()) land.scrollLeft = (land.scrollWidth - land.clientWidth) / 2; };
+    centre();
+    let touched = false;
+    land.addEventListener('pointerdown', () => { touched = true; }, { once: true, passive: true });
+    let lastW = innerWidth;
+    addEventListener('resize', () => { if (innerWidth !== lastW && !touched) centre(); lastW = innerWidth; });
+    let hinted = false;
+    try { hinted = sessionStorage.getItem('panHint') === '1'; } catch (e) { /* ignore */ }
+    if (!reduceMotion && !hinted) {
+      setTimeout(() => {
+        if (!sideways() || touched) return;
+        try { sessionStorage.setItem('panHint', '1'); } catch (e) { /* ignore */ }
+        // out and back in one eased sweep (rAF, not smooth scrollTo, so the timing doesn't depend on the browser)
+        const mid = land.scrollLeft;
+        const reach = Math.min(140, (land.scrollWidth - land.clientWidth) / 2);
+        const t0 = performance.now();
+        const step = (now) => {
+          if (touched) return;
+          const t = Math.min(1, (now - t0) / 2200);
+          land.scrollLeft = mid + reach * Math.sin(Math.PI * t) ** 2;
+          if (t < 1) requestAnimationFrame(step);
+        };
+        requestAnimationFrame(step);
+      }, seen ? 900 : 3400);
+    }
+  }
   const signoff = document.querySelector('.signature--signoff');
   if (signoff && !reduceMotion) {
     const ink = signoff.querySelector('.sig-ink');
@@ -291,8 +321,9 @@
   const clock = document.querySelector('.hero-clock');
   // The panorama is cropped to the middle on narrow screens, so the sun and moon travel a shorter arc there.
   const arcScale = () => {
-    const w = land.clientWidth;
-    const h = land.clientHeight;
+    const box = land.querySelector('.fjord').getBoundingClientRect();   // the whole panorama when it scrolls sideways
+    const w = box.width || land.clientWidth;
+    const h = box.height || land.clientHeight;
     const visible = w / Math.max(w / 1200, h / 260);       // viewBox units on screen (xMidYMax slice)
     return Math.min(1, Math.max(0.2, (visible / 2 - 46) / 510));
   };

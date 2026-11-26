@@ -279,6 +279,16 @@ p { text-wrap: pretty; }
    from Holmenkollen to Ekeberg; narrower screens crop to the middle. */
 .land { position: relative; z-index: 1; height: clamp(13rem, 21.7vw, 24rem); margin-top: 1rem; }
 .land svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+/* Touch screens too narrow for the whole panorama (below 1200:260 at 13rem high) get it at full width
+   in a sideways scroller instead of cropped to the middle, so Dyna and the Ekeberg tram can be swiped to.
+   No scrollbar; main.js starts it at the middle and glides it once as a hint. The 3rem headroom keeps
+   rain and snow falling in from above the skyline. */
+@media (max-width: 957px) and (pointer: coarse) {
+  .land { --land-h: 13rem; height: calc(var(--land-h) + 3rem); margin-top: -2rem; overflow: auto hidden;
+          scrollbar-width: none; overscroll-behavior-x: contain; }
+  .land::-webkit-scrollbar { display: none; }
+  .land svg { inset: auto auto 0 0; width: calc(var(--land-h) * 1200 / 260); max-width: none; height: var(--land-h); }
+}
 .fjord { fill: none; stroke: var(--ink); stroke-linecap: round; stroke-linejoin: round; }
 .fjord .ink { filter: url(#sketch-fine); }
 .fjord .ink path { stroke-width: 1.5; }

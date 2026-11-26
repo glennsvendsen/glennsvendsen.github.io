@@ -92,7 +92,9 @@ Local preview: `python3 -m http.server 8000`
   minutes; the month table in main.js is only a fallback). main.js (`updateSky`) places the sun and moon on
   east-to-west arcs (the panorama faces north, so only the timing is real), draws the phase into `.moon .lit`,
   shows the moon (`data-moon`) whenever it is above the horizon (pale by day), names the phase in the clock line
-  at night, and keeps both arcs inside the visible part of the panorama on narrow screens (`arcScale`). Aurora on
+  at night, and keeps both arcs inside the visible part of the panorama on narrow screens (`arcScale`). On touch screens under 958px
+  the panorama is not cropped: `.land` becomes a sideways scroller (no scrollbar) at full panorama width, main.js starts
+  it at the middle and glides it once per visit towards Ekeberg and back as a hint (not with reduced motion). Aurora on
   winter nights (painted decoration for clear, dark winter nights, not real aurora data, and the text says so); at golden hour (dusk/dawn, not overcast) `.afterglow`, a warm haze behind the skyline, follows
   the sun (`data-glow`). The City Hall clock hands (`.hand--hour/--min`, `data-pivot`, rotated in `updateSky`)
   show the same Oslo time.
