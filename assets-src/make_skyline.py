@@ -13,7 +13,8 @@ Layers, back to front. Each is a <g class="layer layer--*"> so CSS can parallax 
         Barcode; and Ekebergåsen in the east with Ekebergrestauranten and Sjømannsskolen, and the
         Ekeberg tram climbing Kongsveien (its own group between two mid ink groups)
   near  the fjord: water lines that open up towards the viewer, Hovedøya, a skerry with a sea mark,
-        reflections, and the living bits (ferry, sailboat, gulls)
+        reflections, Dyna fyr on the near shore, a boathouse on the skerry, and the living bits
+        (ferry, sailboat, gulls)
 Depth comes from atmosphere (each layer further back is fainter and thinner, see style.css) and
 from scale (water lines, the skerry).
 
@@ -451,7 +452,34 @@ pine_trunk = ('M60 234 C64 212, 56 196, 66 178 C72 166, 80 156, 88 146 M68 234 C
               'M66 192 C54 184, 42 180, 30 178 M78 168 C92 164, 108 160, 124 154 M88 150 C84 142, 80 136, 72 132')
 pine_crowns = ' '.join([lumps(8, 180, 50, 17, 81, n=4), lumps(96, 156, 56, 19, 82, n=4), lumps(44, 136, 58, 21, 83, n=4),
                         lumps(70, 120, 44, 16, 84, n=3)])
-naust = 'M122 242 L122 228 L134 218 L146 228 L146 245 M128 243 L128 232 L140 232 L140 244'
+# the boathouse with the chimney sits on the skerry, next to the sea mark
+naust = 'M1098 240.5 L1098 226 L1110 216 L1122 226 L1122 237.5 M1104 240 L1104 230 L1116 230 L1116 238.5'
+# Dyna fyr on the near shore (it lies just off Bygdøy): a white wooden house on a stone pier with the
+# lantern on its roof. The light itself is in its own group (.dyna-light), green, see style.css.
+dyna_fill = ('M119 246 L121.5 238 L123.5 238 L123.5 226.5 L121 226.5 L127.5 219 L131 219 L131 211 C131.5 207.8, 136.5 207.8, 137 211 '
+             'L137 219 L140.5 219 L147 226.5 L144.5 226.5 L144.5 238 L146.5 238 L149 247 Z')
+dyna = ('M119 245 L121.5 238 L146.5 238 L149 246.5 M123.5 238 L123.5 226.5 M144.5 226.5 L144.5 238 '
+        'M121 226.5 L127.5 219 L140.5 219 L147 226.5 Z M131 219 L131 216 M137 219 L137 216 M129.5 216 L138.5 216 '
+        'M131.8 216 L131.8 211 L136.2 211 L136.2 216 M131 211 C131.5 207.8, 136.5 207.8, 137 211 M134 208.4 L134 206.6')
+dyna_thin = ('M126 229.5 L129.6 229.5 L129.6 234 L126 234 Z M138.4 229.5 L142 229.5 L142 234 L138.4 234 Z M132 238 L132 231.5 L136 231.5 L136 238 '
+             'M124.5 241.5 L131 241.5 M136 241.5 L144.5 241.5 M128 238 L128 241.5 M140 241.5 L140 245 '
+             'M130 216 L130 214.4 M138 216 L138 214.4 M129.5 214.4 L138.5 214.4')
+# It is the nearest building in the picture, so it is drawn at 1.35x and scaled about its foot.
+DYNA_K, DYNA_O = 1.35, (134, 246)
+def dyna_xy(x, y):
+    return DYNA_O[0] + (x - DYNA_O[0]) * DYNA_K, DYNA_O[1] + (y - DYNA_O[1]) * DYNA_K
+def dyna_d(d):                               # absolute M/L/C/Z paths only: numbers come in x y pairs
+    def one(m):
+        x, y = dyna_xy(float(m.group(1)), float(m.group(2)))
+        return f'{x:.2f} {y:.2f}'
+    return re.sub(r'(-?\d*\.?\d+)[ ,]\s*(-?\d*\.?\d+)', one, d)
+dyna_windows = 'M126 229.5 L129.6 229.5 L129.6 234 L126 234 Z M138.4 229.5 L142 229.5 L142 234 L138.4 234 Z'
+dyna_fill, dyna, dyna_thin, dyna_windows = map(dyna_d, (dyna_fill, dyna, dyna_thin, dyna_windows))
+lamp_x, lamp_y = dyna_xy(134, 213.4)
+dyna_roof = [dyna_xy(*p) for p in ((121, 226.5), (127.5, 219), (140.5, 219), (147, 226.5))]
+dyna_light = f'''
+        <path class="dyna-lit" d="{dyna_windows}"/>
+        <circle class="lamp-halo" cx="{lamp_x:g}" cy="{lamp_y:.2f}" r="10"/><circle class="lamp" cx="{lamp_x:g}" cy="{lamp_y:.2f}" r="2.1"/>'''
 isl = forest(chain((744, 197), ((768, 188), (830, 186), (872, 197)))[1], 776, 846, 7, 6, 10, 19, dy=1)
 near = f'''
         <path class="fill" d="M0 {WATER} L1200 {WATER} L1200 {H} L0 {H} Z"/>
@@ -463,17 +491,25 @@ near = f'''
         <path d="{skerry}"/>
         <path class="thin" d="M1070 250 C1080 246, 1090 247, 1098 250 M1124 246 L1134 252 M1164 244 C1172 242, 1180 245, 1186 250 M1040 258 L1030 258 M1060 252 L1052 252"/>
         <path d="{seamark}"/>
+        <path class="fill" d="{naust} Z"/>
+        <path d="{naust}"/>
+        <path class="thin" d="M1102 228 L1118 228 M1110 216 L1110 212"/>
+        <path class="fill" d="M1115 220.2 L1115 213 L1119 213 L1119 223.5 Z"/>
+        <path d="M1115 220.2 L1115 213 L1119 213 L1119 223.5"/>
         <path class="fill" d="{shore} L236 {H} L0 {H} Z"/>
         <path d="{shore}"/>
         <path class="thin" d="M20 240 C30 238, 40 240, 48 243 M96 246 L104 252 M150 252 C160 252, 170 254, 178 258 M6 248 L16 247"/>
-        <path class="fill" d="{naust} Z"/>
-        <path d="{naust}"/>
-        <path class="thin" d="M126 230 L142 230 M134 218 L134 214"/>
-        <path class="fill" d="M139 222.2 L139 215 L143 215 L143 225.5 Z"/>
-        <path d="M139 222.2 L139 215 L143 215 L143 225.5"/>
+        <path class="fill" d="{dyna_fill}"/>
+        <path d="{dyna}"/>
+        <path class="thin" d="{dyna_thin}"/>
         <path d="{pine_trunk}"/>
         <path class="trees pine" d="{pine_crowns}"/>
         <path class="thin" d="M14 182 L22 178 M24 183 L32 179 M104 158 L112 154 M116 159 L124 155 M130 158 L138 154 M52 138 L60 134 M64 139 L72 135 M78 122 L86 118"/>'''
+
+# The ferry sails between the open water and the near things (skerry, shore, Dyna, pine), so the near ink
+# and its cover are split around its group.
+_split = near.index(f'<path class="fill" d="{skerry} L1200')
+near_a, near_b = near[:_split].rstrip(), '\n        ' + near[_split:]
 
 # Ice on the fjord: edges along the shore (level 1), a wide sheet after a long cold spell (level 2).
 ice1 = ('M0 197 L0 206 C40 209, 90 204, 140 208 C180 211, 230 205, 300 204 C340 203, 380 206, 470 200 L470 197 Z '
@@ -488,8 +524,10 @@ near_cover = f'''
         <path class="ice ice-2" d="{ice2}"/>
         <path class="ice-line ice-2" d="{cracks}"/>
         <path class="ice-line ice-2 skate" d="{skate}"/>
-        <path class="snow snow-light" d="{snow_band([(0, 232), (40, 229), (84, 236), (140, 242), (236, 260)], 2.8, 91, step=5)} {snow_band([(122, 228), (134, 218), (146, 228)], 1.6, 92, step=3)} {snow_band([(1046, 260), (1092, 241), (1132, 240), (1186, 243), (1200, 254)], 2.6, 93, step=5)}"/>
+        <path class="snow snow-light" d="{snow_band([(0, 232), (40, 229), (84, 236), (140, 242), (236, 260)], 2.8, 91, step=5)} {snow_band([(1098, 226), (1110, 216), (1122, 226)], 1.6, 92, step=3)} {snow_band(dyna_roof, 1.8, 98, step=3)} {snow_band([(1046, 260), (1092, 241), (1132, 240), (1186, 243), (1200, 254)], 2.6, 93, step=5)}"/>
         <path class="snow snow-deep" d="{snow_band([(14, 168), (52, 168)], 2.4, 94, step=3)} {snow_band([(102, 142), (148, 142)], 2.4, 95, step=3)} {snow_band([(50, 120), (96, 120)], 2.6, 96, step=3)} {snow_band([(76, 106), (110, 106)], 2.2, 97, step=3)}"/>'''
+_cut = near_cover.index('<path class="snow')
+near_ice, near_snow = near_cover[:_cut].rstrip(), '\n        ' + near_cover[_cut:]
 
 # The Norwegian flag on City Hall's east tower (red, a white-edged blue Nordic cross: 6-1-2-1-12 by
 # 6-1-2-1-6). Its own group in the mid layer, so it moves with the city but can wave as one piece.
@@ -573,8 +611,9 @@ jumper = (f'<g class="jumper"><path d="M{tx - 3} {tyo - 6.5:.1f} L{tx + 3.5} {ty
           f'M{tx + 0.4} {tyo - 7:.1f} L{tx + 2.4} {tyo - 11:.1f} M{tx + 2.4} {tyo - 11:.1f} L{tx + 3.2} {tyo - 12.4:.1f}"/></g>')
 jump_dx, jump_dy = lx - tx - 6, ly - tyo + 4
 
+ferry = '''
+        <g class="ferry"><g transform="translate(0 212)"><path d="M0 0 L46 0 L41 7 L5 7 Z M10 0 L10 -6 L36 -6 L36 0 M14 -3 L16 -3 M20 -3 L22 -3 M26 -3 L28 -3 M26 -6 L26 -11 L31 -11 L31 -6"/><path class="ferry-lit" d="M13 -4.5 h4 v3 h-4 Z M19 -4.5 h4 v3 h-4 Z M25 -4.5 h4 v3 h-4 Z M27.4 -13.2 h2.2 v2.2 h-2.2 Z"/></g></g>'''
 life = '''
-        <g class="ferry"><g transform="translate(0 212)"><path d="M0 0 L46 0 L41 7 L5 7 Z M10 0 L10 -6 L36 -6 L36 0 M14 -3 L16 -3 M20 -3 L22 -3 M26 -3 L28 -3 M26 -6 L26 -11 L31 -11 L31 -6"/><path class="ferry-lit" d="M13 -4.5 h4 v3 h-4 Z M19 -4.5 h4 v3 h-4 Z M25 -4.5 h4 v3 h-4 Z M27.4 -13.2 h2.2 v2.2 h-2.2 Z"/></g></g>
         <g transform="translate(790 208)"><g class="sailboat"><path d="M-20 0 C-12 8, 12 8, 22 0 Z M0 0 L0 -30 M0 -28 L16 -4 L0 -4 Z"/></g></g>
         <g class="gulls"><path d="M0 0 C3 -4, 7 -4, 10 0 C13 -4, 17 -4, 20 0" transform="translate(380 56)"/><path d="M0 0 C2 -3, 5 -3, 7 0 C9 -3, 12 -3, 14 0" transform="translate(410 46)"/></g>'''
 
@@ -608,7 +647,7 @@ deck += f'<path class="thin" d="{deck_hatch}"/>'
 # Rain rings on the fjord, and the smoke from the boathouse chimney on cold days.
 r = rng(47)
 ripples = ''.join(f'<ellipse cx="{280 + next(r) * 720:.0f}" cy="{204 + next(r) * 44:.0f}" rx="{5 + next(r) * 4:.1f}" ry="1.4" style="--d:{-next(r) * 2.4:.2f}s"/>' for _ in range(18))
-smoke = ''.join(f'<path class="puff" d="M141 213 C136 209, 147 206, 142 201 C137 196, 149 193, 145 187 C141 182, 151 179, 149 174" style="--d:{-d}s"/>' for d in (0, 2, 4))
+smoke = ''.join(f'<path class="puff" d="M1117 211 C1112 207, 1123 204, 1118 199 C1113 194, 1125 191, 1121 185 C1117 180, 1127 177, 1125 172" style="--d:{-d}s"/>' for d in (0, 2, 4))
 r = rng(11)
 rain = ''.join(f'<path d="M{next(r) * 1260:.0f} {next(r) * 60 - 40:.0f} l-2.4 8" style="--d:{-next(r) * 1.2:.2f}s;--t:{0.75 + next(r) * 0.35:.2f}s"/>' for _ in range(80))
 r = rng(29)
@@ -762,11 +801,19 @@ markup = f'''<!-- LAND -->
         </g>
         <g class="layer layer--mid day day-jul">{jul}
         </g>
-        <g class="layer layer--near ink">{near}
+        <g class="layer layer--near ink">{near_a}
         </g>
         <g class="layer layer--mid mirror"><path d="{mirror_d}" mask="url(#mirror-stripes)"/>
         </g>
-        <g class="layer layer--near cover">{near_cover}
+        <g class="layer layer--near cover">{near_ice}
+        </g>
+        <g class="layer layer--near life life--ferry">{ferry}
+        </g>
+        <g class="layer layer--near ink">{near_b}
+        </g>
+        <g class="layer layer--near cover">{near_snow}
+        </g>
+        <g class="layer layer--near dyna-light">{dyna_light}
         </g>
         <g class="layer layer--near chimney">{smoke}
         </g>

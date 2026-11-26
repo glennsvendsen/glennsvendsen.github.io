@@ -311,8 +311,8 @@ p { text-wrap: pretty; }
 .js .land .layer--mid path:nth-child(3n + 2)  { --d: 0.45s; }
 .js .land .layer--mid path:nth-child(3n)      { --d: 0.6s; }
 @keyframes draw { to { stroke-dashoffset: 0; } }
-.js .land:not(.is-drawn) :is(.life, .sky, .flagpole, .lights, .beacon-layer, .mirror, .tram-layer) { opacity: 0; }
-.land :is(.life, .sky, .flagpole, .beacon-layer, .tram-layer) { transition: opacity 0.9s ease 0.2s; }
+.js .land:not(.is-drawn) :is(.life, .sky, .flagpole, .lights, .beacon-layer, .mirror, .tram-layer, .dyna-light) { opacity: 0; }
+.land :is(.life, .sky, .flagpole, .beacon-layer, .tram-layer, .dyna-light) { transition: opacity 0.9s ease 0.2s; }
 /* The red aviation light on the Tryvann tower: a slow glowing pulse after dusk, a dim dot by day. */
 .beacon, .beacon-halo { fill: oklch(0.62 0.24 27); stroke: none; }
 .beacon { opacity: 0.3; filter: drop-shadow(0 0 1.5px oklch(0.62 0.24 27 / 0.8)) drop-shadow(0 0 4px oklch(0.62 0.24 27 / 0.45)); }
@@ -326,16 +326,31 @@ p { text-wrap: pretty; }
 @keyframes beacon { 0%, 100% { opacity: 0.25; } 40% { opacity: var(--beacon-peak); } }
 @keyframes beacon-halo { 0%, 100% { opacity: 0; scale: 0.5; } 40% { opacity: var(--halo-peak); scale: 1.1; } 80% { opacity: 0; scale: 1.5; } }
 @media (prefers-reduced-motion: reduce) { .beacon { opacity: var(--beacon-peak); } }
+/* Dyna fyr: a green light, long on and short dark (the colour is a choice, not its real sector). Faint by
+   day, brighter with a soft halo whenever data-lights is set. */
+.lamp, .lamp-halo { fill: oklch(0.72 0.17 150); stroke: none; }
+.lamp { opacity: 0.25; filter: drop-shadow(0 0 2.5px oklch(0.72 0.17 150)) drop-shadow(0 0 8px oklch(0.72 0.17 150 / 0.7)); }
+.lamp-halo { opacity: 0; filter: blur(3px); }
+.land { --lamp-peak: 0.35; --lamp-halo: 0.1; }
+.land[data-lights] { --lamp-peak: 1; --lamp-halo: 0.5; }
+.dyna-lit { filter: drop-shadow(0 0 1.5px var(--glow)); }
+@media (prefers-reduced-motion: no-preference) {
+  .lamp { animation: lamp 6s infinite; }
+  .lamp-halo { animation: lamp-halo 6s infinite; }
+}
+@media (prefers-reduced-motion: reduce) { .lamp { opacity: var(--lamp-peak); } .lamp-halo { opacity: var(--lamp-halo); } }
+@keyframes lamp { 0%, 72% { opacity: var(--lamp-peak); } 78%, 94% { opacity: 0.05; } 100% { opacity: var(--lamp-peak); } }
+@keyframes lamp-halo { 0%, 72% { opacity: var(--lamp-halo); } 78%, 94% { opacity: 0; } 100% { opacity: var(--lamp-halo); } }
 /* The flag on City Hall: the one place with real colours (Norway's), drawn small with an ink edge. */
 /* Night lights: windows glow warm after dark (data-lights from main.js; "late" keeps only l2 on). */
 .land { --glow: light-dark(oklch(0.8 0.13 80), oklch(0.86 0.13 85)); }
-.lights path, .ferry-lit, .tram-lit { fill: var(--glow); stroke: none; opacity: 0; transition: opacity 1.4s ease; }
+.lights path, .ferry-lit, .tram-lit, .dyna-lit { fill: var(--glow); stroke: none; opacity: 0; transition: opacity 1.4s ease; }
 .lights-reflect path { fill: none; stroke: var(--glow); stroke-width: 1.6; stroke-linecap: round; }
 /* light-dark() only takes colours, so the strength is a custom property that dark mode raises. */
 .land { --lit: 0.75; } .is-dark .land { --lit: 0.92; }
 .land[data-lights='on'] .lights :is(.l1, .l2), .land[data-lights='late'] .lights .l2,
-.land[data-lights]:not([data-lights='dusk']) :is(.ferry-lit, .tram-lit) { opacity: var(--lit); }
-.land[data-lights='dusk'] .lights .l2, .land[data-lights='dusk'] :is(.ferry-lit, .tram-lit) { opacity: calc(var(--lit) * 0.55); }
+.land[data-lights]:not([data-lights='dusk']) :is(.ferry-lit, .tram-lit, .dyna-lit) { opacity: var(--lit); }
+.land[data-lights='dusk'] .lights .l2, .land[data-lights='dusk'] :is(.ferry-lit, .tram-lit, .dyna-lit) { opacity: calc(var(--lit) * 0.55); }
 .land[data-lights]:not([data-lights='dusk']) .lights-reflect path { opacity: calc(var(--lit) * 0.5); }
 /* A soft halo around the lit windows: one blur for the whole group, stronger on dark paper. */
 .lights:not(.lights-reflect) { filter: drop-shadow(0 0 1.6px var(--glow)) drop-shadow(0 0 4px color-mix(in oklch, var(--glow) 55%, transparent)); }
@@ -582,7 +597,7 @@ p { text-wrap: pretty; }
 /* One soft double flash every 11 s (well under the 3-flashes-a-second limit). */
 @keyframes bolt { 0%, 92% { opacity: 0; } 93% { opacity: 1; } 94% { opacity: 0; } 95.5% { opacity: 0.8; } 97%, 100% { opacity: 0; } }
 /* Off-screen, everything on the skyline holds still. */
-.land.is-paused :is(.wx-front *, .cloud-drift, .puff, .wx-ripple ellipse, .ferry, .gulls, .gulls path, .sailboat, .tram, .flag, .ab, .stars path, .smoke, .beacon, .beacon-halo) { animation-play-state: paused; }
+.land.is-paused :is(.wx-front *, .cloud-drift, .puff, .wx-ripple ellipse, .ferry, .gulls, .gulls path, .sailboat, .tram, .flag, .ab, .stars path, .smoke, .beacon, .beacon-halo, .lamp, .lamp-halo) { animation-play-state: paused; }
 @media (prefers-reduced-motion: reduce) {
   .wx-rain, .wx-snow, .bolt, .wx-ripple { display: none; }
   .land[data-cold] .chimney .puff:first-child { animation: none; stroke-opacity: 0.4; translate: 2px -4px; }

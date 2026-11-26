@@ -70,7 +70,9 @@ Local preview: `python3 -m http.server 8000`
 - **Skyline** (`.land`): layers `layer--sky|back|far|mid|near` (fainter and finer further back; Holmenkollen/Tryvann west, Bygdøy and a near shore with a pine in front, Ekeberg with Sjømannsskolen and Ekebergrestauranten east; the city is shifted by `CITY_DX`; the skyline uses the finer `#sketch-fine` wobble) parallax on scroll (scroll-driven
   animations), draw in on first load (`.is-drawing` → `.is-drawn`), and `.life` holds the ferry,
   sailboat, gulls; the Ekeberg tram (`.tram` in `.tram-layer`, between two mid `ink` groups so it runs behind the Ekeberg trees
-  and the Barcode) climbs Kongsveien with CSS `offset-path` and stops below Ekebergrestauranten (`--stop`); the Norwegian flag on City Hall (`.flagpole`, its own mid-layer group so it can wave) is the one place with real colours. `.fill` paths are paper silhouettes.
+  and the Barcode) climbs Kongsveien with CSS `offset-path` and stops below Ekebergrestauranten (`--stop`);
+  Dyna fyr stands on the near shore with a green light (`.dyna-light`: long on, short dark; the colour is chosen, not its
+  real sector), and the boathouse with the chimney smoke sits on the skerry by the sea mark; the Norwegian flag on City Hall (`.flagpole`, its own mid-layer group so it can wave) is the one place with real colours. `.fill` paths are paper silhouettes.
   The city's reflection (`.mirror`, a mid-layer group drawn after the near layer so the fjord's paper surface doesn't hide
   it) is `city_fill` mirrored at the water line (`MIRROR_K` of its height, baked into the coordinates) and cut into fading
   stripes by the `#mirror-stripes` mask; its tone is 0.45 alpha in light, 0.5 in dark, and it hides when the fjord is frozen.
@@ -81,7 +83,7 @@ Local preview: `python3 -m http.server 8000`
   in the `.cover` groups, falling weather in `.wx-front`; all paused when the skyline is off-screen.
   Cosy extras: up to seven clouds (four smaller `.far` ones further back) and, at `data-clouds=3`, a low `.deck`
   that fades out upwards; a `.wx-wash` haze over the horizon coloured by the weather (`--wash`); rain rings on the
-  fjord (`.wx-ripple`); smoke from the boathouse chimney when it's 5 °C or colder (`data-cold`); and on grey, wet
+  fjord (`.wx-ripple`); smoke from the boathouse chimney (on the skerry) when it's 5 °C or colder (`data-cold`); and on grey, wet
   or snowy days a few windows are lit by day (`data-lights="dusk"`). The Tryvann aviation light always pulses: softly on
   clear days, brighter whenever `data-lights` is set (`--beacon-peak`). Under the overcast deck the sun and moon show through, pale.
   Debug on localhost: `?wx=snow&snow=0.3&ice=2&temp=-8&clouds=2` (wx: clear|cloud|fog|drizzle|rain|snow|storm).
