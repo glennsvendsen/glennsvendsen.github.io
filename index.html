@@ -129,8 +129,13 @@
       <p class="hero-lede" data-i18n="hero.lede">Products by day,<br> side projects by night,<br> <em>outside whenever I can.</em></p>
       <p class="hero-meta mono">
         <span data-i18n="hero.place">Oslo, Norway</span>
-        <span class="hero-clock" hidden><time class="clock-time"></time> <span class="clock-sky"></span></span>
+        <span class="hero-clock" hidden><button type="button" class="clock-btn" aria-expanded="false" aria-controls="timewarp" data-i18n-attr="title:tw.open" title="Scrub through the day"><time class="clock-time"></time></button> <span class="clock-sky"></span></span>
       </p>
+      <div class="timewarp mono" id="timewarp" hidden>
+        <label for="tw-range" data-i18n="tw.label">Scrub through the day</label>
+        <input id="tw-range" type="range" min="0" max="23.75" step="0.25" value="12">
+        <button type="button" class="tw-now" data-i18n="tw.now">Now</button>
+      </div>
     </div>
 
     <!-- LAND -->
@@ -451,12 +456,12 @@
         <g class="layer layer--near lights lights-reflect"><path d="M501 201 L501 206 M512 202 L512 210 M563 201 L563 207 M573 202 L573 212 M811 201 L811 209 M980 202 L980 208 M990 201 L990 211 M1020 202 L1020 207 M660 201 L660 205"/>
         </g>
         <g class="layer layer--mid flagpole">
-          <g class="flag">
+          <g class="flag-wind"><g class="flag">
             <path class="nf-red" d="M568 70 h11 v8 h-11 Z"/>
             <path class="nf-white" d="M571 70 h2 v8 h-2 Z M568 73 h11 v2 h-11 Z"/>
             <path class="nf-blue" d="M571.5 70 h1 v8 h-1 Z M568 73.5 h11 v1 h-11 Z"/>
             <path class="nf-edge" d="M568 70 h11 v8 h-11 Z"/>
-          </g>
+          </g></g>
         </g>
         <g class="layer layer--mid day day-17mai"><path class="pole" d="M508 92 L508 83"/><path class="nf-red" d="M508.00 83.00 h7.04 v5.12 h-7.04 Z"/><path class="nf-white" d="M509.92 83.00 h1.28 v5.12 h-1.28 Z M508.00 84.92 h7.04 v1.28 h-7.04 Z"/><path class="nf-blue" d="M510.24 83.00 h0.64 v5.12 h-0.64 Z M508.00 85.24 h7.04 v0.64 h-7.04 Z"/><path class="pole" d="M654 116 L654 107"/><path class="nf-red" d="M654.00 107.00 h7.04 v5.12 h-7.04 Z"/><path class="nf-white" d="M655.92 107.00 h1.28 v5.12 h-1.28 Z M654.00 108.92 h7.04 v1.28 h-7.04 Z"/><path class="nf-blue" d="M656.24 107.00 h0.64 v5.12 h-0.64 Z M654.00 109.24 h7.04 v0.64 h-7.04 Z"/><path class="pole" d="M681 102 L681 93"/><path class="nf-red" d="M681.00 93.00 h7.04 v5.12 h-7.04 Z"/><path class="nf-white" d="M682.92 93.00 h1.28 v5.12 h-1.28 Z M681.00 94.92 h7.04 v1.28 h-7.04 Z"/><path class="nf-blue" d="M683.24 93.00 h0.64 v5.12 h-0.64 Z M681.00 95.24 h7.04 v0.64 h-7.04 Z"/><path class="pole" d="M811 100 L811 91"/><path class="nf-red" d="M811.00 91.00 h7.04 v5.12 h-7.04 Z"/><path class="nf-white" d="M812.92 91.00 h1.28 v5.12 h-1.28 Z M811.00 92.92 h7.04 v1.28 h-7.04 Z"/><path class="nf-blue" d="M813.24 91.00 h0.64 v5.12 h-0.64 Z M811.00 93.24 h7.04 v0.64 h-7.04 Z"/><path class="pole" d="M913 152 L913 143"/><path class="nf-red" d="M913.00 143.00 h7.04 v5.12 h-7.04 Z"/><path class="nf-white" d="M914.92 143.00 h1.28 v5.12 h-1.28 Z M913.00 144.92 h7.04 v1.28 h-7.04 Z"/><path class="nf-blue" d="M915.24 143.00 h0.64 v5.12 h-0.64 Z M913.00 145.24 h7.04 v0.64 h-7.04 Z"/><path class="pole" d="M994 104 L994 95"/><path class="nf-red" d="M994.00 95.00 h7.04 v5.12 h-7.04 Z"/><path class="nf-white" d="M995.92 95.00 h1.28 v5.12 h-1.28 Z M994.00 96.92 h7.04 v1.28 h-7.04 Z"/><path class="nf-blue" d="M996.24 95.00 h0.64 v5.12 h-0.64 Z M994.00 97.24 h7.04 v0.64 h-7.04 Z"/><path class="pole" d="M1021 122 L1021 113"/><path class="nf-red" d="M1021.00 113.00 h7.04 v5.12 h-7.04 Z"/><path class="nf-white" d="M1022.92 113.00 h1.28 v5.12 h-1.28 Z M1021.00 114.92 h7.04 v1.28 h-7.04 Z"/><path class="nf-blue" d="M1023.24 113.00 h0.64 v5.12 h-0.64 Z M1021.00 115.24 h7.04 v0.64 h-7.04 Z"/><path class="pole" d="M1151 75.55266666666667 L1151 66.55266666666667"/><path class="nf-red" d="M1151.00 66.55 h7.04 v5.12 h-7.04 Z"/><path class="nf-white" d="M1152.92 66.55 h1.28 v5.12 h-1.28 Z M1151.00 68.47 h7.04 v1.28 h-7.04 Z"/><path class="nf-blue" d="M1153.24 66.55 h0.64 v5.12 h-0.64 Z M1151.00 68.79 h7.04 v0.64 h-7.04 Z"/><path class="pole" d="M1090 122.58358333333334 L1090 113.58358333333334"/><path class="nf-red" d="M1090.00 113.58 h7.04 v5.12 h-7.04 Z"/><path class="nf-white" d="M1091.92 113.58 h1.28 v5.12 h-1.28 Z M1090.00 115.50 h7.04 v1.28 h-7.04 Z"/><path class="nf-blue" d="M1092.24 113.58 h0.64 v5.12 h-0.64 Z M1090.00 115.82 h7.04 v0.64 h-7.04 Z"/><path class="pole" d="M432 170 L432 161"/><path class="nf-red" d="M432.00 161.00 h7.04 v5.12 h-7.04 Z"/><path class="nf-white" d="M433.92 161.00 h1.28 v5.12 h-1.28 Z M432.00 162.92 h7.04 v1.28 h-7.04 Z"/><path class="nf-blue" d="M434.24 161.00 h0.64 v5.12 h-0.64 Z M432.00 163.24 h7.04 v0.64 h-7.04 Z"/>
         </g>
@@ -515,6 +520,8 @@
         <circle class="lamp-halo" cx="134" cy="201.99" r="10"/><circle class="lamp" cx="134" cy="201.99" r="2.1"/>
         </g>
         <g class="layer layer--near chimney"><path class="puff" d="M1117 211 C1112 207, 1123 204, 1118 199 C1113 194, 1125 191, 1121 185 C1117 180, 1127 177, 1125 172" style="--d:0s"/><path class="puff" d="M1117 211 C1112 207, 1123 204, 1118 199 C1113 194, 1125 191, 1121 185 C1117 180, 1127 177, 1125 172" style="--d:-2s"/><path class="puff" d="M1117 211 C1112 207, 1123 204, 1118 199 C1113 194, 1125 191, 1121 185 C1117 180, 1127 177, 1125 172" style="--d:-4s"/>
+        </g>
+        <g class="layer layer--near wx-caps"><path d="M506 206.5 q2.6 -2.3 5.2 0 m-0.8 -0.2 l1.6 0.9" style="--d:-0.54s"/><path d="M1017 222.7 q3.3 -2.9 6.6 0 m-1.0 -0.2 l2.0 0.9" style="--d:-2.15s"/><path d="M676 229.3 q3.4 -3.0 6.8 0 m-1.0 -0.2 l2.0 0.9" style="--d:-1.97s"/><path d="M292 212.6 q2.9 -2.7 5.9 0 m-0.9 -0.2 l1.8 0.9" style="--d:-0.97s"/><path d="M295 228.3 q3.8 -3.4 7.5 0 m-1.1 -0.2 l2.3 0.9" style="--d:-0.90s"/><path d="M647 224.0 q3.0 -2.7 6.1 0 m-0.9 -0.2 l1.8 0.9" style="--d:-3.78s"/><path d="M487 208.3 q2.3 -2.1 4.6 0 m-0.7 -0.2 l1.4 0.9" style="--d:-2.15s"/><path d="M686 245.7 q4.8 -4.3 9.6 0 m-1.4 -0.2 l2.9 0.9" style="--d:-3.96s"/><path d="M588 239.5 q4.7 -4.2 9.3 0 m-1.4 -0.2 l2.8 0.9" style="--d:-0.12s"/><path d="M829 220.3 q2.9 -2.6 5.9 0 m-0.9 -0.2 l1.8 0.9" style="--d:-2.73s"/><path d="M345 221.6 q2.9 -2.6 5.8 0 m-0.9 -0.2 l1.7 0.9" style="--d:-1.97s"/><path d="M1028 222.3 q3.7 -3.4 7.5 0 m-1.1 -0.2 l2.2 0.9" style="--d:-1.64s"/><path d="M264 235.2 q3.7 -3.3 7.4 0 m-1.1 -0.2 l2.2 0.9" style="--d:-1.39s"/><path d="M589 222.7 q3.7 -3.3 7.4 0 m-1.1 -0.2 l2.2 0.9" style="--d:-1.61s"/><path d="M911 239.2 q3.9 -3.5 7.8 0 m-1.2 -0.2 l2.4 0.9" style="--d:-3.01s"/><path d="M898 239.8 q4.5 -4.0 8.9 0 m-1.3 -0.2 l2.7 0.9" style="--d:-0.78s"/><path d="M365 235.7 q4.0 -3.6 8.0 0 m-1.2 -0.2 l2.4 0.9" style="--d:-1.55s"/><path d="M765 236.9 q4.7 -4.2 9.4 0 m-1.4 -0.2 l2.8 0.9" style="--d:-2.90s"/><path d="M888 220.7 q3.1 -2.8 6.2 0 m-0.9 -0.2 l1.9 0.9" style="--d:-3.59s"/><path d="M989 207.2 q2.4 -2.1 4.8 0 m-0.7 -0.2 l1.4 0.9" style="--d:-0.45s"/><path d="M326 242.0 q4.3 -3.9 8.7 0 m-1.3 -0.2 l2.6 0.9" style="--d:-3.97s"/><path d="M762 244.5 q4.3 -3.9 8.6 0 m-1.3 -0.2 l2.6 0.9" style="--d:-0.46s"/><path d="M619 243.9 q4.9 -4.4 9.7 0 m-1.5 -0.2 l2.9 0.9" style="--d:-0.99s"/><path d="M912 241.1 q4.7 -4.2 9.4 0 m-1.4 -0.2 l2.8 0.9" style="--d:-0.90s"/><path d="M255 218.0 q3.1 -2.8 6.2 0 m-0.9 -0.2 l1.9 0.9" style="--d:-2.08s"/><path d="M570 212.4 q3.1 -2.8 6.2 0 m-0.9 -0.2 l1.9 0.9" style="--d:-1.82s"/>
         </g>
         <g class="layer layer--near wx-ripple"><ellipse cx="341" cy="248" rx="8.7" ry="1.4" style="--d:-2.03s"/><ellipse cx="491" cy="206" rx="6.0" ry="1.4" style="--d:-0.88s"/><ellipse cx="798" cy="234" rx="7.5" ry="1.4" style="--d:-0.96s"/><ellipse cx="719" cy="226" rx="7.0" ry="1.4" style="--d:-1.00s"/><ellipse cx="567" cy="222" rx="7.1" ry="1.4" style="--d:-1.77s"/><ellipse cx="705" cy="220" rx="8.7" ry="1.4" style="--d:-1.02s"/><ellipse cx="511" cy="222" rx="6.4" ry="1.4" style="--d:-2.01s"/><ellipse cx="696" cy="237" rx="6.3" ry="1.4" style="--d:-2.05s"/><ellipse cx="345" cy="213" rx="7.6" ry="1.4" style="--d:-1.80s"/><ellipse cx="915" cy="221" rx="5.6" ry="1.4" style="--d:-1.87s"/><ellipse cx="639" cy="236" rx="6.3" ry="1.4" style="--d:-0.90s"/><ellipse cx="919" cy="244" rx="6.8" ry="1.4" style="--d:-0.09s"/><ellipse cx="974" cy="209" rx="7.4" ry="1.4" style="--d:-2.18s"/><ellipse cx="874" cy="204" rx="5.6" ry="1.4" style="--d:-2.33s"/><ellipse cx="746" cy="209" rx="8.9" ry="1.4" style="--d:-2.29s"/><ellipse cx="445" cy="215" rx="6.4" ry="1.4" style="--d:-2.13s"/><ellipse cx="443" cy="214" rx="7.1" ry="1.4" style="--d:-0.74s"/><ellipse cx="306" cy="227" rx="8.7" ry="1.4" style="--d:-0.41s"/>
         </g>
@@ -901,7 +908,7 @@
       <ul class="how-list">
         <li data-i18n="how.1"><strong>Drawn on paper, then in code.</strong> I sketched Oslo by hand first. A script then draws the skyline stroke by stroke and wobbles it to look like pencil.</li>
         <li data-i18n="how.2"><strong>The real sun and moon.</strong> Sunrise and sunset are calculated for Oslo, and the moon shows its true phase, tilt, height, rise and set. The clock on the City Hall tower shows the right time too 🙂</li>
-        <li data-i18n="how.3"><strong>Live weather.</strong> Rain, snow, fog and cloud fall in the picture, snow piles up on the ridges, and the fjord freezes after a long cold spell.</li>
+        <li data-i18n="how.3"><strong>Live weather.</strong> Rain, snow, fog and cloud fall in the picture, snow piles up on the ridges, and the fjord freezes after a long cold spell. The real wind leans the smoke, the flag and the sailboat, and a fresh breeze raises white caps.</li>
         <li data-i18n="how.4"><strong>Small surprises.</strong> Windows light up after dark, and 17 May, Christmas and New Year's Eve have their own. On clear winter nights I paint an aurora, as decoration, not a forecast.</li>
         <li data-i18n="how.5"><strong>Light on the web.</strong> No frameworks, no build step, no cookies. The fonts are served from this site, and visit stats are anonymous.</li>
         <li data-i18n="how.6"><strong>A note in the post.</strong> The form is sent by a small Cloudflare Worker straight to my inbox. Cloudflare Turnstile keeps the bots out, and only loads once you start writing.</li>
@@ -912,7 +919,9 @@
           <div><dt data-i18n="how.sun">Sun</dt><dd class="hl-sun">–</dd></div>
           <div><dt data-i18n="how.moon">Moon</dt><dd class="hl-moon">–</dd></div>
           <div><dt>Oslo</dt><dd class="hl-oslo">–</dd></div>
+          <div><dt data-i18n="how.wind">Wind</dt><dd class="hl-wind">–</dd></div>
         </dl>
+        <button type="button" class="how-try mono" data-i18n="how.try">Scrub through the day →</button>
       </div>
       <p class="how-foot mono" data-i18n="how.foot">Only the weather comes from outside (Open-Meteo), and the form goes through Cloudflare when you send it. Everything else is calculated in your browser.</p>
       <button type="button" class="how-close mono" popovertarget="how" popovertargetaction="hide" data-i18n="how.close">Close</button>

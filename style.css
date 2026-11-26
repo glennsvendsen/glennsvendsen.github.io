@@ -271,6 +271,29 @@ p { text-wrap: pretty; }
 .js .hero.is-in .hero-meta { opacity: 1; translate: 0 0; transition-delay: 0.1s; }
 .hero-meta { margin-top: 1.4rem; color: var(--muted); display: flex; flex-wrap: wrap; gap: 0.4rem 1.4rem; text-transform: uppercase; }
 .hero-clock { display: inline-flex; gap: 0.6rem; }
+/* The clock opens the time slider: a dotted underline says it can be tapped. */
+.clock-btn { font: inherit; color: inherit; text-transform: inherit; background: none; border: 0; padding: 0; cursor: pointer; touch-action: manipulation;
+  text-decoration: underline dotted color-mix(in oklch, currentColor 55%, transparent); text-underline-offset: 4px; }
+.clock-btn:hover, .clock-btn:focus-visible, .clock-btn[aria-expanded='true'] { color: var(--accent); }
+.hero-clock.is-warped .clock-time { color: var(--accent); }
+.timewarp { display: flex; flex-wrap: wrap; align-items: center; gap: 0.4rem 0.9rem; margin-top: 0.9rem; font-size: 0.74rem;
+  color: var(--muted); text-transform: uppercase; letter-spacing: 0.04em; }
+.timewarp[hidden] { display: none; }
+.timewarp label { flex-basis: 100%; }
+/* The track is an inked line with a tick for every hour; the thumb is a small rose sun. */
+.timewarp input { -webkit-appearance: none; appearance: none; width: min(19rem, 100%); flex: 0 1 19rem; height: 1.6rem; margin: 0;
+  background: none; cursor: pointer; color: var(--ink); touch-action: pan-y; }
+.timewarp input::-webkit-slider-runnable-track { height: 7px; border-bottom: 1.4px solid currentColor;
+  background: repeating-linear-gradient(to right, color-mix(in oklch, currentColor 45%, transparent) 0 1px, transparent 1px calc(100% / 24)) bottom / 100% 5px no-repeat; }
+.timewarp input::-moz-range-track { height: 7px; border-bottom: 1.4px solid currentColor;
+  background: repeating-linear-gradient(to right, color-mix(in oklch, currentColor 45%, transparent) 0 1px, transparent 1px calc(100% / 24)) bottom / 100% 5px no-repeat; }
+.timewarp input::-webkit-slider-thumb { -webkit-appearance: none; width: 15px; height: 15px; margin-top: -1.5px; border-radius: 50%;
+  background: var(--accent); border: 2px solid var(--paper); box-shadow: 0 0 0 1px var(--accent); }
+.timewarp input::-moz-range-thumb { width: 11px; height: 11px; border-radius: 50%; background: var(--accent); border: 2px solid var(--paper); box-shadow: 0 0 0 1px var(--accent); }
+.timewarp input:focus-visible { outline: 1.5px dashed var(--accent); outline-offset: 4px; }
+.tw-now { font: inherit; text-transform: inherit; letter-spacing: inherit; color: var(--ink); background: none; border: 1px solid var(--line);
+  border-radius: 999px; padding: 0.25rem 0.75rem; cursor: pointer; touch-action: manipulation; }
+.tw-now:hover, .tw-now:focus-visible { color: var(--accent); border-color: currentColor; }
 .hero-clock::before { content: ''; width: 0.45rem; height: 0.45rem; border-radius: 50%; background: var(--accent); align-self: center; animation: breathe 3s ease-in-out infinite; }
 @keyframes breathe { 50% { opacity: 0.35; } }
 
@@ -428,7 +451,7 @@ p { text-wrap: pretty; }
   .gulls { animation: glide 46s linear infinite; }
   .gulls path { animation: flap 1.1s ease-in-out infinite; transform-box: fill-box; transform-origin: 50% 100%; }
   .gulls path + path { animation-delay: -0.4s; }
-  .flag { animation: wave 1.6s ease-in-out infinite; transform-box: fill-box; transform-origin: 0% 50%; }
+  .flag { animation: wave var(--flag-t, 1.6s) ease-in-out infinite; transform-box: fill-box; transform-origin: 0% 50%; }
 }
 .flag { stroke-width: 1.4; }
 /* The Ekeberg tram climbs Kongsveien (offset-path from make_skyline.py), stops below Ekebergrestauranten
@@ -454,7 +477,7 @@ p { text-wrap: pretty; }
   100% { offset-distance: 100%; }
 }
 @keyframes sail  { from { translate: -80px 0; } to { translate: 1280px 0; } }
-@keyframes bob   { 0%, 100% { rotate: -2.5deg; translate: 0 0; } 50% { rotate: 2.5deg; translate: 0 1.5px; } }
+@keyframes bob   { 0%, 100% { rotate: calc(var(--heel, 0deg) - 2.5deg); translate: 0 0; } 50% { rotate: calc(var(--heel, 0deg) + 2.5deg); translate: 0 1.5px; } }
 @keyframes glide { from { translate: -500px 10px; } 50% { translate: 300px -12px; } to { translate: 1100px 6px; } }
 @keyframes flap  { 50% { scale: 1 0.55; } }
 @keyframes wave  { 0%, 100% { scale: 1 1; } 50% { scale: 0.8 1.15; } }
@@ -565,7 +588,7 @@ p { text-wrap: pretty; }
 @keyframes puff {
   0%   { stroke-opacity: 0; translate: 0 6px; scale: 0.6; }
   25%  { stroke-opacity: 0.6; }
-  100% { stroke-opacity: 0; translate: 5px -14px; scale: 1.25; }
+  100% { stroke-opacity: 0; translate: var(--smoke-dx, 5px) var(--smoke-dy, -14px); scale: 1.25; }
 }
 .wx-ripple ellipse { fill: none; stroke: var(--ink); stroke-width: 0.7; opacity: 0; transform-box: fill-box; transform-origin: 50% 50%; }
 .land:is([data-wx='rain'], [data-wx='storm']) .wx-ripple ellipse { animation: ripple 2.4s ease-out var(--d, 0s) infinite; }
@@ -594,6 +617,21 @@ p { text-wrap: pretty; }
 .land[data-intensity='light'] :is(.wx-rain path, .wx-snow circle):nth-child(2n) { display: none; }
 .land:not([data-intensity='heavy']) :is(.wx-rain path, .wx-snow circle):nth-child(5n) { display: none; }
 @keyframes fall { from { translate: 0 -30px; } to { translate: -22px 250px; } }
+/* Wind (main.js, from the real wind in Oslo; the panorama looks north, so an easterly push is to the right).
+   The flag flies to the side the wind blows and waves faster as it freshens, the sailboat heels, the
+   smoke leans and flattens, rain slants with it, snow drifts, and a fresh breeze raises white caps. */
+.flag-wind { scale: var(--flag-dir, 1) 1; transform-box: fill-box; transform-origin: 0% 50%; transition: scale 1.2s ease; }
+.sailboat { rotate: var(--heel, 0deg); transform-box: fill-box; transform-origin: 50% 100%; }
+.wx-rain { scale: var(--rain-flip, 1) 1; transform-origin: 630px 0; }
+.wx-snow { transform: skewX(var(--snow-skew, 0deg)); }
+.wx-caps path { fill: none; stroke: var(--ink); stroke-width: 0.8; stroke-opacity: 0; }
+.land[data-wind='fresh'] .wx-caps path:nth-child(2n),
+.land[data-wind='strong'] .wx-caps path { animation: cap 4s ease-in-out var(--d, 0s) infinite; }
+.land[data-ice='2'] .wx-caps { display: none; }
+@keyframes cap { 0%, 100% { stroke-opacity: 0; } 30%, 60% { stroke-opacity: 0.5; } }
+@media (prefers-reduced-motion: reduce) {
+  .land[data-wind='fresh'] .wx-caps path:nth-child(2n), .land[data-wind='strong'] .wx-caps path { animation: none; stroke-opacity: 0.4; }
+}
 @keyframes flake {
   0%   { translate: 0 -20px; }
   25%  { translate: var(--s, 10px) 50px; }
@@ -609,7 +647,7 @@ p { text-wrap: pretty; }
 /* One soft double flash every 11 s (well under the 3-flashes-a-second limit). */
 @keyframes bolt { 0%, 92% { opacity: 0; } 93% { opacity: 1; } 94% { opacity: 0; } 95.5% { opacity: 0.8; } 97%, 100% { opacity: 0; } }
 /* Off-screen, everything on the skyline holds still. */
-.land.is-paused :is(.wx-front *, .cloud-drift, .puff, .wx-ripple ellipse, .ferry, .gulls, .gulls path, .sailboat, .tram, .flag, .ab, .stars path, .smoke, .beacon, .beacon-halo, .lamp, .lamp-halo) { animation-play-state: paused; }
+.land.is-paused :is(.wx-front *, .cloud-drift, .puff, .wx-ripple ellipse, .ferry, .gulls, .gulls path, .sailboat, .tram, .flag, .ab, .stars path, .smoke, .beacon, .beacon-halo, .lamp, .lamp-halo, .wx-caps path) { animation-play-state: paused; }
 @media (prefers-reduced-motion: reduce) {
   .wx-rain, .wx-snow, .bolt, .wx-ripple { display: none; }
   .land[data-cold] .chimney .puff:first-child { animation: none; stroke-opacity: 0.4; translate: 2px -4px; }
@@ -1078,6 +1116,9 @@ html:not(.js) .plate .clip { display: none; }
 .how-live > div { display: grid; grid-template-columns: 4.4rem 1fr; gap: 0.6rem; }
 .how-live dt { color: var(--how-soft); }
 .how-live dd { color: var(--how-ink); }
+.how-try { display: inline-block; margin-top: 0.8rem; padding: 0.35rem 0; font: inherit; font-size: 0.82rem; color: var(--how-accent); background: none; border: 0;
+  cursor: pointer; text-decoration: underline; text-decoration-color: color-mix(in oklch, currentColor 40%, transparent); text-underline-offset: 3px; touch-action: manipulation; }
+.how-try:hover, .how-try:focus-visible { text-decoration-color: currentColor; }
 .how-foot { margin-top: 1.2rem; color: var(--how-soft); font-size: 0.74rem; line-height: 1.5; text-wrap: pretty; }
 .how-close { display: block; margin: 1rem 0 0 auto; padding: 0.5rem 0.2rem; font: inherit; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--how-soft); background: none; border: 0; cursor: pointer; touch-action: manipulation; }
 .how-close:hover, .how-close:focus-visible { color: var(--how-accent); }

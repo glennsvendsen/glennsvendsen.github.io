@@ -86,7 +86,11 @@ Local preview: `python3 -m http.server 8000`
   fjord (`.wx-ripple`); smoke from the boathouse chimney (on the skerry) when it's 5 °C or colder (`data-cold`); and on grey, wet
   or snowy days a few windows are lit by day (`data-lights="dusk"`). The Tryvann aviation light always pulses: softly on
   clear days, brighter whenever `data-lights` is set (`--beacon-peak`). Under the overcast deck the sun and moon show through, pale.
-  Debug on localhost: `?wx=snow&snow=0.3&ice=2&temp=-8&clouds=2` (wx: clear|cloud|fog|drizzle|rain|snow|storm).
+  **Wind** (Open-Meteo `wind_speed_10m`/`wind_direction_10m`, m/s): `applyWind` sets `data-wind` (calm|light|breeze|fresh|strong,
+  from Beaufort) and CSS vars on `.land`; the flag (`.flag-wind`) flies downwind and waves faster, the sailboat heels (`--heel`),
+  the smoke leans, rain slants and snow drifts with it, and fresh/strong wind raises white caps (`.wx-caps`). The panorama looks
+  north, so a wind towards the east pushes right. The How card names it in Norwegian forecast terms (`wind.b*`, `wind.d*`).
+  Debug on localhost: `?wx=snow&snow=0.3&ice=2&temp=-8&clouds=2&wind=9&wdir=225` (wx: clear|cloud|fog|drizzle|rain|snow|storm).
 - **Sky**: `astro.js` (no dependencies, testable in Node: `require('./astro.js')`) computes the real sun and
   moon for Oslo: sunrise/sunset, and the moon's phase, tilt, height, rise and set (low-precision, good to a few
   minutes; the month table in main.js is only a fallback). main.js (`updateSky`) places the sun and moon on
@@ -100,6 +104,9 @@ Local preview: `python3 -m http.server 8000`
   the sun (`data-glow`). The City Hall clock hands (`.hand--hour/--min`, `data-pivot`, rotated in `updateSky`)
   show the same Oslo time.
   Debug on localhost: `?hour=22.5&month=1`, or a whole date `?date=2026-11-24&hour=16.5` (full moon that day).
+- **Time slider**: the hero clock (`.clock-btn`) opens `#timewarp`, a range input that scrubs today in Oslo (`warpHour` in
+  `osloNow`, so sun, moon, sky, lights and the City Hall clock follow; the weather stays live). "Now" or closing it returns to
+  live time. The How card's `.how-try` link closes the card and opens it, since the card covers the skyline.
 - **How this page works**: a footer button (`.how-btn`) opens `#how`, a taped index card in a native popover.
   Static text is `data-i18n="how.*"`; the "Right now" rows (`.hl-sun/.hl-moon/.hl-oslo`) are filled by `updateSky`
   from the same astronomy and weather that drive the sky. Keep it honest: only the weather is fetched.

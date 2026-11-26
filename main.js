@@ -210,6 +210,8 @@
   if (land) {
   const SUN = [[9.2, 15.5], [8.0, 17.0], [6.7, 18.3], [6.3, 20.4], [5.0, 21.6], [3.9, 22.7],
     [4.3, 22.4], [5.6, 21.0], [7.0, 19.4], [8.2, 17.7], [8.3, 15.8], [9.2, 15.2]];
+  let warpHour = null;   // the time slider by the clock (null: live)
+  const hhmm = (h) => `${String(Math.floor(h)).padStart(2, '0')}:${String(Math.round((h % 1) * 60)).padStart(2, '0')}`;
   const osloNow = () => {
     const params = new URLSearchParams(location.search);
     const local = /^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname);
@@ -230,6 +232,7 @@
       label = `${String(Math.floor(hour)).padStart(2, '0')}:${String(Math.round((hour % 1) * 60)).padStart(2, '0')}`;
     }
     if (local && params.has('month')) { month = +params.get('month'); debug = true; }
+    if (warpHour !== null) { hour = warpHour; label = hhmm(hour); debug = true; }   // today, at the slider's time
     // The instant, and local midnight in Oslo (EU summer time: last Sunday of March to last Sunday of October).
     const lastSunday = (m) => { const last = new Date(Date.UTC(year, m, 0)); return last.getUTCDate() - last.getUTCDay(); };
     const summer = (month > 3 && month < 10) || (month === 3 && date >= lastSunday(3)) || (month === 10 && date < lastSunday(10));
@@ -271,7 +274,42 @@
     const means = (data.daily && data.daily.temperature_2m_mean) || [];
     const fdd = means.reduce((sum, m) => sum + (m === null ? 0 : Math.max(0, -m)), 0);
     const ice = fdd >= 60 ? 2 : fdd >= 20 ? 1 : 0;
-    return { wx, intensity, clouds, cover: snowCover, ice, temp };
+    // Wind (m/s, and the direction it blows from, in degrees): leans the smoke, the flag and the sailboat.
+    const wind = typeof c.wind_speed_10m === 'number' ? c.wind_speed_10m : null;
+    const windFrom = typeof c.wind_direction_10m === 'number' ? c.wind_direction_10m : null;
+    return { wx, intensity, clouds, cover: snowCover, ice, temp, wind, windFrom };
+  };
+  // Beaufort, as Norwegian forecasts name it, and the eight compass points the wind comes from.
+  const BEAUFORT = [0.3, 1.6, 3.4, 5.5, 8, 10.8, 13.9, 17.2, 20.8, 24.5, 28.5, 32.7];
+  const BF_EN = ['calm', 'light air', 'light breeze', 'gentle breeze', 'moderate breeze', 'fresh breeze', 'strong breeze',
+    'near gale', 'gale', 'strong gale', 'storm', 'violent storm', 'hurricane'];
+  const DIR_EN = ['north', 'northeast', 'east', 'southeast', 'south', 'southwest', 'west', 'northwest'];
+  const beaufort = (v) => BEAUFORT.filter((t) => v >= t).length;
+  const windWords = (w) => {
+    if (!w || w.wind === null) return '';
+    const b = beaufort(w.wind);
+    const name = tr(`wind.b${b}`, BF_EN[b]);
+    if (b === 0 || w.windFrom === null) return name;
+    const k = Math.round(w.windFrom / 45) % 8;
+    return `${name} ${tr('wind.from', 'from the')} ${tr(`wind.d${k}`, DIR_EN[k])}`;
+  };
+  // The panorama looks north, so a wind blowing towards the east moves things to the right.
+  const applyWind = (w) => {
+    const st = land.style;
+    if (!w || w.wind === null) { delete land.dataset.wind; ['--wind-x', '--smoke-dx', '--smoke-dy', '--heel', '--flag-t', '--flag-dir', '--rain-flip', '--snow-skew'].forEach((k) => st.removeProperty(k)); return; }
+    const b = beaufort(w.wind);
+    land.dataset.wind = b <= 1 ? 'calm' : b <= 3 ? 'light' : b === 4 ? 'breeze' : b === 5 ? 'fresh' : 'strong';
+    const s = Math.min(1, w.wind / 14);                                    // 0 calm … 1 near gale
+    const dx = w.windFrom === null ? 0 : -Math.sin((w.windFrom * Math.PI) / 180);   // towards east = +1
+    const push = dx * s;
+    st.setProperty('--wind-x', push.toFixed(2));
+    st.setProperty('--smoke-dx', `${(4 + 20 * push).toFixed(1)}px`);
+    st.setProperty('--smoke-dy', `${(-15 + 10 * s).toFixed(1)}px`);
+    st.setProperty('--heel', `${(14 * push).toFixed(1)}deg`);
+    st.setProperty('--flag-t', `${(3.2 - 2.5 * s).toFixed(2)}s`);
+    st.setProperty('--flag-dir', dx < -0.2 && b > 1 ? '-1' : '1');
+    st.setProperty('--rain-flip', dx > 0.2 && b > 1 ? '-1' : '1');
+    st.setProperty('--snow-skew', `${(28 * push).toFixed(1)}deg`);
   };
   const applyWeather = (w) => {
     weather = w;
@@ -282,12 +320,13 @@
     land.dataset.ice = String(w.ice);
     // Cold enough for a fire: smoke from the boathouse chimney.
     if (typeof w.temp === 'number' && w.temp <= 5) land.dataset.cold = ''; else delete land.dataset.cold;
+    applyWind(w);
     updateSky();
   };
   const loadWeather = async () => {
     const params = new URLSearchParams(location.search);
     const local = /^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname);
-    if (local && ['wx', 'snow', 'ice', 'temp', 'clouds'].some((k) => params.has(k))) {
+    if (local && ['wx', 'snow', 'ice', 'temp', 'clouds', 'wind', 'wdir'].some((k) => params.has(k))) {   // + &wind=9&wdir=225 (m/s, from)
       const codes = { clear: 0, cloud: 2, fog: 45, drizzle: 53, rain: 63, snow: 73, storm: 95 };
       const w = wxFrom({
         current: {
@@ -295,6 +334,8 @@
           temperature_2m: params.has('temp') ? +params.get('temp') : -3,
           snow_depth: params.has('snow') ? +params.get('snow') : 0,
           cloud_cover: params.has('clouds') ? +params.get('clouds') * 30 : (params.get('wx') === 'cloud' ? 60 : 0),
+          wind_speed_10m: params.has('wind') ? +params.get('wind') : 3,
+          wind_direction_10m: params.has('wdir') ? +params.get('wdir') : 225,
         },
         daily: { temperature_2m_mean: Array(14).fill(({ 0: 0, 1: -2, 2: -6 })[params.get('ice')] ?? 0) },
       });
@@ -309,7 +350,8 @@
     const timer = setTimeout(() => ctrl.abort(), 6000);
     try {
       const res = await fetch('https://api.open-meteo.com/v1/forecast?latitude=59.91&longitude=10.75'
-        + '&current=temperature_2m,weather_code,snow_depth,cloud_cover&daily=temperature_2m_mean'
+        + '&current=temperature_2m,weather_code,snow_depth,cloud_cover,wind_speed_10m,wind_direction_10m&wind_speed_unit=ms'
+        + '&daily=temperature_2m_mean'
         + '&past_days=14&forecast_days=1&timezone=Europe%2FOslo', { signal: ctrl.signal });
       if (!res.ok) return;
       const data = await res.json();
@@ -350,6 +392,7 @@
   const liveSun = document.querySelector('.hl-sun');
   const liveMoon = document.querySelector('.hl-moon');
   const liveOslo = document.querySelector('.hl-oslo');
+  const liveWind = document.querySelector('.hl-wind');
   const updateSky = () => {
     const { hour, month, label, day, ms, mid } = osloNow();
     if (day) land.dataset.day = day; else delete land.dataset.day;
@@ -436,6 +479,7 @@
       if (wxNote) note = wxNote;
       else if (weather.ice === 2 && sky !== 'night') note = tr('wx.ice', 'ice on the fjord');
       if (typeof weather.temp === 'number') note = `${Math.round(weather.temp)}° · ${note}`;
+      if (weather.wind !== null && beaufort(weather.wind) >= 5) note = `${note} · ${tr(`wind.b${beaufort(weather.wind)}`, BF_EN[beaufort(weather.wind)])}`;   // only when it's notable
     }
     clock.querySelector('.clock-sky').textContent = `· ${note}`;
     clock.hidden = false;
@@ -453,9 +497,41 @@
         storm: tr('wx.storm', 'thunder'),
       }[weather.wx] || '';
       liveOslo.textContent = weather && typeof weather.temp === 'number' ? `${Math.round(weather.temp)}° · ${wxWord}` : '–';
+      if (liveWind) liveWind.textContent = weather && weather.wind !== null ? `${windWords(weather)} · ${(weather.wind < 10 ? weather.wind.toFixed(1) : String(Math.round(weather.wind))).replace('.', lang === 'no' ? ',' : '.')} m/s` : '–';
     }
   };
   updateSky();
+  /* Time slider: tap the clock to scrub through today in Oslo. Only the time changes (sun, moon, sky,
+     lights, the clock on City Hall); the weather stays as it is now. "Now" or closing it goes back to live. */
+  const warp = document.getElementById('timewarp');
+  const warpBtn = document.querySelector('.clock-btn');
+  const warpRange = document.getElementById('tw-range');
+  if (warp && warpBtn && warpRange) {
+    const liveHour = () => { const saved = warpHour; warpHour = null; const { hour } = osloNow(); warpHour = saved; return hour; };
+    const setRange = (h) => { warpRange.value = String(Math.round(h * 4) / 4); warpRange.setAttribute('aria-valuetext', hhmm(+warpRange.value)); };
+    const goLive = () => { warpHour = null; clock.classList.remove('is-warped'); setRange(liveHour()); updateSky(); };
+    const openWarp = (open) => {
+      warp.hidden = !open;
+      warpBtn.setAttribute('aria-expanded', String(open));
+      goLive();
+    };
+    warpBtn.addEventListener('click', () => openWarp(warp.hidden));
+    warpRange.addEventListener('input', () => {
+      warpHour = +warpRange.value;
+      warpRange.setAttribute('aria-valuetext', hhmm(warpHour));
+      clock.classList.add('is-warped');
+      updateSky();
+    });
+    warp.querySelector('.tw-now').addEventListener('click', goLive);
+    const tryBtn = document.querySelector('.how-try');
+    if (tryBtn) tryBtn.addEventListener('click', () => {
+      const how = document.getElementById('how');
+      if (how && how.hidePopover) how.hidePopover();
+      openWarp(true);
+      window.scrollTo({ top: 0, behavior: reduceMotion ? 'auto' : 'smooth' });
+      setTimeout(() => warpRange.focus({ preventScroll: true }), reduceMotion ? 0 : 500);
+    });
+  }
   let resizing = 0;
   window.addEventListener('resize', () => { cancelAnimationFrame(resizing); resizing = requestAnimationFrame(updateSky); });
   langListeners.push(updateSky);

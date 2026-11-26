@@ -536,12 +536,12 @@ fw, fh = 22 * u, 16 * u
 def frect(x, y, w, h):
     return f'M{fx0 + x * u:g} {fy0 + y * u:g} h{w * u:g} v{h * u:g} h{-w * u:g} Z'
 flag = f'''
-          <g class="flag">
+          <g class="flag-wind"><g class="flag">
             <path class="nf-red" d="{frect(0, 0, 22, 16)}"/>
             <path class="nf-white" d="{frect(6, 0, 4, 16)} {frect(0, 6, 22, 4)}"/>
             <path class="nf-blue" d="{frect(7, 0, 2, 16)} {frect(0, 7, 22, 2)}"/>
             <path class="nf-edge" d="{frect(0, 0, 22, 16)}"/>
-          </g>'''
+          </g></g>'''
 
 # ── Night lights ────────────────────────────────
 # Windows that glow after dark (main.js sets data-lights="on" in the evening, "late" after
@@ -648,6 +648,17 @@ deck += f'<path class="thin" d="{deck_hatch}"/>'
 r = rng(47)
 ripples = ''.join(f'<ellipse cx="{280 + next(r) * 720:.0f}" cy="{204 + next(r) * 44:.0f}" rx="{5 + next(r) * 4:.1f}" ry="1.4" style="--d:{-next(r) * 2.4:.2f}s"/>' for _ in range(18))
 smoke = ''.join(f'<path class="puff" d="M1117 211 C1112 207, 1123 204, 1118 199 C1113 194, 1125 191, 1121 185 C1117 180, 1127 177, 1125 172" style="--d:{-d}s"/>' for d in (0, 2, 4))
+# White caps on the fjord when the wind freshens (data-wind, from the real wind): small breaking crests
+# on the open water, clear of the shore, the skerry and the city's reflection band right under it.
+r = rng(53)
+caps = []
+while len(caps) < 26:
+    x, y = 250 + next(r) * 790, 206 + next(r) * 40
+    if y > 228 and x > 1000:
+        continue
+    w = 3 + (y - 200) * 0.12 + next(r) * 2
+    caps.append(f'<path d="M{x:.0f} {y:.1f} q{w / 2:.1f} {-w * 0.45:.1f} {w:.1f} 0 m{-w * 0.15:.1f} -0.2 l{w * 0.3:.1f} 0.9" style="--d:{-next(r) * 4:.2f}s"/>')
+caps = ''.join(caps)
 r = rng(11)
 rain = ''.join(f'<path d="M{next(r) * 1260:.0f} {next(r) * 60 - 40:.0f} l-2.4 8" style="--d:{-next(r) * 1.2:.2f}s;--t:{0.75 + next(r) * 0.35:.2f}s"/>' for _ in range(80))
 r = rng(29)
@@ -816,6 +827,8 @@ markup = f'''<!-- LAND -->
         <g class="layer layer--near dyna-light">{dyna_light}
         </g>
         <g class="layer layer--near chimney">{smoke}
+        </g>
+        <g class="layer layer--near wx-caps">{caps}
         </g>
         <g class="layer layer--near wx-ripple">{ripples}
         </g>
