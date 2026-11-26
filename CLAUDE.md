@@ -31,7 +31,7 @@ Local preview: `python3 -m http.server 8000`
   `../main.js` (null-safe on pages without the hero) and `../i18n.js` (keys `w.*`; the colleagues' quotes stay in English). `noindex`, linked from the footer.
   Quotes are taped index cards (`.note`), cases are `.case` rows with `.case-stats`.
 - `work/archive/` — **frozen copy of the original v1 site** (interactive case-study demos) with its own
-  old `style.css`/`main.js`; linked from the end of the case list. Don't restyle it. Also tagged `v1-portfolio`.
+  old `style.css`/`main.js`; no longer linked from anywhere (still served at `/work/archive/`). Don't restyle it. Also tagged `v1-portfolio`.
 - `signature.svg` — Glenn's signature: filled outline (`fill-rule="evenodd"`) + the pen strokes (`#pen`)
 - `og-image.png` (1200×630) — regenerate with `python3 assets-src/make_og.py` (reads the signature and
   the skyline, so run it after changing either)
