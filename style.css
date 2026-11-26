@@ -1143,3 +1143,32 @@ html:not(.js) .plate .clip { display: none; }
   .js .signature .sig-ink { opacity: 1 !important; }
   .js .sketch [pathLength] { stroke-dashoffset: 0 !important; }
 }
+
+/* ── THUMBS UP (easter egg, main.js) ──────────
+   A hand-coloured little me: thumbs-up.webp is one strip of 36 frames of a full turn. He slides in from
+   the right while spinning, stops facing you with a thumbs up and a word in a rose bubble, then leaves. */
+.thumbs { position: fixed; z-index: 60; right: clamp(0.5rem, 4vw, 3rem); bottom: -1.2%; width: clamp(110px, 13vw, 160px); aspect-ratio: 2 / 3;
+  pointer-events: none; translate: 150% 0; }
+.thumbs-fig { position: absolute; inset: 0; background: 0 0 / 3600% 100% no-repeat;
+  filter: drop-shadow(0 10px 14px oklch(0.2 0.02 60 / 0.22)); }
+.is-dark .thumbs-fig { filter: drop-shadow(0 0 0.6px oklch(0.96 0.01 85)) drop-shadow(0 0 0.6px oklch(0.96 0.01 85)) drop-shadow(0 10px 16px oklch(0 0 0 / 0.45)); }
+.thumbs-bubble { position: absolute; right: 62%; top: -4%; width: 78%; aspect-ratio: 90 / 64; opacity: 0; scale: 0.6; transform-origin: 85% 100%; }
+.thumbs-bubble svg { width: 100%; height: 100%; overflow: visible; scale: -1 1; fill: oklch(0.99 0.008 85); stroke: var(--accent); stroke-width: 1.6;
+  stroke-linejoin: round; filter: drop-shadow(0 2px 3px oklch(0 0 0 / 0.18)); }
+.thumbs-text { position: absolute; inset: 0 0 20% 0; display: grid; place-items: center; font-family: var(--ff-serif); font-style: italic;
+  font-size: clamp(1.2rem, 2vw, 1.6rem); line-height: 1; color: oklch(0.3 0.012 60); rotate: 4deg; }
+.thumbs.is-in { translate: 0 0; transition: translate 1.1s cubic-bezier(0.2, 0.8, 0.25, 1); }
+.thumbs.is-in .thumbs-fig { animation: thumbs-spin 0.55s steps(36, jump-none) 2; }
+.thumbs.is-in .thumbs-bubble { opacity: 1; scale: 1; transition: opacity 0.25s ease 1.15s, scale 0.45s cubic-bezier(0.3, 1.6, 0.5, 1) 1.15s; }
+.thumbs.is-out { translate: 150% 0; transition: translate 0.9s cubic-bezier(0.6, 0, 0.8, 0.4); }
+.thumbs.is-out .thumbs-fig { animation: thumbs-spin-out 0.55s steps(36, jump-none) 1 0.15s; }   /* own name, so it starts again */
+.thumbs.is-out .thumbs-bubble { opacity: 0; scale: 0.6; transition: opacity 0.2s, scale 0.2s; }
+@keyframes thumbs-spin { from { background-position-x: 0%; } to { background-position-x: 100%; } }
+@keyframes thumbs-spin-out { from { background-position-x: 0%; } to { background-position-x: 100%; } }
+@media (prefers-reduced-motion: reduce) {
+  .thumbs { translate: 0 0; opacity: 0; transition: opacity 0.5s; }
+  .thumbs.is-in { translate: 0 0; opacity: 1; transition: opacity 0.5s; }
+  .thumbs.is-out { translate: 0 0; opacity: 0; transition: opacity 0.5s; }
+  .thumbs .thumbs-fig { animation: none !important; }
+  .thumbs .thumbs-bubble { transition-delay: 0s !important; }
+}

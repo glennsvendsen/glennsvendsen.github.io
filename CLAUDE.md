@@ -42,6 +42,8 @@ Local preview: `python3 -m http.server 8000`
   - `make_og.py` — renders `og-image.png`
   - `make_covers.py` — renders the composed card covers (`equity-cover.jpg`, `everleaf-cover.jpg`: real app
     screens peeking up from warm paper, no store slogans) and normalises `cointoss-cover.jpg` to 720x450
+  - `render_thumbs.py` — renders `thumbs-up.webp` (the easter egg's 36-frame turn) from the 3D model in Blender, then packs
+    the strip with Pillow (the ~32 MB FBX source is kept out of the repo)
   - `make_clips.py` — renders `clips/*.mp4`, the short silent loops that play on the project cards
     (sources are in `~/Projects`; re-run only when a clip should change)
 
@@ -149,6 +151,11 @@ Local preview: `python3 -m http.server 8000`
   (`python3 -c "import hashlib,base64,sys;print(base64.b64encode(hashlib.sha256(sys.stdin.read().encode()).digest()).decode())"`
   on the exact text between the tags) and update the CSP in both pages.
 - Console: a GS greeting plus a hidden `coffee()` command (tracked as `console-coffee`).
+- **Thumbs up** (easter egg): a hand-coloured little Glenn (`thumbs-up.webp`, one strip of 36 frames, animated with
+  `steps()` on `background-position`) slides in from the right, spins, gives a thumbs up with a word in a rose bubble
+  and leaves. After the contact form is sent ("Thanks!"), and secretly: the Konami code, typing "hei", five quick taps
+  on the hero signature, or `thumbsUp()` in the console. Nothing loads until then; reduced motion just fades it.
+  It is the one place besides the flag with full colour, on purpose.
 
 ## Adding a side project
 

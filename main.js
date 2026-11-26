@@ -739,6 +739,7 @@
           sendBtn.hidden = true;
           say(tr('hello.form.sent', 'Sent. Thank you! I’ll write back soon.'));
           track('contact-form');
+          setTimeout(() => thumbsUp('egg.thanks', 'Thanks!'), 1500);   // after the postmark lands
         } else {
           sendBtn.disabled = false;
           say(failText(), true);
@@ -777,6 +778,49 @@
     "      `----'",
   ].join('\n');
   const MONO = 'font-family: ui-monospace, monospace; line-height: 1.15';
+  /* ── THUMBS UP (easter egg) ──────────────── */
+  // A hand-coloured little me (thumbs-up.webp: 36 frames of a turn, rendered from a 3D model by
+  // assets-src/render_thumbs.py) slides in from the right, spins, gives a thumbs up with a word, and
+  // leaves. After the contact form is sent, and for whoever finds it: the Konami code, typing "hei",
+  // or five quick taps on the hero signature. Loads nothing until then.
+  const sheet = new URL('thumbs-up.webp', document.querySelector('script[src$="main.js"]').src).href;
+  let thumbsBusy = false;
+  const thumbsUp = async (key, english) => {
+    if (thumbsBusy) return;
+    thumbsBusy = true;
+    const img = new Image();
+    img.src = sheet;
+    try { await img.decode(); } catch (e) { thumbsBusy = false; return; }
+    const el = document.createElement('div');
+    el.className = 'thumbs';
+    el.setAttribute('aria-hidden', 'true');
+    el.innerHTML = '<span class="thumbs-bubble"><svg viewBox="0 0 90 64"><path pathLength="1" d="M16 6 C32 -1, 66 -1, 79 9 C91 19, 86 38, 70 44 C61 48, 53 48, 47 47 L27 62 L33 46 C15 42, 3 34, 4 22 C5 14, 9 9, 16 6 Z"/></svg>'
+      + `<span class="thumbs-text">${tr(key, english)}</span></span><span class="thumbs-fig" style="background-image: url('${sheet}')"></span>`;
+    document.body.append(el);
+    requestAnimationFrame(() => el.classList.add('is-in'));
+    track('easter-thumbs');
+    setTimeout(() => el.classList.add('is-out'), reduceMotion ? 3200 : 4600);
+    setTimeout(() => { el.remove(); thumbsBusy = false; }, reduceMotion ? 4000 : 5800);
+  };
+  // The secret ways in.
+  const KONAMI = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
+  let keys = [];
+  document.addEventListener('keydown', (e) => {
+    if (e.target.closest && e.target.closest('input, textarea, select, [contenteditable]')) return;
+    keys = [...keys, e.key.length === 1 ? e.key.toLowerCase() : e.key].slice(-10);
+    if (KONAMI.every((k, i) => keys[i] === k)) { keys = []; thumbsUp('egg.hi', 'Hi!'); }
+    else if (keys.slice(-3).join('') === 'hei') { keys = []; thumbsUp('egg.hei', 'Hei!'); }
+  });
+  const sigTap = document.querySelector('.signature--hero');
+  if (sigTap) {
+    let taps = [];
+    sigTap.addEventListener('pointerdown', () => {
+      const now = Date.now();
+      taps = [...taps.filter((t) => now - t < 1600), now];
+      if (taps.length >= 5) { taps = []; thumbsUp('egg.hi', 'Hi!'); }
+    });
+  }
+  window.thumbsUp = () => { thumbsUp('egg.hi', 'Hi!'); return '👍'; };
   console.log(`%c${GS}`, `color: #c2416b; ${MONO}`);
   console.log(
     '%cHi, engineer 👋\nNo framework. No build step.\n0 dependencies. View source is the docs.\n\n› try: coffee()',
