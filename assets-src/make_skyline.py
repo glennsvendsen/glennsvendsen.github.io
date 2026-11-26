@@ -586,13 +586,27 @@ flakes = ''.join(f'<circle cx="{next(r) * 1220:.0f}" cy="{next(r) * 40 - 30:.0f}
 fog = ''.join(f'<path d="M{x} {y} L{x + w} {y}" style="--d:{-d}s"/>' for x, y, w, d in [(-40, 150, 520, 0), (380, 168, 640, 9), (760, 182, 520, 4), (-20, 192, 760, 13)])
 
 # ── the city's reflection ───────────────────────
-# The city's paper silhouette, mirrored at the water line and squashed to MIRROR_K of its height, then cut
-# into broken horizontal stripes that fade with distance (the #mirror-stripes mask). The mirroring is baked
-# into the coordinates (no transform), so the mask lines up in the same user space. It sits in a mid layer
-# so it parallaxes with the city, drawn after the near layer so the fjord's paper surface doesn't hide it.
+# The waterfront buildings' own outlines (not city_fill, which is a rough mask for the hills behind),
+# mirrored at the water line and squashed to MIRROR_K of their height, then cut into broken horizontal
+# stripes that fade with distance (the #mirror-stripes mask). The mirroring is baked into the coordinates
+# (no transform), so the mask lines up in the same user space. It sits in a mid layer so it parallaxes with
+# the city, drawn after the near layer so the fjord's paper surface doesn't hide it.
 MIRROR_K = 0.8
+waterfront = ' '.join([
+    'M470 196 L470 170 L486 170 L486 164 L506 164 L506 174 L522 174 L522 196 Z',                 # low blocks
+    'M522 196 L522 160 L530 160 L530 98 L533 98 L533 92 L563 92 L563 98 L566 98 L566 150 L588 150 '  # City Hall
+    'L588 92 L592 92 L592 86 L624 86 L624 92 L628 92 L628 160 L642 160 L642 196 Z',
+    'M650 196 C652 188, 658 184, 664 183 L664 172 L684 172 L684 150 L690 150 L690 136 L686 136 L694 120 '  # Akershus
+    'L702 136 L698 136 L698 150 L708 140 L716 147 L716 130 L712 130 L721 108 L730 130 L726 130 L726 150 '
+    'L732 150 L732 172 L742 172 L742 183 C752 185, 758 190, 762 196 Z',
+    'M762 196 L762 182 L780 182 L780 176 L800 176 L800 186 L822 186 L822 180 L840 180 L840 196 Z',
+    'M842 196 L842 100 L860 100 L860 196 Z M860 196 L860 186 L870 186 L870 196 Z',                # Oslo Plaza
+    'M872 196 L930 166 L940 166 L940 152 L966 152 L966 166 L978 166 L1006 196 Z',                 # the Opera
+    'M1012 196 L1012 124 L1020 104 L1048 104 L1040 124 L1040 196 Z',                              # Munch
+    'M1046 196 L1046 140 L1054 140 L1054 196 Z M1056 196 L1056 122 L1066 122 L1066 196 Z '        # the Barcode
+    'M1068 196 L1068 132 L1078 132 L1078 196 Z'])
 mirror_d = PAIR.sub(lambda m: f'{float(m.group(1)):g} {WATER * (1 + MIRROR_K) - MIRROR_K * float(m.group(2)):.1f}',
-                    shift_d(city_fill, CITY_DX))
+                    tjuv_fill + ' ' + shift_d(waterfront, CITY_DX))
 r = rng(53)
 stripes, y = [], WATER + 3.0
 while y < H + 2:
