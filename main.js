@@ -404,8 +404,16 @@
     // The sun's or the moon's reflection in the water (none when neither is up).
     const gx = sky === 'night' ? moonX : x;
     const gy = sky === 'night' ? moonY : y;
-    if (gx === null) land.dataset.noglint = '';
-    else { delete land.dataset.noglint; place('.glint', gx, 206 + Math.max(0, 150 - gy) * 0.1); }
+    // The moon's glint follows its phase: as bright and as wide as the lit part (none at new moon).
+    const lit = sky === 'night' && moon ? moon.fraction : 1;
+    if (gx === null || lit < 0.02) land.dataset.noglint = '';
+    else {
+      delete land.dataset.noglint;
+      place('.glint', gx, 206 + Math.max(0, 150 - gy) * 0.1);
+      const glint = land.querySelector('.glint');
+      glint.setAttribute('transform', `${glint.getAttribute('transform')} scale(${(0.45 + 0.55 * lit).toFixed(2)} 1)`);
+      glint.style.setProperty('--glint', (0.2 + 0.8 * lit).toFixed(2));
+    }
     land.dataset.sky = sky;
     // Golden hour: a warm glow on the horizon under the sun, unless the sky is grey.
     const glowWeather = !weather || weather.wx === 'clear' || (weather.wx === 'cloud' && weather.clouds < 3);

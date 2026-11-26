@@ -91,7 +91,8 @@ Local preview: `python3 -m http.server 8000`
   moon for Oslo: sunrise/sunset, and the moon's phase, tilt, height, rise and set (low-precision, good to a few
   minutes; the month table in main.js is only a fallback). main.js (`updateSky`) places the sun and moon on
   east-to-west arcs (the panorama faces north, so only the timing is real), draws the phase into `.moon .lit`,
-  shows the moon (`data-moon`) whenever it is above the horizon (pale by day), names the phase in the clock line
+  shows the moon (`data-moon`) whenever it is above the horizon (pale by day), gives the water glint under it the moon's warm
+  colour, scaled in width and strength by the lit fraction (`--glint`; none at new moon), names the phase in the clock line
   at night, and keeps both arcs inside the visible part of the panorama on narrow screens (`arcScale`). On touch screens under 958px
   the panorama is not cropped: `.land` becomes a sideways scroller (no scrollbar) at full panorama width, main.js starts
   it at the middle and glides it once per visit towards Ekeberg and back as a hint (not with reduced motion). Aurora on
