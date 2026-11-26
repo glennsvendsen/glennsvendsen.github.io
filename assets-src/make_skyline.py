@@ -10,7 +10,8 @@ Layers, back to front. Each is a <g class="layer layer--*"> so CSS can parallax 
   back  the hills far inland (Grefsenkollen with its mast), faint, for depth
   far   Holmenkollåsen in the west: the ridge, the Tryvann tower and the Holmenkollen ski jump
   mid   the west hills; the city: City Hall (Rådhuset), Akershus, Oslo Plaza, the Opera, Munch, the
-        Barcode; and Ekebergåsen in the east with Ekebergrestauranten and Sjømannsskolen
+        Barcode; and Ekebergåsen in the east with Ekebergrestauranten and Sjømannsskolen, and the
+        Ekeberg tram climbing Kongsveien (its own group between two mid ink groups)
   near  the fjord: water lines that open up towards the viewer, Hovedøya, a skerry with a sea mark,
         reflections, and the living bits (ferry, sailboat, gulls)
 Depth comes from atmosphere (each layer further back is fainter and thinner, see style.css) and
@@ -374,6 +375,35 @@ mid = f'''
 CITY_DX = -40
 _cut = mid.index('<path class="fill" d="M468')
 mid = mid[:_cut] + shift_tags(mid[_cut:], CITY_DX)
+
+# Kongsveien and the Ekeberg tram: the road climbs from Bjørvika (behind the Barcode) below
+# Ekebergrestauranten and on below Sjømannsskolen. The mid ink is split around the tram's own group,
+# so the tram runs in front of the hill but behind the Ekeberg trees and the city.
+def kongsveien_off(x):                       # how far below the ridge the road runs
+    return 13 + 9 * min(1, max(0, (x - 1030) / 150))
+road_pts = [(x, y_at(east_segs, min(x, 1200)) + kongsveien_off(x) - max(0, x - 1200) * 0.3) for x in range(1000, 1232, 6)]
+road_len = [0.0]
+for (ax, ay), (bx, by) in zip(road_pts, road_pts[1:]):
+    road_len.append(road_len[-1] + math.hypot(bx - ax, by - ay))
+TRAM_STOP_X = 1100                           # Ekebergparken stop, just below the restaurant
+tram_stop = next(l for (x, _), l in zip(road_pts, road_len) if x >= TRAM_STOP_X) / road_len[-1] * 100
+road_vis = [p for p in road_pts if 1040 <= p[0] <= 1200]
+poles = ' '.join(f'M{x} {y - 1:.1f} L{x} {y - 9:.1f}' for x, y in road_vis[2::4])
+road = f'''
+        <path class="thin road" d="{poly(road_vis)}"/>
+        <path class="thin road road-poles" d="{poles}"/>'''
+_split = mid.index(f'<path class="trees" d="{ef[0]}"/>')
+mid_a, mid_b = mid[:_split].rstrip() + road, '\n        ' + mid[_split:]
+# The tram (an SL-style two-section car) is drawn around its rear wheel line at 0,0, facing +x; CSS
+# moves it along the road with offset-path and tilts it with the slope.
+tram = f'''
+          <g class="tram" style="offset-path: path('{poly(road_pts)}'); --stop: {tram_stop:.1f}%">
+            <path class="snow snow-light" d="M-7.4 -6.6 C-3 -7.9, 3 -7.8, 6.6 -6.6 Z"/>
+            <path class="tram-body" d="M-8 -1 L-8 -5.4 C-8 -6.2, -7.6 -6.6, -6.8 -6.6 L6 -6.6 C7.6 -6.6, 8.6 -5, 8.6 -3.2 L8.6 -1 Z"/>
+            <path class="tram-line" d="M-6.6 -5 L-1.4 -5 L-1.4 -3 L-6.6 -3 Z M1.2 -5 L5.8 -5 L5.8 -3 L1.2 -3 Z M0 -6.6 L0 -1 M-6.4 0 L-3.6 0 M3.4 0 L6.2 0"/>
+            <path class="tram-lit" d="M-6.6 -5 h5.2 v2 h-5.2 Z M1.2 -5 h4.6 v2 h-4.6 Z"/>
+            <path class="accent tram-pan" d="M-3 -6.6 L-1 -9 L1 -6.6 M-2.4 -9.2 L0.4 -9.2"/>
+          </g>'''
 roofs_light = ' '.join(snow_band(p, d, s, step=3) for p, d, s in [
     ([(528, 98), (568, 98)], 2.2, 21), ([(533, 92), (563, 92)], 1.8, 22), ([(586, 92), (630, 92)], 2.2, 23),
     ([(592, 86), (624, 86)], 1.8, 24), ([(566, 150), (588, 150)], 2.4, 25), ([(522, 160), (530, 160)], 1.8, 26),
@@ -714,7 +744,11 @@ markup = f'''<!-- LAND -->
         </g>
         <g class="layer layer--far jumper-layer" style="--jx: {jump_dx:.0f}px; --jy: {jump_dy:.0f}px">{jumper}
         </g>
-        <g class="layer layer--mid ink">{mid}
+        <g class="layer layer--mid ink">{mid_a}
+        </g>
+        <g class="layer layer--mid tram-layer">{tram}
+        </g>
+        <g class="layer layer--mid ink">{mid_b}
         </g>
         <g class="layer layer--mid cover">{mid_cover}
         </g>

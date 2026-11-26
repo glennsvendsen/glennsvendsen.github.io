@@ -311,8 +311,8 @@ p { text-wrap: pretty; }
 .js .land .layer--mid path:nth-child(3n + 2)  { --d: 0.45s; }
 .js .land .layer--mid path:nth-child(3n)      { --d: 0.6s; }
 @keyframes draw { to { stroke-dashoffset: 0; } }
-.js .land:not(.is-drawn) :is(.life, .sky, .flagpole, .lights, .beacon-layer, .mirror) { opacity: 0; }
-.land :is(.life, .sky, .flagpole, .beacon-layer) { transition: opacity 0.9s ease 0.2s; }
+.js .land:not(.is-drawn) :is(.life, .sky, .flagpole, .lights, .beacon-layer, .mirror, .tram-layer) { opacity: 0; }
+.land :is(.life, .sky, .flagpole, .beacon-layer, .tram-layer) { transition: opacity 0.9s ease 0.2s; }
 /* The red aviation light on the Tryvann tower: a slow glowing pulse after dusk, a dim dot by day. */
 .beacon, .beacon-halo { fill: oklch(0.62 0.24 27); stroke: none; }
 .beacon { opacity: 0.3; filter: drop-shadow(0 0 1.5px oklch(0.62 0.24 27 / 0.8)) drop-shadow(0 0 4px oklch(0.62 0.24 27 / 0.45)); }
@@ -329,13 +329,13 @@ p { text-wrap: pretty; }
 /* The flag on City Hall: the one place with real colours (Norway's), drawn small with an ink edge. */
 /* Night lights: windows glow warm after dark (data-lights from main.js; "late" keeps only l2 on). */
 .land { --glow: light-dark(oklch(0.8 0.13 80), oklch(0.86 0.13 85)); }
-.lights path, .ferry-lit { fill: var(--glow); stroke: none; opacity: 0; transition: opacity 1.4s ease; }
+.lights path, .ferry-lit, .tram-lit { fill: var(--glow); stroke: none; opacity: 0; transition: opacity 1.4s ease; }
 .lights-reflect path { fill: none; stroke: var(--glow); stroke-width: 1.6; stroke-linecap: round; }
 /* light-dark() only takes colours, so the strength is a custom property that dark mode raises. */
 .land { --lit: 0.75; } .is-dark .land { --lit: 0.92; }
 .land[data-lights='on'] .lights :is(.l1, .l2), .land[data-lights='late'] .lights .l2,
-.land[data-lights]:not([data-lights='dusk']) .ferry-lit { opacity: var(--lit); }
-.land[data-lights='dusk'] .lights .l2, .land[data-lights='dusk'] .ferry-lit { opacity: calc(var(--lit) * 0.55); }
+.land[data-lights]:not([data-lights='dusk']) :is(.ferry-lit, .tram-lit) { opacity: var(--lit); }
+.land[data-lights='dusk'] .lights .l2, .land[data-lights='dusk'] :is(.ferry-lit, .tram-lit) { opacity: calc(var(--lit) * 0.55); }
 .land[data-lights]:not([data-lights='dusk']) .lights-reflect path { opacity: calc(var(--lit) * 0.5); }
 /* A soft halo around the lit windows: one blur for the whole group, stronger on dark paper. */
 .lights:not(.lights-reflect) { filter: drop-shadow(0 0 1.6px var(--glow)) drop-shadow(0 0 4px color-mix(in oklch, var(--glow) 55%, transparent)); }
@@ -406,6 +406,28 @@ p { text-wrap: pretty; }
   .flag { animation: wave 1.6s ease-in-out infinite; transform-box: fill-box; transform-origin: 0% 50%; }
 }
 .flag { stroke-width: 1.4; }
+/* The Ekeberg tram climbs Kongsveien (offset-path from make_skyline.py), stops below Ekebergrestauranten
+   (--stop), goes on up past Sjømannsskolen and out of sight, then waits for the next one. */
+.fjord .road { stroke-opacity: 0.4; stroke-width: 0.8; }
+.fjord .road-poles { stroke-opacity: 0.3; stroke-width: 0.6; }
+.tram-layer { filter: url(#sketch-fine); }
+.tram { offset-rotate: auto; offset-distance: var(--stop); }
+.tram path { stroke-width: 0.9; }
+.tram .tram-body { fill: var(--paper); }
+.tram .tram-line { stroke-width: 0.6; stroke-opacity: 0.8; }
+.tram .tram-pan { stroke-width: 0.7; }
+.tram .tram-lit { filter: drop-shadow(0 0 1.5px var(--glow)); }
+.tram .snow { stroke-width: 0.3; }
+@media (prefers-reduced-motion: no-preference) {
+  .tram { animation: tram 80s infinite; }
+}
+@keyframes tram {
+  0%   { offset-distance: 0%; animation-timing-function: cubic-bezier(0.3, 0, 0.6, 1); }
+  20%  { offset-distance: var(--stop); animation-timing-function: linear; }
+  26%  { offset-distance: var(--stop); animation-timing-function: cubic-bezier(0.5, 0, 0.8, 0.6); }
+  52%  { offset-distance: 100%; }
+  100% { offset-distance: 100%; }
+}
 @keyframes sail  { from { translate: -80px 0; } to { translate: 1280px 0; } }
 @keyframes bob   { 0%, 100% { rotate: -2.5deg; translate: 0 0; } 50% { rotate: 2.5deg; translate: 0 1.5px; } }
 @keyframes glide { from { translate: -500px 10px; } 50% { translate: 300px -12px; } to { translate: 1100px 6px; } }
@@ -560,7 +582,7 @@ p { text-wrap: pretty; }
 /* One soft double flash every 11 s (well under the 3-flashes-a-second limit). */
 @keyframes bolt { 0%, 92% { opacity: 0; } 93% { opacity: 1; } 94% { opacity: 0; } 95.5% { opacity: 0.8; } 97%, 100% { opacity: 0; } }
 /* Off-screen, everything on the skyline holds still. */
-.land.is-paused :is(.wx-front *, .cloud-drift, .puff, .wx-ripple ellipse, .ferry, .gulls, .gulls path, .sailboat, .flag, .ab, .stars path, .smoke, .beacon, .beacon-halo) { animation-play-state: paused; }
+.land.is-paused :is(.wx-front *, .cloud-drift, .puff, .wx-ripple ellipse, .ferry, .gulls, .gulls path, .sailboat, .tram, .flag, .ab, .stars path, .smoke, .beacon, .beacon-halo) { animation-play-state: paused; }
 @media (prefers-reduced-motion: reduce) {
   .wx-rain, .wx-snow, .bolt, .wx-ripple { display: none; }
   .land[data-cold] .chimney .puff:first-child { animation: none; stroke-opacity: 0.4; translate: 2px -4px; }
