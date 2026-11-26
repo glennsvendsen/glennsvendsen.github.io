@@ -378,13 +378,23 @@ p { text-wrap: pretty; }
 /* Night lights: windows glow warm after dark (data-lights from main.js; "late" keeps only l2 on). */
 .land { --glow: light-dark(oklch(0.8 0.13 80), oklch(0.86 0.13 85)); }
 .lights path, .ferry-lit, .tram-lit, .dyna-lit { fill: var(--glow); stroke: none; opacity: 0; transition: opacity 1.4s ease; }
-.lights-reflect path { fill: none; stroke: var(--glow); stroke-width: 1.6; stroke-linecap: round; }
+.lights-reflect path { fill: none; stroke: var(--glow); stroke-width: 1.8; stroke-linecap: butt; }
 /* light-dark() only takes colours, so the strength is a custom property that dark mode raises. */
 .land { --lit: 0.75; } .is-dark .land { --lit: 0.92; }
 .land[data-lights='on'] .lights :is(.l1, .l2), .land[data-lights='late'] .lights .l2,
 .land[data-lights]:not([data-lights='dusk']) :is(.ferry-lit, .tram-lit, .dyna-lit) { opacity: var(--lit); }
 .land[data-lights='dusk'] .lights .l2, .land[data-lights='dusk'] :is(.ferry-lit, .tram-lit, .dyna-lit) { opacity: calc(var(--lit) * 0.55); }
-.land[data-lights]:not([data-lights='dusk']) .lights-reflect path { opacity: calc(var(--lit) * 0.5); }
+/* Reflections follow their own windows (l1/l2), fainter, and not while it's still light or the fjord is frozen. */
+.land[data-lights='on'] .lights-reflect :is(.l1, .l2), .land[data-lights='late'] .lights-reflect .l2 { opacity: calc(var(--lit) * 0.55); }
+.land[data-lights='dusk'] .lights-reflect :is(.l1, .l2) { opacity: 0; }
+.land[data-ice='2'] .lights-reflect { display: none; }
+/* On moving water the streaks tremble a little: more as the wind picks up. */
+@media (prefers-reduced-motion: no-preference) {
+  .land:is([data-wind='breeze'], [data-wind='fresh'], [data-wind='strong']) .lights-reflect path { animation: shimmer 1.8s ease-in-out infinite; }
+  .land[data-wind='strong'] .lights-reflect path { animation-duration: 1.1s; }
+  .lights-reflect .l2 { animation-delay: -0.7s; }
+}
+@keyframes shimmer { 0%, 100% { translate: 0 0; } 50% { translate: 0.7px 0.5px; } }
 /* A soft halo around the lit windows: one blur for the whole group, stronger on dark paper. */
 .lights:not(.lights-reflect) { filter: drop-shadow(0 0 1.6px var(--glow)) drop-shadow(0 0 4px color-mix(in oklch, var(--glow) 55%, transparent)); }
 .is-dark .lights:not(.lights-reflect) { filter: drop-shadow(0 0 1.8px var(--glow)) drop-shadow(0 0 6px color-mix(in oklch, var(--glow) 70%, transparent)); }
@@ -647,7 +657,7 @@ p { text-wrap: pretty; }
 /* One soft double flash every 11 s (well under the 3-flashes-a-second limit). */
 @keyframes bolt { 0%, 92% { opacity: 0; } 93% { opacity: 1; } 94% { opacity: 0; } 95.5% { opacity: 0.8; } 97%, 100% { opacity: 0; } }
 /* Off-screen, everything on the skyline holds still. */
-.land.is-paused :is(.wx-front *, .cloud-drift, .puff, .wx-ripple ellipse, .ferry, .gulls, .gulls path, .sailboat, .tram, .flag, .ab, .stars path, .smoke, .beacon, .beacon-halo, .lamp, .lamp-halo, .wx-caps path) { animation-play-state: paused; }
+.land.is-paused :is(.wx-front *, .cloud-drift, .puff, .wx-ripple ellipse, .ferry, .gulls, .gulls path, .sailboat, .tram, .flag, .ab, .stars path, .smoke, .beacon, .beacon-halo, .lamp, .lamp-halo, .wx-caps path, .lights-reflect path) { animation-play-state: paused; }
 @media (prefers-reduced-motion: reduce) {
   .wx-rain, .wx-snow, .bolt, .wx-ripple { display: none; }
   .land[data-cold] .chimney .puff:first-child { animation: none; stroke-opacity: 0.4; translate: 2px -4px; }

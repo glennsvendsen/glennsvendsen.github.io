@@ -76,6 +76,8 @@ Local preview: `python3 -m http.server 8000`
   The city's reflection (`.mirror`, a mid-layer group drawn after the near layer so the fjord's paper surface doesn't hide
   it) is `city_fill` mirrored at the water line (`MIRROR_K` of its height, baked into the coordinates) and cut into fading
   stripes by the `#mirror-stripes` mask; its tone is 0.45 alpha in light, 0.5 in dark, and it hides when the fjord is frozen.
+  After dark each lit city window has a short warm streak in the water (`.lights-reflect`, generated from the same
+  lit windows and l1/l2 classes, through the same stripe mask), drawn above the fjord's paper; they tremble in wind.
 - **Weather & seasons**: main.js fetches Oslo weather once per visit from Open-Meteo (free, no key, no
   cookies, CC BY 4.0, credited in the footer; cached 30 min in sessionStorage) and sets `data-wx`
   (clear|cloud|fog|rain|snow|storm), `data-clouds` (0–3), `data-intensity`, `data-cover` (none|light|deep,

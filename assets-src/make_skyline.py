@@ -567,14 +567,24 @@ cells_city = (
     + [(x, y, 3, 3) for x in (474.5, 491, 497) for y in (178, 186)] + [(x, 186, 4, 3) for x in (766, 806, 812)]
     + [(x, 177, 3, 3) for x in (946, 958, 970)])
 lit = windows(cells_city, dx=CITY_DX)
+city_lit = list(lit)                          # the city's windows stand at the water, so they reflect
 lit += windows([(sx - 0.8, sy - 10, 1.6, 3) for sx in sj_wins] + [(sx - 0.8, sy - 5, 1.6, 3) for sx in sj_wins], keep=0.5)
 lit.append(('l1', f'M{rx0 + 2} {ry - 12:.1f} h{rx1 - rx0 - 3} v1.8 h{-(rx1 - rx0 - 3)} Z'))   # the restaurant's ribbon window
 for tx, hw, th in sj_towers:
     lit.append(('l2', f'M{tx - 2.1:.1f} {sy - th + 18.5:.1f} h4.2 v5 h-4.2 Z'))   # a tower window
 lights = ''.join(f'\n        <path class="{c}" d="{d}"/>' for c, d in lit)
-# their reflections: short warm strokes in the water under the lit buildings
-lights_reflect = shift_d('M541 201 L541 206 M552 202 L552 210 M603 201 L603 207 M613 202 L613 212 M851 201 L851 209 '
-                         'M1020 202 L1020 208 M1030 201 L1030 211 M1060 202 L1060 207 M700 201 L700 205', CITY_DX)
+# Their reflections: one short warm stroke in the water under each lit city window, mirrored at the water
+# line like the city (MIRROR_K, below) and stretched a little, as reflections on moving water are. Each
+# keeps its window's l1/l2 class, so it lights and goes out with it; the #mirror-stripes mask breaks them up.
+REFLECT_K, REFLECT_STRETCH = 0.8, 1.4
+_win = re.compile(r'M([\d.]+) ([\d.]+) h([\d.]+) v([\d.]+)')
+reflect_by = {'l1': [], 'l2': []}
+for c, d in city_lit:
+    x, y, w, h = map(float, _win.match(d).groups())
+    xc, y0, y1 = x + w / 2, WATER + (WATER - y - h) * REFLECT_K, WATER + (WATER - y) * REFLECT_K
+    y1 = y0 + max(2.0, (y1 - y0) * REFLECT_STRETCH)
+    reflect_by[c].append(f'M{xc:.1f} {y0:.1f} L{xc:.1f} {y1:.1f}')
+lights_reflect = ''.join(f'\n          <path class="{c}" d="{" ".join(v)}"/>' for c, v in reflect_by.items() if v)
 
 # ── Days of the year (main.js sets data-day on .land from the date in Oslo) ──
 def mini_flag(x, y, k=0.32):
@@ -804,8 +814,6 @@ markup = f'''<!-- LAND -->
         </g>
         <g class="layer layer--mid lights">{lights}
         </g>
-        <g class="layer layer--near lights lights-reflect"><path d="{lights_reflect}"/>
-        </g>
         <g class="layer layer--mid flagpole">{flag}
         </g>
         <g class="layer layer--mid day day-17mai">{may17}
@@ -816,6 +824,8 @@ markup = f'''<!-- LAND -->
         </g>
         <g class="layer layer--mid mirror"><path d="{mirror_d}" mask="url(#mirror-stripes)"/>
         </g>
+        <g class="layer layer--mid lights lights-reflect"><g mask="url(#mirror-stripes)">{lights_reflect}
+        </g></g>
         <g class="layer layer--near cover">{near_ice}
         </g>
         <g class="layer layer--near life life--ferry">{ferry}
