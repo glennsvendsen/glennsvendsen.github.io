@@ -26,8 +26,7 @@ Local preview: `python3 -m http.server 8000`
   (a new service, a new stored key, a change to the form).
 - `worker/` — the contact form's Cloudflare Worker (`api.glennsvendsen.com/contact`), deployed with wrangler,
   not by Pages. See `worker/README.md`. Secrets (`TURNSTILE_SECRET`, `TO`) are never in the repo.
-- `work/` — "Earlier work": the old PM content (six case studies, colleague quotes) re-told in the new
-  design. Hand-written `work/index.html` that shares `../style.css` (the "WORK PAGE" block) and
+- `work/` — "Day job": the PM work (six case studies, colleague quotes) in the new design (current job, present tense). Hand-written `work/index.html` that shares `../style.css` (the "WORK PAGE" block) and
   `../main.js` (null-safe on pages without the hero) and `../i18n.js` (keys `w.*`; the colleagues' quotes stay in English). `noindex`, linked from the footer.
   Quotes are taped index cards (`.note`), cases are `.case` rows with `.case-stats`.
 - `work/archive/` — **frozen copy of the original v1 site** (interactive case-study demos) with its own

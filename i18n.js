@@ -85,7 +85,7 @@ window.I18N = {
     'hello.intro': 'Alltid klar for en prat om produkter, om å lage ting med AI, eller om hvilket fjell som står for tur.',
     'hello.email': 'E-post <span aria-hidden="true">→</span>',
     'hello.profile': 'Profil <span aria-hidden="true">↗</span>',
-    'hello.earlier': 'Tidligere arbeid',
+    'hello.earlier': 'Dagjobben',
     'hello.cases': 'Case-studier <span aria-hidden="true">→</span>',
     'hello.form.kicker': 'Eller skriv en lapp',
     'hello.form.dear': 'Kjære Glenn,',
@@ -102,13 +102,13 @@ window.I18N = {
     'hello.form.pm': 'Sendt',
     'hello.form.privacy': 'Lappen går rett til innboksen min og brukes bare til å svare deg. Ingenting lagres på denne siden. Spamsjekk med Cloudflare Turnstile. <a href="privacy/">Personvern</a>',
 
-    // Earlier work (/work/). The colleagues' quotes stay in English, as written.
+    // Day job (/work/). The colleagues' quotes stay in English, as written.
     'w.nav.home': 'Hjem',
     'w.nav.cases': 'Case-studier',
     'w.nav.people': 'Hva folk sier',
-    'w.kicker': 'Tidligere arbeid',
-    'w.title': 'Før sideprosjektene tok over.',
-    'w.intro': 'I flere år var dagjobben min produktledelse på plattformer for parkeringspriser: reglene, verktøyene og migreringene som sørger for riktige priser for millioner av sjåfører. Her er noen av de historiene, og hva folkene jeg jobbet med sa.',
+    'w.kicker': 'Dagjobben',
+    'w.title': 'Det jeg gjør om dagen.',
+    'w.intro': 'Til daglig er jeg produktleder for plattformer for parkeringspriser: reglene, verktøyene og migreringene som sørger for riktige priser for millioner av sjåfører. Her er noen historier fra det arbeidet, og hva folkene jeg jobber med sier.',
     'w.cases.kicker': 'Case-studier',
     'w.cases.title': 'Seks ting jeg er stolt av.',
     'w.c1.lede': 'Et stille sikkerhetsnett som fanger feil i prisene før sjåførene ser dem.',
