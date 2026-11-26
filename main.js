@@ -820,7 +820,7 @@
       if (taps.length >= 5) { taps = []; thumbsUp('egg.hi', 'Hi!'); }
     });
   }
-  window.thumbsUp = () => { thumbsUp('egg.hi', 'Hi!'); return '👍'; };
+  window.thumbsUp = (key = 'egg.hi', english = 'Hi!') => { thumbsUp(key, english); return '👍'; };   // the 404 page passes its own word
   console.log(`%c${GS}`, `color: #c2416b; ${MONO}`);
   console.log(
     '%cHi, engineer 👋\nNo framework. No build step.\n0 dependencies. View source is the docs.\n\n› try: coffee()',

@@ -1172,3 +1172,67 @@ html:not(.js) .plate .clip { display: none; }
   .thumbs .thumbs-fig { animation: none !important; }
   .thumbs .thumbs-bubble { transition-delay: 0s !important; }
 }
+
+/* ── 404 PAGE (404.html, 404.js) ──────────────
+   "No such fjord or directory": the page sank in the Oslofjord and a little rowing boat fishes for it. The
+   404 lies half sunk, its 0 a life ring (the accent); each cast reels up a sunken tech thing, the last one
+   the page itself. A terminal types out what happened. */
+.lost { width: min(46rem, 100% - 2.5rem); margin: 0 auto; padding: clamp(7rem, 16vh, 10rem) 0 4rem; }
+.lost .title { max-width: 14ch; }
+.lost-scene { margin: 1.6rem -0.5rem 0; }
+.lost-scene svg { width: 100%; height: auto; overflow: visible; display: block; }
+.lost-ink { filter: url(#sketch-rough); fill: none; stroke: var(--ink); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.lost-ink .thin { stroke-width: 1.2; stroke-opacity: 0.45; }
+.lost-fill, .lost-ink .ring-body, .lost-ink .ring-hole { fill: var(--paper); }
+.lost-ink .ring-hole { fill: var(--paper); }
+.lost-digit { stroke-width: 7; }
+.lost-ink .ring-body { stroke-width: 3; }
+.lost-ink .ring-band { fill: var(--accent); stroke: none; }
+.lost-ink .ring-rope { stroke-width: 1.4; stroke-dasharray: 3 3; }
+.lost-dot { fill: var(--ink); stroke: none; }
+.lost-label { font-family: var(--ff-mono); font-size: 5.4px; fill: var(--ink); stroke: none; text-anchor: middle; }
+.lost-word, .lost-code { font-family: var(--ff-serif); font-style: italic; font-size: 19px; fill: var(--ink); stroke: none; text-anchor: middle; }
+.lost-code { font-family: var(--ff-mono); font-style: normal; font-size: 15px; }
+.lost-line { stroke-width: 0.9; stroke-opacity: 0.8; }
+.lost-rod { stroke-width: 2.2; }
+.lost-gull { stroke-width: 1.6; }
+.lost-splash path { stroke-width: 1.4; opacity: 0; }
+@media (prefers-reduced-motion: no-preference) {
+  .lost-boat { animation: lost-bob 4.2s ease-in-out infinite; transform-box: fill-box; transform-origin: 50% 90%; }
+  .lost-ring { animation: lost-bob 5.4s ease-in-out -1.3s infinite; transform-box: fill-box; transform-origin: 50% 50%; }
+  .lost-bubbles circle { animation: lost-rise 3.6s ease-in infinite; }
+  .lost-bubbles circle:nth-child(2) { animation-delay: -1.2s; }
+  .lost-bubbles circle:nth-child(3) { animation-delay: -2.1s; animation-duration: 4.4s; }
+  .lost-bubbles circle:nth-child(4) { animation-delay: -0.6s; animation-duration: 3s; }
+  .lost-gull { animation: lost-glide 18s ease-in-out infinite alternate; }
+  .lost-gull--2 { animation-duration: 23s; animation-delay: -6s; }
+  .is-biting .lost-rod { animation: lost-tug 0.22s ease-in-out 3; transform-box: view-box; transform-origin: 140px 172px; }
+  .lost-hook.is-dangling .lost-catch { animation: lost-dangle 2.6s ease-in-out infinite; transform-box: view-box; transform-origin: 0 0; }
+  .lost-splash.is-on path { animation: lost-splash 0.7s ease-out; }
+}
+@keyframes lost-bob { 0%, 100% { translate: 0 0; rotate: -1.5deg; } 50% { translate: 0 2.5px; rotate: 1.5deg; } }
+@keyframes lost-rise { 0% { translate: 0 0; opacity: 0; } 15% { opacity: 0.8; } 100% { translate: 2px -72px; opacity: 0; } }
+@keyframes lost-glide { from { translate: 0 0; } to { translate: 140px -10px; } }
+@keyframes lost-tug { 50% { rotate: 4deg; } }
+@keyframes lost-dangle { 0%, 100% { rotate: -6deg; } 50% { rotate: 6deg; } }
+@keyframes lost-splash { 0% { opacity: 0; translate: 0 6px; } 30% { opacity: 1; } 100% { opacity: 0; translate: 0 -6px; } }
+.lost-play { display: flex; flex-wrap: wrap; align-items: center; gap: 0.8rem 1.4rem; margin-top: 0.4rem; min-height: 3.2rem; }
+.lost-cast { font: inherit; font-family: var(--ff-serif); font-size: 1.3rem; color: var(--ink); background: var(--paper-2, var(--paper));
+  border: 1.5px solid var(--ink); border-radius: 999px 900px 999px 950px; padding: 0.45rem 1.3rem 0.5rem; cursor: pointer;
+  box-shadow: 2px 3px 0 var(--ink); transition: translate 0.15s, box-shadow 0.15s, color 0.2s; touch-action: manipulation; }
+.lost-cast:hover { color: var(--accent); }
+.lost-cast:active { translate: 2px 3px; box-shadow: 0 0 0 var(--ink); }
+.lost-cast:disabled { opacity: 0.55; cursor: progress; }
+.lost-log { flex: 1 1 16rem; color: var(--muted); font-size: 0.86rem; line-height: 1.5; }
+.lost-log a { color: var(--accent); }
+.terminal { margin-top: 2.2rem; padding: 1.1rem 1.3rem 1.2rem; min-height: 11.5rem; white-space: pre-wrap; overflow-wrap: anywhere;
+  font-size: 0.84rem; line-height: 1.65; color: var(--ink); background: color-mix(in oklch, var(--ink) 5%, var(--paper));
+  border: 1px dashed var(--line); border-radius: 4px; rotate: 0.4deg; }
+.terminal .t-out { color: var(--muted); }
+.terminal .t-cmd, .terminal .t-home { color: var(--ink); }
+.terminal a { color: var(--accent); text-decoration: underline; text-underline-offset: 3px; }
+.t-cursor { color: var(--accent); margin-left: 1px; }
+@media (prefers-reduced-motion: no-preference) { .t-cursor { animation: t-blink 1s steps(1) infinite; } }
+@keyframes t-blink { 50% { opacity: 0; } }
+.lost-links { margin-top: 2rem; }
+.lost-hint { margin-top: 1.4rem; color: var(--faint, var(--muted)); font-size: 0.74rem; }

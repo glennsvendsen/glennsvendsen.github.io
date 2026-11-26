@@ -21,6 +21,10 @@ Local preview: `python3 -m http.server 8000`
 - `i18n.js` — Norwegian (Bokmål) strings for the EN/NO switch; English is the HTML itself
 - Visit stats: Cloudflare Web Analytics beacon (cookie-free, page views only; token in each page's head).
   `track()` / `data-umami-event*` are inert leftovers from Umami, kept in case events come back.
+- `404.html` + `404.js` — the 404 page ("No such fjord or directory."): GitHub Pages serves it for any missing path, so
+  every URL in it is absolute. A rowing boat fishes for the lost page (the 404 half sunk, its 0 a rose life ring); each
+  cast reels up a sunken tech thing, the sixth is the page as a paper boat (and `thumbsUp('egg.found')`). A terminal
+  types the `curl` that came back 404. Shares `style.css` (the "404 PAGE" block), `main.js` and `i18n.js` (keys `e404.*`).
 - `privacy/` — the privacy page (GDPR notice), linked from both footers and the form. Same layout as `/work/`
   (`.case` rows + `.policy-text`), keys `p.*`. **Update it whenever the site starts sending data somewhere new**
   (a new service, a new stored key, a change to the form).
