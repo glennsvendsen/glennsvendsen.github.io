@@ -536,7 +536,12 @@
   window.addEventListener('resize', () => { cancelAnimationFrame(resizing); resizing = requestAnimationFrame(updateSky); });
   langListeners.push(updateSky);
   loadWeather();
-  new IntersectionObserver(([e]) => land.classList.toggle('is-paused', !e.isIntersecting)).observe(land);
+  // The gulls' wingbeats are SMIL (see make_skyline.py): pause them with everything else off-screen,
+  // and keep them still with reduced motion.
+  const fjordSvg = land.querySelector('svg.fjord');
+  const smil = (run) => { if (fjordSvg && fjordSvg.pauseAnimations) { if (run && !reduceMotion) fjordSvg.unpauseAnimations(); else fjordSvg.pauseAnimations(); } };
+  smil(true);
+  new IntersectionObserver(([e]) => { land.classList.toggle('is-paused', !e.isIntersecting); smil(e.isIntersecting); }).observe(land);
   setInterval(updateSky, 60 * 1000);
   }
 

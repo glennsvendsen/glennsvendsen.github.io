@@ -69,7 +69,7 @@ Local preview: `python3 -m http.server 8000`
   CSS filter transition) when `.is-developed` is added by main.js; a hand-drawn "Hi!" speech bubble pops up after it develops (hover wiggles it). `profile.jpg` is 4:5 (960×1200), < 200 KB.
 - **Skyline** (`.land`): layers `layer--sky|back|far|mid|near` (fainter and finer further back; Holmenkollen/Tryvann west, Bygdøy and a near shore with a pine in front, Ekeberg with Sjømannsskolen and Ekebergrestauranten east; the city is shifted by `CITY_DX`; the skyline uses the finer `#sketch-fine` wobble) parallax on scroll (scroll-driven
   animations), draw in on first load (`.is-drawing` → `.is-drawn`), and `.life` holds the ferry,
-  sailboat, gulls; the Ekeberg tram (`.tram` in `.tram-layer`, between two mid `ink` groups so it runs behind the Ekeberg trees
+  sailboat, gulls (real wingbeats: SMIL `<animate d>` from `gull()` in the script, paused off-screen and with reduced motion by main.js); the Ekeberg tram (`.tram` in `.tram-layer`, between two mid `ink` groups so it runs behind the Ekeberg trees
   and the Barcode) climbs Kongsveien with CSS `offset-path` and stops below Ekebergrestauranten (`--stop`);
   Dyna fyr stands on the near shore with a green light (`.dyna-light`: long on, short dark; the colour is chosen, not its
   real sector), and the boathouse with the chimney smoke sits on the skerry by the sea mark; the Norwegian flag on City Hall (`.flagpole`, its own mid-layer group so it can wave) is the one place with real colours. `.fill` paths are paper silhouettes.
