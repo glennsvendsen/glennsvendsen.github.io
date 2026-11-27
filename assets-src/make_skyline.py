@@ -621,6 +621,10 @@ jumper = (f'<g class="jumper"><path d="M{tx - 3} {tyo - 6.5:.1f} L{tx + 3.5} {ty
           f'M{tx + 0.4} {tyo - 7:.1f} L{tx + 2.4} {tyo - 11:.1f} M{tx + 2.4} {tyo - 11:.1f} L{tx + 3.2} {tyo - 12.4:.1f}"/></g>')
 jump_dx, jump_dy = lx - tx - 6, ly - tyo + 4
 
+# The sailboat lies a little further out than the ferry's lane (208 vs 212), so it is drawn first, in the same
+# group: the ferry's paper hull then passes in front of it instead of the two outlines crossing.
+sailboat = '''
+        <g transform="translate(790 208)"><g class="sailboat"><path d="M-20 0 C-12 8, 12 8, 22 0 Z M0 0 L0 -30 M0 -28 L16 -4 L0 -4 Z"/></g></g>'''
 ferry = '''
         <g class="ferry"><g transform="translate(0 212)"><path d="M0 0 L46 0 L41 7 L5 7 Z M10 0 L10 -6 L36 -6 L36 0 M14 -3 L16 -3 M20 -3 L22 -3 M26 -3 L28 -3 M26 -6 L26 -11 L31 -11 L31 -6"/><path class="ferry-lit" d="M13 -4.5 h4 v3 h-4 Z M19 -4.5 h4 v3 h-4 Z M25 -4.5 h4 v3 h-4 Z M27.4 -13.2 h2.2 v2.2 h-2.2 Z"/></g></g>'''
 # Gulls: the wings are bent at the wrist and flap through real up- and downstrokes (SMIL, so the path
@@ -647,7 +651,6 @@ def gull(x, y, k, dur, begin):
             f'<animate attributeName="d" values="{shapes}" {timing}/>'
             f'<animateTransform attributeName="transform" type="translate" additive="sum" values="{bob}" {timing}/></path>')
 life = f'''
-        <g transform="translate(790 208)"><g class="sailboat"><path d="M-20 0 C-12 8, 12 8, 22 0 Z M0 0 L0 -30 M0 -28 L16 -4 L0 -4 Z"/></g></g>
         <g class="gulls">{gull(380, 56, 1, 5, 0)}{gull(410, 46, 0.7, 5.8, -2.1)}</g>'''
 
 
@@ -851,7 +854,7 @@ markup = f'''<!-- LAND -->
         </g></g>
         <g class="layer layer--near cover">{near_ice}
         </g>
-        <g class="layer layer--near life life--ferry">{ferry}
+        <g class="layer layer--near life life--ferry">{sailboat}{ferry}
         </g>
         <g class="layer layer--near ink">{near_b}
         </g>
