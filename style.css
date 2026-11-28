@@ -1266,6 +1266,10 @@ html:not(.js) .plate .clip { display: none; }
 @media (min-width: 900px) {
   .lately { position: absolute; bottom: 0; right: 0; margin-top: 0; }
 }
+/* Wide screens have room beside the signature: up to the top right, level with it. */
+@media (min-width: 1240px) {
+  .lately { bottom: auto; top: 0.6rem; }
+}
 /* Phones: one line under the hero text, so it doesn't compete with the skyline. */
 @media (max-width: 899px) {
   .lately { display: flex; gap: 0.5rem; align-items: baseline; max-width: none; margin-top: 1rem; }
@@ -1315,11 +1319,11 @@ html:not(.js) .plate .clip { display: none; }
 
 /* The darkroom: prints hang on a line with drawn pegs. The line is a real horizontal scroller with snap points. */
 /* Full bleed: the line runs edge to edge, the first print starts in line with the text (the .wrap's left edge). */
-.darkroom { --bleed: max(var(--gutter), (100vw - var(--wrap)) / 2); position: relative; margin-top: 1.6rem; margin-inline: calc(50% - 50vw); }
+.darkroom { --dr-edge: max(var(--gutter), (100vw - var(--wrap)) / 2); position: relative; margin-top: 1.6rem; margin-inline: calc(50% - 50vw); }
 .entry--note .darkroom { margin-inline: -1.7rem; }
 .dr-track { --swing: 0deg; display: flex; gap: clamp(1.2rem, 4vw, 2.4rem); overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none;
-  list-style: none; margin: 0; padding: 1.2rem var(--bleed) 1.6rem; scroll-padding-inline: var(--bleed); overscroll-behavior-x: contain; }
-.dr-track { mask-image: linear-gradient(to right, transparent, #000 var(--bleed), #000 calc(100% - 5rem), transparent); }
+  list-style: none; margin: 0; padding: 1.2rem var(--dr-edge) 1.6rem; scroll-padding-inline: var(--dr-edge); overscroll-behavior-x: contain; }
+.dr-track { mask-image: linear-gradient(to right, transparent, #000 var(--dr-edge), #000 calc(100% - 5rem), transparent); }
 .dr-track::-webkit-scrollbar { display: none; }
 .dr-track:focus-visible { outline: 1px dashed var(--accent); outline-offset: -4px; }
 .dr-print { position: relative; flex: 0 0 min(72vw, 19rem); scroll-snap-align: start; transform-origin: 50% 0; rotate: calc(var(--swing) * var(--k, 1)); }
