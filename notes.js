@@ -14,7 +14,7 @@
     const ctrl = new AbortController();
     const t = setTimeout(() => ctrl.abort(), 4000);   // a slow service never holds the page up
     try {
-      const res = await fetch(API + path, { signal: ctrl.signal });
+      const res = await fetch(API + path, { signal: ctrl.signal, cache: 'no-cache' });   // always ask; the Worker's edge cache keeps it cheap
       if (!res.ok) throw new Error(res.status);
       return await res.json();
     } finally { clearTimeout(t); }
@@ -26,7 +26,8 @@
       if (c && Date.now() - c.t < 5 * 60e3) return c.data;
     } catch (e) { /* ignore */ }
     const data = await get('/posts?limit=20');
-    try { sessionStorage.setItem('notes', JSON.stringify({ t: Date.now(), data })); } catch (e) { /* ignore */ }
+    // An empty list is not kept, so the first post shows up straight away.
+    if (data.posts && data.posts.length) try { sessionStorage.setItem('notes', JSON.stringify({ t: Date.now(), data })); } catch (e) { /* ignore */ }
     return data;
   };
 
@@ -182,7 +183,9 @@
 
   /* ── the notebook (/notes/) ───────────────── */
   const entry = (p) => {
-    const a = el('article', `entry entry--${p.kind}${isNew(p.date) ? ' is-new' : ''}`);
+    // A short note with photos is shown as a post: the line needs the room a taped card doesn't have.
+    const kind = p.kind === 'note' && p.images.length ? 'post' : p.kind;
+    const a = el('article', `entry entry--${kind}${isNew(p.date) ? ' is-new' : ''}`);
     a.id = p.slug;
     if (p.lang !== 'both') a.lang = p.lang === 'no' ? 'nb' : 'en';
     const label = langLabel(p);
