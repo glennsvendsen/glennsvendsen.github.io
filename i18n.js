@@ -16,7 +16,6 @@ window.I18N = {
     'nav.notes': 'Notater',
 
     'lately.title': 'Nylig',
-    'lately.all': 'Alle notater →',
     'n.kicker': 'Notater',
     'n.title': 'Notater fra <em>Oslo.</em>',
     'n.intro': 'Korte notater, lengre tanker og bilder på en snor. Skrevet på mobilen, mest ute.',

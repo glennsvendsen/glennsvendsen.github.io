@@ -1240,29 +1240,40 @@ html:not(.js) .plate .clip { display: none; }
 /* ══ NOTES ════════════════════════════════════════════════════════════════════
    Posts from the notes Worker (notes.js): "Lately" in the hero, the notebook on /notes/ and the darkroom line. */
 
-/* Lately: a handwritten list at the top right of the hero, written in after the signature. */
-.lately { margin-top: 1.6rem; max-width: 19rem; }
-.lately-title { font-family: var(--ff-serif); font-style: italic; font-weight: 400; font-size: 1.5rem; line-height: 1; margin-bottom: 0.5rem; }
-.lately-list { list-style: none; padding: 0; margin: 0; display: grid; gap: 0.35rem; }
-.lately-list a { display: grid; grid-template-columns: 0.9rem 1fr auto; gap: 0.5rem; align-items: baseline; color: var(--ink); text-decoration: none; }
-.lately-bullet { width: 0.8rem; height: 0.8rem; align-self: center; fill: none; stroke: var(--ink); stroke-width: 1.4; stroke-linecap: round; filter: url(#sketch-rough); }
+/* Lately: a small taped slip of paper beside the signature, like the notes on /work/ and /notes/.
+   Written in after the signature: the heading's pen stroke, then line after line. */
+.lately { position: relative; margin-top: 1.6rem; width: 17.5rem; padding: 1.5rem 1.4rem 1.2rem;
+  background: oklch(0.975 0.01 85); color: oklch(0.28 0.012 60); border-radius: 3px; rotate: -2deg;
+  box-shadow: 0 1px 2px var(--shadow), 0 18px 30px -20px var(--shadow);
+  background-image: repeating-linear-gradient(transparent 0 1.85rem, oklch(0.62 0.07 240 / 0.16) 1.85rem calc(1.85rem + 1px));
+  background-position: 0 2.55rem; transition: rotate 0.6s var(--ease), translate 0.6s var(--ease); }
+.lately:hover { rotate: -0.6deg; translate: 0 -3px; }
+.lately::before { content: ''; position: absolute; top: -0.6rem; left: 50%; width: 4.4rem; height: 1.3rem; translate: -50% 0; rotate: 4deg;
+  background: color-mix(in oklch, var(--accent) 26%, oklch(0.96 0.02 85) 74%); opacity: 0.8; box-shadow: 0 1px 2px var(--shadow); }
+.lately-title { position: relative; display: inline-block; font-family: var(--ff-serif); font-style: italic; font-weight: 400; font-size: 1.55rem; line-height: 1; margin-bottom: 0.65rem; }
+.lately-title a { color: inherit; text-decoration: none; }
+.lately-title a:hover { color: var(--accent); }
+.lately-stroke { position: absolute; left: -0.1rem; bottom: -0.35rem; width: calc(100% + 0.6rem); height: 0.5rem; overflow: visible;
+  fill: none; stroke: var(--accent); stroke-width: 1.6; stroke-linecap: round; filter: url(#sketch-rough); }
+.lately-list { list-style: none; padding: 0; margin: 0; display: grid; gap: 0.15rem; }
+.lately-list a { display: grid; grid-template-columns: 0.9rem 1fr auto; gap: 0.55rem; align-items: baseline; color: inherit; text-decoration: none; line-height: 1.85rem; }
+.lately-bullet { width: 0.75rem; height: 0.75rem; align-self: center; fill: none; stroke: currentColor; stroke-width: 1.4; stroke-linecap: round; filter: url(#sketch-rough); }
 .lately .is-new .lately-bullet { stroke: var(--accent); fill: var(--accent); fill-opacity: 0.25; }
-.lately-text { position: relative; font-family: var(--ff-serif); font-size: 1.15rem; line-height: 1.3; }
-.lately-list time { color: var(--muted); font-size: 0.72rem; white-space: nowrap; }
-.lately-under { position: absolute; left: 0; bottom: -0.2rem; width: 100%; height: 0.4rem; fill: none; stroke: var(--accent); stroke-width: 1.5; stroke-linecap: round; overflow: visible; }
+.lately-text { position: relative; font-family: var(--ff-serif); font-style: italic; font-size: 1.2rem; line-height: 1.3; }
+.lately-list time { color: oklch(0.5 0.012 60); font-size: 0.72rem; white-space: nowrap; }
+.lately-under { position: absolute; left: 0; bottom: -0.15rem; width: 100%; height: 0.4rem; fill: none; stroke: var(--accent); stroke-width: 1.5; stroke-linecap: round; overflow: visible; }
 .lately-under path { stroke-dasharray: 1 2; stroke-dashoffset: 1.01; transition: stroke-dashoffset 0.45s var(--ease); }
 .lately-list a:is(:hover, :focus-visible) .lately-under path { stroke-dashoffset: 0; }
-.lately-all { display: inline-block; margin-top: 0.7rem; color: var(--muted); text-decoration: none; text-transform: uppercase; }
-.lately-all:hover { color: var(--accent); }
-/* Written in, line after line: the bullet draws, then the words appear left to right. */
-.lately-bullet path { stroke-dasharray: 1 2; stroke-dashoffset: 0; }
-.lately:not(.no-anim) .lately-title, .lately:not(.no-anim) .lately-all { transition: opacity 0.6s var(--ease); }
-.lately:not(.is-in) .lately-title, .lately:not(.is-in) .lately-all { opacity: 0; }
-.lately:not(.is-in) .lately-bullet path { stroke-dashoffset: 1.01; }
+/* Written in: the slip fades in, the heading's stroke draws, then each line (bullet, then words left to right). */
+.lately-bullet path, .lately-stroke path { stroke-dasharray: 1 2; stroke-dashoffset: 0; }
+.lately:not(.no-anim) { transition: opacity 0.6s var(--ease), rotate 0.6s var(--ease), translate 0.6s var(--ease); }
+.lately:not(.is-in) { opacity: 0; translate: 0 6px; }
+.lately:not(.is-in) :is(.lately-bullet, .lately-stroke) path { stroke-dashoffset: 1.01; }
 .lately:not(.is-in) .lately-text, .lately:not(.is-in) .lately-list time { clip-path: inset(0 100% 0 0); }
-.lately:not(.no-anim) .lately-bullet path { transition: stroke-dashoffset 0.35s calc(0.25s + var(--i, 0) * 0.55s) var(--ease); }
-.lately:not(.no-anim) :is(.lately-text, .lately-list time) { transition: clip-path 0.7s calc(0.45s + var(--i, 0) * 0.55s) cubic-bezier(0.45, 0.05, 0.4, 1); }
-.lately:not(.no-anim) .lately-all { transition-delay: 2s; }
+.lately:not(.no-anim) .lately-stroke path { transition: stroke-dashoffset 0.6s 0.35s var(--ease); }
+.lately:not(.no-anim) .lately-bullet path { transition: stroke-dashoffset 0.35s calc(0.8s + var(--i, 0) * 0.55s) var(--ease); }
+.lately:not(.no-anim) :is(.lately-text, .lately-list time) { transition: clip-path 0.7s calc(1s + var(--i, 0) * 0.55s) cubic-bezier(0.45, 0.05, 0.4, 1); }
+.is-dark .lately { background-color: oklch(0.9 0.01 85); }
 @media (min-width: 900px) {
   .lately { position: absolute; bottom: 0; right: 0; margin-top: 0; }
 }
@@ -1270,16 +1281,19 @@ html:not(.js) .plate .clip { display: none; }
 @media (min-width: 1240px) {
   .lately { bottom: auto; top: 0.6rem; }
 }
-/* Phones: one line under the hero text, so it doesn't compete with the skyline. */
+/* Phones: no slip, one line under the hero text, so it doesn't compete with the skyline. */
 @media (max-width: 899px) {
-  .lately { display: flex; gap: 0.5rem; align-items: baseline; max-width: none; margin-top: 1rem; }
+  .lately { display: flex; gap: 0.5rem; align-items: baseline; width: auto; margin-top: 1rem; padding: 0; background: none; box-shadow: none; rotate: none; color: var(--ink); }
+  .is-dark .lately { background: none; }
+  .lately::before, .lately-stroke { display: none; }
   .lately[hidden] { display: none; }
   .lately-title { font-size: 1.1rem; margin: 0; white-space: nowrap; }
   .lately-title::after { content: ':'; }
-  .lately-list li:not(:first-child), .lately-list time, .lately-all { display: none; }
-  .lately-list a { grid-template-columns: 0.8rem 1fr; }
+  .lately-list li:not(:first-child), .lately-list time { display: none; }
+  .lately-list a { grid-template-columns: 0.8rem 1fr; line-height: 1.4; }
   .lately-text::after { content: ' →'; color: var(--accent); }
 }
+@media (prefers-reduced-motion: reduce) { .lately, .lately:hover { transition: none; translate: none; } }
 
 /* The notebook */
 .notebook { padding-top: clamp(2rem, 5vw, 3.5rem); }
