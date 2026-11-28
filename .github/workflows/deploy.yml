@@ -31,7 +31,7 @@ jobs:
         run: |
           rsync -a ./ _site/ \
             --exclude '.git*' --exclude '.github' --exclude '.claude' --exclude '.wrangler' --exclude '_site' \
-            --exclude 'worker' --exclude 'assets-src' --exclude '*.md' --exclude '.DS_Store'
+            --exclude 'worker' --exclude 'notes-worker' --exclude 'plans' --exclude 'assets-src' --exclude '*.md' --exclude '.DS_Store'
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3

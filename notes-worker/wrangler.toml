@@ -1,0 +1,26 @@
+# Notes: posts and photos for www.glennsvendsen.com/notes/. Deploy from this folder: npx wrangler deploy
+name = "notes"
+main = "notes.js"
+compatibility_date = "2026-11-01"
+workers_dev = false
+
+# Served at https://notes.glennsvendsen.com (Cloudflare creates the DNS record and certificate).
+routes = [{ pattern = "notes.glennsvendsen.com", custom_domain = true }]
+
+# The writing tool is one HTML file, bundled as text.
+rules = [{ type = "Text", globs = ["**/*.html"], fallthrough = false }]
+
+# /admin is unlocked by a long random key, the Worker secret ADMIN_TOKEN (npx wrangler secret put ADMIN_TOKEN).
+# Cloudflare Access also works if it is ever put in front of /admin: add ACCESS_TEAM (<team>.cloudflareaccess.com) and
+# ACCESS_AUD (the application's audience tag) under [vars].
+
+[[d1_databases]]
+binding = "DB"
+database_name = "notes"
+database_id = "1de0faf7-fb62-4816-8365-5343c2f98667"
+
+# At most 60 writes a minute to /admin.
+[[ratelimits]]
+name = "LIMIT"
+namespace_id = "1002"
+simple = { limit = 60, period = 60 }

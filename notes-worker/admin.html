@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="nb">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<meta name="color-scheme" content="light dark">
+<title>Notater · skriv</title>
+<style>
+  :root {
+    color-scheme: light dark;
+    --paper: light-dark(oklch(0.975 0.008 80), oklch(0.2 0.01 260));
+    --paper-2: light-dark(oklch(0.95 0.012 80), oklch(0.25 0.012 260));
+    --ink: light-dark(oklch(0.25 0.01 60), oklch(0.92 0.01 80));
+    --muted: light-dark(oklch(0.5 0.01 60), oklch(0.7 0.01 80));
+    --line: light-dark(oklch(0.85 0.01 80), oklch(0.35 0.01 260));
+    --accent: oklch(0.6 0.16 5);
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--paper); color: var(--ink); font: 16px/1.5 system-ui, sans-serif; padding: max(1rem, env(safe-area-inset-top)) 1rem 6rem; }
+  main { max-width: 40rem; margin: 0 auto; }
+  h1 { font: italic 1.9rem/1.1 Georgia, serif; margin: 0.5rem 0 1rem; }
+  .mono { font: 0.75rem ui-monospace, Menlo, monospace; text-transform: uppercase; letter-spacing: 0.04em; color: var(--muted); }
+  button, select, input, textarea { font: inherit; color: inherit; }
+  button { white-space: nowrap; border: 1px solid var(--ink); background: var(--paper); border-radius: 999px; padding: 0.55rem 1.1rem; cursor: pointer; }
+  button.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+  button.quiet { border-color: var(--line); }
+  button:disabled { opacity: 0.5; }
+  input[type=text], textarea, select { width: 100%; border: 1px solid var(--line); background: var(--paper-2); border-radius: 0.5rem; padding: 0.6rem 0.7rem; }
+  textarea { min-height: 12rem; resize: vertical; font: 1.05rem/1.55 Georgia, serif; }
+  label { display: block; margin: 0.9rem 0 0.3rem; }
+  .row { display: flex; gap: 0.6rem; flex-wrap: wrap; align-items: center; }
+  .row > * { flex: 1; }
+  ul.list { list-style: none; padding: 0; margin: 0; border-top: 1px solid var(--line); }
+  ul.list li { border-bottom: 1px solid var(--line); padding: 0.8rem 0.2rem; cursor: pointer; display: flex; gap: 0.8rem; justify-content: space-between; }
+  ul.list li:hover { background: var(--paper-2); }
+  .badge { font-size: 0.7rem; padding: 0.1rem 0.5rem; border-radius: 999px; border: 1px solid var(--line); white-space: nowrap; align-self: start; }
+  .badge.pub { border-color: var(--accent); color: var(--accent); }
+  .imgs { display: grid; gap: 0.7rem; margin-top: 0.6rem; }
+  .img { display: grid; grid-template-columns: 5.5rem 1fr auto; gap: 0.6rem; align-items: center; background: var(--paper-2); border-radius: 0.5rem; padding: 0.4rem; }
+  .img img { width: 5.5rem; height: 5.5rem; object-fit: cover; border-radius: 0.3rem; background: var(--line); }
+  .img .tools { display: grid; gap: 0.25rem; }
+  .img .tools button { padding: 0.2rem 0.6rem; }
+  .actions { position: fixed; left: 0; right: 0; bottom: 0; background: var(--paper); border-top: 1px solid var(--line); padding: 0.7rem 1rem max(0.7rem, env(safe-area-inset-bottom)); }
+  .actions .row { max-width: 40rem; margin: 0 auto; }
+  .preview { border: 1px dashed var(--line); border-radius: 0.5rem; padding: 0.4rem 1rem; margin-top: 1rem; font: 1.05rem/1.6 Georgia, serif; }
+  .preview a { color: var(--accent); }
+  .status { min-height: 1.4rem; margin-top: 0.6rem; }
+  [hidden] { display: none !important; }
+  .help { font-size: 0.85rem; color: var(--muted); }
+</style>
+</head>
+<body>
+<main>
+  <section id="keyView" hidden>
+    <h1>Notater</h1>
+    <form id="keyForm">
+      <label for="key">Nøkkel</label>
+      <input type="password" id="key" autocomplete="current-password" required>
+      <p class="help">Lim inn admin-nøkkelen. Den huskes på denne enheten.</p>
+      <p><button class="primary" type="submit">Lås opp</button></p>
+      <p class="status mono" id="keyStatus" role="status"></p>
+    </form>
+  </section>
+
+  <section id="listView" hidden>
+    <div class="row" style="justify-content: space-between"><h1>Notater</h1><button class="primary" id="newBtn" style="flex: 0">Nytt</button></div>
+    <ul class="list" id="list"></ul>
+    <p class="mono" id="listStatus">Laster…</p>
+  </section>
+
+  <section id="editView" hidden>
+    <div class="row" style="justify-content: space-between"><button class="quiet" id="backBtn" style="flex: 0">← Alle</button><span class="mono" id="editState"></span></div>
+    <label for="title">Tittel <span class="help">(valgfri)</span></label>
+    <input type="text" id="title" autocomplete="off">
+    <label for="body">Tekst</label>
+    <textarea id="body"></textarea>
+    <p class="help">Tom linje = nytt avsnitt · **fet** · *kursiv* · [tekst](https://lenke)</p>
+    <div class="row">
+      <div><label for="lang">Språk</label><select id="lang"><option value="no">Norsk</option><option value="en">English</option><option value="both">Begge</option></select></div>
+      <div><label for="kind">Type</label><select id="kind"><option value="note">Kort notat</option><option value="post">Lengre innlegg</option><option value="photos">Bildeserie</option></select></div>
+    </div>
+    <label>Bilder</label>
+    <input type="file" id="files" accept="image/*" multiple>
+    <p class="help">Krympes til maks 1600 px før opplasting. Posisjon og annen EXIF fjernes.</p>
+    <div class="imgs" id="imgs"></div>
+    <div class="preview" id="preview" hidden></div>
+    <p class="status mono" id="status" role="status"></p>
+    <p><button class="quiet" id="deleteBtn" hidden>Slett innlegget</button></p>
+  </section>
+</main>
+
+<div class="actions" id="actions" hidden>
+  <div class="row">
+    <button class="quiet" id="previewBtn">Forhåndsvis</button>
+    <button id="draftBtn">Lagre utkast</button>
+    <button class="primary" id="publishBtn">Publiser</button>
+  </div>
+</div>
+
+<script>
+  const $ = (s) => document.querySelector(s);
+  let posts = [];
+  let cur = null;        // the post being edited
+  let uploaded = [];     // keys uploaded in this edit, removed again if never saved
+  let busy = 0;
+
+  const say = (t) => { $('#status').textContent = t; };
+  const fmt = (iso) => iso ? new Date(iso).toLocaleDateString('nb-NO', { day: 'numeric', month: 'short', year: 'numeric' }) : '';
+
+  const KEY = 'notesKey';
+  const token = () => { try { return localStorage.getItem(KEY) || ''; } catch (e) { return ''; } };
+  const auth = () => ({ Authorization: `Bearer ${token()}` });
+  function askKey(msg) {
+    try { localStorage.removeItem(KEY); } catch (e) { /* ignore */ }
+    $('#keyView').hidden = false; $('#listView').hidden = true; $('#editView').hidden = true; $('#actions').hidden = true;
+    $('#keyStatus').textContent = msg || '';
+  }
+  $('#keyForm').onsubmit = (e) => {
+    e.preventDefault();
+    try { localStorage.setItem(KEY, $('#key').value.trim()); } catch (err) { /* ignore */ }
+    $('#key').value = '';
+    $('#keyView').hidden = true; $('#listView').hidden = false;
+    loadList();
+  };
+
+  async function api(method, path, body) {
+    const opts = { method, headers: auth() };
+    if (body instanceof Blob) { opts.body = body; opts.headers['Content-Type'] = body.type; }
+    else if (body !== undefined) { opts.body = JSON.stringify(body); opts.headers['Content-Type'] = 'application/json'; }
+    const res = await fetch(path, opts);
+    if (res.status === 403) { askKey('Nøkkelen ble ikke godtatt.'); throw new Error('Ikke logget inn'); }
+    if (!res.ok) throw new Error(`${res.status} ${await res.text().catch(() => '')}`.trim());
+    return res.json();
+  }
+
+  async function loadList() {
+    try {
+      posts = (await api('GET', '/admin/posts')).posts;
+      $('#listStatus').textContent = posts.length ? '' : 'Ingen innlegg ennå.';
+    } catch (e) { $('#listStatus').textContent = 'Kunne ikke laste: ' + e.message; }
+    $('#list').replaceChildren(...posts.map((p) => {
+      const li = document.createElement('li');
+      const t = document.createElement('div');
+      t.innerHTML = '<strong></strong><div class="mono"></div>';
+      t.firstChild.textContent = p.title || p.body.slice(0, 60) || `${p.images.length} bilder`;
+      t.lastChild.textContent = `${fmt(p.published_at || p.created_at)} · ${p.kind}${p.images.length ? ` · ${p.images.length} bilder` : ''}`;
+      const b = document.createElement('span');
+      b.className = 'badge' + (p.status === 'published' ? ' pub' : '');
+      b.textContent = p.status === 'published' ? 'Publisert' : 'Utkast';
+      li.append(t, b);
+      li.onclick = () => edit(p);
+      return li;
+    }));
+  }
+
+  function show(editing) {
+    $('#listView').hidden = editing; $('#editView').hidden = !editing; $('#actions').hidden = !editing;
+    window.scrollTo(0, 0);
+  }
+
+  function edit(p) {
+    cur = JSON.parse(JSON.stringify(p));
+    uploaded = [];
+    $('#title').value = cur.title; $('#body').value = cur.body; $('#lang').value = cur.lang; $('#kind').value = cur.kind;
+    $('#deleteBtn').hidden = !cur.id;
+    $('#preview').hidden = true;
+    say('');
+    renderState(); renderImages(); show(true);
+  }
+
+  function renderState() {
+    const pub = cur.status === 'published';
+    $('#editState').textContent = cur.id ? (pub ? `Publisert ${fmt(cur.published_at)}` : 'Utkast') : 'Nytt';
+    $('#publishBtn').textContent = pub ? 'Oppdater' : 'Publiser';
+    $('#draftBtn').textContent = pub ? 'Avpubliser' : 'Lagre utkast';
+  }
+
+  function renderImages() {
+    $('#imgs').replaceChildren(...cur.images.map((img, i) => {
+      const d = document.createElement('div');
+      d.className = 'img';
+      d.innerHTML = `<img alt=""><input type="text" placeholder="Alt-tekst (hva viser bildet?)"><div class="tools">
+        <button type="button" aria-label="Flytt opp">↑</button><button type="button" aria-label="Flytt ned">↓</button><button type="button" aria-label="Fjern">✕</button></div>`;
+      d.querySelector('img').src = img.local || `/img/${img.key}`;
+      const alt = d.querySelector('input');
+      alt.value = img.alt || '';
+      alt.oninput = () => { img.alt = alt.value; };
+      const [up, down, rm] = d.querySelectorAll('button');
+      const move = (to) => { if (to < 0 || to >= cur.images.length) return; cur.images.splice(to, 0, ...cur.images.splice(i, 1)); renderImages(); };
+      up.onclick = () => move(i - 1); down.onclick = () => move(i + 1);
+      rm.onclick = () => { cur.images.splice(i, 1); renderImages(); };
+      return d;
+    }));
+  }
+
+  // Shrink in the browser: max 1600 px, WebP (JPEG where the browser can't encode WebP).
+  // Drawing to a canvas and re-encoding drops all EXIF, GPS included.
+  async function shrink(file) {
+    const bmp = await createImageBitmap(file, { imageOrientation: 'from-image' });
+    const s = Math.min(1, 1600 / Math.max(bmp.width, bmp.height));
+    const w = Math.round(bmp.width * s), h = Math.round(bmp.height * s);
+    const c = document.createElement('canvas');
+    c.width = w; c.height = h;
+    c.getContext('2d').drawImage(bmp, 0, 0, w, h);
+    bmp.close && bmp.close();
+    const enc = (type, q) => new Promise((r) => c.toBlob(r, type, q));
+    let blob = await enc('image/webp', 0.82);
+    if (!blob || blob.type !== 'image/webp') blob = await enc('image/jpeg', 0.85);
+    return { blob, w, h };
+  }
+
+  $('#files').onchange = async (e) => {
+    const files = [...e.target.files];
+    e.target.value = '';
+    if (cur.images.length + files.length > 20) { say('Maks 20 bilder per innlegg.'); return; }
+    busy++; lock();
+    const base = $('#title').value || 'bilde';
+    for (let i = 0; i < files.length; i++) {
+      say(`Laster opp ${i + 1} av ${files.length}…`);
+      try {
+        const { blob, w, h } = await shrink(files[i]);
+        const { key } = await api('POST', `/admin/upload?name=${encodeURIComponent(base)}`, blob);
+        uploaded.push(key);
+        cur.images.push({ key, w, h, alt: '', local: URL.createObjectURL(blob) });
+        renderImages();
+      } catch (err) { say(`Bilde ${i + 1} feilet: ${err.message}`); }
+    }
+    busy--; lock();
+    if (!$('#status').textContent.includes('feilet')) say('Bildene er lastet opp. Husk å lagre.');
+    if (cur.images.length && !$('#body').value.trim() && $('#kind').value === 'note') $('#kind').value = 'photos';
+  };
+
+  function lock() { ['#draftBtn', '#publishBtn', '#previewBtn'].forEach((s) => { $(s).disabled = busy > 0; }); }
+
+  async function save(status) {
+    if (busy) return;
+    const missingAlt = cur.images.filter((i) => !String(i.alt || '').trim()).length;
+    if (status === 'published' && missingAlt && !confirm(`${missingAlt} bilde(r) mangler alt-tekst. Publisere likevel?`)) return;
+    const payload = {
+      title: $('#title').value, body: $('#body').value, lang: $('#lang').value, kind: $('#kind').value,
+      images: cur.images.map(({ key, w, h, alt }) => ({ key, w, h, alt })), status,
+    };
+    busy++; lock(); say('Lagrer…');
+    try {
+      const { post } = cur.id ? await api('PUT', `/admin/posts/${cur.id}`, payload) : await api('POST', '/admin/posts', payload);
+      const locals = new Map(cur.images.map((i) => [i.key, i.local]));
+      cur = { ...post, images: post.images.map((i) => ({ ...i, local: locals.get(i.key) })) };
+      uploaded = [];
+      $('#deleteBtn').hidden = false;
+      renderState(); renderImages();
+      say(status === 'published' ? 'Publisert. Ute på siden innen et minutt.' : 'Lagret som utkast.');
+      loadList();
+    } catch (e) { say('Kunne ikke lagre: ' + e.message); }
+    busy--; lock();
+  }
+
+  $('#draftBtn').onclick = () => save('draft');
+  $('#publishBtn').onclick = () => save('published');
+  $('#previewBtn').onclick = async () => {
+    const box = $('#preview');
+    try {
+      const { html } = await api('POST', '/admin/render', { body: $('#body').value });
+      const t = $('#title').value ? `<h2 style="font-style: italic; font-weight: 400">${$('#title').value.replace(/[&<>]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' })[c])}</h2>` : '';
+      box.innerHTML = t + (html || '<p class="help">(ingen tekst)</p>');
+      box.hidden = false; box.scrollIntoView({ behavior: 'smooth' });
+    } catch (e) { say('Forhåndsvisning feilet: ' + e.message); }
+  };
+  $('#deleteBtn').onclick = async () => {
+    if (!cur.id || !confirm('Slette innlegget og bildene for godt? Det kan ikke angres.')) return;
+    try { await api('DELETE', `/admin/posts/${cur.id}`); cur = null; show(false); loadList(); }
+    catch (e) { say('Kunne ikke slette: ' + e.message); }
+  };
+  $('#newBtn').onclick = () => edit({ title: '', body: '', lang: 'no', kind: 'note', images: [], status: 'draft' });
+  $('#backBtn').onclick = () => {
+    // Images uploaded in this edit and never saved are removed again.
+    const keep = new Set(cur.id ? (posts.find((p) => p.id === cur.id) || { images: [] }).images.map((i) => i.key) : []);
+    uploaded.filter((k) => !keep.has(k)).forEach((k) => fetch(`/admin/upload?key=${encodeURIComponent(k)}`, { method: 'DELETE', headers: auth() }));
+    show(false);
+  };
+
+  if (token()) { $('#listView').hidden = false; loadList(); } else askKey();
+</script>
+</body>
+</html>

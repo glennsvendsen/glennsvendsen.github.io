@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <!-- Security: only this site and the few services listed may load or receive anything. The sha256 hashes are the
        inline <script>s in the two pages' heads; after editing one, recompute its base64 sha256. -->
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-yETAa+HQqtQmvBLxFQGBuOAbf30+J/77lKGS6Y1eWtA=' 'sha256-2tPLUO/hIjuJ/qs6ytzM7r9Ay+L05j6mlVIJWGcQlOU=' 'sha256-i+FD+CFcGc/PiZoSrGq6wyRT5U0SHGYlWKS6YoaZkyw=' https://static.cloudflareinsights.com https://challenges.cloudflare.com; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; media-src 'self'; connect-src 'self' https://api.open-meteo.com https://cloudflareinsights.com https://api.glennsvendsen.com http://localhost:8787; frame-src https://challenges.cloudflare.com; form-action https://api.glennsvendsen.com; base-uri 'none'; object-src 'none'">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-yETAa+HQqtQmvBLxFQGBuOAbf30+J/77lKGS6Y1eWtA=' 'sha256-2tPLUO/hIjuJ/qs6ytzM7r9Ay+L05j6mlVIJWGcQlOU=' 'sha256-i+FD+CFcGc/PiZoSrGq6wyRT5U0SHGYlWKS6YoaZkyw=' https://static.cloudflareinsights.com https://challenges.cloudflare.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://notes.glennsvendsen.com http://localhost:8788; font-src 'self'; media-src 'self'; connect-src 'self' https://notes.glennsvendsen.com http://localhost:8788 https://api.open-meteo.com https://cloudflareinsights.com https://api.glennsvendsen.com http://localhost:8787; frame-src https://challenges.cloudflare.com; form-action https://api.glennsvendsen.com; base-uri 'none'; object-src 'none'">
   <meta name="referrer" content="strict-origin-when-cross-origin">
   <script>
     // Before paint: JS flag + saved theme (falls back to the system setting).
@@ -44,6 +44,7 @@
   <link rel="preload" href="fonts/instrument-sans.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preconnect" href="https://api.open-meteo.com" crossorigin>
   <link rel="stylesheet" href="style.css">
+  <link rel="alternate" type="application/rss+xml" title="Glenn Svendsen — Notes" href="https://notes.glennsvendsen.com/feed.xml">
   <!-- Prerender "Day job" (/work/) as soon as someone shows intent (hover / touch), so it opens instantly. -->
   <script type="speculationrules">
   { "prerender": [{ "where": { "href_matches": "/work/*" }, "eagerness": "moderate" }] }
@@ -103,6 +104,7 @@
     <nav class="top-links" aria-label="Main">
       <a href="#projects" data-i18n="nav.projects">Projects</a>
       <a href="#sketches" data-i18n="nav.sketches">Life</a>
+      <a href="notes/" data-i18n="nav.notes">Notes</a>
       <a href="work/" data-i18n="nav.work" data-umami-event="nav-work">Work</a>
       <a href="#hello" data-i18n="nav.hello">Say hello</a>
       <div class="lang-switch" role="group" aria-label="Language" data-i18n-attr="aria-label:lang" hidden>
@@ -131,6 +133,11 @@
         <span data-i18n="hero.place">Oslo, Norway</span>
         <span class="hero-clock" hidden><button type="button" class="clock-btn" aria-expanded="false" aria-controls="timewarp" data-i18n-attr="title:tw.open" title="Scrub through the day"><time class="clock-time"></time></button> <span class="clock-sky"></span></span>
       </p>
+      <aside class="lately" aria-labelledby="lately-title" hidden>
+        <h2 class="lately-title" id="lately-title" data-i18n="lately.title">Lately</h2>
+        <ul class="lately-list"></ul>
+        <a class="lately-all mono" href="notes/" data-i18n="lately.all">All notes →</a>
+      </aside>
       <div class="timewarp mono" id="timewarp" hidden>
         <label for="tw-range" data-i18n="tw.label">Scrub through the day</label>
         <input id="tw-range" type="range" min="0" max="23.75" step="0.25" value="12">
@@ -932,5 +939,6 @@
   <script src="i18n.js" defer></script>
   <script src="astro.js" defer></script>
   <script src="main.js" defer></script>
+  <script src="notes.js" defer></script>
 </body>
 </html>

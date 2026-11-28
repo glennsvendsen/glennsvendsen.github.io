@@ -2,3 +2,7 @@
 .wrangler/
 worker/.dev.vars
 worker/node_modules/
+notes-worker/.dev.vars
+notes-worker/node_modules/
+
+notes-worker/.admin-key

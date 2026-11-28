@@ -30,6 +30,16 @@ Local preview: `python3 -m http.server 8000`
   (a new service, a new stored key, a change to the form).
 - `worker/` — the contact form's Cloudflare Worker (`api.glennsvendsen.com/contact`), deployed with wrangler,
   not by Pages. See `worker/README.md`. Secrets (`TURNSTILE_SECRET`, `TO`) are never in the repo.
+- `notes/` + `notes.js` — Notes: posts and photos Glenn writes from his phone, fetched from the notes Worker
+  (`notes.glennsvendsen.com`; `localhost:8788` on localhost). `notes.js` fills the hero's "Lately" list (`.lately`, the 3
+  newest, written in after the signature; one line under the hero text below 900px) and the notebook on `/notes/`
+  (`#notebook`; one post at `/notes/#slug`). Short notes are taped cards (`.entry--note`); photos hang in the darkroom
+  (`.darkroom` / `.dr-print`: a scroll-snap line, the middle print develops, prints swing with scroll speed, `.lightbox`
+  dialog). Language comes from `window.site` (set in main.js). Keys `lately.*`, `n.*`, `p.notes.*`. Fetched once per
+  visit (`notes` in sessionStorage, 5 min, 4 s timeout); if the Worker is down or empty nothing shows.
+- `notes-worker/` — the notes Worker (D1 posts and image blobs, no R2, `/posts`, `/img`, `/feed.xml`, `/p/:slug` share pages and the
+  `/admin` writing tool, unlocked by a long random key, the Worker secret `ADMIN_TOKEN`). Deployed with wrangler, not by Pages.
+  See `notes-worker/README.md`. Post text is escaped and turned into a little HTML by the Worker (`render()`).
 - `work/` — "Day job": the PM work (six case studies, colleague quotes) in the new design (current job, present tense). Hand-written `work/index.html` that shares `../style.css` (the "WORK PAGE" block) and
   `../main.js` (null-safe on pages without the hero) and `../i18n.js` (keys `w.*`; the colleagues' quotes stay in English). `noindex`, linked from the footer.
   Quotes are taped index cards (`.note`), cases are `.case` rows with `.case-stats`.

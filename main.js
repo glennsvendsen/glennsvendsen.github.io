@@ -52,6 +52,8 @@
     document.querySelectorAll('.lang-switch button').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.lang === lang)));
     langListeners.forEach((fn) => fn());
   };
+  // For notes.js (loaded after this file): the current language, translations and a change hook.
+  window.site = { lang: () => lang, tr: (key, english) => tr(key, english), onLang: (fn) => langListeners.push(fn), reduceMotion };
   const langSwitch = document.querySelector('.lang-switch');
   let saved = null;
   try { saved = localStorage.getItem('lang'); } catch (e) { /* private mode */ }
